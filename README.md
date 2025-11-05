@@ -21,11 +21,10 @@ The storage layer is PostgreSQL with the pgvector extension, and text embeddings
 ├── full_paper_OCRed/                # Raw OCRed complete papers, each file is .txt
 ├── abstracts/                       # Abstracts, each file is .txt
 ├── scripts/
-│   ├── 01_embed_texts_to_parquet.py       # chunk + embed → writes bge_small.parquet
-│   ├── 02_load_parquet_to_pgvector.py     # bulk load parquet → PostgreSQL
-│   ├── 03_query_pgvector_rag.py           # simple extractive retrieval-based QA
-│   ├── 03_query_with_eval.py              # retrieval + evaluation metrics
-│   └── query_mmr_abstractive.py           # (NEW) MMR + encoder-decoder generation
+│   ├── 01_fast_embedding.py       # chunk + embed → writes bge_small.parquet
+│   ├── 02_psql_upload.py          # bulk load parquet → PostgreSQL
+│   ├── 03_naive_rag.py            # simple extractive retrieval-based QA
+│   └── 04_MMR_abstractive_rag.py  # improved RAG with encoder-decoder generation and maximum relevance approach.
 ├── requirements.txt
 └── README.md
 ```

@@ -1,0 +1,3583 @@
+
+
+----- Page 1 (native text) -----
+ARTICLE
+doi:10.1038/nature11247
+An integrated encyclopedia of DNA
+elements in the human genome
+The ENCODE Project Consortium*
+The human genome encodes the blueprint of life, but the function of the vast majority of its nearly three billion bases is
+unknown. The Encyclopedia of DNA Elements (ENCODE) project has systematically mapped regions of transcription,
+transcription factor association, chromatin structure and histone modification. These data enabled us to assign
+biochemical functions for 80% of the genome, in particular outside of the well-studied protein-coding regions. Many
+discovered candidate regulatory elements are physically associated with one another and with expressed genes,
+providing new insights into the mechanisms of gene regulation. The newly identified elements also show a statistical
+correspondence to sequence variants linked to human disease, and can thereby guide interpretation of this variation.
+Overall, the project provides new insights into the organization and regulation of our genes and genome, and is an
+expansive resource of functional annotations for biomedical research.
+The human genome sequence provides the
+underlying code for human biology. Despite
+intensive
+study,
+especially
+in
+identifying
+protein-coding genes, our understanding of the
+genome is far from complete, particularly with
+regard to non-coding RNAs, alternatively spliced transcripts and reg-
+ulatory sequences. Systematic analyses of transcripts and regulatory
+information are essential for the identification of genes and regulatory
+regions, and are an important resource for the study of human biology
+and disease. Such analyses can also provide comprehensive views of the
+organization and variability of genes and regulatory information across
+cellular contexts, species and individuals.
+The Encyclopedia of DNA Elements (ENCODE) project aims to
+delineate all functional elements encoded in the human genome1–3.
+Operationally, we define a functional element as a discrete genome
+segment that encodes a defined product (for example, protein or
+non-coding RNA) or displays a reproducible biochemical signature
+(for example, protein binding, or a specific chromatin structure).
+Comparative genomic studies suggest that 3–8% of bases are under
+purifying (negative) selection4–8 and therefore may be functional,
+although other analyses have suggested much higher estimates9–11.
+In a pilot phase covering 1% of the genome, the ENCODE project
+annotated 60% of mammalian evolutionarily constrained bases, but
+also identified many additional putative functional elements without
+evidence of constraint2. The adventof more powerfulDNAsequencing
+technologies now enables whole-genome and more precise analyses
+with a broad repertoire of functional assays.
+Here we describe the production and initial analysis of 1,640 data
+sets designed to annotate functional elements in the entire human
+genome. We integrate results from diverse experiments within cell types,
+related experiments involving 147 different cell types, and all ENCODE
+data with other resources, such as candidate regions from genome-wide
+association studies (GWAS) and evolutionarily constrained regions.
+Together, these efforts reveal important features about the organization
+and function of the human genome, summarized below.
+. The vast majority (80.4%) of the human genome participates in at
+least one biochemical RNA- and/or chromatin-associated event in at
+least one cell type. Much of the genome lies close to a regulatory event:
+95% of the genome lies within 8 kilobases (kb)
+of a DNA–protein interaction (as assayed by
+bound ChIP-seq motifs or DNase I footprints),
+and 99% is within 1.7 kb of at least one of the
+biochemical events measured by ENCODE.
+. Primate-specific elements as well as elements without detectable
+mammalian constraint show, in aggregate, evidence of negative selec-
+tion; thus, some of them are expected to be functional.
+. Classifying the genomeinto seven chromatin states indicates an initial
+set of 399,124 regions with enhancer-like features and 70,292 regions
+with promoter-like features, as well as hundreds of thousands of qui-
+escent regions. High-resolution analyses further subdivide the genome
+into thousands of narrow states with distinct functional properties.
+. It is possible to correlate quantitatively RNA sequence production
+and processing with both chromatin marks and transcription factor
+binding at promoters, indicating that promoter functionality can
+explain most of the variation in RNA expression.
+. Many non-coding variants in individual genome sequences lie in
+ENCODE-annotated functional regions; this number is at least as
+large as those that lie in protein-coding genes.
+. Single nucleotide polymorphisms (SNPs) associated with disease by
+GWAS are enriched within non-coding functional elements, with a
+majority residing in or near ENCODE-defined regions that are out-
+side of protein-coding genes. In many cases, the disease phenotypes
+can be associated with a specific cell type or transcription factor.
+ENCODE data production and initial analyses
+Since 2007, ENCODE has developed methods and performed a large
+number of sequence-based studies to map functional elements across
+the human genome3. The elements mapped (and approaches used)
+include RNA transcribed regions (RNA-seq, CAGE, RNA-PET and
+manual annotation), protein-coding regions (mass spectrometry),
+transcription-factor-binding
+sites
+(ChIP-seq
+and
+DNase-seq),
+chromatin structure (DNase-seq, FAIRE-seq, histone ChIP-seq and
+MNase-seq), and DNA methylation sites (RRBS assay) (Box 1 lists
+methods and abbreviations; Supplementary Table 1, section P, details
+production statistics)3. To compare and integrate results across the
+different laboratories, data production efforts focused on two selected
+*Lists of participants and their affiliations appear at the end of the paper.
+ENCODE
+Encyclopedia of DNA Elements
+nature.com/encode
+6
+S E P T E M B E R 2 0 1 2 |
+V O L
+4 8 9
+| N A T U R E |
+5 7
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 2 (native text) -----
+sets of cell lines, designated ‘tier 1’ and ‘tier 2’ (Box 1). To capture a
+broader spectrum of biological diversity, selected assays were also
+executed on a third tier comprising more than 100 cell types including
+primary cells. All data and protocol descriptions are available at
+http://www.encodeproject.org/, and a User’s Guide including details
+of cell-type choice and limitations was published recently3.
+Integration methodology
+Forconsistency,datawere generatedand processedusing standardized
+guidelines, and for some assays, new quality-control measures were
+designed (see refs 3, 12 and http://encodeproject.org/ENCODE/
+dataStandards.html; A. Kundaje, personal communication). Uniform
+data-processing methods were developed for each assay (see
+Supplementary Information; A. Kundaje, personal communication),
+and most assay results can be represented both as signal information
+(a per-base estimate across the genome) and as discrete elements
+(regions computationally identified as enriched for signal). Extensive
+processing pipelines were developed to generate each representation
+(M. M. Hoffman et al., manuscript in preparation and A. Kundaje,
+personalcommunication).Inaddition,wedevelopedtheirreproducible
+discovery rate (IDR)13 measure to provide a robust and conservative
+estimate of the threshold where two ranked lists of results from bio-
+logical replicates no longer agree (that is, are irreproducible), and we
+applied this to defining sets of discrete elements. We identified, and
+excluded from most analyses, regions yielding untrustworthy signals
+likelyto beartefactual(forexample,multicopy regions).Together,these
+regions
+comprise
+0.39%
+of
+the
+genome
+(see
+Supplementary
+Information). The poster accompanying this issue represents different
+ENCODE-identified elements and their genome coverage.
+Transcribed and protein-coding regions
+We used manual and automated annotation to produce a compre-
+hensive catalogue of human protein-coding and non-coding RNAs as
+well as pseudogenes, referred to as the GENCODE reference gene
+set14,15 (Supplementary Table 1, section U). This includes 20,687
+protein-coding genes (GENCODE annotation, v7) with, on average,
+6.3 alternatively spliced transcripts (3.9 different protein-coding tran-
+scripts) per locus. In total, GENCODE-annotated exons of protein-
+coding genes cover 2.94% of the genome or 1.22% for protein-coding
+exons. Protein-coding genes span 33.45% from the outermost start to
+stop codons, or 39.54% from promoter to poly(A) site. Analysis of
+mass spectrometry data from K562 and GM12878 cell lines yielded 57
+confidently identified unique peptide sequences in intergenic regions
+relative to GENCODE annotation. Taken together with evidence of
+pervasive genome transcription16, these data indicate that additional
+protein-coding genes remain to be found.
+In addition, we annotated 8,801 automatically derived small RNAs
+and 9,640 manually curated long non-coding RNA (lncRNA) loci17.
+Comparing lncRNAs to other ENCODE data indicates that lncRNAs
+are generated through a pathway similar to that for protein-coding
+genes17. The GENCODE project also annotated 11,224 pseudogenes,
+of which 863 were transcribed and associated with active chromatin18.
+RNA
+We sequenced RNA16 from different cell lines and multiple subcellular
+fractions to develop an extensive RNA expression catalogue. Using a
+conservative threshold to identify regions of RNA activity, 62% of
+genomic bases are reproducibly represented in sequenced long (.200
+nucleotides) RNA molecules or GENCODE exons. Of these bases, only
+5.5% are explained by GENCODE exons. Most transcribed bases are
+withinoroverlappingannotatedgeneboundaries (thatis,intronic),and
+only 31% of bases in sequenced transcripts were intergenic16.
+We used CAGE-seq (59 cap-targeted RNA isolation and sequencing)
+to identify 62,403 transcription start sites (TSSs) at high confidence
+(IDR of 0.01) in tier 1 and 2 cell types. Of these, 27,362 (44%) are within
+100 base pairs (bp) of the 59 end of a GENCODE-annotated transcript
+or previously reported full-length messenger RNA. The remaining
+regions predominantly lie across exons and 39 untranslated regions
+(UTRs), and some exhibit cell-type-restricted expression; these may
+represent the start sites of novel, cell-type-specific transcripts.
+Finally, we saw a significant proportion of coding and non-coding
+transcripts processed into steady-state stable RNAs shorter than 200
+nucleotides. These precursors include transfer RNA, microRNA,
+small nuclear RNA and small nucleolar RNA (tRNA, miRNA,
+snRNA and snoRNA, respectively) and the 59 termini of these pro-
+cessed products align with the capped 59 end tags16.
+BOX 1
+ENCODE abbreviations
+RNA-seq. Isolation of RNA sequences, often with different purification
+techniques to isolate different fractions of RNA followed by high-
+throughput sequencing.
+CAGE. Capture of themethylated cap at the 59 end of RNA, followed by
+high-throughput sequencing of a small tag adjacent to the
+59 methylated caps. 59 methylated caps are formed at the initiation of
+transcription, although other mechanisms also methylate 59 ends of
+RNA.
+RNA-PET. Simultaneous capture of RNAs with both a 59 methyl cap
+and a poly(A) tail, which is indicative of a full-length RNA. This is then
+followed by sequencing a short tag from each end by high-throughput
+sequencing.
+ChIP-seq. Chromatin immunoprecipitation followed by sequencing.
+Specific regions of crosslinked chromatin, which is genomic DNA in
+complexwithitsbound proteins,areselected by usinganantibodytoa
+specific epitope. The enriched sample is then subjected to high-
+throughput sequencing to determine the regions in the genome most
+often bound by the protein to which the antibody was directed. Most
+often used are antibodies to any chromatin-associated epitope,
+including transcription factors, chromatin binding proteins and
+specific chemical modifications on histone proteins.
+DNase-seq. Adaption of established regulatory sequence assay to
+modern techniques. The DNase I enzyme will preferentially cut live
+chromatin preparations at sites where nearby there are specific (non-
+histone) proteins. The resulting cut points are then sequenced using
+high-throughput sequencing to determine those sites ‘hypersensitive’
+to DNase I, corresponding to open chromatin.
+FAIRE-seq. Formaldehyde assisted isolation of regulatory elements.
+FAIRE isolates nucleosome-depleted genomic regions by exploiting
+the difference in crosslinking efficiency between nucleosomes (high)
+and sequence-specific regulatory factors (low). FAIRE consists of
+crosslinking, phenol extraction, and sequencing the DNA fragments in
+the aqueous phase.
+RRBS. Reduced representation bisulphite sequencing. Bisulphite
+treatment of DNA sequence converts unmethylated cytosines to
+uracil. To focus the assay and save costs, specific restriction enzymes
+thatcutaround CpG dinucleotidescan reducethe genometoa portion
+specifically enriched in CpGs.This enrichedsample is thensequenced
+to determine the methylation status of individual cytosines
+quantitatively.
+Tier 1. Tier 1 cell types were the highest-priority set and comprised
+three widely studied cell lines: K562 erythroleukaemia cells;
+GM12878, a B-lymphoblastoid cell line that is also part of the 1000
+Genomesproject(http://1000genomes.org)55;and theH1embryonic
+stem cell (H1 hESC) line.
+Tier 2. The second-priority set of cell types in the ENCODE project
+which included HeLa-S3 cervical carcinoma cells, HepG2
+hepatoblastoma cells and primary (non-transformed) human
+umbilical vein endothelial cells (HUVECs).
+Tier 3. Any other ENCODE cell types not in tier 1 or tier 2.
+RESEARCH ARTICLE
+5 8 |
+N A T U R E
+| V O L
+4 8 9 |
+6 S E P T E M B E R 2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 3 (native text) -----
+Protein bound regions
+To identify regulatory regions directly, we mapped the binding loca-
+tions of 119 different DNA-binding proteins and a number of RNA
+polymerase components in 72 cell types using ChIP-seq (Table 1,
+Supplementary Table 1, section N, and ref. 19); 87 (73%) were
+sequence-specific transcription factors. Overall, 636,336 binding
+regions covering 231 megabases (Mb; 8.1%) of the genome are
+enriched for regions bound by DNA-binding proteins across all cell
+types. We assessed each protein-binding site for enrichment of known
+DNA-binding motifs and the presence of novel motifs. Overall, 86%
+of the DNA segments occupied by sequence-specific transcription
+factors contained a strong DNA-binding motif, and in most (55%)
+cases the known motif was most enriched (P. Kheradpour and
+M. Kellis, manuscript in preparation).
+Protein-binding regions lacking high or moderate affinity cognate
+recognition sites have 21% lower median scores by rank than regions
+with recognition sequences (Wilcoxon rank sum P value ,10216).
+Eighty-two per cent of the low-signal regions have high-affinity recog-
+nition sequences for other factors. In addition, when ChIP-seq peaks
+are ranked by their concordance with their known recognition
+sequence, the median DNase I accessibility is twofold higher in the
+bottom 20% of peaks than in the upper 80% (genome structure
+correction (GSC)20 P value ,10216), consistent with previous
+observations21–24. We speculate that low signal regions are either
+lower-affinity sites21 or indirect transcription-factor target regions
+associated through interactions with other factors (see also refs 25, 26).
+We organized all the information associated with each transcrip-
+tion factor—including the ChIP-seq peaks, discovered motifs and
+associated histonemodificationpatterns—inFactorBook(http://www.
+factorbook.org; ref. 26), a public resource that will be updated as the
+project proceeds.
+DNase I hypersensitive sites and footprints
+Chromatin accessibility characterized by DNase I hypersensitivity is
+the hallmark of regulatory DNA regions27,28. We mapped 2.89 million
+unique, non-overlapping DNase I hypersensitive sites (DHSs) by
+DNase-seq in 125 cell types, the overwhelming majority of which lie
+distal to TSSs29. We also mapped 4.8 million sites across 25 cell types
+that displayed reduced nucleosomal crosslinking by FAIRE, many of
+which coincide with DHSs. In addition, we used micrococcal nuclease
+to map nucleosome occupancy in GM12878 and K562 cells30.
+In tier 1 and tier 2 cell types, we identified a mean of 205,109 DHSs
+per cell type (at false discovery rate (FDR) 1%), encompassing an
+average of 1.0% of the genomic sequence in each cell type, and 3.9%
+in aggregate. On average, 98.5% of the occupancy sites of transcription
+factors mapped by ENCODE ChIP-seq (and, collectively, 94.4% of all
+1.1 million transcription factor ChIP-seqpeaksinK562 cells) lie within
+accessible chromatin defined by DNase I hotspots29. However, a
+small number of factors, most prominently heterochromatin-bound
+repressive complexes (for example, the TRIM28–SETDB1–ZNF274
+complex31,32 encoded by the TRIM28, SETDB1 and ZNF274 genes),
+seem to occupy a significant fraction of nucleosomal sites.
+Using genomic DNase I footprinting33,34 on 41 cell types we iden-
+tified 8.4 million distinct DNase I footprints (FDR 1%)25. Our de novo
+motif discovery on DNase I footprints recovered ,90% of known
+transcription factor motifs, together with hundreds of novel evolutio-
+narily conserved motifs, many displaying highly cell-selective occu-
+pancy patterns similar to major developmental and tissue-specific
+regulators.
+Regions of histone modification
+We assayed chromosomal locations for up to 12 histone modifications
+and variants in 46 cell types, including a complete matrix of eight
+modifications across tier 1 and tier 2. Because modification states
+mayspan multiplenucleosomes,whichthemselves canvaryinposition
+across cell populations, we used a continuoussignal measure of histone
+modifications in downstream analysis, rather than calling regions
+(M. M. Hoffman et al., manuscript in preparation; see http://code.
+google.com/p/align2rawsignal/). For the strongest, ‘peak-like’ histone
+modifications, we used MACS35 to characterize enriched sites. Table 2
+describesthedifferenthistonemodifications,theirpeakcharacteristics,
+and a summary of their known roles (reviewed in refs 36–39).
+Our data show that global patterns of modification are highly vari-
+able across cell types, in accordance with changes in transcriptional
+activity. Consistent with previous studies40,41, we find that integration
+of the different histone modification information can be used system-
+atically to assign functional attributes to genomic regions (see below).
+DNA methylation
+Methylation of cytosine, usually at CpG dinucleotides, is involved in
+epigenetic regulation of gene expression. Promoter methylation is
+typically associated with repression, whereas genic methylation cor-
+relates with transcriptional activity42. We used reduced representation
+bisulphite sequencing (RRBS) to profile DNA methylation quantita-
+tively for an average of 1.2 million CpGs in each of 82 cell lines and
+tissues (8.6% of non-repetitive genomic CpGs), including CpGs in
+intergenic regions, proximal promoters and intragenic regions (gene
+bodies)43, although it should be noted that the RRBS method pref-
+erentially targets CpG-rich islands. We found that 96% of CpGs
+exhibited differential methylation in at least one cell type or tissue
+Table 1 | Summary of transcription factor classes analysed in
+ENCODE
+Acronym
+Description
+Factors
+analysed
+ChromRem
+ATP-dependent chromatin complexes
+5
+DNARep
+DNA repair
+3
+HISase
+Histone acetylation, deacetylation or methylation
+complexes
+8
+Other
+Cyclin kinase associated with transcription
+1
+Pol2
+Pol II subunit
+1 (2 forms)
+Pol3
+Pol III-associated
+6
+TFNS
+General Pol II-associated factor, not site-specific
+8
+TFSS
+Pol II transcription factor with sequence-specific DNA
+binding
+87
+Table 2 | Summary of ENCODE histone modifications and variants
+Histone modification
+or variant
+Signal
+characteristics
+Putative functions
+H2A.Z
+Peak
+Histone protein variant (H2A.Z) associated with regulatory elements with dynamic chromatin
+H3K4me1
+Peak/region
+Mark of regulatory elements associatedwithenhancersand otherdistalelements,but alsoenricheddownstream oftranscription starts
+H3K4me2
+Peak
+Mark of regulatory elements associated with promoters and enhancers
+H3K4me3
+Peak
+Mark of regulatory elements primarily associated with promoters/transcription starts
+H3K9ac
+Peak
+Mark of active regulatory elements with preference for promoters
+H3K9me1
+Region
+Preference for the 59 end of genes
+H3K9me3
+Peak/region
+Repressive mark associated with constitutive heterochromatin and repetitive elements
+H3K27ac
+Peak
+Mark of active regulatory elements; may distinguish active enhancers and promoters from their inactive counterparts
+H3K27me3
+Region
+Repressive mark established by polycomb complex activity associated with repressive domains and silent developmental genes
+H3K36me3
+Region
+Elongation mark associated with transcribed portions of genes, with preference for 39 regions after intron 1
+H3K79me2
+Region
+Transcription-associated mark, with preference for 59 end of genes
+H4K20me1
+Region
+Preference for 59 end of genes
+ARTICLE RESEARCH
+6
+S E P T E M B E R
+2 0 1 2 | V O L
+4 8 9 |
+N A T U R E
+| 5 9
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 4 (native text) -----
+assayed (K. Varley et al., personal communication), and levels of
+DNA methylation correlated with chromatin accessibility. The most
+variably methylated CpGs are found more often in gene bodies and
+intergenic regions, rather than in promoters and upstream regulatory
+regions. In addition, we identified an unexpected correspondence
+between unmethylated genic CpG islands and binding by P300, a
+histone acetyltransferase linked to enhancer activity44.
+Because RRBS is a sequence-based assay with single-base resolu-
+tion, we were able to identify CpGs with allele-specific methylation
+consistent with genomic imprinting, and determined that these loci
+exhibit aberrant methylation in cancer cell lines (K. Varley et al.,
+personal communication). Furthermore, we detected reproducible
+cytosine methylation outside CpG dinucleotides in adult tissues45,
+providing further support that this non-canonical methylation event
+may have important roles in human biology (K. Varley et al., personal
+communication).
+Chromosome-interacting regions
+Physical interaction between distinct chromosome regions that can be
+separated by hundreds of kilobases is thought to be important in the
+regulation of gene expression46. We used two complementary chro-
+mosome conformation capture (3C)-based technologies to probe
+these long-range physical interactions.
+A 3C-carbon copy (5C) approach47,48 provided unbiased detection
+of long-range interactions with TSSs in a targeted 1% of the genome
+(the 44 ENCODE pilot regions) in four cell types (GM12878, K562,
+HeLa-S3 and H1 hESC)49. We discovered hundreds of statistically
+significant long-range interactions in each cell type after accounting
+for chromatin polymer behaviour and experimental variation. Pairs
+of interacting loci showed strong correlation between the gene
+expression level of the TSS and the presence of specific functional
+element classes such as enhancers. The average number of distal ele-
+ments interacting with a TSS was 3.9, and the average number of TSSs
+interacting with a distal element was 2.5, indicating a complex net-
+work of interconnected chromatin. Such interwoven long-range
+architecture was also uncovered genome-wide using chromatin inter-
+action analysis with paired-end tag sequencing (ChIA-PET)50 applied
+to identify interactions in chromatin enriched by RNA polymerase II
+(Pol II) ChIP from five cell types51. In K562 cells, we identified 127,417
+promoter-centred chromatin interactions using ChIA-PET, 98% of
+which were intra-chromosomal. Whereas promoter regions of 2,324
+genes were involved in ‘single-gene’ enhancer–promoter interactions,
+those of 19,813 genes were involved in ‘multi-gene’ interaction com-
+plexes spanning up to several megabases, including promoter–
+promoter and enhancer–promoter interactions51.
+These analyses portray a complex landscape of long-range gene–
+element connectivity across ranges of hundreds of kilobases to several
+megabases, including interactions among unrelated genes (Supplemen-
+tary Fig. 1, section Y). Furthermore, in the 5C results, 50–60% of long-
+range interactions occurred in only one of the four cell lines, indicative
+of a high degree of tissue specificity for gene–element connectivity49.
+Summary of ENCODE-identified elements
+Accounting for all these elements, a surprisingly large amount of the
+human genome, 80.4%, is covered by at least one ENCODE-identified
+element (detailed in Supplementary Table 1, section Q). The broadest
+element class represents the different RNA types, covering 62% of the
+genome (although the majority is inside of introns or near genes).
+Regions highly enriched for histone modifications form the next
+largest class (56.1%). Excluding RNA elements and broad histone
+elements, 44.2% of the genome is covered. Smaller proportions of
+the genome are occupied by regions of open chromatin (15.2%) or
+sites of transcription factor binding (8.1%), with 19.4% covered by at
+least one DHS or transcription factor ChIP-seq peak across all cell
+lines. Using our most conservative assessment, 8.5% of bases are
+covered by either a transcription-factor-binding-site motif (4.6%)
+or a DHS footprint (5.7%). This, however, is still about 4.5-fold higher
+than the amount of protein-coding exons, and about twofold higher
+than the estimated amount of pan-mammalian constraint.
+Given that the ENCODE project did not assay all cell types, or all
+transcription factors, and in particular has sampled few specialized or
+developmentally restricted cell lineages, these proportions must be
+underestimates of the total amount of functional bases. However,
+many assays were performed on more than one cell type, allowing
+assessment of the rate of discovery of new elements. For both DHSs
+and CTCF-bound sites, the number of new elements initially increases
+rapidly with a steep gradient for the saturation curve and then slows
+with increasing number of cell types (Supplementary Figs 1 and 2,
+section R). With the current data, at the flattest part of the saturation
+curve each new cell type adds, on average, 9,500 DHS elements (across
+106 cell types) and 500 CTCF-binding elements (across 49 cell types),
+representing 0.45% of the total element number. We modelled
+saturation for the DHSs and CTCF-binding sites using a Weibull
+distribution (r2 . 0.999) and predict saturation at approximately
+4.1 million (standard error (s.e.)5 108,000) and 185,100 (s.e. 518,020)
+sites,respectively,indicating thatwehavediscoveredaround halfofthe
+estimated total DHSs. These estimates represent a lower bound, but
+reinforce the observation that there is more non-coding functional
+DNA than either coding sequence or mammalian evolutionarily con-
+strained bases.
+The impact of selection on functional elements
+From comparative genomic studies, at least 3–8% of bases are under
+purifying (negative) selection4–11, indicating that these bases may
+potentiallybefunctional. Wepreviouslyfound that60% ofmammalian
+evolutionarily constrained bases were annotated in the ENCODE pilot
+project, but also observed that many functional elements lacked
+evidence of constraint2, a conclusion substantiated by others52–54. The
+diversity and genome-wide occurrence of functional elements now
+identified provides an unprecedented opportunity to examine further
+the forces of negative selection on human functional sequences.
+We examined negative selection using two measures that highlight
+different periods of selection in the human genome. The first measure,
+inter-species,
+pan-mammalian
+constraint
+(GERP-based
+scores;
+24 mammals8), addresses selection during mammalian evolution.
+The second measure is intra-species constraint estimated from the
+numbers of variants discovered in human populations using data from
+the 1000 Genomes project55, and covers selection over human evolu-
+tion. In Fig. 1, we plot both these measures of constraint for different
+classesofidentifiedfunctionalelements,excludingfeaturesoverlapping
+exons and promoters thatare known tobeconstrained.Eachgraph also
+shows genomic background levels and measures of coding-gene con-
+straint for comparison. Because we plot human population diversity on
+an inverted scale, elements that are more constrained by negative selec-
+tion will tend to lie in the upper and right-hand regions of the plot.
+For DNase I elements (Fig. 1b) and bound motifs (Fig. 1c), most
+sets of elements show enrichment in pan-mammalian constraint and
+decreased human population diversity, although for some cell types
+the DNase I sites do not seem overall to be subject to pan-mammalian
+constraint. Bound transcription factor motifs have a natural control
+from the set of transcription factor motifs with equal sequence poten-
+tial for binding but without binding evidence from ChIP-seq experi-
+ments—in all cases, the bound motifs show both more mammalian
+constraint and higher suppression of human diversity.
+Consistent with previous findings, we do not observe genome-wide
+evidence for pan-mammalian selection of novel RNA sequences
+(Fig.1d).Therearealsoalargenumberofelementswithoutmammalian
+constraint, between 17% and 90% for transcription-factor-binding
+regions as well as DHSs and FAIRE regions. Previous studies could
+not determine whether these sequences are either biochemically active,
+but with little overall impact on the organism, or under lineage-
+specific selection. By isolating sequences preferentially inserted into
+RESEARCH ARTICLE
+6 0
+| N A T U R E
+|
+V O L
+4 8 9
+| 6
+S E P T E M B E R
+2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 5 (native text) -----
+the primate lineage, which is only feasible given the genome-wide scale
+of this data, we are able to examine this issue specifically. Most primate-
+specific sequence is due to retrotransposon activity, but an appreciable
+proportion is non-repetitive primate-specific sequence. Of 104,343,413
+primate-specific bases (excluding repetitive elements), 67,769,372
+(65%) are found within ENCODE-identified elements. Examination
+of 227,688 variants segregating in these primate-specific regions
+revealed that all classes of elements (RNA and regulatory) show
+depressed derived allele frequencies, consistent with recent negative
+selectionoccurring inatleastsome of theseregions (Fig.1e).An alterna-
+tive approach examining sequences that are not clearly under pan-
+mammalian constraint showed a similar result (L. Ward and
+M. Kellis, manuscript submitted). This indicates that an appreciable
+proportion of the unconstrained elements are lineage-specific elements
+required for organismal function, consistent with long-standing views
+ofrecentevolution56,andtheremainder areprobably‘neutral’elements2
+that are not currently under selection but may still affect cellular or
+larger scale phenotypes without an effect on fitness.
+The binding patterns of transcription factors are not uniform, and
+we can correlate both inter- and intra-species measures of negative
+selection with the overall information content of motif positions. The
+selection on some motif positions is as high as protein-coding exons
+(Fig. 1f; L. Ward and M. Kellis, manuscript submitted). These
+aggregate measures across motifs show that the binding preferences
+found in the population of sites are also relevant to the per-site beha-
+viour. By developing a per-site metric of population effect on bound
+motifs, we found that highly constrained bound instances across
+mammals are able to buffer the impact of individual variation57.
+ENCODE data integration with known genomic features
+Promoter-anchored integration
+Many of the ENCODE assays directly or indirectly provide informa-
+tion about the action of promoters. Focusing on the TSSs of protein-
+coding transcripts, we investigated the relationships between different
+ENCODE assays, in particular testing the hypothesis that RNA
+expression (output) can be effectively predicted from patterns of
+Human and mammalian constraint
+at TSS-distal non-exonic DNase peaks
+b
+d
+e
+f
+a
+c
+Mammalian conservation
+Human diversity (inverted scale)
+Motif position
+GERP conservation score
+0
+1
+2
+3
+4
+5
+(−10)
+(−9)
+(−8)
+(−7)
+(−6)
+(−5)
+(−4)
+(−3)
+(−2)
+(−1)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+(+1)
+(+2)
+(+3)
+(+4)
+(+5)
+(+6)
+(+7)
+(+8)
+(+9)
+(+10)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+r = 0.956
+P = 2.67 × 10–8
+Human and mammalian constraint at 
+regulatory motifs, bound and unbound
+by their cognate factors
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+Mammalian conservation
+Mammalian conservation
+C
+U
+C
+U
+C
+U
+C
+U
+C
+U
+C
+U
+C
+U
+C
+U
+C
+U
+Human and mammalian constraint at novel
+(non-GENCODE-annotated) long intronic
+or intergenic TSS-distal transcriptionally
+active regions
+Human diversity (inverted scale)
+U
+IN
+U
+Human and mammalian constraint
+at TSS-distal non-exonic ENCODE elements
+Human diversity (inverted scale)
+Human diversity (inverted scale)
+Glucocorticoid receptor transcription factor
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+Primate-specific TSS-distal non-exonic regions
+DAF
+Fraction
+0.00
+0.10
+0.20
+0.30
+Non-ENCODE
+ENCODE-annotated
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+IG
+G
+IN
+−1.0
+−0.5
+0.0
+0.5
+1.0
+U
+G
+AP−1
+AP−2
+CEBPB
+CTCF
+EBF
+EGR−1
+ETS
+Foxa
+GATA
+GR
+HNF4Irf
+MAF
+MEF2
+MYC
+NF−κB
+NRSF
+Pou2f2
+RXRA
+SP1
+SRF
+STAT
+TCF4
+YY1
+U
+Motifs bound by their factor(s)
+in > 1 experiment  
+Motifs never bound by their factor(s)
+−1.0
+−0.5
+0.0
+0.5
+Mammalian conservation
+−1.0
+−0.5
+0.0
+0.5
+−3 × 10–4
+−2 × 10–4
+−4 × 10–4
+−6 × 10–4
+−8 × 10–4
+−2 × 10–4
+−4 × 10–4
+−6 × 10–4
+−8 × 10–4
+−1 × 10–3
+−4 × 10–4
+−5 × 10–4
+−6 × 10–4
+−7 × 10–4
+−3 × 10–4
+−4 × 10–4
+−5 × 10–4
+−6 × 10–4
+−7 × 10–4
+U
+G
+IG
+IG
+G
+Figure 1 | Impact of selection on ENCODE functional elements in
+mammals and human populations. a, Levels of pan-mammalian constraint
+(mean GERP score; 24 mammals8, x axis) compared to diversity, a measure of
+negative selection in the human population (mean expected heterozygosity,
+inverted scale, y axis) for ENCODE data sets. Each point is an average for a
+single data set. The top-right corners have the strongest evolutionary constraint
+and lowest diversity. Coding (C), UTR (U), genomic (G), intergenic (IG) and
+intronic (IN) averages are shown as filled squares. In each case the vertical and
+horizontal cross hairs show representative levels for the neutral expectation for
+mammalian conservation and human population diversity, respectively. The
+spread over all non-exonic ENCODE elements greater than 2.5 kb from TSSs is
+shown. The inner dashed box indicates that parts of the plot have been
+magnified for the surrounding outer panels, although the scales in the outer
+plots provide the exact regions and dimensions magnified. The spread for DHS
+sites (b) and RNA elements (d) is shown in the plots on the left. RNA elements
+are either long novel intronic (dark green) or long intergenic (light green)
+RNAs. The horizontal cross hairs are colour-coded to the relevant data set in
+d. c, Spread of transcription factor motif instances either in regions bound by
+the transcription factor (orange points) or in the corresponding unbound motif
+matches in grey, with bound and unbound points connected with an arrow in
+each case showing that bound sites are generally more constrained and less
+diverse. e, Derived allele frequency spectrum for primate-specific elements,
+with variations outside ENCODE elements in black and variations covered by
+ENCODE elements in red. The increase in low-frequency alleles compared to
+background is indicative of negative selection occurring in the set of variants
+annotated by the ENCODE data. f, Aggregation of mammalian constraint
+scores over the glucocorticoid receptor (GR) transcription factor motif in
+bound sites, showing the expected correlation with the information content of
+bases in the motif. An interactive version of this figure is available in the online
+version of the paper.
+ARTICLE RESEARCH
+6
+S E P T E M B E R
+2 0 1 2 | V O L
+4 8 9 |
+N A T U R E
+| 6 1
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 6 (native text) -----
+chromatin modification or transcription factor binding (input).
+Consistent with previous reports58, we observe two relatively distinct
+typesofpromoter:(1)broad,mainly(C1G)-rich,TATA-lesspromoters;
+and (2) narrow, TATA-box-containing promoters. These promoters
+have distinct patterns of histone modifications, and transcription-fac-
+tor-binding sites are selectively enriched in each class (Supplementary
+Fig. 1, section Z).
+We developed predictive models to explore the interaction between
+histone modifications and measures of transcription at promoters,
+distinguishing between modifications known to be added as a con-
+sequence of transcription (such as H3K36me3 and H3K79me2) and
+other categories of histone marks59. In our analyses, the best models
+hadtwocomponents:aninitial classificationcomponent(on/off)anda
+second quantitative model component. Our models showed that
+activating acetylation marks (H3K27ac and H3K9ac) are roughly
+as informative as activating methylation marks (H3K4me3 and
+H3K4me2) (Fig. 2a). Although repressive marks, such as H3K27me3
+or H3K9me3, show negative correlation both individually and in the
+model, removing these marks produces only a small reduction in
+model performance. However, for a subset of promoters in each cell
+line, repressive histone marks (H3K27me3 or H3K9me3) must be used
+to predict their expression accurately. We also examined the interplay
+between the H3K79me2 and H3K36me3 marks, both of which mark
+gene bodies, probably reflecting recruitment of modification enzymes
+by polymerase isoforms. As described previously, H3K79me2 occurs
+preferentially at the 59 ends of gene bodies and H3K36me3 occurs
+more 39, and our analyses support the previous model in which the
+H3K79me2 to H3K36me3 transition occurs at the first 39 splice site60.
+Few previous studies have attempted to build qualitative or quant-
+itative models of transcription genome-wide from transcription
+factor levels because of the paucity of documented transcription-
+factor-binding regions and the lack of coordination around a single
+cell line. We thus examined the predictive capacity of transcription-
+factor-binding signals for the expression levels of promoters (Fig. 2b).
+−4
+−2
+0
+2
+4
+6
+8
+−5
+0
+5
+10
+Pearson’s r = 0.9
+RMSE = 1.9
+Classification: AUC = 0.95
+Regression: r = 0.78 (RMSE = 2.23)  
+−4
+−2
+0
+2
+4
+6
+8
+−5
+0
+5
+10
+Pearson’s r = 0.81
+RMSE = 2.57
+Classification
+(mean decreased Gini)
+0
+20
+40
+60
+80
+YY1
+MYC
+MAX
+REST
+ETS1
+E2F4
+ELF1
+EGR1
+TAL1
+JUN
+E2F6
+BCLAF1
+MXI1
+SP1
+GABPA
+ZBTB7A
+BCL3
+THAP1
+SRF
+GATA2
+USF2
+NFYA
+FOSL1
+MAFK
+ZBTB33
+FOS
+NRF1
+ZNF263
+USF1
+GATA1
+SP2
+ATF3
+CEBPB
+NR2C2
+JUND
+SPI1
+NFYB
+SIX5
+ZNF274
+NFE2
+Regression
+(mean decreased Gini)
+0
+500
+1,000
+1,500
+2,000
+2,500
+3,000
+3,500
+YY1
+MYC
+ELF1
+E2F4
+JUN
+ETS1
+REST
+MXI1
+GABPA
+MAX
+FOS
+NFYB
+EGR1
+E2F6
+ZNF263
+THAP1
+SP2
+NRF1
+TAL1
+NFYA
+ZBTB7A
+GATA2
+SPI1
+SIX5
+USF2
+FOSL1
+SP1
+GATA1
+BCL3
+USF1
+BCLAF1
+JUND
+ZBTB33
+NFE2
+MAFK
+SRF
+CEBPB
+ATF3
+NR2C2
+ZNF274
+Classification
+(mean decreased Gini)
+Regression
+(mean decreased Gini)
+0
+200
+400
+600
+800
+1,000
+H3K9ac
+H3K4me3
+H3K4me2
+DNase I
+H3K27ac
+H3K79me2
+H2A.Z
+H3K36me3
+H3K27me3
+H3K4me1
+Normalized CpG
+H3K9me1
+H3K9me3
+H4K20me1
+Control
+0
+5,000
+10,000
+15,000
+H3K79me2
+H3K9ac
+H3K4me3
+H3K36me3
+H3K27ac
+DNase I
+H3K4me2
+H2A.Z
+H3K27me3
+Normalized CpG
+H3K4me1
+H3K9me1
+H3K9me3
+H4K20me1
+Control
+Relative importance of variables
+CAGE poly(A)+ K562 whole cell
+Measured expression (log2)
+Predicted expression (log2)
+Predicted expression (log2)
+Measured expression (log2)
+CAGE poly(A)+ K562 whole cell
+Relative importance of variables
+a
+b
+Classification: AUC = 0.89
+Regression: r = 0.62 (RMSE = 3.06)
+Figure 2 | Modelling transcription levels from histone modification and
+transcription-factor-binding patterns. a, b, Correlative models between
+either histone modifications or transcription factors, respectively, and RNA
+production as measured by CAGE tagdensity at TSSs in K562 cells. In each case
+the scatter plot shows the output of the correlation models (x axis) compared to
+observed values (y axis). The bar graphs show the most important histone
+modifications (a) or transcription factors (b) in both the initial classification
+phase (top bar graph) or the quantitative regression phase (bottom bar graph),
+with larger values indicating increasing importance of thevariable in the model.
+Further analysis of other cell lines and RNA measurement types is reported
+elsewhere59,79. AUC, area under curve; Gini, Gini coefficient; RMSE, root mean
+square error.
+RESEARCH ARTICLE
+6 2 | N A T U R E
+|
+V O L
+4 8 9
+|
+6 S E P T E M B E R
+2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 7 (native text) -----
+In contrast to the profiles of histone modifications, most transcription
+factors show enriched binding signals in a narrow DNA region near
+the TSS, with relatively higher binding signals in promoters with
+higher CpG content. Most of this correlation could be recapitulated
+by looking at the aggregate binding of transcription factors without
+specific transcription factor terms. Together, these correlation models
+indicate both that a limited set of chromatin marks are sufficient to
+‘explain’ transcription and that a variety of transcription factors might
+have broad roles in general transcription levels across many genes. It is
+important to note that this is an inherently observational study of
+correlation patterns, and is consistent with a variety of mechanistic
+models with different causal links between the chromatin, transcrip-
+tion factor and RNA assays. However, it does indicate that there is
+enough information present at the promoter regions of genes to
+explain most of the variation in RNA expression.
+We developed predictive models similar to those used to model
+transcriptional activity to explore the relationship between levels of
+histone modification and inclusion of exons in alternately spliced
+transcripts. Even accounting for expression level, H3K36me3 has a
+positive contribution to exon inclusion, whereas H3K79me2 has a
+negative contribution (H. Tilgner et al., manuscript in preparation).
+By monitoring the RNA populations in the subcellular fractions of
+K562 cells, we found that essentially all splicing is co-transcriptional61,
+further supporting a link between chromatin structure and splicing.
+Transcription-factor-binding site-anchored integration
+Transcription-factor-binding sites provide a natural focus around
+which to explore chromatin properties. Transcription factors are often
+multifunctional and can bind a variety of genomic loci with different
+combinationsand patterns ofchromatin marks andnucleosome organ-
+ization.Hence, ratherthanaveragingchromatinmarkprofiles acrossall
+binding sites of a transcription factor, we developed a clustering pro-
+cedure, termed the Clustered Aggregation Tool (CAGT), to identify
+subsets of binding sites sharing similar but distinct patterns of chro-
+matin mark signal magnitude, shape and hidden directionality30. For
+example, the average profile of the repressive histone mark H3K27me3
+over all 55,782 CTCF-binding sites in H1 hESCs shows poor signal
+enrichment (Fig. 3a). However, after grouping profiles by signal
+magnitude we found a subset of 9,840 (17.6%) CTCF-binding sites
+that exhibit significant flanking H3K27me3 signal. Shape and orienta-
+tion analysis further revealed that the predominant signal profile for
+H3K27me3 around CTCF peak summits is asymmetric, consistent
+with a boundary role for some CTCF sites between active and
+polycomb-silenced domains. Further examples are provided in
+Supplementary Figs 5 and 6 of section E. For TAF1, predominantly
+found near TSSs, the asymmetric sites are orientated with the direction
+of transcription. However, for distal sites, such as those bound by
+GATA1 and CTCF, we also observed a high proportion of asymmetric
+histone patterns, although independent of motif directionality. In fact,
+all transcription-factor-binding data sets in all cell lines show
+predominantly asymmetric patterns (asymmetry ratio .0.6) for all
+chromatin marks but not for DNase I signal (Fig. 3b). This indicates
+that most transcription-factor-bound chromatin events correlate with
+structured, directional patterns of histone modifications, and that pro-
+moter directionality is not the only source of orientation at these sites.
+We also examined nucleosome occupancy relative to the symmetry
+properties of chromatin marks around transcription-factor-binding
+sites. Around TSSs, there is usually strong asymmetric nucleosome
+occupancy, often accounting for most of the histone modification
+signal (for instance, see Supplementary Fig. 4, section E). However,
+away from TSSs, there is far less concordance. For example, CTCF-
+binding sites typically show arrays of well-positioned nucleosomes on
+either side of the peak summit (Supplementary Fig. 1, section E)62.
+Where the flanking chromatin mark signal is high, the signals are
+often asymmetric, indicating differential marking with histone
+modifications (Supplementary Figs 2 and 3, section E). Thus, we
+confirm on a genome-wide scale that transcription factors can form
+barriers around which nucleosomes and histone modifications are
+arranged in a variety of configurations62–65. This is explored in further
+detail in refs 25, 26 and 30.
+Transcription factor co-associations
+Transcription-factor-binding regions are nonrandomly distributed
+across the genome, with respect to both other features (for example,
+promoters)andothertranscription-factor-bindingregions.Withinthe
+H3K27me3 at CTCF in H1 hESC (TSS-proximal/distal transcription factor)
+a
+b
+Distance from summit
+Signal
+0
+5
+10
+15
+0
+5
+10
+15
+0
+5
+10
+15
+All (55,782)
+High (17.64%)
+Low (82.36%)
+−400
+0
+400
+−400
+0
+400
+−400
+0
+400
+Distance from summit
+Signal
+0
+5
+10
+15
+20
+25
+30
+35
+0
+2
+4
+6
+8
+0
+5
+10
+15
+20
+Pattern 1 (10.14%)
+Pattern 3 (1.59%)
+Pattern 5 (0.56%)
+0
+5
+10
+15
+0
+10
+20
+30
+40
+0
+5
+10
+15
+Pattern 2 (2.88%)
+Pattern 4 (1.06%)
+Pattern 6 (0.55%)
+Asymmetry ratio
+Cumulative distribution
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+DNase
+H3K36me3
+H3K79me2
+H4K20me1
+0.2
+0.4
+0.6
+0.8
+1.0
+H2A.Z
+H3K4me1
+H3K9ac
+Nucleosome
+0.2
+0.4
+0.6
+0.8
+1.0
+H3K27ac
+H3K4me2
+H3K9me1
+0.2
+0.4
+0.6
+0.8
+1.0
+H3K27me3
+H3K4me3
+H3K9me3
+0.2
+0.4
+0.6
+0.8
+1.0
+CTCF, CTCFL,
+RAD21, SMC3,
+ZNF143
+Figure 3 | Patterns and asymmetry of chromatin modification at
+transcription-factor-binding sites. a, Results of clustered aggregation of
+H3K27me3 modification signal around CTCF-binding sites (a multifunctional
+protein involved with chromatin structure). The first three plots (left column)
+show the signal behaviour of the histone modification over all sites (top) and
+then split into the high and low signal components. The solid lines show the
+mean signal distribution by relative position with the blue shaded area
+delimiting the tenth and ninetieth percentile range. The high signal component
+is then decomposed further into six different shape classes on the right (see ref.
+30 for details). The shape decomposition process is strand aware. b, Summary
+of shape asymmetry for DNase I, nucleosome and histone modification signals
+by plotting an asymmetry ratio for each signal over all transcription-factor-
+binding sites. All histone modifications measured in this study show
+predominantly asymmetric patterns at transcription-factor-binding sites. An
+interactive version of this figure is available in the online version of the paper.
+ARTICLE RESEARCH
+6
+S E P T E M B E R
+2 0 1 2 | V O L
+4 8 9 |
+N A T U R E
+| 6 3
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 8 (native text) -----
+tier 1 and 2 cell lines, we found 3,307 pairs of statistically co-associated
+factors (P ,1 3 10216, GSC) involving114outof a possible 117factors
+(97%) (Fig. 4a). These include expected associations, such as Jun and
+Fos, and some less expected novel associations, such as TCF7L2 with
+HNF4-a and FOXA2 (ref. 66; a full listing is given in Supplementary
+Table 1, section F). When one considers promoter and intergenic
+Promotor proximal regions
+Intergenic regions
+A (K562)
+B (K562)
+Confidence
+Degree of co-association
+(z-score)
+High
+Medium
+Low
+0 10 20 30 40 50 60 70 80 90 ≥100
+(H1 hESC)
+a
+A
+B
+b
+Whole genome 
+JUNB
+JUND
+JUN
+FOSL1
+JUNB
+JUND
+JUN
+FOSL1
+JUNB
+JUND
+JUN
+FOSL1
+JUNB
+JUND
+JUN
+FOSL1
+HDAC2
+GABPA
+CHD2
+POLR2A
+GTF2F1
+MXI1
+MYC
+HDAC2
+GABPA
+CHD2
+POLR2A
+GTF2F1
+MXI1
+MYC
+HDAC2
+NANOG
+EP300
+SP1
+HDAC2
+NANOG
+EP300
+SP1
+HDAC2
+GABPA
+MXI1
+MYC
+CHD2
+HDAC2
+GABPA
+MXI1
+MYC
+CHD2
+EP300
+SP1
+HDAC2
+NANOG
+EP300
+SP1
+HDAC2
+NANOG
+TAF1
+TBP
+YY1
+ELF1
+MAX
+E2F4
+E2F6
+IRF1
+EGR1
+ZBTB7A
+ETS1
+SIN3A
+CCNT2
+HMGN3
+HDAC2
+GABPA
+CHD2
+POLR2A
+GTF2F1
+MXI1
+MYC
+THAP1
+SP1
+SP2
+NRF1
+REST
+SIX5
+SRF
+SPI1
+RAD21
+SMC3
+CTCF
+CTCFL
+ZNF263
+BCLAF1
+TAF7
+RDBP
+ZBTB33
+BCL3
+ATF3
+USF2
+USF1
+NFE2
+GATA1
+GATA2
+TAL1
+EP300
+SMARCA4
+SMARCB1
+SIRT6
+JUNB
+JUND
+JUN
+FOSL1
+FOS
+MAFK
+CEBPB
+HDAC8
+SETDB1
+TRIM28
+NR2C2
+ZNF274
+STAT1
+STAT2
+BDP1
+POLR3A
+BRF1
+GTF3C2
+BRF2
+TAF1
+YY1
+TBP
+E2F4
+E2F6
+ELF1
+MAX
+POLR2A
+HMGN3
+ZBTB7A
+CCNT2
+EGR1
+ETS1
+SIN3A
+HDAC2
+GABPA
+MXI1
+MYC
+CHD2
+IRF1
+GTF2F1
+THAP1
+SP2
+REST
+NRF1
+USF1
+FOS
+SP1
+SRF
+SPI1
+SIX5
+CTCF
+RAD21
+SMC3
+CTCFL
+ZNF263
+BCLAF1
+TAF7
+RDBP
+ZBTB33
+BCL3
+ATF3
+USF2
+NFE2
+SETDB1
+TRIM28
+ZNF274
+NR2C2
+GATA1
+GATA2
+TAL1
+EP300
+SMARCA4
+SMARCB1
+SIRT6
+JUNB
+JUND
+JUN
+FOSL1
+MAFK
+CEBPB
+HDAC8
+STAT1
+STAT2
+BDP1
+POLR3A
+BRF1
+GTF3C2
+BRF2
+Figure 4 | Co-association between transcription factors. a, Significant co-
+associations of transcription factor pairs using the GSC statistic across the entire
+genome in K562 cells. The colour strength represents the extent of association
+(from red (strongest), orange, to yellow (weakest)), whereas the depth of colour
+represents the fit to the GSC20 model (where white indicates that the statistical
+modelisnotappropriate) as indicated by the key.Most transcription factors have
+anonrandomassociationtoothertranscriptionfactors,andtheseassociationsare
+dependent on the genomic context, meaning that once the genome is separated
+into promoter proximal and distal regions, the overall levels of co-association
+decrease, but more specific relationships are uncovered. b, Three classes of
+behaviour are shown. The first column shows a set of associations for which
+strength is independent of location in promoter and distal regions, whereas the
+secondcolumnshowsasetoftranscriptionfactorsthathavestrongerassociations
+inpromoter-proximalregions. Bothofthese examplesarefromdata in K562cells
+and are highlighted on the genome-wide co-association matrix (a) by the labelled
+boxesA and B, respectively.Thethird column shows a set oftranscription factors
+that show stronger association in distal regions (in the H1 hESC line). An
+interactive version of this figure is available in the online version of the paper.
+Table 3 | Summary of the combined state types
+Label
+Description
+Details*
+Colour
+CTCF
+CTCF-enriched element
+Sites of CTCF signal lacking histone modifications, often associated with open chromatin. Many
+probably have a function in insulator assays, but because of the multifunctional nature of CTCF, we
+are conservative in our description. Also enriched for the cohesin components RAD21 and SMC3;
+CTCF is known to recruit the cohesin complex.
+Turquoise
+E
+Predicted enhancer
+Regions of open chromatin associated with H3K4me1 signal. Enriched for other enhancer-
+associated marks, including transcription factors known to act at enhancers. In enhancer assays,
+many of these (.50%) function as enhancers. A more conservative alternative would be cis-
+regulatory regions. Enriched for sites for the proteins encoded by EP300, FOS, FOSL1, GATA2,
+HDAC8, JUNB, JUND, NFE2, SMARCA4, SMARCB1, SIRT6 and TAL1 genes in K562 cells. Have
+nuclear and whole-cell RNA signal, particularly poly(A)2 fraction.
+Orange
+PF
+Predicted promoter flanking region
+Regions that generally surround TSS segments (see below).
+Light red
+R
+Predicted repressed or low-activity region This is a merged state that includes H3K27me3 polycomb-enriched regions, along with regions that
+are silent in terms of observed signal for the input assays to the segmentations (low or no signal).
+They may have other signals (for example, RNA, not in the segmentation input data). Enriched for
+sites for the proteins encoded by REST and some other factors (for example, proteins encoded by
+BRF2, CEBPB, MAFK, TRIM28, ZNF274 and SETDB1 genes in K562 cells).
+Grey
+TSS
+Predicted promoter region including TSS
+Found close to or overlapping GENCODE TSS sites. High precision/recall for TSSs. Enriched for
+H3K4me3. Sites of open chromatin. Enriched for transcription factors known to act close to promoters
+and polymerases Pol II and Pol III. Short RNAs are most enriched in these segments.
+Bright red
+T
+Predicted transcribed region
+Overlap gene bodies with H3K36me3 transcriptional elongation signal. Enriched for phosphorylated
+form of Pol II signal (elongating polymerase) and poly(A)1 RNA, especially cytoplasmic.
+Dark green
+WE
+Predicted weak enhancer or open
+chromatin cis-regulatory element
+Similar to the E state, but weaker signals and weaker enrichments.
+Yellow
+* Where specific enrichments or overlaps are identified, these are derived from analysis in GM12878 and/or K562 cells where the data for comparison is richest. The colours indicated are used in Figs 5 and 7 and in
+display of these tracks from the ENCODE data hub.
+RESEARCH ARTICLE
+6 4 |
+N A T U R E
+| V O L 4 8 9
+| 6
+S E P T E M B E R 2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 9 (native text) -----
+Chr22:
+ChromHMM
+Segway
+46100000
+46200000
+46300000
+46400000
+46500000
+46600000
+46700000
+GENCODE v7 genes
+GM12878 
+combined 
+UW DNase
+Open chrom DNase
+FAIRE
+H3K4me1
+H3K4me2
+H3K4me3
+H3K9ac
+H3K27ac
+H3K27me3
+H3K36me3
+H4K20me1
+CTCF
+Pol II
+Input control
+Signal tracks
+Segmentations
+R
+T
+PF
+WE
+CTCF
+E
+TSS
+Segment class
+TAF1
+BRCA1
+POLR2A
+FOS
+CHD2
+NRF1
+POLR3A
+STAT3
+EP300
+WRNIP1
+SMC3
+RAD21
+ZNF143
+RAD21
+CTCF
+GABPA
+TBP
+SIN3A
+ETS1
+SIX5
+BCLAF1
+SP1
+MAX
+ELF1
+RXRA
+ATF3
+YY1
+NR2C2
+BCL3
+REST
+ZZZ3
+JUND
+USF2
+YY1
+MEF2C
+MEF2A
+BATF
+EBF1
+SPI1
+ZBTB33
+NFE2
+RFX5
+ZEB1
+USF1
+PBX3
+PAX5
+IRF4
+NFKB1
+BCL11A
+EBF1
+SRF
+EGR1
+TCF12
+SLC22A2
+POU2F2
+GM12878 segment overlaps with
+transcription factors (obs./exp. coverage) 
+ Enriched
+ (log2 = 6.5)
+ Depleted
+ (log2 = −10.0)
+ (log2 = 0)
+1 2 3 4 5 6
+1 2 3 4 5 6
+Cell type in each
+CTCF segment 
+Mean cell type in segment 
+Segment count
+0
+10,000
+25,000
+Cell type in each
+E segment 
+0
+20,000
+40,000
+1 2 3 4 5 6
+1 2 3 4 5 6
+Cell type in each
+T segment 
+0
+100,000
+250,000
+Cell type in each
+TSS segment
+0
+4,000
+8,000
+1 2 3 4 5 6
+Cell type in each
+R segment 
+0
+100,000
+250,000
+0
+20
+60
+100
+Distribution of methylation
+over GM12878 segment labels
+Per cent methylated
+R
+CTCF
+WE
+E
+T
+PF
+TSS
+Segment class
+Short RNA nucleus
+Short RNA whole cell
+Short RNA cytosol
+Long RNA cytoplasm A–
+Long RNA cytoplasm A+
+Long RNA whole cell A+
+Long RNA nucleus A–
+Long RNA nucleus A+
+Long RNA whole cell A–
+GM12878 overlaps with RNAs (obs./exp.)
+ Enriched
+ (log2 = 5.8)
+ Depleted
+ (log2 = −3.8)
+ (log2 = 0)
+WE
+T
+TSS
+R
+E
+PF
+CTCF
+R
+T
+WE
+E
+CTCF
+PF
+TSS
+a
+b
+c
+d
+Figure 5 | Integration of ENCODE data by genome-wide segmentation.
+a, Illustrative region with the two segmentation methods (ChromHMM and
+Segway) in a dense view and the combined segmentation expanded to show
+each state in GM12878 cells, beneath a compressed view of the GENCODE
+gene annotations. Note that at this level of zoom and genome browser
+resolution, some segments appear to overlap although they do not.
+Segmentation classes are named and coloured according to the scheme in
+Table 3. Beneath the segmentations are shown each of the normalized signals
+that were used as the input data for the segmentations. Open chromatin signals
+from DNase-seq from the University of Washington group (UW DNase) or the
+ENCODE open chromatin group (Openchrom DNase) and FAIRE assays are
+shown in blue; signal from histone modification ChIP-seq in red; and
+transcription factor ChIP-seq signal for Pol II and CTCF in green. The mauve
+ChIP-seq control signal (input control) at the bottom was also included as an
+input to the segmentation. b, Association of selected transcription factor (left)
+and RNA (right) elements in the combined segmentation states (x axis)
+expressed as an observed/expected ratio (obs./exp.) for each combination of
+transcription factor or RNA element and segmentation class using the heat-
+map scale shown in the key besides each heat map. c, Variability of states
+between cell lines, showing the distribution of occurrences of the state in the six
+cell lines at specific genome locations: from unique to one cell line to ubiquitous
+in all six cell lines for five states (CTCF, E, T, TSS and R). d, Distribution of
+methylation level at individual sites from RRBS analysis in GM12878 cells
+across the different states, showing the expected hypomethylation at TSSs and
+hypermethylation of genes bodies (T state) and repressed (R) regions.
+ARTICLE RESEARCH
+6
+S E P T E M B E R
+2 0 1 2 | V O L
+4 8 9 |
+N A T U R E
+| 6 5
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 10 (native text) -----
+regions separately, this changes to 3,201 pairs (116 factors, 99%) for
+promoters and 1,564 pairs (108 factors, 92%) for intergenic regions,
+with some associations more specific to these genomic contexts (for
+example, the cluster of HDAC2, GABPA, CHD2, GTF2F1, MXI1 and
+MYC in promoter regions and SP1, EP300, HDAC2 and NANOG in
+intergenic regions (Fig. 4b)). These general and context-dependent
+associations lead to a network representation of the co-binding with
+many interesting properties, explored in refs 19, 25 and 26. In addition,
+we also identified a set of regions bound by multiple factors represent-
+ing high occupancy of transcription factor (HOT) regions67.
+Genome-wide integration
+To identify functional regions genome-wide, we next integrated ele-
+ments independent of genomic landmarks using either discriminative
+trainingmethods,whereasubsetofknownelementsofaparticularclass
+wereusedtotrainamodelthatwasthenusedtodiscovermoreinstances
+ofthisclass, orusingmethods in which onlydata fromENCODE assays
+were used without explicit knowledge of any annotation.
+For discriminative training, we used a three-step process to predict
+potential enhancers, described in Supplementary Information and
+ref. 67. Two alternative discriminative models converged on a set of
+,13,000 putative enhancers in K562 cells67. In the second approach,
+two methodologically distinct unbiased approaches (see refs 40, 68
+and M. M. Hoffman et al., manuscript in preparation) converged on a
+concordant set of histone modification and chromatin-accessibility
+patterns that can be used to segment the genome in each of the tier 1
+and tier 2 cell lines, although the individual loci in each state in each
+cell line are different. With the exception of RNA polymerase II and
+CTCF, the addition of transcription factor data did not substantially
+alter these patterns. At this stage, we deliberately excluded RNA and
+methylation assays, reserving these data as a means to validate the
+segmentations.
+Our integration of the two segmentation methods (M. M. Hoffman
+et al., manuscript in preparation) established a consensus set of seven
+major classes of genome states, described in Table 3. The standard
+view of active promoters, with a distinct core promoter region (TSS
+and PF states), leading to active gene bodies (T, transcribed state), is
+rediscovered in this model (Fig. 5a, b). There are three ‘active’ distal
+states. We tentatively labelled two as enhancers (predicted enhancers,
+E, and predicted weak enhancers, WE) due to their occurrence in
+regions of open chromatin with high H3K4me1, although they differ
+in the levels of marks such as H3K27ac, currently thought to
+distinguish active from inactive enhancers. The other active state
+(CTCF) has high CTCF binding and includes sequences that function
+as insulators in a transfection assay. The remaining repressed state (R)
+summarizes sequences split between different classes of actively
+repressed or inactive, quiescent chromatin. We found that the
+CTCF-binding-associated state is relatively invariant across cell types,
+with individual regions frequently occupying the CTCF state across all
+six cell types (Fig. 5c). Conversely, the E and T states have substantial
+cell-specific behaviour, whereas the TSS state has a bimodal behaviour
+with similar numbers of cell-invariant and cell-specific occurrences.
+It is important to note that the consensus summary classes do not
+capture all the detail discovered in the individual segmentations con-
+taining more states.
+The distribution of RNA species across segments is quite distinct,
+indicating that underlying biological activities are captured in the
+segmentation. Polyadenylated RNA is heavily enriched in gene
+bodies. Around promoters, there are short RNA species previously
+identified as promoter-associated short RNAs (Fig. 5b)16,69. Similarly,
+DNA methylation shows marked distinctions between segments,
+recapitulating the known biology of predominantly unmethylated
+active promoters (TSS states) followed by methylated gene bodies42
+(T state, Fig. 5d). The two enhancer-enriched states show distinct
+patterns of DNA methylation, with the less active enhancer state
+(by H3K27ac/H3K4me1 levels) showing higher methylation. These
+states also have an excess of RNA elements without poly(A) tails and
+methyl-cap RNA, as assayed by CAGE sequences, compared to
+matched intergenic controls, indicating a specific transcriptional
+mode associated with active enhancers70. Transcription factors also
+showed distinct distributions across the segments (Fig. 5b). A striking
+pattern is the concentration of transcription factors in the TSS-
+associated state. The enhancers contain a different set of transcription
+factors. For example, in K562 cells, the E state is enriched for binding
+by the proteins encoded by the EP300, FOS, FOSL1, GATA2, HDAC8,
+JUNB, JUND, NFE2, SMARCA4, SMARCB1, SIRT6 and TAL1 genes.
+We tested a subset of these predicted enhancers in both mouse and
+fish transgenic models (examples in Fig. 6), with over half of the
+elements showing activity, often in the corresponding tissue type.
+The segmentation provides a linear determination of functional
+state across the genome, but not an association of particular distal
+regions with genes. By using the variation of DNase I signal across cell
+lines, 39% of E (enhancer associated) states could be linked to a
+proposed regulated gene29 concordant with physical proximity
+patterns determined by 5C49 or ChIA-PET.
+To provide a fine-grained regional classification, we turned to a self
+organizing map (SOM) to cluster genome segmentation regions based
+on their assay signal characteristics (Fig. 7). The segmentation regions
+were initially randomly assigned to a 1,350-state map in a two-
+dimensional toroidal space (Fig. 7a). This map can be visualized as
+a two-dimensional rectangular plane onto which the various signal
+distributions can be plotted. For instance, the rectangle at the bottom
+left of Fig. 7a shows the distribution of the genome in the initial
+randomized map. The SOM was then trained using the twelve differ-
+ent ChIP-seq and DNase-seq assays in the six cell types previously
+analysed in the large-scale segmentations (that is, over 72-dimensional
+space). After training, the SOM clustering was again visualized in two
+dimensions, now showing the organized distribution of genome seg-
+ments (lower right of panel, Fig. 7a). Individual data sets associated
+with the genome segments in each SOM map unit (hexagonal cells)
+can then be visualized in the same framework to learn how each
+additional kind of data is distributed on the chromatin state map.
+Figure 7b shows CAGE/TSS expression data overlaid on the randomly
+initialized (left) and trained map (right) panels. In this way the trained
+SOM highlighted cell-type-specific TSS clusters (bottom panels of
+Fig. 7b), indicating that there are sets of tissue-specific TSSs that are
+distinguished from each other by subtle combinations of ENCODE
+b
+a
+Figure 6 | Experimental characterization of segmentations. Randomly
+sampled E state segments (see Table 3) from the K562 segmentation were
+cloned for mouse- and fish-based transgenic enhancer assays. a, Representative
+LacZ-stained transgenic embryonic day (E)11.5 mouse embryo obtained with
+construct hs2065 (EN167, chr10: 46052882–46055670, GRCh37). Highly
+reproducible staining in the blood vessels was observed in 9 out of 9 embryos
+resulting from independent transgenic integration events. b, Representative
+green fluorescent protein reporter transgenic medaka fish obtained from a
+construct with a basal hsp70 promoter on meganuclease-based transfection.
+Reproducible transgenic expression in the circulating nucleated blood cells and
+the endothelial cell walls was seen in 81 out of 100 transgenic tests of this
+construct.
+RESEARCH ARTICLE
+6 6 |
+N A T U R E
+| V O L 4 8 9
+| 6
+S E P T E M B E R 2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 11 (native text) -----
+chromatin data. Many of the ultra-fine-grained state classifications
+revealed in the SOM are associated with specific gene ontology (GO)
+terms (right panel of Fig. 7c). For instance, the left panel of Fig. 7c
+identifies ten SOM map units enriched with genomic regions
+associated with genes associated with the GO term ‘immune response’.
+The centralpanelidentifies a different setof map units enrichedfor the
+GO term ‘sequence-specific transcription factor activity’. The two
+map units most enriched for this GO term, indicated by the darkest
+green colouring, contain genes with segments that are high in
+H3K27me3 in H1 hESCs, but that differ in H3K27me3 levels in
+HUVECs. Gene function analysis with the GO ontology tool
+(GREAT71) reveals that the map unit with high H3K27me3 levels in
+both cell types is enriched in transcription factor genes with known
+neuronal functions, whereas the neighbouring map unit is enriched in
+genes involved in body patterning. The genome browser shots at the
+bottom of Fig. 7c pick out an example region for each of the two SOM
+map units illustrating the difference in H3K27me3 signal. Overall, we
+have 228 distinct GO terms associated with specific segments across
+Genes above threshold 
+Genes above threshold 
+GO: immune response
+GO: sequence-specific
+transcription factor activity
+All significant GO terms/unit   
+K562
+GM12878
+H1 hESC
+HeLa-S3
+HepG2
+HUVEC
+a
+c
+Scale
+Chr11:
+20 kb
+20160000
+20180000
+20200000
+DBX1
+Scale
+Chr16:
+20 kb
+55350000
+55370000
+55390000
+IRX6
+H3K27me3 high in ES cell
+H3K27me3 low in HUVEC 
+Body patterning 
+  transcription factors
+H3K27me3 high in ES cell
+H3K27me3 high in HUVEC    
+Primarily neuronal 
+  transcription factors
+CAGE/GENCODE
+expressed TSS 
+Nucleotide distribution
+(log10)  
+b
+Empty map
+Randomly initialized map
+visualized by DNA content 
+Trained map
+Initialize map
+with genome
+segments at
+random
+Train map
+using 72
+signal/cell line
+combinations
+Transform to planar
+surface for viewing 
+Genome  segments
+along chromosome
+72 signal/cell line
+measurements
+at each state
+Transform to planar
+surface for viewing 
+0
+4.8
+1.6
+1.4
+1.2
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+0.090
+0.075
+0.060
+0.045
+0.030
+0.015
+5.0
+4.5
+4.0
+3.5
+3.0
+2.5
+2.0
+1.5
+4.2
+3.6
+3.0
+2.4
+1.8
+1.2
+0.6
+29
+0
+29
+0
+44
+0
+44
+32
+140
+40
+35
+30
+25
+20
+15
+10
+5
+0
+120
+100
+80
+60
+40
+20
+0
+28
+24
+20
+16
+12
+8
+4
+0
+0
+29
+0
+29
+0
+29
+0
+44
+0
+44
+0
+44
+0
+29
+All expressed TSSs  
+TSS H1 hESC only  
+TSS HepG2 only  
+0
+0
+44
+29
+Figure 7 | High-resolution segmentation of
+ENCODE data by self-organizing maps (SOM).
+a–c, The training of the SOM (a) and analysis of the
+results(b,c)areshown.Initiallywearbitrarilyplaced
+genomic segments from the ChromHMM
+segmentation on to the toroidal map surface,
+although the SOM does not use the ChromHMM
+state assignments (a). We then trained the map
+using the signal of the 12 different ChIP-seq and
+DNase-seq assays in the six cell types analysed. Each
+unit of the SOM is represented here by a hexagonal
+cell in a planar two-dimensional view of the toroidal
+map. Curved arrows indicate that traversing the
+edges of two dimensional view leads back to the
+opposite edge. The resulting map can be overlaid
+with any class of ENCODE or other data to view the
+distribution of that data within this high-resolution
+segmentation.Inpanel athedistributionsofgenome
+bases across the untrained and trained map (left and
+right, respectively) are shown using heat-map
+colours for log10 values. b, The distribution of TSSs
+from CAGE experiments of GENCODE annotation
+on the planar representations of either the initial
+random organization (left) or the final trained SOM
+(right) using heat maps coloured according to the
+accompanying scales. The bottom half of b expands
+the different distributions in the SOM for all
+expressed TSSs (left) or TSSs specifically expressed
+in two example cell lines, H1 hESC (centre) and
+HepG2 (right). c, The association of Gene Ontology
+(GO) terms on the same representation of the same
+trained SOM. We assigned genes that are within
+20kb of a genomic segment in a SOM unit to that
+unit, and then associated this set of genes with GO
+terms using a hypergeometric distribution after
+correcting for multiple testing. Map units that are
+significantly associated to GO terms are coloured
+green, with increasing strength of colour reflecting
+increasing numbers of genes significantly associated
+with theGO terms for either immune response (left)
+or sequence-specific transcription factor activity
+(centre). In each case, specific SOM units show
+association with these terms. The right-hand panel
+shows the distribution on the same SOM of all
+significantly associated GO terms, now colouring by
+GO term count per SOM unit. For sequence-specific
+transcription factor activity, two example genomic
+regions are extracted at the bottom of panel c from
+neighbouring SOM units. These are regions around
+the DBX1 (from SOM unit 26,31, left panel) and
+IRX6 (SOM unit 27,30, right panel) genes,
+respectively, along with their H3K27me3 ChIP-seq
+signal for each of the tier 1 and 2 cell types. For
+DBX1, representative of a set of primarily neuronal
+transcription factors associated with unit 26,31,
+there is a repressive H3K27me3 signal in both H1
+hESCs and HUVECs; for IRX6, representative of a
+set of body patterning transcription factors
+associated with SOM unit 27,30, the repressive mark
+is restricted largely to the embryonic stem (ES) cell.
+An interactiveversion ofthisfigureisavailableinthe
+online version of the paper.
+ARTICLE RESEARCH
+6 S E P T E M B E R 2 0 1 2 | V O L 4 8 9
+| N A T U R E
+|
+6 7
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 12 (native text) -----
+one or more states (A. Mortazavi, personal communication), and can
+assign over one-thirdof genes to a GO annotation solelyon the basis of
+its multicellular histone patterns. Thus, the SOM analysis provides a
+fine-grained map of chromatin data across multiple cell types, which
+can then be used to relate chromatin structure to other data types at
+differing levels of resolution (for instance, the large cluster of units
+containing any active TSS, its subclusters composed of units enriched
+in TSSs active in only one cell type, or individual map units signifi-
+cantly enriched for specific GO terms).
+The classifications presented here are necessarily limited by the
+assays and cell lines studied, and probably contain a number of
+heterogeneous classes of elements. Nonetheless, robust classifications
+can be made, allowing a systematic view of the human genome.
+Insights into human genomic variation
+We next explored the potential impact of sequence variation on
+ENCODE functional elements. We examined allele-specific variation
+using results from the GM12878 cells that are derived from an indi-
+vidual (NA12878) sequenced in the 1000 Genomes project, along with
+her parents. Because ENCODE assays are predominantly sequence-
+based, the trio design allows each GM12878 data set to be divided by
+the specific parental contributions at heterozygous sites, producing
+aggregate haplotypic signals from multiple genomic sites. We
+examined 193 ENCODE assays for allele-specific biases using
+1,409,992 phased, heterozygous SNPs and 167,096 insertions/dele-
+tions (indels) (Fig. 8). Alignment biases towards alleles present in
+the reference genome sequence were avoided using a sequence
+specifically tailored to the variants and haplotypes present in
+NA12878 (a ‘personalized genome’)72. We found instances of pref-
+erential binding towards each parental allele. For example, com-
+parison of the results from the POLR2A, H3K79me2 and H3K27me3
+assays in the region of NACC2 (Fig. 8a) shows a strong paternal bias for
+H3K79me2 and POL2RA and a strong maternal bias for H3K27me3,
+indicating differential activity for the maternal and paternal alleles.
+Figure 8b shows the correlation of selected allele-specific signals
+across the whole genome. For instance, we found a strong allelic
+correlation between POL2RA and BCLAF1 binding, as well as nega-
+tive correlation between H3K79me2 and H3K27me3, both at genes
+(Fig. 8b, below the diagonal, bottom left) and chromosomal segments
+(top right). Overall, we found that positive allelic correlations among
+the 193 ENCODE assays are stronger and more frequent than nega-
+tive correlations. This may be due to preferential capture of accessible
+alleles and/or the specific histone modification and transcription
+factor, assays used in the project.
+Rare variants, individual genomes and somatic variants
+We further investigated the potential functional effects of individual
+variation in the context of ENCODE annotations. We divided
+NA12878 variants into common and rare classes, and partitioned
+these into those overlapping ENCODE annotation (Fig. 9a and
+Supplementary Tables 1 and 2, section K). We also predicted potential
+functional effects: for protein-coding genes, these are either non-
+synonymous SNPs or variants likely to induce loss of function by
+frame-shift, premature stop, or splice-site disruption; for other
+regions, these are variants that overlap a transcription-factor-
+binding site. We found similar numbers of potentially functional
+variants affecting protein-coding genes or affecting other ENCODE
+annotations, indicating that many functional variants within
+individual genomes lie outside exons of protein-coding genes. A more
+detailed analysis of regulatory variant annotation is described in
+ref. 73.
+To study further the potential effects of NA12878 genome variants
+on transcription-factor-binding regions, we performed peak calling
+using a constructed personal diploid genome sequence for NA12878
+(ref. 72). We aligned ChIP-seq sequences from GM12878 separately
+against the maternal and paternal haplotypes. As expected, a greater
+fraction of reads were aligned than to the reference genome (see
+Supplementary Information, Supplementary Fig. 1, section K). On
+average, approximately 1% of transcription-factor-binding sites in
+GM12878 cells are detected in a haplotype-specific fashion. For
+instance, Fig. 9b shows a CTCF-binding site not detected using the
+a
+b
+0.383
+r2
+0
+0.020
+H3K4me1
+H3K4me2
+H3K4me3
+H2AFZ
+H3K9ac
+H3K27ac
+H3K79me2
+H3K36me3
+H3K9me3
+H3K27me3
+DNase
+POLR2A
+POLR2A elongating
+CTCF
+BATF
+BCLAF1
+ETS1
+MEF2A
+MTA3
+EP300
+POU2F2
+RAD21
+RFX5
+RUNX3
+SMC3
+STAT5A
+TAF1
+TBP
+YY1
+ZNF143
+H3K4me1
+H3K4me2
+H3K4me3
+H2AFZ
+H3K9ac
+H3K27ac
+H3K79me2
+H3K36me3
+H3K9me3
+H3K27me3
+DNase
+POLR2A
+POLR2A elongating
+CTCF
+BATF
+BCLAF1
+ETS1
+MEF2A
+MTA3
+EP300
+POU2F2
+RAD21
+RFX5
+RUNX3
+SMC3
+STAT5A
+TAF1
+TBP
+YY1
+ZNF143
+5
+0
+5
+5
+0
+5
+Paternal
+only
+Maternal
+only
+All reads
+5
+0
+5
+Paternal
+only
+Maternal
+only
+All reads
+Paternal
+only
+Maternal
+only
+All reads
+Common SNPs
+138960000
+138970000
+138980000
+138990000
+NACC2
+Transcription
+POLR2A
+H3K79me2
+H3K27me3
+Figure 8 | Allele-specific ENCODE elements. a, Representative allele-specific
+information from GM12878 cells for selected assays around the first exon of the
+NACC2 gene (genomic region Chr9: 138950000–138995000, GRCh37).
+Transcription signal is shown in green, and the three sections show allele-
+specific data for three data sets (POLR2A, H3K79me2 and H3K27me3 ChIP-
+seq). In each case the purple signal is the processed signal for all sequence reads
+for the assay, whereas the blue and red signals show sequence reads specifically
+assigned to either the paternal or maternal copies of the genome, respectively.
+The set of common SNPs from dbSNP, including the phased, heterozygous
+SNPs used to provide the assignment, are shown at the bottom of the panel.
+NACC2 has a statistically significant paternal bias for POLR2A and the
+transcription-associated mark H3K79me2, and has a significant maternal bias
+for the repressive mark H3K27me3. b, Pair-wise correlations of allele-specific
+signal within single genes (below the diagonal) or within individual
+ChromHMM segments across the whole genome for selected DNase-seq and
+histone modification and transcription factor ChIP-seq assays. The extent of
+correlation is coloured according to the heat-map scale indicated from positive
+correlation (red) through to anti-correlation (blue). An interactive version of
+this figure is available in the online version of the paper.
+RESEARCH ARTICLE
+6 8 |
+N A T U R E
+| V O L 4 8 9
+| 6
+S E P T E M B E R 2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 13 (native text) -----
+reference sequence that is only present on the paternal haplotype
+due to a 1-bp deletion (see also Supplementary Fig. 2, section K).
+As costs of DNA sequencing decrease further, optimized analysis of
+ENCODE-type data should use the genome sequence of the indi-
+vidual or cell being analysed when possible.
+Most analyses of cancer genomes so far have focused on character-
+izing somatic variants in protein-coding regions. We intersected four
+available whole-genome cancer data sets with ENCODE annotations
+(Fig. 9c and Supplementary Fig. 2, section L). Overall, somatic variation
+is relatively depleted from ENCODE annotated regions, particularly for
+elements specific to a cell type matching the putative tumour source (for
+example, skin melanocytes for melanoma). Examining the mutational
+spectrum of elements in introns for cases where a strand-specific
+mutation assignment could be made reveals that there are mutational
+spectrum differences between DHSs and unannotated regions (0.06
+Fisher’s exact test, Supplementary Fig. 3, section L). The suppression
+of somatic mutation is consistent with important functional roles of
+these elements within tumour cells, highlighting a potential alternative
+set of targets for examination in cancer.
+Common variants associated with disease
+In recent years, GWAS have greatly extended our knowledge of
+genetic loci associated with human disease risk and other phenotypes.
+The output of these studies is a series of SNPs (GWAS SNPs) corre-
+lated with a phenotype, although not necessarily the functional
+variants. Notably, 88% of associated SNPs are either intronic or
+intergenic74. We examined 4,860 SNP–phenotype associations for
+4,492 SNPs curated in the National Human Genome Research
+Institute (NHGRI) GWAS catalogue74. We found that 12% of these
+SNPs overlap transcription-factor-occupied regions whereas 34% over-
+lap DHSs (Fig. 10a). Both figures reflect significant enrichments relative
+totheoverallproportions of 1000Genomes projectSNPs(about6%and
+23%, respectively). Even after accounting for biases introduced by selec-
+tion of SNPs for the standard genotyping arrays, GWAS SNPs show
+consistently higher overlap with ENCODE annotations (Fig. 10a, see
+Supplementary Information). Furthermore, after partitioning the
+genome by density of different classes of functional elements, GWAS
+SNPs were consistently enriched beyond all the genotyping SNPs in
+function-rich partitions, and depleted in function-poor partitions (see
+Supplementary Fig. 1, section M). GWAS SNPs are particularly
+enriched in the segmentation classes associated with enhancers and
+TSSs across several cell types (see Supplementary Fig. 2, section M).
+Examining the SOM of integrated ENCODE annotations (see
+above), we found 19 SOM map units showing significant enrichment
+for GWAS SNPs, including many SOM units previously associated
+with specific gene functions, such as the immune response regions.
+c
+Common annotated
+(450,129) 
+Rare annotated
+(23,227) 
+Rare variants
+with predicted
+functional effect
+(1,482)  
+Common variants
+with predicted
+functional effect (27,940)
+a
+b
+All variants in NA12878 (2,998,908)  
+Protein-coding annotation 
+   …  with predicted functional effect 
+ENCODE non-coding annotation 
+   …  with predicted functional effect 
+Rare (86,420) 
+Annotated
+(473,356) 
+Annotated
+(473,356) 
+Non-genic TSS-distal cell-specific DHS peaks
+DHS cell type
+Variants per megabase of
+DHS relative to null
+−20
+−10
+0
+10
+20
+HSMM
+HUVEC
+Melano
+Stellate
+H9ES
+Ubiquitous
+ProgFib
+HepG2
+iPS
+HTR8
+HPDE6E6E7
+AoSMC serum free
+Medullo
+Osteobl
+pHTE
+Fibrobl.
+8988t
+Pan-islets
+HMEC
+Myometr
+LNCaP
+Hepatocytes
+NHEK
+Chorion
+GM12878
+H1HESC
+MCF7
+HeLa-S3
+UROtsa
+K562
+A549Cll
+P < 0.05
+Depleted
+Enriched
+NA
+–10
+–5
+0
+5
+10
+15
+20
+126665000
+126666000
+126667000
+126668000
+126669000
+126670000
+126671000
+Paternal
+Maternal
+Read count
+Genome position on chromosome 10
+Figure 9 | Examining ENCODE elements on a per individual basis in the
+normal and cancer genome. a, Breakdown of variants in a single genome
+(NA12878) by both frequency (common or rare (that is, variants not present in
+the low-coverage sequencing of 179 individuals in the pilot 1 European panel of
+the 1000 Genomes project55)) and by ENCODE annotation, including protein-
+coding gene and non-coding elements (GENCODE annotations for protein-
+coding genes, pseudogenes and other ncRNAs, as well as transcription-factor-
+binding sites from ChIP-seq data sets, excluding broad annotations such as
+histone modifications, segmentations and RNA-seq). Annotation status is
+further subdivided by predicted functional effect, being non-synonymous and
+missense mutations for protein-coding regions andvariants overlapping bound
+transcription factor motifs for non-coding element annotations. A substantial
+proportion of variants are annotated as having predicted functional effects in
+the non-coding category. b, One of several relatively rare occurrences, where
+alignment to an individual genome sequence (paternal and maternal panels)
+shows a different readout from the reference genome. In this case, a paternal-
+haplotype-specific CTCF peak is identified. c, Relative level of somatic variants
+from a whole-genome melanoma sample that occur in DHSs unique to
+different cell lines. The coloured bars show cases that are significantly enriched
+or suppressed in somatic mutations. Details of ENCODE cell types can be
+found at http://encodeproject.org/ENCODE/cellTypes.html. An interactive
+version of this figure is available in the online version of the paper.
+ARTICLE RESEARCH
+6
+S E P T E M B E R 2 0 1 2 |
+V O L
+4 8 9
+| N A T U R E |
+6 9
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 14 (native text) -----
+Thus, an appreciable proportion of SNPs identified in initial GWAS
+scans are either functional or lie within the length of an ENCODE
+annotation (,500 bp on average) and represent plausible candidates
+for the functional variant. Expanding the set of feasible functional
+SNPs to those in reasonable linkage disequilibrium, up to 71% of
+GWAS SNPs have a potential causative SNP overlapping a DNase I
+site, and 31% of loci have a candidate SNP that overlaps a binding site
+occupied by a transcription factor (see also refs 73, 75).
+The GWAS catalogue provides a rich functional categorization
+from the precise phenotypes being studied. These phenotypic cate-
+gorizations are nonrandomly associated with ENCODE annotations
+and there is marked correspondence between the phenotype and the
+identity of the cell type or transcription factor used in the ENCODE
+assay (Fig. 10b). For example, five SNPs associated with Crohn’s
+disease overlap GATA2-binding sites (P value 0.003 by random
+permutation or 0.001 by an empirical approach comparing to
+the GWAS-matched SNPs; see Supplementary Information), and
+fourteen are located in DHSs found in immunologically relevant cell
+types. A notable example is a gene desert on chromosome 5p13.1
+containing eight SNPs associated with inflammatory diseases.
+Several are close to or within DHSs in T-helper type 1 (TH1) and
+TH2 cells as well as peaks of binding by transcription factors in
+HUVECs (Fig. 10c). The latter cell line is not immunological, but
+factor occupancy detected there could be a proxy for binding of a
+more relevant factor, such as GATA3, in T cells. Genetic variants in
+this region also affect expression levels of PTGER4 (ref. 76), encoding
+the prostaglandin receptor EP4. Thus, the ENCODE data reinforce
+the hypothesis that genetic variants in 5p13.1 modulate the expression
+of flanking genes, and furthermore provide the specific hypothesis
+that the variants affect occupancy of a GATA factor in an allele-
+specific manner, thereby influencing susceptibility to Crohn’s disease.
+Nonrandom association of phenotypes with ENCODE cell types
+strengthens the argument that at least some of the GWAS lead SNPs
+are functional or extremely close to functional variants. Each of the
+associations between a lead SNP and an ENCODE annotation
+remains a credible hypothesis of a particular functional element
+a
+b
+c
+DNase I peaks Transcription
+factor
+Fraction of SNPs that overlap feature
+0
+0.1
+0.2
+0.3
+Chr5: 40390001–40440000 (50,000 bp)
+rs4613763
+rs17234657
+rs11742570
+rs6451493
+rs1992660
+rs6896969
+rs1373692
+rs9292777
+HUVEC GATA2
+HUVEC input
+HUVEC
+TH1
+TH2
+Chr5:
+GWAS catalogue
+Human Feb. 2009 (GRCh37/hg19)   Chr5: 39274501–40819500 (1,545,000 bp)
+39500000
+40000000
+40500000
+C9
+DAB2
+BC026261
+PTGER4
+TTC33
+OSRF
+DNase I
+PRKAA1
+Transcription
+factors
+Crohn’s disease
+Ulcerative colitis
+Multiple sclerosis
+GM12878 MEF2A
+GM12878 EBF1
+GM12878 POLR2A
+GM12878 NFKB1
+GM12878 IRF4
+GM12878 PAX5
+GM12878 SPI1
+GM12878 BATF
+HUVEC GATA2
+GM12878 EGR1
+HeLa-S3 CEBPB
+HepG2 CTCF
+HUVEC all
+hTH1 all
+hTH2 DS7842
+Crohn’s disease
+Ulcerative colitis
+Celiac disease
+Chronic lymphocytic leukaemia
+Rheumatoid arthritis
+Height
+Systemic lupus erythematosus
+Multiple sclerosis
+Total
+Phenotype
+SNP-pheno associations
+Overlap any TF occupancy
+4,860
+71
+62
+204
+57
+17
+54
+85
+105
+600
+15
+10
+34
+11
+8
+11
+11
+20
+47
+4
+4
+3
+3
+1
+1
+3
+2
+78
+4
+4
+7
+4
+1
+4
+2
+2
+57
+3
+6
+3
+2
+4
+3
+3
+2
+35
+2
+4
+2
+4
+1
+2
+3
+1
+35
+3
+3
+5
+0
+1
+1
+1
+1
+54
+4
+1
+3
+4
+2
+1
+3
+2
+47
+3
+1
+1
+4
+3
+2
+2
+2
+45
+2
+4
+5
+2
+1
+1
+2
+1
+29
+2
+1
+0
+0
+0
+0
+2
+5
+28
+1
+2
+6
+1
+0
+0
+2
+1
+69
+1
+2
+7
+1
+0
+0
+0
+2
+54
+0
+1
+6
+0
+0
+0
+1
+2
+85
+1
+2
+6
+2
+0
+0
+2
+6
+192
+5
+4
+9
+11
+2
+2
+7
+9
+57
+4
+2
+3
+3
+0
+1
+2
+5
+Figure 10 | Comparison of genome-wide-association-study-identified loci
+with ENCODE data. a, Overlap of lead SNPs in the NHGRI GWAS SNP
+catalogue (June 2011) with DHSs (left) or transcription-factor-binding sites
+(right) as red bars compared with various control SNP sets in blue. The control
+SNP sets are (from left to right): SNPs on the Illumina 2.5M chip as an example
+of a widely used GWAS SNP typing panel; SNPs from the 1000 Genomes
+project; SNPs extracted from 24 personal genomes (see personal genome
+variants track at http://main.genome-browser.bx.psu.edu (ref. 80)), all shown
+as blue bars. In addition, a further control used 1,000 randomizations from the
+genotyping SNP panel, matching the SNPs with each NHGRI catalogue SNP
+for allele frequency and distance to the nearest TSS (light blue bars with bounds
+at 1.5 times the interquartile range). For both DHSs and transcription-factor-
+binding regions, a larger proportion of overlaps with GWAS-implicated SNPs
+is found compared to any of the controls sets. b, Aggregate overlap of
+phenotypes to selected transcription-factor-binding sites (left matrix) or DHSs
+in selected cell lines (right matrix), with a count of overlaps between the
+phenotype and the cell line/factor. Values in blue squares pass an empirical
+P-value threshold #0.01 (based on the same analysis of overlaps between
+randomly chosen, GWAS-matched SNPs and these epigenetic features) and
+have at least a count of three overlaps. The P value for the total number of
+phenotype–transcription factor associations is ,0.001. c, Several SNPs
+associated withCrohn’s disease andother inflammatory diseases that residein a
+large gene desert on chromosome 5, along with some epigenetic features
+indicative of function. The SNP (rs11742570) strongly associated to Crohn’s
+disease overlaps a GATA2 transcription-factor-binding signal determined in
+HUVECs. This region is also DNase I hypersensitive in HUVECs and T-helper
+TH1 and TH2 cells. An interactive version of this figure is available in the online
+version of the paper.
+RESEARCH ARTICLE
+7 0
+| N A T U R E
+| V O L
+4 8 9 |
+6 S E P T E M B E R
+2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 15 (native text) -----
+class or cell type to explore with future experiments. Supplementary
+Tables 1–3, section M, list all 14,885 pairwise associations across the
+ENCODE annotations. The accompanying papers have a more
+detailed examination of common variants with other regulatory
+information19,25,29,73,75,77.
+Concluding remarks
+The unprecedented number of functional elements identified in this
+study provides a valuable resource to the scientific community as well
+as significantly enhances our understanding of the human genome.
+Our analyses have revealed many novel aspects of gene expression and
+regulation as well as the organization of such information, as illu-
+strated by the accompanying papers (see http://www.encodeproject.
+org/ENCODE/pubs.html
+for collected ENCODE publications).
+However, there are still many specific details, particularly about the
+mechanistic processes that generate these elements and how and
+where they function, that require additional experiments to elucidate.
+The large spread of coverage—from our highest resolution, most
+conservative set of bases implicated in GENCODE protein-coding
+gene exons (2.9%) or specific protein DNA binding (8.5%) to the
+broadest, most general set of marks covering the genome (approxi-
+mately 80%), with many gradations in between—presents a spectrum
+of elements with different functional properties discovered by
+ENCODE. A total of 99% of the known bases in the genome are within
+1.7 kb of any ENCODE element, whereas 95% of bases are within 8 kb
+of a bound transcription factor motif or DNase I footprint.
+Interestingly, even using the most conservative estimates, the fraction
+of bases likely to be involved in direct gene regulation, even though
+incomplete, is significantly higher than that ascribed to protein-
+coding exons (1.2%), raising the possibility that more information
+in the human genome may be important for gene regulation than
+for biochemical function. Many of the regulatory elements are not
+constrained across mammalian evolution, which so far has been one
+of the most reliable indications of an important biochemical event
+for the organism. Thus, our data provide orthologous indicators for
+suggesting possible functional elements.
+Importantly, for the first time we have sufficient statistical power to
+assess the impact of negative selection on primate-specific elements,
+and all ENCODE classes display evidence of negative selection in these
+unique-to-primate elements. Furthermore, even with our most conser-
+vative estimate of functional elements (8.5% of putative DNA/protein
+binding regions) and assuming that we have already sampled half of the
+elements from our transcription factor and cell-type diversity, one
+would estimate that at a minimum 20% (17% from protein binding
+and2.9%proteincodinggeneexons)ofthegenomeparticipatesinthese
+specific functions, with the likely figure significantly higher.
+The broad coverage of ENCODE annotations enhances our under-
+standing of common diseases with a genetic component, rare genetic
+diseases, and cancer, as shown by our ability to link otherwise
+anonymous associations to a functional element. ENCODE and
+similar studies provide a first step towards interpreting the rest of
+the genome—beyond protein-coding genes—thereby augmenting
+common disease genetic studies with testable hypotheses. Such
+information justifies performing whole-genome sequencing (rather
+than exome only, 1.2% of the genome) on rare diseases and investi-
+gating somatic variants in non-coding functional elements, for
+instance, in cancer. Furthermore, as GWAS analyses typically asso-
+ciate disease to SNPs in large regions, comparison to ENCODE non-
+coding functional elements can help pinpoint putative causal variants
+in addition to refinement of location by fine-mapping techniques78.
+Combining ENCODE data with allele-specific information derived
+from individual genome sequences provides specific insight on the
+impact of a genetic variant. Indeed, we believe that a significant goal
+would be to use functional data such as that derived from this project
+to assign every genomic variant to its possible impact on human
+phenotypes.
+So far, ENCODE has sampled 119 of 1,800 known transcription fac-
+tors and general components of the transcriptional machinery on a
+limited number of cell types, and 13 of more than 60 currently known
+histone or DNA modifications across 147 cell types. DNaseI,FAIREand
+extensive RNA assays across subcellular fractionations have been under-
+taken on manycelltypes, but overallthese data reflecta minor fraction of
+the potential functional information encoded in the human genome. An
+important future goal will be to enlarge this data set to additional factors,
+modifications and cell types, complementing the other related projects
+in this area (for example, Roadmap Epigenomics Project, http://
+www.roadmapepigenomics.org/, and International Human Epigenome
+Consortium, http://www.ihec-epigenomes.org/). These projects will
+constitute foundational resources for human genomics, allowing a
+deeper interpretation of the organization of gene and regulatory
+information and the mechanisms of regulation, and thereby provide
+important insights into human health and disease. Co-published
+ENCODE-related papers can be explored online via the Nature
+ENCODE explorer (http://www.nature.com/ENCODE), a specially
+designed visualization tool that allows users to access the linked papers
+and investigate topics that are discussed in multiple papers via them-
+atically organized threads.
+METHODS SUMMARY
+For full details of Methods, see Supplementary Information.
+Received 24 November 2011; accepted 29 May 2012.
+1.
+ENCODE Project Consortium. The ENCODE (ENCyclopedia Of DNA Elements)
+Project. Science 306, 636–640 (2004).
+2.
+Birney, E. et al. Identification and analysis of functional elements in 1% of the
+human genome by the ENCODE pilot project. Nature 447, 799–816 (2007).
+3.
+The ENCODE Project Consortium.A user’s guide to the encyclopedia of DNA
+elements (ENCODE). PLoS Biol. 9, e1001046 (2011).
+4.
+Mouse Genome Sequencing Consortium.Initial sequencing and comparative
+analysis of the mouse genome. Nature 420, 520–562 (2002).
+5.
+Chiaromonte,F.etal. The share ofhuman genomicDNA underselection estimated
+from human-mouse genomic alignments. Cold Spring Harb. Symp. Quant. Biol. 68,
+245–254 (2003).
+6.
+Cooper, G. M. et al. Distribution and intensity of constraint in mammalian genomic
+sequence. Genome Res. 15, 901–913 (2005).
+7.
+Parker, S. C., Hansen, L., Abaan, H. O., Tullius, T. D. & Margulies, E. H. Local DNA
+topography correlates with functional noncoding regions of the human genome.
+Science 324, 389–392 (2009).
+8.
+Lindblad-Toh, K. et al. A high-resolution map of human evolutionary constraint
+using 29 mammals. Nature 478, 476–482 (2011).
+9.
+Pheasant, M. & Mattick, J. S. Raising the estimate of functional human sequences.
+Genome Res. 17, 1245–1253 (2007).
+10. Ponting, C. P. & Hardison, R. C. What fraction of the human genome is functional?
+Genome Res. 21, 1769–1776 (2011).
+11. Asthana, S. et al. Widely distributed noncoding purifying selection in the human
+genome. Proc. Natl Acad. Sci. USA 104, 12410–12415 (2007).
+12. Landt, S. G. et al. ChIP-seq guidelines and practices used by the ENCODE and
+modENCODE consortia. Genome Res. http://dx.doi.org/10.1101/gr.136184.111
+(2012).
+13. Li, Q., Brown, J. B., Huang, H. & Bickel, P. J. Measuring reproducibility of high-
+throughput experiments. Ann. Appl. Stat. 5, 1752–1779 (2011).
+14. Harrow, J. et al. GENCODE: The reference human genome annotation for the
+ENCODE project. Genome Res. http://dx.doi.org/10.1101/gr.135350.111
+(2012).
+15. Howald,C.etal.CombiningRT-PCR-seq and RNA-seq tocatalog allgenicelements
+encoded in the human genome. Genome Res. http://dx.doi.org/10.1101/
+gr.134478.111 (2012).
+16. Djebali, S. et al. Landscape of transcription in human cells. Nature http://
+dx.doi.org/10.1038/nature11233 (this issue).
+17. Derrien, T. et al. The GENCODE v7 catalog of human long noncoding RNAs:
+Analysis of their gene structure, evolution, and expression. Genome Res. http://
+dx.doi.org/10.1101/gr.132159.111 (2012).
+18. Pei, B. et al. The GENCODE pseudogene resource. Genome Biol. 13, R51 (2012).
+19. Gerstein, M. B. et al. Architecture of the human regulatory network derived from
+ENCODE data. Nature http://dx.doi.org/10.1038/nature11245 (this issue).
+20. Bickel, P. J., Boley, N., Brown, J. B., Huang, H. Y. & Zhang, N. R. Subsampling
+methods for genomic inference. Ann. Appl. Stat. 4, 1660–1697 (2010).
+21. Kaplan, T. et al. Quantitative models of the mechanisms that control genome-wide
+patternsoftranscriptionfactor binding duringearly Drosophila development.PLoS
+Genet. 7, e1001290 (2011).
+22. Li, X. Y. et al. The role of chromatin accessibility in directing the widespread,
+overlapping patterns of Drosophila transcription factor binding. Genome Biol. 12,
+R34 (2011).
+ARTICLE RESEARCH
+6
+S E P T E M B E R 2 0 1 2 |
+V O L
+4 8 9
+| N A T U R E
+| 7 1
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 16 (native text) -----
+23. Pique-Regi, R. et al. Accurate inference of transcription factor binding from DNA
+sequence and chromatin accessibility data. Genome Res. 21, 447–455 (2011).
+24. Zhang, Y. et al. Primary sequence and epigenetic determinants of in vivo
+occupancy of genomic DNA by GATA1. Nucleic Acids Res. 37, 7024–7038 (2009).
+25. Neph, S. et al. An expansive human regulatory lexicon encoded in transcription
+factor footprints. Nature http://dx.doi.org/10.1038/nature11212 (this issue).
+26. Whitfield, T. W. et al. Functional analysis of transcription factor binding sites in
+human promoters. Genome Biol. 13, R50 (2012).
+27. Gross, D. S. & Garrard, W. T. Nuclease hypersensitive sites in chromatin. Annu. Rev.
+Biochem. 57, 159–197 (1988).
+28. Urnov, F. D. Chromatin remodeling as a guide to transcriptional regulatory
+networks in mammals. J. Cell. Biochem. 88, 684–694 (2003).
+29. Thurman, R. E. et al. The accessible chromatin landscape of the human genome.
+Nature http://dx.doi.org/10.1038/nature11232 (this issue).
+30. Kundaje, A. et al. Ubiquitous heterogeneity and asymmetry of the chromatin
+environment at regulatory elements. Genome Res. http://dx.doi.org/10.1101/
+gr.136366.111 (2012).
+31. Schultz, D. C., Ayyanathan, K., Negorev, D., Maul, G. G. & Rauscher, F. J. III. SETDB1:
+a novel KAP-1-associated histone H3, lysine 9-specific methyltransferase that
+contributes to HP1-mediated silencing of euchromatic genes by KRAB zinc-finger
+proteins. Genes Dev. 16, 919–932 (2002).
+32. Frietze, S., O’Geen, H., Blahnik, K. R., Jin, V. X. & Farnham, P. J. ZNF274 recruits the
+histone methyltransferase SETDB1 to the 39 ends of ZNF genes. PLoS ONE 5,
+e15082 (2010).
+33. Boyle, A. P. et al. High-resolution genome-wide in vivo footprinting of diverse
+transcription factors in human cells. Genome Res. 21, 456–464 (2011).
+34. Hesselberth,J.R.etal.Globalmappingofprotein-DNAinteractionsinvivobydigital
+genomic footprinting. Nature Methods 6, 283–289 (2009).
+35. Zhang, Y. et al. Model-based analysis of ChIP-Seq (MACS). Genome Biol. 9, R137
+(2008).
+36. Kouzarides, T. Chromatin modifications and their function. Cell 128, 693–705
+(2007).
+37. Li, B., Carey, M. & Workman, J. L. The role of chromatin during transcription. Cell
+128, 707–719 (2007).
+38. Hon, G. C., Hawkins, R. D. & Ren, B. Predictive chromatin signatures in the
+mammalian genome. Hum. Mol. Genet. 18, R195–R201 (2009).
+39. Zhou, V. W., Goren, A. & Bernstein, B. E. Charting histone modifications and the
+functional organization of mammalian genomes. Nature Rev. Genet. 12, 7–18
+(2011).
+40. Ernst, J. et al. Mapping and analysis of chromatin state dynamics in nine human
+cell types. Nature 473, 43–49 (2011).
+41. Hon, G., Wang, W. & Ren, B. Discovery and annotation of functional chromatin
+signatures in the human genome. PLoS Comput. Biol. 5, e1000566 (2009).
+42. Ball, M. P. et al. Targeted and genome-scale strategies reveal gene-body
+methylation signatures in human cells. Nature Biotechnol. 27, 361–368 (2009).
+43. Meissner, A. et al. Genome-scale DNA methylation maps of pluripotent and
+differentiated cells. Nature 454, 766–770 (2008).
+44. Ogryzko, V. V., Schiltz, R. L., Russanova, V., Howard, B. H. & Nakatani, Y. The
+transcriptional coactivators p300 and CBP are histone acetyltransferases. Cell 87,
+953–959 (1996).
+45. Lister, R. et al. Human DNA methylomes at base resolution show widespread
+epigenomic differences. Nature 462, 315–322 (2009).
+46. Dekker, J. Gene regulation in the third dimension. Science 319, 1793–1794
+(2008).
+47. Dostie,J.etal.Chromosome ConformationCaptureCarbonCopy(5C):amassively
+parallel solution for mapping interactions between genomic elements. Genome
+Res. 16, 1299–1309 (2006).
+48. Lajoie, B. R., van Berkum, N. L., Sanyal, A. & Dekker, J. My5C: web tools for
+chromosome conformation capture studies. Nature Methods 6, 690–691 (2009).
+49. Sanyal, A., Lajoie, B., Jain, G. & Dekker, J. The long-range interaction landscape of
+gene promoters. Nature http://dx.doi.org/10.1038/nature11279 (this issue).
+50. Fullwood, M. J. et al. An oestrogen-receptor-alpha-bound human chromatin
+interactome. Nature 462, 58–64 (2009).
+51. Li, G. et al. Extensive promoter-centered chromatin interactions provide a
+topological basis for transcription regulation. Cell 148, 84–98 (2012).
+52. Borneman, A. R. et al. Divergence of transcription factor binding sites across
+related yeast species. Science 317, 815–819 (2007).
+53. Odom, D. T. et al. Tissue-specific transcriptional regulation has diverged
+significantly between human and mouse. Nature Genet. 39, 730–732 (2007).
+54. Schmidt, D. et al. Five-vertebrate ChIP-seq reveals the evolutionary dynamics of
+transcription factor binding. Science 328, 1036–1040 (2010).
+55. A map of human genome variation from population-scale sequencing. Nature
+467, 1061–1073 (2010).
+56. King, M. C. & Wilson, A. C. Evolution at two levels in humans and chimpanzees.
+Science 188, 107–116 (1975).
+57. Spivakov, M. et al. Analysis of variation at transcription factor binding sites in
+Drosophila and humans. Genome Biol. 13, R49 (2012).
+58. Sandelin, A. et al. Mammalian RNA polymerase II core promoters: insights from
+genome-wide studies. Nature Rev. Genet. 8, 424–436 (2007).
+59. Dong, X. et al. Modeling gene expression using chromatin features in various
+cellular contexts. Genome Biol. 13, R53 (2012).
+60. Huff,J.T.,Plocik,A.M.,Guthrie,C.&Yamamoto,K.R.Reciprocalintronicandexonic
+histone modification regions in humans. Nature Struct. Mol. Biol. 17, 1495–1499
+(2010).
+61. Tilgner, H. et al. Deep sequencing of subcellular RNA fractions shows splicing to be
+predominantly co-transcriptional in the human genome but inefficient for
+lncRNAs. Genome Res. http://dx.doi.org/10.1101/gr.134445.111 (2012).
+62. Fu, Y., Sinha, M., Peterson, C. L. & Weng, Z. The insulator binding protein CTCF
+positions 20 nucleosomes around its binding sites across the human genome.
+PLoS Genet. 4, e1000138 (2008).
+63. Kornberg, R. D. & Stryer, L. Statistical distributions of nucleosomes: nonrandom
+locations by a stochastic mechanism. Nucleic Acids Res. 16, 6677–6690 (1988).
+64. Schones, D. E. et al. Dynamic regulation of nucleosome positioning in the human
+genome. Cell 132, 887–898 (2008).
+65. Valouev, A. et al. Determinants of nucleosome organization in primary human
+cells. Nature 474, 516–520 (2011).
+66. Frietze, S. et al. Cell type-specific binding patterns reveal that TCF7L2 can be
+tethered to the genome by association with GATA3. Genome Biol. 13, R52 (2012).
+67. Yip, K. Y. et al. Classification of human genomic regions based on experimentally-
+determined binding sites of more than 100 transcription-related factors. Genome
+Biol. 13, R48 (2012).
+68. Hoffman, M. M. et al. Unsupervised pattern discovery in human chromatin
+structure through genomic segmentation. Nature Methods 9, 473–476 (2012).
+69. Kapranov, P. et al. RNA maps reveal new RNA classes and a possible function for
+pervasive transcription. Science 316, 1484–1488 (2007).
+70. Koch, F. et al. Transcription initiation platforms and GTF recruitment at tissue-
+specific enhancers and promoters. Nature Struct. Mol. Biol. 18, 956–963 (2011).
+71. McLean, C. Y. et al. GREAT improves functional interpretation of cis-regulatory
+regions. Nature Biotechnol. 28, 495–501 (2010).
+72. Rozowsky, J. et al. AlleleSeq: analysis of allele-specific expression and binding in a
+network framework. Mol. Syst. Biol. 7, 522 (2011).
+73. Boyle, A. P. et al. Annotation of functional variation in personal genomes using
+RegulomeDB. Genome Res. http://dx.doi.org/10.1101/gr.137323.112 (2012).
+74. Hindorff, L. A. et al. Potential etiologic and functional implications of genome-wide
+association loci for human diseases and traits. Proc. Natl Acad. Sci. USA 106,
+9362–9367 (2009).
+75. Schaub, M. A., Boyle, A. P., Kundaje, A., Batzoglou, S. & Snyder, M. Linking disease
+associations with regulatory information in the human genome. Genome Res.
+http://dx.doi.org/10.1101/gr.136127.111 (2012).
+76. Libioulle,C.etal. Novel Crohn disease locus identified bygenome-wideassociation
+maps to a gene desert on 5p13.1 and modulates expression of PTGER4. PLoS
+Genet. 3, e58 (2007).
+77. Vernot, B. et al. Personal and population genomics of human regulatory variation.
+Genome Res. http://dx.doi.org/10.1101/gr.134890.111 (2012).
+78. Harismendy, O. et al. 9p21 DNA variants associated with coronary artery disease
+impair interferon-c signalling response. Nature 470, 264–268 (2011).
+79. Cheng, C. et al. Understanding transcriptional regulation by integrative analysis of
+transcription factor binding data. Genome Res. http://dx.doi.org/10.1101/
+gr.136838.111 (2012).
+80. Schuster, S. C. et al. Complete Khoisan and Bantu genomes from southern Africa.
+Nature 463, 943–947 (2010).
+Supplementary Information is available in the online version of the paper.
+Acknowledgements We thank additional members of our laboratories and institutions
+who have contributed to the experimental and analytical components of this project.
+We thank D. Leja for assistance with production of the figures. The Consortium is
+funded by grants from the NHGRI as follows: production grants: U54HG004570
+(B. E. Bernstein); U01HG004695 (E. Birney); U54HG004563 (G. E. Crawford);
+U54HG004557 (T. R. Gingeras); U54HG004555 (T. J. Hubbard); U41HG004568
+(W. J. Kent); U54HG004576 (R. M. Myers); U54HG004558 (M. Snyder);
+U54HG004592 (J. A. Stamatoyannopoulos). Pilot grants: R01HG003143 (J. Dekker);
+RC2HG005591 and R01HG003700 (M. C. Giddings); R01HG004456-03 (Y. Ruan);
+U01HG004571 (S. A. Tenenbaum); U01HG004561 (Z. Weng); RC2HG005679
+(K. P. White). This project was supported in part by American Recovery and
+Reinvestment Act (ARRA) funds from the NHGRI through grants U54HG004570,
+U54HG004563, U41HG004568, U54HG004592, R01HG003143, RC2HG005591,
+R01HG003541,U01HG004561,RC2HG005679and R01HG003988(L.Pennacchio).
+In addition, work from NHGRI Groups was supported by the Intramural Research
+Program of the NHGRI (L. Elnitski, ZIAHG200323; E. H. Margulies, ZIAHG200341).
+Research in the Pennachio laboratory was performed at Lawrence Berkeley National
+Laboratory and at the United States Department of Energy Joint Genome Institute,
+Department of Energy Contract DE-AC02-05CH11231, University of California.
+Author Contributions See the consortium author list for detailsofauthor contributions.
+Author Information The Supplementary Information is accompanied by a Virtual
+Machine (VM) containing the functioning analysis data and code. Further details of the
+VM are available from http://encodeproject.org/ENCODE/integrativeAnalysis/VM.
+Reprints and permissions information is available at www.nature.com/reprints. This
+paper is distributed under the terms of the Creative Commons
+Attribution-Non-Commercial-Share Alike licence, and the online version of the paper is
+freely available to all readers. The authors declare no competing financial interests.
+Readers are welcome to comment on the online version of the paper. Correspondence
+and requests for materials should be addressed to E.B. (birney@ebi.ac.uk).
+The ENCODE Project Consortium
+Overall coordination (data analysis coordination) Ian Dunham1, Anshul Kundaje2{;
+Dataproduction leads (dataproduction)Shelley F.Aldred3, PatrickJ.Collins3,CarrieA.
+Davis4, Francis Doyle5, Charles B. Epstein6, Seth Frietze7, Jennifer Harrow8, Rajinder
+Kaul9, Jainab Khatun10, Bryan R. Lajoie11, Stephen G. Landt12, Bum-Kyu Lee13,
+RESEARCH ARTICLE
+7 2 |
+N A T U R E
+| V O L
+4 8 9 |
+6 S E P T E M B E R 2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 17 (native text) -----
+Florencia Pauli14, Kate R. Rosenbloom15, Peter Sabo16, Alexias Safi17, Amartya
+Sanyal11, Noam Shoresh6, Jeremy M. Simon18, Lingyun Song17, Nathan D. Trinklein3;
+Lead analysts (data analysis) Robert C. Altshuler19, Ewan Birney1, James B. Brown20,
+Chao Cheng21, Sarah Djebali22, Xianjun Dong23, Ian Dunham1, Jason Ernst19{,
+Terrence S. Furey24, Mark Gerstein21, Belinda Giardine25, Melissa Greven23, Ross C.
+Hardison25,26, Robert S. Harris25, Javier Herrero1, Michael M. Hoffman16, Sowmya
+Iyer27, Manolis Kellis19, Jainab Khatun10, Pouya Kheradpour19, Anshul Kundaje2{,
+TimoLassmann28,QunhuaLi20{, XinyingLin23, GeorgiK.Marinov29,AngelikaMerkel22,
+Ali Mortazavi30, Stephen C. J. Parker31, Timothy E. Reddy14{, Joel Rozowsky21, Felix
+Schlesinger4, Robert E. Thurman16, Jie Wang23, Lucas D. Ward19, Troy W. Whitfield23,
+Steven P. Wilder1, Weisheng Wu25, Hualin S. Xi32, Kevin Y. Yip21{, Jiali Zhuang23;
+Writing group Bradley E. Bernstein6,33, Ewan Birney1, Ian Dunham1, Eric D. Green34,
+Chris Gunter14, Michael Snyder12; NHGRI project management (scientific manage-
+ment) Michael J. Pazin35, Rebecca F. Lowdon35{, Laura A. L. Dillon35{, Leslie B.
+Adams35, Caroline J. Kelly35, Julia Zhang35{, Judith R. Wexler35{, Eric D. Green34, Peter
+J. Good35, Elise A. Feingold35; Principal investigators (steering committee) Bradley E.
+Bernstein6,33, Ewan Birney1, Gregory E. Crawford17,36, Job Dekker11, Laura Elnitski37,
+Peggy J. Farnham7, Mark Gerstein21, Morgan C. Giddings10, Thomas R. Gingeras4,38,
+Eric D. Green34, Roderic Guigo´22,39, Ross C. Hardison25,26, Timothy J. Hubbard8,
+Manolis Kellis19, W. James Kent15, Jason D. Lieb18, Elliott H. Margulies31{, Richard M.
+Myers14, Michael Snyder12, John A. Stamatoyannopoulos40, Scott A. Tenenbaum5,
+Zhiping Weng23, Kevin P. White41, Barbara Wold29,42; Boise State University and
+University of North Carolina at Chapel Hill Proteomics groups (data production and
+analysis) Jainab Khatun10, Yanbao Yu43, John Wrobel10, Brian A. Risk10, Harsha P.
+Gunawardena43, Heather C. Kuiper43, Christopher W. Maier43, Ling Xie43, Xian Chen43,
+Morgan C. Giddings10; Broad Institute Group (data production and analysis) Bradley
+E. Bernstein6,33, Charles B. Epstein6, Noam Shoresh6, Jason Ernst19{, Pouya
+Kheradpour19, Tarjei S. Mikkelsen6, Shawn Gillespie33, Alon Goren6,33, Oren Ram6,33,
+Xiaolan Zhang6, Li Wang6, Robbyn Issner6, Michael J. Coyne6, Timothy Durham6,
+Manching Ku6,33, Thanh Truong6, Lucas D. Ward19, Robert C. Altshuler19, Matthew L.
+Eaton19, Manolis Kellis19; Cold Spring Harbor, University of Geneva, Center for
+Genomic Regulation, Barcelona, RIKEN, Sanger Institute, University of Lausanne,
+Genome Institute of Singapore group (data production and analysis) Sarah Djebali22,
+Carrie A. Davis4, Angelika Merkel22, Alex Dobin4, Timo Lassmann28, Ali Mortazavi30,
+Andrea Tanzer22, Julien Lagarde22, Wei Lin4, Felix Schlesinger4, Chenghai Xue4, Georgi
+K. Marinov29, Jainab Khatun10, Brian A. Williams29, Chris Zaleski4, Joel Rozowsky21,
+Maik Ro¨der22, Felix Kokocinski8{, Rehab F. Abdelhamid28, Tyler Alioto22,44, Igor
+Antoshechkin29, Michael T. Baer4, Philippe Batut4, Ian Bell45, Kimberly Bell4, Sudipto
+Chakrabortty4, Xian Chen43, Jacqueline Chrast46, Joao Curado22, Thomas Derrien22{,
+Jorg Drenkow4, Erica Dumais45, Jackie Dumais45, Radha Duttagupta45, Megan
+Fastuca4, KataFejes-Toth4{,PedroFerreira22, SylvainFoissac45,MelissaJ.Fullwood47{,
+Hui Gao45, David Gonzalez22, Assaf Gordon4, Harsha P. Gunawardena43, Ce´dric
+Howald46, Sonali Jha4, Rory Johnson22, Philipp Kapranov45{, Brandon King29, Colin
+Kingswood22,44, Guoliang Li48, Oscar J. Luo47, Eddie Park30, Jonathan B. Preall4,
+Kimberly Presaud4, Paolo Ribeca22,44, Brian A. Risk10, Daniel Robyr49, Xiaoan Ruan47,
+Michael Sammeth22,44, Kuljeet Singh Sandhu47, Lorain Schaeffer29,Lei-Hoon See4, Atif
+Shahab47, Jorgen Skancke22, Ana Maria Suzuki28, Hazuki Takahashi28, Hagen
+Tilgner22{, Diane Trout29, Nathalie Walters46, Huaien Wang4, John Wrobel10, Yanbao
+Yu43, Yoshihide Hayashizaki28, Jennifer Harrow8, Mark Gerstein21, Timothy J.
+Hubbard8, Alexandre Reymond46, Stylianos E. Antonarakis49, Gregory J. Hannon4,
+Morgan C. Giddings10, Yijun Ruan47, Barbara Wold29,42, Piero Carninci28, Roderic
+Guigo´22,39, Thomas R. Gingeras4,38; Data coordination center at UC Santa Cruz
+(production data coordination) Kate R. Rosenbloom15, Cricket A. Sloan15, Katrina
+Learned15, Venkat S. Malladi15, Matthew C. Wong15, GaltP. Barber15, Melissa S. Cline15,
+Timothy R. Dreszer15, Steven G. Heitner15, Donna Karolchik15, W. James Kent15,
+VanessaM. Kirkup15, Laurence R. Meyer15, Jeffrey C. Long15, Morgan Maddren15, Brian
+J. Raney15; Duke University, EBI, University of Texas, Austin, University of North
+Carolina-Chapel Hill group (data production and analysis) Terrence S. Furey24,
+Lingyun Song17, Linda L. Grasfeder18, Paul G. Giresi18, Bum-Kyu Lee13, Anna
+Battenhouse13, Nathan C. Sheffield17, Jeremy M. Simon18, Kimberly A. Showers18,
+Alexias Safi17, Darin London17, Akshay A. Bhinge13, Christopher Shestak18, Matthew R.
+Schaner18, Seul Ki Kim18, Zhuzhu Z. Zhang18, Piotr A. Mieczkowski50, Joanna O.
+Mieczkowska18, ZhengLiu13, Ryan M.McDaniell13, Yunyun Ni13, NaimU. Rashid51, Min
+Jae Kim18, Sheera Adar18, Zhancheng Zhang24, Tianyuan Wang17, Deborah Winter17,
+Damian Keefe1, Ewan Birney1, Vishwanath R. Iyer13, Jason D. Lieb18, Gregory E.
+Crawford17,36; Genome Institute of Singapore group (data production and analysis)
+Guoliang Li48, Kuljeet Singh Sandhu47, Meizhen Zheng47, Ping Wang47, Oscar J. Luo47,
+Atif Shahab47, Melissa J. Fullwood47{, Xiaoan Ruan47, Yijun Ruan47; HudsonAlpha
+Institute, Caltech, UC Irvine, Stanford group (data production and analysis) Richard
+M. Myers14, Florencia Pauli14, Brian A. Williams29, Jason Gertz14, Georgi K. Marinov29,
+Timothy E. Reddy14{, Jost Vielmetter29,42, E. Christopher Partridge14, Diane Trout29,
+Katherine E. Varley14, Clarke Gasper29,42, Anita Bansal14, Shirley Pepke29,52, Preti
+Jain14, Henry Amrhein29, Kevin M. Bowling14, Michael Anaya29,42, Marie K. Cross14,
+Brandon King29, Michael A. Muratet14, Igor Antoshechkin29, Kimberly M. Newberry14,
+Kenneth McCue29, Amy S. Nesmith14, Katherine I. Fisher-Aylor29,42, Barbara Pusey14,
+Gilberto DeSalvo29,42, Stephanie L. Parker14{, Sreeram Balasubramanian29,42,
+Nicholas S. Davis14, Sarah K. Meadows14, Tracy Eggleston14, Chris Gunter14, J. Scott
+Newberry14, Shawn E. Levy14, Devin M. Absher14, Ali Mortazavi30, Wing H. Wong53,
+Barbara Wold29,42; Lawrence Berkeley National Laboratory group (targeted experi-
+mental validation) Matthew J. Blow54, Axel Visel54,55, Len A. Pennachio54,55; NHGRI
+groups (data production and analysis) Laura Elnitski37, Elliott H. Margulies31{,
+Stephen C. J. Parker31, Hanna M. Petrykowska37; Sanger Institute, Washington
+University, Yale University, Center for Genomic Regulation, Barcelona, UCSC, MIT,
+University of Lausanne, CNIO group (data production and analysis) Alexej Abyzov21,
+Bronwen Aken8, Daniel Barrell8, Gemma Barson8, Andrew Berry8, Alexandra Bignell8,
+Veronika Boychenko8, Giovanni Bussotti22, Jacqueline Chrast46, Claire Davidson8,
+Thomas Derrien22{, Gloria Despacio-Reyes8, Mark Diekhans15, Iakes Ezkurdia56, Adam
+Frankish8, James Gilbert8, Jose Manuel Gonzalez8, Ed Griffiths8, Rachel Harte15, David
+A. Hendrix19, Ce´dric Howald46, Toby Hunt8, Irwin Jungreis19, Mike Kay8, Ekta
+Khurana21, Felix Kokocinski8{, Jing Leng21, Michael F. Lin19, Jane Loveland8, Zhi Lu57,
+Deepa Manthravadi8, Marco Mariotti22, Jonathan Mudge8, Gaurab Mukherjee8, Cedric
+Notredame22, Baikang Pei21, Jose Manuel Rodriguez56, Gary Saunders8, Andrea
+Sboner58, Stephen Searle8, Cristina Sisu21, Catherine Snow8, Charlie Steward8, Andrea
+Tanzer22, Electra Tapanari8, Michael L. Tress56, Marijke J. van Baren59{, Nathalie
+Walters46, Stefan Washietl19, Laurens Wilming8, Amonida Zadissa8, Zhengdong
+Zhang60, Michael Brent59, David Haussler61, Manolis Kellis19, Alfonso Valencia56, Mark
+Gerstein21, Alexandre Reymond46, Roderic Guigo´22,39, Jennifer Harrow8, Timothy J.
+Hubbard8; Stanford-Yale, Harvard, University of Massachusetts Medical School,
+University of Southern California/UC Davis group (data production and analysis)
+Stephen G. Landt12, Seth Frietze7, Alexej Abyzov21, Nick Addleman12, Roger P.
+Alexander21, Raymond K. Auerbach21, Suganthi Balasubramanian21, Keith
+Bettinger12, Nitin Bhardwaj21, Alan P. Boyle12, Alina R. Cao62, Philip Cayting12,
+Alexandra Charos63, Yong Cheng12, Chao Cheng21, Catharine Eastman12, Ghia
+Euskirchen12, Joseph D. Fleming64, Fabian Grubert12, Lukas Habegger21, Manoj
+Hariharan12, Arif Harmanci21, Sushma Iyengar65, Victor X. Jin66, Konrad J.
+Karczewski12, Maya Kasowski12, Phil Lacroute12, Hugo Lam12, Nathan
+Lamarre-Vincent64, Jing Leng21, Jin Lian67, Marianne Lindahl-Allen64, Renqiang
+Min21{, Benoit Miotto64, Hannah Monahan63, Zarmik Moqtaderi64, Xinmeng J. Mu21,
+Henriette O’Geen62, Zhengqing Ouyang12, Dorrelyn Patacsil12, Baikang Pei21,
+Debasish Raha63, Lucia Ramirez12, Brian Reed63, Joel Rozowsky21, Andrea Sboner58,
+Minyi Shi12, Cristina Sisu21, Teri Slifer12, Heather Witt7, Linfeng Wu12, Xiaoqin Xu62,
+Koon-Kiu Yan21, Xinqiong Yang12, Kevin Y. Yip21{, Zhengdong Zhang60, Kevin Struhl64,
+Sherman M. Weissman67, Mark Gerstein21, Peggy J. Farnham7, Michael Snyder12;
+University of Albany SUNY group (data production and analysis) Scott A.
+Tenenbaum5, Luiz O. Penalva68, Francis Doyle5; Universityof Chicago, Stanford group
+(data production and analysis) Subhradip Karmakar41, Stephen G. Landt12, Raj R.
+Bhanvadia41, Alina Choudhury41, Marc Domanus41, Lijia Ma41, Jennifer Moran41,
+Dorrelyn Patacsil12, Teri Slifer12, Alec Victorsen41, Xinqiong Yang12, Michael Snyder12,
+Kevin P. White41; University of Heidelberg group (targeted experimental validation)
+Thomas Auer69{, Lazaro Centanin69, Michael Eichenlaub69, Franziska Gruhl69,
+Stephan Heermann69, Burkhard Hoeckendorf69, Daigo Inoue69, Tanja Kellner69,
+Stephan Kirchmaier69, Claudia Mueller69, Robert Reinhardt69, Lea Schertel69,
+Stephanie Schneider69, Rebecca Sinn69, Beate Wittbrodt69, Jochen Wittbrodt69;
+University of Massachusetts Medical School Bioinformatics group (data production
+and analysis) Zhiping Weng23, Troy W. Whitfield23, Jie Wang23, Patrick J. Collins3,
+Shelley F. Aldred3, Nathan D. Trinklein3, E. Christopher Partridge14, Richard M.
+Myers14; University of Massachusetts Medical School Genome Folding group (data
+production and analysis) Job Dekker11, Gaurav Jain11, Bryan R. Lajoie11, Amartya
+Sanyal11; University of Washington, University of Massachusetts Medical Center
+group (data production and analysis) Gayathri Balasundaram70, Daniel L. Bates16,
+Rachel Byron70, Theresa K. Canfield16, Morgan J. Diegel16, Douglas Dunn16, Abigail K.
+Ebersol71, Tristan Frum71, Kavita Garg72, Erica Gist16, R. Scott Hansen71, Lisa
+Boatman71, Eric Haugen16, Richard Humbert16, Gaurav Jain11, Audra K. Johnson16,
+Ericka M. Johnson71, Tattyana V. Kutyavin16, Bryan R. Lajoie11, Kristen Lee16, Dimitra
+Lotakis71, Matthew T. Maurano16, Shane J. Neph16, Fiedencio V. Neri16, Eric D.
+Nguyen71, Hongzhu Qu16, Alex P. Reynolds16, Vaughn Roach16, Eric Rynes16, Peter
+Sabo16, Minerva E. Sanchez71, Richard S. Sandstrom16, Amartya Sanyal11, Anthony O.
+Shafer16, Andrew B. Stergachis16, Sean Thomas16, Robert E. Thurman16, Benjamin
+Vernot16, Jeff Vierstra16, Shinny Vong16, Hao Wang16, Molly A. Weaver16, Yongqi Yan71,
+Miaohua Zhang70, Joshua M. Akey16, Michael Bender70, Michael O. Dorschner73, Mark
+Groudine70, Michael J. MacCoss16, Patrick Navas71, George Stamatoyannopoulos71,
+Rajinder Kaul9, Job Dekker11, John A. Stamatoyannopoulos40; Data Analysis Center
+(data analysis); Ian Dunham1, Kathryn Beal1, Alvis Brazma74, Paul Flicek1, Javier
+Herrero1, NathanJohnson1, Damian Keefe1, Margus Lukk74{, NicholasM.Luscombe75,
+Daniel Sobral1{, Juan M. Vaquerizas75, Steven P. Wilder1, Serafim Batzoglou2, Arend
+Sidow76, Nadine Hussami2, Sofia Kyriazopoulou-Panagiotopoulou2, Max W.
+Libbrecht2{, Marc A. Schaub2, Anshul Kundaje2{, Ross C. Hardison25,26, Webb Miller25,
+Belinda Giardine25, Robert S. Harris25, Weisheng Wu25, Peter J. Bickel20, Balazs
+Banfai20, Nathan P. Boley20, James B. Brown20, Haiyan Huang20, Qunhua Li20{, Jingyi
+Jessica Li20, William Stafford Noble16,77, Jeffrey A. Bilmes78, Orion J. Buske16, Michael
+M. Hoffman16, Avinash D. Sahu16{, Peter V. Kharchenko79, Peter J. Park79, Dannon
+Baker80, James Taylor80, Zhiping Weng23, Sowmya Iyer27, Xianjun Dong23, Melissa
+Greven23, Xinying Lin23, Jie Wang23, Hualin S. Xi32, Jiali Zhuang23, Mark Gerstein21,
+Roger P. Alexander21, Suganthi Balasubramanian21, Chao Cheng21, Arif Harmanci21,
+Lucas Lochovsky21, Renqiang Min21{, Xinmeng J. Mu21, Joel Rozowsky21, Koon-Kiu
+Yan21, Kevin Y. Yip21{ & Ewan Birney1
+1Vertebrate Genomics Group, European Bioinformatics Institute (EMBL-EBI), Wellcome
+Trust Genome Campus, Hinxton, Cambridgeshire CB10 1SD, UK. 2Department of
+Computer Science, Stanford University, 318 Campus Drive, Stanford, California
+94305-5428, USA. 3SwitchGear Genomics, 1455 Adams Drive Suite 1317, Menlo Park,
+California 94025, USA. 4Functional Genomics, Cold Spring Harbor Laboratory, 1
+Bungtown Road, Cold Spring Harbor, New York 11724, USA. 5College of Nanoscale
+Sciences and Engineering, University ay Albany-SUNY, 257 Fuller Road, NFE 4405,
+Albany, New York 12203, USA. 6Broad Institute of MIT and Harvard, 7 Cambridge Center,
+Cambridge, Massachusetts 02142, USA. 7Biochemistry and Molecular Biology, USC/
+Norris Comprehensive Cancer Center, 1450 Biggy Street, NRT 6503, Los Angeles,
+California 90089, USA. 8Informatics, Wellcome Trust Sanger Institute, Wellcome Trust
+Genome Campus, Hinxton, Cambridgeshire CB10 1SA, UK. 9Department of Medicine,
+Division of Medical Genetics, University of Washington, 3720 15th Avenue NE, Seattle,
+Washington 98195, USA. 10College of Arts and Sciences, Boise State University, 1910
+University Drive, Boise, Idaho 83725, USA. 11Program in Systems Biology, Program in
+Gene Function and Expression, Department of Biochemistry and Molecular
+ARTICLE RESEARCH
+6
+S E P T E M B E R 2 0 1 2 |
+V O L
+4 8 9
+| N A T U R E |
+7 3
+Macmillan Publishers Limited. All rights reserved
+©2012
+
+
+----- Page 18 (native text) -----
+Pharmacology, University of Massachusetts Medical School, 364 Plantation Street,
+Worcester, Massachusetts 01605, USA. 12Department of Genetics, Stanford University,
+300 Pasteur Drive, M-344, Stanford, California 94305-5120, USA. 13Center for Systems
+and Synthetic Biology, Institute for Cellular and Molecular Biology, Section of Molecular
+Genetics and Microbiology, The University of Texas at Austin, 1 University Station A4800,
+Austin, Texas 78712, USA. 14HudsonAlpha Institute for Biotechnology, 601Genome Way,
+Huntsville, Alabama 35806, USA. 15Center for Biomolecular Science and Engineering,
+University of California, Santa Cruz, 1156 High Street, Santa Cruz, California 95064, USA.
+16Department of Genome Sciences, University of Washington, 3720 15th Ave NE, Seattle,
+Washington 98195-5065, USA. 17Institute for Genome Sciences and Policy, Duke
+University, 101 Science Drive, Durham, North Carolina 27708, USA. 18Department of
+Biology, Carolina Center for Genome Sciences, and Lineberger Comprehensive Cancer
+Center, The University of North Carolina at Chapel Hill, 408 Fordham Hall, Chapel Hill,
+North Carolina 27599-3280, USA. 19Computer Science and Artificial Intelligence
+Laboratory, Broad Institute ofMIT andHarvard,Massachusetts Institute ofTechnology,32
+Vassar Street, Cambridge, Massachusetts 02139, USA. 20Department of Statistics,
+University of California, Berkeley, 367 Evans Hall, University of California, Berkeley,
+Berkeley, California 94720, USA. 21Computational Biology and Bioinformatics Program,
+Yale University, 266 Whitney Avenue, New Haven, Connecticut 06520, USA.
+22Bioinformatics and Genomics, Centre for Genomic Regulation (CRG) and UPF, Doctor
+Aiguader, 88, Barcelona 08003, Catalonia, Spain. 23Program in Bioinformatics and
+Integrative Biology, University of Massachusetts Medical School, 364 Plantation Street,
+Worcester, Massachusetts 01605, USA. 24Department of Genetics, The University of
+North CarolinaatChapelHill,120Mason FarmRoad,CB7240,ChapelHill,NorthCarolina
+27599, USA. 25Center for Comparative Genomics and Bioinformatics, The Pennsylvania
+State University, Wartik Laboratory, University Park, Pennsylvania 16802, USA.
+26Department of Biochemistry and Molecular Biology, The Pennsylvania State University,
+304 Wartik Laboratory, University Park, Pennsylvania 16802, USA. 27Program in
+Bioinformatics, Boston University, 24 Cummington Street, Boston, Massachusetts
+02215, USA. 28RIKEN Omics Science Center, RIKEN Yokohama Institute, 1-7-22
+Suehiro-cho, Tsurumi-ku, Yokohama, Kanagawa 230-0045, Japan. 29Division of Biology,
+California Institute of Technology, 156-291200 East California Boulevard, Pasadena,
+California 91125, USA. 30Developmental and Cell Biology and Center for Complex
+Biological Systems, University of California Irvine, 2218 Biological Sciences III, Irvine,
+California 92697-2300, USA. 31Genome Technology Branch, National Human Genome
+Research Institute, 5625 Fishers Lane, Bethesda, Maryland 20892, USA. 32Departmentof
+Biochemistry and Molecular Pharmacology, Bioinformatics Core, University of
+Massachusetts Medical School, 364 Plantation Street, Worcester, Massachusetts 01605,
+USA. 33Howard Hughes Medical Institute and Department of Pathology, Massachusetts
+General Hospital and Harvard Medical School, 185 Cambridge St CPZN 8400, Boston,
+Massachusetts 02114, USA. 34National Human Genome Research Institute, National
+Institutes of Health, 31 Center Drive, Building 31, Room 4B09, Bethesda, Maryland
+20892-2152, USA. 35National Human Genome Research Institute, National Institutes of
+Health, 5635 Fishers Lane, Bethesda, Maryland 20892-9307, USA. 36Department of
+Pediatrics, Division of Medical Genetics, Duke University School of Medicine, Durham,
+North Carolina 27710, USA. 37National Human Genome Research Institute, National
+Institutes of Health, 5625 Fishers Lane, Rockville, Maryland 20892, USA. 38Affymetrix,
+Inc., 3380 Central Expressway, Santa Clara, California 95051, USA. 39Departament de
+Cie`ncies Experimentals i de la Salut, Universitat Pompeu Fabra, Barcelona, Catalonia
+08002, Spain. 40Department of Genome Sciences, Box 355065, and Department of
+Medicine, Division of Oncology, Box 358081, University of Washington, Seattle,
+Washington 98195-5065, USA. 41Institute for Genomics and Systems Biology, The
+University of Chicago, 900 East 57th Street, 10100 KCBD, Chicago, Illinois 60637, USA.
+42Beckman Institute, California Institute of Technology, 156-29 1200 E. California
+Boulevard, Pasadena, California 91125, USA. 43Department of Biochemistry and
+Biophysics, University of North Carolina School of Medicine, Campus Box 7260, 120
+Mason Farm Road, 3010 Genetic Medicine Building, Chapel Hill, North Carolina 27599,
+USA. 44Centro Nacional de Ana´lisis Geno´mico (CNAG), C/Baldiri Reixac 4, Torre I,
+Barcelona, Catalonia 08028, Spain. 45Genomics, Affymetrix, Inc., 3380 Central
+Expressway, Santa Clara, California 95051, USA. 46Center for Integrative Genomics,
+University of Lausanne, Genopode Building, 1015 Lausanne, Switzerland. 47Genome
+Technology and Biology, Genome Institute of Singapore, 60 Biopolis Street, 02-01,
+Genome,Singapore 138672, Singapore. 48Computationaland Systems Biology,Genome
+Institute of Singapore, 60 Biopolis Street, 02-01, Genome, Singapore 138672, Singapore.
+49Department of Genetic Medicine and Development, University of Geneva Medical
+School, and University Hospitals of Geneva, 1 rue Michel-Servet, 1211 Geneva 4,
+Switzerland. 50Department of Genetics, The University of North Carolina at Chapel Hill,
+5078 GMB, Chapel Hill, North Carolina 27599-7264, USA. 51Department of Biostatistics,
+GillingsSchool ofGlobal PublicHealth,TheUniversityofNorth CarolinaatChapelHill,408
+Fordham Hall, Chapel Hill, North Carolina 27599-7445, USA. 52Center for Advanced
+Computing Research, California Institute of Technology, MC 158-79, 1200 East California
+Boulavard, Pasadena, California 91125, USA. 53Department of Statistics, Stanford
+University, Sequoia Hall. 390 Serra Mall, Stanford, California 94305-4065, USA. 54DOE
+Joint Genome Institute, Walnut Creek, California, USA. 55Genomics Division, Lawrence
+Berkeley National Laboratory, One Cyclotron Road, MS 84-171, Berkeley, California
+94720, USA. 56Structural Computational Biology, Spanish National Cancer Research
+Centre (CNIO), Melchor Fernandez Almagro, 3, 28029 Madrid, Spain. 57School of Life
+Sciences, Tsinghua University, School of Life Sciences, Tsinghua University, 100084
+Beijing, China. 58Department of Pathology and Laboratory Medicine, Institute for
+Computational Biomedicine, Weill Cornell Medical College, 1305 York Avenue, Box 140,
+New York, New York 10065, USA. 59Computer Science and Engineering, Washington
+University in St Louis, St Louis, Missouri 63130, USA. 60Department of Genetics, Albert
+Einstein College of Medicine, 1301 Morris Park Avenue, Room 353A, Bronx, New York
+10461, USA. 61Center for Biomolecular Science and Engineering, Howard Hughes
+Medical Institute, University of California, Santa Cruz, 1156 High Street, Santa Cruz,
+California 95064, USA. 62Genome Center, University of California-Davis, 451 Health
+Sciences Drive, Davis, California 95616, USA. 63Department of Molecular, Cellular, and
+Developmental Biology, Yale University, 266 Whitney Avenue, New Haven, Connecticut
+06511, USA. 64Biological Chemistry and Molecular Pharmacology, Harvard Medical
+School, 240 Longwood Avenue, Boston, Massachusetts 02115, USA. 65Biochemistry and
+Molecular Biology, University of Southern California, 1501 San Pablo Street, Los Angeles,
+California 90089, USA. 66Department of Biomedical Informatics, Ohio State University,
+3172C Graves Hall, 333 W Tenth Avenue, Columbus, Ohio 43210, USA. 67Department of
+Genetics, Yale University, Yale University School of Medicine, 333 Cedar Street, New
+Haven, Connecticut 06510, USA. 68Department of Cellular and Structural Biology,
+Children’sCancerResearch Institute–UTHSCSA,Mailcode 7784-7703FloydCurlDr,San
+Antonio,Texas 78229,USA. 69Centre forOrganismalStudies(COS)Heidelberg,University
+of Heidelberg, Im Neuenheimer Feld 230, 69120 Heidelberg, Germany. 70Basic Sciences
+Division, Fred Hutchinson Cancer Research Center, 825 Eastlake Avenue East, Seattle,
+Washington 98109, USA. 71Department of Medicine, Division of Medical Genetics, Box
+357720, University of Washington, Seattle, Washington 98195-7720, USA. 72Division of
+Human Biology, Fred Hutchinson Cancer Research Center, 825 Eastlake Avenue East,
+Seattle, Washington 98109, USA. 73Department of Psychiatry and Behavioral Sciences,
+Box 356560, University of Washington, Seattle, Washington 98195-6560, USA.
+74Microarray Informatics Group, European Bioinformatics Institute (EMBL-EBI),
+Wellcome Trust Genome Campus, Hinxton, Cambridgeshire CB10 1SD, UK. 75Genomics
+and Regulatory Systems Group, European Bioinformatics Institute (EMBL-EBI), Wellcome
+Trust Genome Campus, Hinxton, Cambridgeshire CB10 1SD, UK. 76Department of
+Pathology, Department of Genetics, Stanford University, 300 Pasteur Drive, Stanford,
+California 94305, USA. 77Department of Computer Science and Engineering, 185
+Stevens Way, Seattle, Washington 98195, USA. 78Department of Electrical Engineering,
+University of Washington, 185 Stevens Way, Seattle, Washington 98195, USA. 79Center
+for Biomedical Informatics, Harvard Medical School, 10 Shattuck Street, Boston,
+Massachusetts 02115, USA. 80Departments of Biology and Mathematics and Computer
+Science, Emory University, Atlanta, Georgia 30322, USA. {Present addresses: Computer
+Science and Artificial Intelligence Laboratory, Massachusetts Institute of Technology, 32
+Vassar Street, Cambridge, Massachusetts 02139, USA (A.K.); UCLA Biological Chemistry
+Department, Eli and Edythe Broad Center of Regenerative Medicine and Stem Cell
+Research at UCLA, Jonsson Comprehensive Cancer Center, 615 Charles E Young Dr
+South, Los Angeles, California 90095, USA (J.E.); Department of Statistics, 514D Wartik
+Lab, Penn State University, State College, Pennsylvania 16802, USA (Q.L.); Department of
+Biostatistics and Bioinformatics and the Institute for Genome Sciences and Policy, Duke
+University School of Medicine, 101 Science Drive, Durham, North Carolina 27708, USA
+(T.E.R.); Department of Computer Science and Engineering, The Chinese University of
+Hong Kong, Shatin, New Territories, Hong Kong (K.Y.Y.); Department of Genetics,
+Washington University in St Louis, St Louis, Missouri 63110, USA (R.F.L.); Department of
+Cell Biology and Molecular Genetics, University of Maryland, College Park, Maryland
+20742, USA (L.A.L.D.); National Cancer Institute, National Institutes of Health, Bethesda,
+Maryland 20892, USA (J.Z.); University of California, Davis Population Biology Graduate
+Group, Davis, California 95616, USA (J.R.W.); Illumina Cambridge Ltd., Chesterford
+Research Park, Little Chesterford, Saffron Walden, Essex CB10 1XL, UK (E.H.M.);
+BlueGnome Ltd., CPC4, Capital Park, Fulbourn, Cambridge CB21 5XE, UK (F.K.); Institut
+de Ge´ne´tique et De´veloppement de Rennes, CNRS-UMR6061, Universite´ de Rennes 1,
+F-35000 Rennes, Brittany, France (T.D.); Caltech, 1200 East California Boulevard,
+Pasadena, California 91125, USA (K.F.-T.); A*STAR-Duke-NUS Neuroscience Research
+Partnership, 8 College Road, Singapore 169857, Singapore (M.J.F.); St Laurent Institute,
+One Kendall Square, Cambridge, Massachusetts 02139, USA (P.K.); Department of
+Genetics, Stanford University, Stanford, California 94305, USA (H.T.); Biomedical
+Sciences (BMS) Graduate Program, University of California, San Francisco, 513
+Parnassus Avenue, HSE-1285, San Francisco, California 94143-0505, USA (S.L.P.);
+Monterey Bay Aquarium Research Institute, Moss Landing, California 95039, USA
+(M.J.v.B.); Department of Machine Learning, NEC Laboratories America, 4 Independence
+Way, Princeton, New Jersey 08540, USA (R.M.); Neuronal Circuit Development Group,
+Unite´ de Ge´ne´tique et Biologie du De´veloppement, U934/UMR3215, Institut Curie–
+Centre de Recherche, Pole de Biologie du De´veloppement et Cancer, 26, rue d’Ulm,
+75248 Paris Cedex 05, France (T.A.); Cancer Research UK, Cambridge Research Institute,
+Li Ka Shing Centre, Robinson Way, Cambridge CB2 0RE, UK (M.L.); Unidade de
+Bioinformatica, Rua da Quinta Grande, 6, P-2780-156 Oeiras, Portugal (D.S.);
+Department of Genome Sciences, University of Washington, 3720 15th Avenue NE,
+Seattle, Washington 98195-5065, USA (M.W.L.); Center for Bioinformatics and
+Computational Biology, 3115 Ag/Life Surge Building 296, University of Maryland, College
+Park, Maryland 20742, USA (A.D.S.).
+RESEARCH ARTICLE
+7 4
+| N A T U R E
+|
+V O L
+4 8 9
+| 6
+S E P T E M B E R
+2 0 1 2
+Macmillan Publishers Limited. All rights reserved
+©2012

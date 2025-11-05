@@ -1,0 +1,493 @@
+
+
+----- Page 1 (native text) -----
+International Series in Operations
+Research & Management Science
+Volume 146
+Series Editor:
+Frederick S. Hillier
+Stanford University, CA, USA
+Special Editorial Consultant:
+Camille C. Price
+Stephen F. Austin State University, TX, USA
+For further volumes:
+http://www.springer.com/series/6161
+
+
+----- Page 2 -----
+
+
+----- Page 3 (native text) -----
+Michel Gendreau · Jean-Yves Potvin
+Editors
+Handbook of Metaheuristics
+Second Edition
+123
+
+
+----- Page 4 (native text) -----
+Editors
+Michel Gendreau
+D´epartement de math´ematiques et de
+g´enie industriel
+´Ecole Polytechnique de Montr´eal, and
+Centre interuniversitaire de recherche
+sur les r´eseaux d’entreprise
+la logistique et le transport
+C.P. 6079, succ. Centre-ville
+Montr´eal, QC H3C 3A7, Canada
+michel.gendreau@cirrelt.ca
+Jean-Yves Potvin
+D´epartement d’informatique et de
+recherche op´erationnelle
+Universit´e de Montr´eal, and Centre
+interuniversitaire de recherche
+sur les r´eseaux d’entreprise
+la logistique et le transport
+C.P. 6128, succ. Centre-ville
+Montr´eal, QC H3C 3J7, Canada
+potvin@iro.umontreal.ca
+ISBN 978-1-4419-1663-1
+e-ISBN 978-1-4419-1665-5
+DOI 10.1007/978-1-4419-1665-5
+Springer New York Dordrecht Heidelberg London
+Library of Congress Control Number: 2010933095
+c⃝Springer Science+Business Media, LLC 2003, 2010
+All rights reserved. This work may not be translated or copied in whole or in part without the written
+permission of the publisher (Springer Science+Business Media, LLC, 233 Spring Street, New York,
+NY 10013, USA), except for brief excerpts in connection with reviews or scholarly analysis. Use in
+connection with any form of information storage and retrieval, electronic adaptation, computer
+software, or by similar or dissimilar methodology now known or hereafter developed is forbidden.
+The use in this publication of trade names, trademarks, service marks, and similar terms, even if
+they are not identiﬁed as such, is not to be taken as an expression of opinion as to whether or not
+they are subject to proprietary rights.
+Printed on acid-free paper
+Springer is part of Springer Science+Business Media (www.springer.com)
+
+
+----- Page 5 (native text) -----
+`A nos ´epouses Johanne et Lynne et `a nos
+enfants Catherine, Laurent, Gabrielle,
+St´ephanie et Simon.
+
+
+----- Page 6 -----
+
+
+----- Page 7 (native text) -----
+Preface
+The ﬁrst edition of the Handbook of Metaheuristics was published in 2003 under
+the editorship of Fred Glover and Gary A. Kochenberger. Given the numerous de-
+velopments observed in the ﬁeld of metaheuristics in recent years, it appeared that
+the time was ripe for a second edition of the Handbook. For different reasons, Fred
+and Gary were unable to accept Springer’s invitation to prepare this second edi-
+tion and they suggested that we should take over the editorship responsibility of the
+Handbook. We are deeply honored and grateful for their trust.
+As stated in the ﬁrst edition, metaheuristics are “solution methods that orches-
+trate an interaction between local improvement procedures and higher level strate-
+gies to create a process capable of escaping from local optima and performing a
+robust search of a solution space.” Although this broad characterization still holds
+today, many new and exciting developments and extensions have been observed in
+the last few years. We think in particular to hybrids, which take advantage of the
+strengths of each of their individual metaheuristic components to better explore the
+solution space. Hybrids of metaheuristics with other optimization techniques, like
+branch-and-bound, mathematical programming or constraint programming are also
+increasingly popular. On the front of applications, metaheuristics are now used to
+ﬁnd high-quality solutions to an ever-growing number of complex, ill-deﬁned real-
+world problems, in particular combinatorial ones.
+This second edition of the Handbook of Metaheuristics, through its 21 chapters,
+is designed to provide a broad coverage of the concepts, implementations, and ap-
+plications in this important ﬁeld of optimization. We were glad to get a positive re-
+sponse from renowned experts for each chapter. They either accepted to revise and
+update their chapter from the ﬁrst edition or to write brand new ones. The Hand-
+book now includes updated chapters on the best known metaheuristics, including
+simulated annealing, tabu search, variable neighborhood search, scatter search and
+path relinking, genetic algorithms, memetic algorithms, genetic programming, ant
+colony optimization, multi-start methods, greedy randomized adaptive search proce-
+dure, guided local search, hyper-heuristics, and parallel metaheuristics. It also con-
+tains three new chapters on large neighborhood search, artiﬁcial immune systems,
+and hybrid metaheuristics. The last four chapters are devoted to more general issues
+vii
+
+
+----- Page 8 (native text) -----
+viii
+Preface
+related to the ﬁeld of metaheuristics, namely reactive search, stochastic search, ﬁt-
+ness landscape analysis, and performance comparison. A few chapters from the ﬁrst
+edition were discarded, as they appear to be less relevant.
+We think that this Handbook will be a great reference for researchers and grad-
+uate students, as well as practitioners. Each presentation, although exhibiting in-
+evitable stylistic differences, adheres to some common principles which results in
+stand-alone chapters that can be read individually.
+We are grateful to all authors for taking the time to write the chapters that ap-
+pear in this Handbook. We are also very grateful to Fred Hillier, Neil Levine, and
+Matthew Amboy of Springer for their encouragements, support, and patience at the
+different stages of production of this book.
+Montreal, Canada
+Michel Gendreau
+March 2010
+Jean-Yves Potvin
+
+
+----- Page 9 (native text) -----
+Preface to First Edition
+Metaheuristics, in their original deﬁnition, are solution methods that orchestrate an
+interaction between local improvement procedures and higher level strategies to cre-
+ate a process capable of escaping from local optima and performing a robust search
+of a solution space. Over time, these methods have also come to include any proce-
+dures that employ strategies for overcoming the trap of local optimality in complex
+solution spaces, especially those procedures that utilize one or more neighborhood
+structures as a means of deﬁning admissible moves to transition from one solution
+to another, or to build or destroy solutions in constructive and destructive processes.
+The degree to which neighborhoods are exploited varies according to the type
+of procedure. In the case of certain population-based procedures, such as genetic
+algorithms, neighborhoods are implicitly (and somewhat restrictively) deﬁned by
+reference to replacing components of one solution with those of another, by vari-
+ously chosen rules of exchange popularly given the name of “crossover.” In other
+population-based methods, based on the notion of path relinking, neighborhood
+structures are used in their full generality, including constructive and destructive
+neighborhoods as well as those for transitioning between (complete) solutions. Cer-
+tain hybrids of classical evolutionary approaches, which link them with local search,
+also use neighborhood structures more fully, though apart from the combination
+process itself. Meanwhile, “single thread” solution approaches, which do not un-
+dertake to manipulate multiple solutions simultaneously, run a wide gamut that not
+only manipulate diverse neighborhoods but incorporate numerous forms of strate-
+gies ranging from thoroughly randomized to thoroughly deterministic, depending on
+the elements such as the phase of search or (in the case of memory-based methods)
+the history of the solution process.1
+1 Methods based on incorporating collections of memory-based strategies, invoking forms of mem-
+ory more ﬂexible and varied than those used in approaches such as tree search and branch and
+bound, are sometimes grouped under the name Adaptive Memory Programming. This term, which
+originated in the tabu search literature where such adaptive memory strategies were ﬁrst introduced
+and continue to be the primary focus, is also sometimes used to encompass other methods that have
+more recently adopted memory-based elements.
+ix
+
+
+----- Page 10 (native text) -----
+x
+Preface to First Edition
+A number of the tools and mechanisms that have emerged from the creation
+of metaheuristic methods have proved to be remarkably effective, so much so that
+metaheuristics have moved into the spotlight in recent years as the preferred line
+of attack for solving many types of complex problems, particularly those of a com-
+binatorial nature. While metaheuristics are not able to certify the optimality of the
+solutions they ﬁnd, exact procedures (which theoretically can provide such a cer-
+tiﬁcation, if allowed to run long enough)2 have often proved incapable of ﬁnding
+solutions whose quality is close to that obtained by the leading metaheuristics—
+particularly for real-world problems, which often attain notably high levels of com-
+plexity. In addition, some of the more successful applications of exact methods
+have come about by incorporating metaheuristic strategies within them. These out-
+comes have motivated additional research and application of new and improved
+metaheuristic methodologies.
+This handbook is designed to provide the reader with a broad coverage of the
+concepts, themes, and instrumentalities of this important and evolving area of opti-
+mization. In doing so, we hope to encourage an even wider adoption of metaheuristic
+methods for assisting in problem solving and to stimulate research that may lead to
+additional innovations in metaheuristic procedures.
+The handbook consists of 19 chapters. Topics covered include scatter search,
+tabu search, genetic algorithms, genetic programming, memetic algorithms, variable
+neighborhood search, guided local search, GRASP, ant colony optimization, simu-
+lated annealing, iterated local search, multi-start methods, constraint programming,
+constraint satisfaction, neural network methods for optimization, hyper-heuristics,
+parallel strategies for metaheuristics, metaheuristic class libraries, and A-teams.
+This family of metaheuristic chapters, while not exhaustive of the many approaches
+that have sprung into existence in recent years, encompasses the critical strategic
+elements and their underlying ideas that represent the state of the art of modern
+metaheuristics.
+This book is intended to provide the communities of both researchers and prac-
+titioners with a broadly applicable, up-to-date coverage of metaheuristic method-
+ologies that have proven to be successful in a wide variety of problem settings and
+that hold particular promise for success in the future. The various chapters serve as
+stand-alone presentations giving both the necessary underpinnings as well as prac-
+tical guides for implementation. The nature of metaheuristics invites an analyst to
+modify basic methods in response to problem characteristics, past experiences, and
+personal preferences, and the chapters in this handbook are designed to facilitate
+this process as well.
+2 Some types of problems seem quite amenable to exact methods, particularly to some of the
+methods embodied in the leading commercial software packages for mixed integer programming.
+Yet even by these approaches the “length of time” required to solve many problems exactly appears
+to exceed all reasonable measure, including in some cases measures of astronomical scale. It has
+been conjectured that metaheuristics succeed where exact methods fail because of their ability to
+use strategies of greater ﬂexibility than permitted to assure that convergence will inevitably be
+obtained.
+
+
+----- Page 11 (native text) -----
+Preface to First Edition
+xi
+The authors who have contributed to this volume represent leading ﬁgures from
+the metaheuristic community and are responsible for pioneering contributions to the
+ﬁelds they write about. Their collective work has signiﬁcantly enriched the ﬁeld
+of optimization in general and combinatorial optimization in particular. We are es-
+pecially grateful to them for agreeing to provide the ﬁrst-rate chapters that appear
+in this handbook. We would also like to thank our graduate students, Gyung Yung
+and Rahul Patil, for their assistance. Finally, we would like to thank Gary Folven
+and Carolyn Ford of Kluwer Academic Publishers for their unwavering support and
+patience throughout this project.
+Fred Glover
+Gary A. Kochenberger
+
+
+----- Page 12 -----
+
+
+----- Page 13 (native text) -----
+Contents
+Preface . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . vii
+Preface to First Edition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+ix
+Contributors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . xv
+1
+Simulated Annealing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1
+Alexander G. Nikolaev and Sheldon H. Jacobson
+2
+Tabu Search . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+41
+Michel Gendreau and Jean-Yves Potvin
+3
+Variable Neighborhood Search . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+61
+Pierre Hansen, Nenad Mladenovi´c, Jack Brimberg and Jos´e A. Moreno
+P´erez
+4
+Scatter Search and Path-Relinking: Fundamentals, Advances,
+and Applications . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+87
+Mauricio G.C. Resende, Celso C. Ribeiro, Fred Glover and Rafael
+Mart´ı
+5
+Genetic Algorithms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 109
+Colin R. Reeves
+6
+A Modern Introduction to Memetic Algorithms . . . . . . . . . . . . . . . . . . 141
+Pablo Moscato and Carlos Cotta
+7
+Genetic Programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 185
+William B. Langdon, Robert I. McKay and Lee Spector
+8
+Ant Colony Optimization: Overview and Recent Advances . . . . . . . . . 227
+Marco Dorigo and Thomas St¨utzle
+xiii
+
+
+----- Page 14 (native text) -----
+xiv
+Contents
+9
+Advanced Multi-start Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 265
+R. Mart´ı, J. Marcos Moreno-Vega, and A. Duarte
+10
+Greedy Randomized Adaptive Search Procedures: Advances,
+Hybridizations, and Applications . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 283
+Mauricio G.C. Resende and Celso C. Ribeiro
+11
+Guided Local Search . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 321
+Christos Voudouris, Edward P.K. Tsang and Abdullah Alsheddy
+12
+Iterated Local Search: Framework and Applications . . . . . . . . . . . . . . 363
+Helena R. Lourenc¸o, Olivier C. Martin and Thomas St¨utzle
+13
+Large Neighborhood Search . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 399
+David Pisinger and Stefan Ropke
+14
+Artiﬁcial Immune Systems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 421
+Julie Greensmith, Amanda Whitbrook and Uwe Aickelin
+15
+A Classiﬁcation of Hyper-heuristic Approaches . . . . . . . . . . . . . . . . . . 449
+Edmund K. Burke, Matthew Hyde, Graham Kendall, Gabriela Ochoa,
+Ender ¨Ozcan, and John R. Woodward
+16
+Metaheuristic Hybrids . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 469
+G¨unther R. Raidl, Jakob Puchinger and Christian Blum
+17
+Parallel Meta-heuristics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 497
+Teodor Gabriel Crainic and Michel Toulouse
+18
+Reactive Search Optimization: Learning While Optimizing . . . . . . . . 543
+Roberto Battiti and Mauro Brunato
+19
+Stochastic Search in Metaheuristics . . . . . . . . . . . . . . . . . . . . . . . . . . . . 573
+Walter J. Gutjahr
+20
+An Introduction to Fitness Landscape Analysis and Cost Models
+for Local Search . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 599
+Jean-Paul Watson
+21
+Comparison of Metaheuristics. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 625
+John Silberholz and Bruce Golden
+Subject Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 641
+
+
+----- Page 15 (native text) -----
+Contributors
+Uwe Aickelin
+The University of Nottingham, Nottingham, UK
+e-mail: uxa@cs.nott.ac.uk
+Abdullah Alsheddy
+University of Essex, Colchester, UK
+e-mail: aalshe@essex.ac.uk
+Roberto Battiti
+Universit`a di Trento, Trento, Italy
+e-mail: roberto.battiti@unitn.it
+Christian Blum
+Universitat Polit`ecnica de Catalunya, Barcelona, Spain
+e-mail: cblum@lsi.upc.edu
+Jack Brimberg
+Royal Military College of Canada, Kingston, ON, Canada
+e-mail: jack.brimberg@rmc.ca
+Mauro Brunato
+Universit`a di Trento, Trento, Italy
+e-mail: mauro.brunato@unitn.it
+Edmund K. Burke
+The University of Nottingham, Nottingham, UK
+e-mail: ekb@cs.nott.ac.uk
+Carlos Cotta
+Universidad de M´alaga, M´alaga, Spain
+e-mail: ccottap@lcc.uma.es
+xv
+
+
+----- Page 16 (native text) -----
+xvi
+Contributors
+Teodor Gabriel Crainic
+Universit´e du Qu´ebec `a Montr´eal and CIRRELT, Montr´eal, QC, Canada
+e-mail: teodorgabriel.crainic@cirrelt.ca
+Marco Dorigo
+Universit´e Libre de Bruxelles, Brussels, Belgium
+e-mail: mdorigo@ulb.ac.be
+Abraham Duarte
+Universidad Rey Juan Carlos, Madrid, Spain
+e-mail: abraham.duarte@urjc.es
+Michel Gendreau
+´Ecole Polytechnique de Montr´eal and CIRRELT, Montr´eal, QC, Canada
+e-mail: michel.gendreau@cirrelt.ca
+Fred Glover
+University of Colorado and OptTek Systems, Inc., Boulder, CO, USA
+e-mail: glover@colorado.edu
+Bruce Golden
+University of Maryland, College Park, MD, USA
+e-mail: bgolden@rhsmith.umd.edu
+Julie Greensmith
+The University of Nottingham, Nottingham, UK
+e-mail: jqg@cs.nott.ac.uk
+Walter J. Gutjahr
+University of Vienna, Vienna, Austria
+e-mail: walter.gutjahr@univie.ac.at
+Pierre Hansen
+´Ecole des Hautes ´Etudes Commerciales and GERAD, Montr´eal, QC, Canada
+e-mail: pierreh@crt.umontreal.ca
+Matthew Hyde
+The University of Nottingham, Nottingham, UK
+e-mail: mvh@cs.nott.ac.uk
+Sheldon H. Jacobson
+University of Illinois, Urbana, IL, USA
+e-mail: shj@illinois.edu
+Graham Kendall
+The University of Nottingham, Nottingham, UK
+e-mail: gxk@cs.nott.ac.uk
+William B. Langdon
+University College London, London, UK
+e-mail: w.langdon@cs.ucl.ac.uk
+
+
+----- Page 17 (native text) -----
+Contributors
+xvii
+Helena R. Lourenc¸o
+Universitat Pompeu Fabra, Barcelona, Spain
+e-mail: helena.ramalhinho@upf.edu
+J. Marcos Moreno-Vega
+Universidad de La Laguna, La Laguna, Santa Cruz de Tenerife, Spain
+e-mail: jmmoreno@ull.es
+Rafael Mart´ı
+Universidad de Valencia, Valencia, Spain
+e-mail: rafael.marti@uv.es
+Olivier C. Martin
+Universit´e Paris-Sud, Orsay, France
+e-mail: olivier.martin@u-psud.fr
+Robert I. McKay
+Seoul National University, Seoul, Korea
+e-mail: rim@cse.snu.ac.kr
+Nenad Mladenovi´c
+Brunel University-West London, Uxbridge, UK
+e-mail: nenad.mladenovic@brunel.ac.uk
+Jos´e A. Moreno P´erez
+Universidad de La Laguna, La Laguna, Santa Cruz de Tenerife, Spain
+e-mail: jamoreno@ull.es
+Pablo Moscato
+The University of Newcastle, Callaghan, NSW Australia
+e-mail: pablo.moscato@newcastle.edu.au
+Alexander G. Nikolaev
+University at Buffalo, Buffalo, NY, USA
+e-mail: anikolae@buffalo.edu
+Gabriela Ochoa
+The University of Nottingham, Nottingham, UK
+e-mail: gxo@cs.nott.ac.uk
+Ender ¨Ozcan
+The University of Nottingham, Nottingham, UK
+e-mail: exo@cs.nott.ac.uk
+David Pisinger
+Technical University of Denmark, Lyngby, Denmark
+e-mail: pisinger@man.dtu.dk
+Jean-Yves Potvin
+Universit´e de Montr´eal and CIRRELT, Montr´eal, QC, Canada
+e-mail: potvin@iro.umontreal.ca
+
+
+----- Page 18 (native text) -----
+xviii
+Contributors
+Jakob Puchinger
+University of Melbourne, Melbourne, Australia
+e-mail: jakobp@csse.unimelb.edu.au
+G¨unther R. Raidl
+Vienna University of Technology, Vienna, Austria
+e-mail: raidl@ads.tuwien.ac.at
+Colin R. Reeves
+Coventry University, Coventry, UK
+e-mail: c.reeves@coventry.ac.uk
+Mauricio G.C. Resende
+AT&T Labs Research, Florham Park, NJ, USA
+e-mail: mgcr@research.att.com
+Celso C. Ribeiro
+Universidade Federal Fluminense, Niter´oi, RJ, Brazil
+e-mail: celso@ic.uff.br
+Stefan Ropke
+Technical University of Denmark, Lyngby, Denmark
+e-mail: sr@transport.dtu.dk
+John Silberholz
+University of Maryland, College Park, MD, USA
+e-mail: josilber@umd.edu
+Lee Spector
+Hampshire College, Amherst, MA, USA
+e-mail: lspector@hampshire.edu
+Thomas St¨utzle
+Universit´e Libre de Bruxelles, Brussels, Belgium
+e-mail: stuetzle@ulb.ac.be
+Michel Toulouse
+CIRRELT, Montr´eal, QC, Canada
+e-mail: michel.toulouse@cirrelt.ca
+Edward P.K. Tsang
+University of Essex, Colchester, UK
+e-mail: edward@essex.ac.uk
+Christos Voudouris
+BT Group plc, Ipswich, UK
+e-mail: chris.voudouris@bt.com
+Jean-Paul Watson
+Sandia National Laboratories, Albuquerque, NM, USA
+e-mail: jwatson@sandia.gov
+
+
+----- Page 19 (native text) -----
+Contributors
+xix
+Amanda Whitbrook
+The University of Nottingham, Nottingham, UK
+e-mail: amw@cs.nott.ac.uk
+John R. Woodward
+The University of Nottingham, Nottingham, UK
+e-mail: jrw@cs.nott.ac.uk

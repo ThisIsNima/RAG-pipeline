@@ -1,0 +1,1547 @@
+
+
+----- Page 1 (native text) -----
+Consensus Problems in Networks of Agents
+with Switching Topology and Time-Delays
+Reza Olfati Saber
+Richard M. Murray
+Control and Dynamical Systems
+California Institute of Technology
+e-mails: {olfati,murray}@cds.caltech.edu
+April 23, 2003
+Keywords: consensus problems, networks of autonomous agents, switching systems,
+graph Laplacians, balanced graphs, communication time-delays, algebraic graph theory.
+Abstract
+In this paper, we discuss consensus problems for a network of dynamic agents with
+ﬁxed and switching topologies. We analyze three cases: i) networks with switching
+topology and no time-delays, ii) networks with ﬁxed topology and communication
+time-delays, and iii) max-consensus problems (or leader determination) for groups of
+discrete-time agents. In each case, we introduce a linear/nonlinear consensus protocol
+and provide convergence analysis for the proposed distributed algorithm. Moreover,
+we establish a connection between the Fiedler eigenvalue of the information ﬂow in
+a network (i.e. algebraic connectivity of the network) and the negotiation speed (or
+performance) of the corresponding agreement protocol.
+It turns out that balanced
+digraphs play an important role in addressing average-consensus problems. We intro-
+duce disagreement functions that play the role of Lyapunov functions in convergence
+analysis of consensus protocols. A distinctive feature of this work is to address consen-
+sus problems for networks with directed information ﬂow. We provide analytical tools
+that rely on algebraic graph theory, matrix theory, and control theory. Simulations are
+provided that demonstrate the eﬀectiveness of our theoretical results.
+1
+Introduction
+Distributed decision-making for coordination of networks of dynamic agents has attracted
+several researchers in recent years. This is partly due to broad applications of multi-agent sys-
+tems in many areas including cooperative control of unmanned air vehicles (UAVs), ﬂocking
+1
+http:/www.cds.caltech.edu/~murray/papers/2003f_om03-tac.html
+Submitted, IEEE T. Automatic Control
+
+
+----- Page 2 (native text) -----
+of birds [22, 24, 23], schooling for underwater vehicles, distributed sensory networks, attitude
+alignment of clusters of satellites, and congestion control in communication networks [21].
+Agreement problems have a long history in the ﬁeld of computer science, particularly in
+automata theory and distributed computation [15]. In many applications involving multi-
+agent/multi-vehicle systems, groups of agents need to agree upon certain quantities of inter-
+est. Such quantities might or might not be related to the motion of the individual agents. As
+a result, it is important to address agreement problems in their general form for networks of
+dynamic agents with directed information ﬂow under link failure and creation (i.e. variable
+network topology).
+Our main contribution in this paper is to deﬁne and address consensus problems under
+a variety of assumptions on the network topology (being ﬁxed or variable), presence or lack
+of communication time-delays, and boundedness of the inputs of dynamic agents. In each
+case, we provide convergence analysis and for linear protocols establish direct connections
+between performance and robustness of a consensus protocol and the properties of graph
+Laplacian of the information ﬂow in the network.
+In the past, a number of researchers have worked in problems that are essentially diﬀerent
+forms of agreement problems with diﬀerences regarding the types of agent dynamics, the
+properties of the graphs, and the names of the tasks of interest. In [25, 7, 6], graph Laplacians
+are used for the task of formation stabilization for groups of agents with linear dynamics.
+Their method for formation stabilization has not yet been extended to systems with nonlinear
+dynamics that are not feedback linearizable. Special cases of this approach are known as
+leader-follower type architectures and have been widely used by numerous researchers [19, 4,
+14]. In [18], graph Laplacians are used in the context of dynamic graph theory. In [24, 23],
+ﬂocking and heading angle alignment for multiple particles is analyzed from the point of
+view of statistical mechanics and a phase transition phenomenon is observed that occurs the
+information ﬂow in the network becomes connected. The work in [13] focuses on attitude
+alignment for undirected graphs in which the agents have simple dynamics motivated by the
+model used in [24]. It is claimed that the connectivity of the graph on average is suﬃcient for
+convergence of the heading angles of the agents. In [20], the authors addressed convergence
+of linear and nonlinear protocols for networks with undirected graphs in presence or lack of
+communication time-delays. Theoretically, analyzing consensus on directed graphs is more
+challenging and is considered in the present paper.
+In this paper, we provide convergence analysis of consensus protocol for a network of
+integrators with a directed information ﬂow and ﬁxed or switching topology. Our analysis
+relies on several tools from algebraic graph theory [1, 11] and matrix theory [12]. We establish
+a connection between the performance of the linear consensus protocol and the Fiedler
+eigenvalue of graph Laplacian of a graph called the mirror graph (that is closely-related
+to the original directed graph).
+It turns out that a class of directed graphs called balanced graphs have a crucial role
+in derivation of an invariant quantity and a Lyapunov function for convergence analysis
+of average-consensus problems on directed graphs. This Lyapunov function is a measure
+of group disagreement in the network. We show that a directed graph solves the average-
+2
+
+
+----- Page 3 (native text) -----
+consensus problem using a certain protocol if and only if it is balanced. Furthermore, we
+use properties of balanced networks to analyze the convergence of an agreement protocol for
+networks with switching topology. This variation of the network topology is usually due to
+link failures or creations in networks with mobile nodes. We introduce a common Lyapunov
+function that guarantees asymptotic convergence to a group decision value in a network with
+switching information ﬂow.
+Building on these basic results, we provide a number of extensions.
+We discuss the
+eﬀects of communication time-delays in solving consensus problems. For undirected graphs,
+we address average-consensus problem under the constraint that the inputs of all agents
+are bounded. This leads to analyzing a nonlinear protocol. Using a example of a network
+with three nodes, we demonstrate that analyzing the convergence of this protocol for general
+digraphs is a challenging open problem. Finally, we pose and address the max-consensus
+problem that is useful for determining a superior or leader in a group of agents in a distributed
+way.
+Simulation results are provided that demonstrate our theoretical predictions and show
+the novel analytical tools that we propose are eﬀective.
+An outline of this paper is as follows. In Section 2, we deﬁne consensus problems. In
+Section 3, we give two protocols. Some background on algebraic graph theory and properties
+of graph Laplacians are provided in Section 4.
+A counterexample is given in Section 5
+that shows not every digraph solves an average-consensus problem. In Section 6, our main
+results on networks with switching topology are presented.
+Average-consensus problems
+for networks with communication time-delays is discussed in Section 7. In Section 8, our
+result on max-consensus problem is given. The simulation results are presented in Section 9.
+Finally, in Section 10, concluding remarks are stated.
+2
+Consensus Problems
+Let G = (V, E, A) be a weighted directed graph (or digraph) with n nodes and a weighted
+adjacency matrix A = [aij] where aij ≥0 for all i, j ∈I = {1, 2, . . . , n} with i ̸= j. Here, V
+denotes the set of vertices vi and E denotes the set of edges ij (or (vi, vj)) of the graph G.
+The set of neighbors of node i is denoted by Ni = {ij ∈E : aij > 0}. We call any subset of
+nodes J a cluster. The set of neighbors of a cluster J ⊂I is deﬁned by
+NJ := ∪i∈JNi = {j ∈I : i ∈J, ij ∈E}
+(1)
+Let xi ∈R denote the value of node i.
+We refer to Gx = (V, E, A, x) with x =
+(x1, . . . , xn)T as an algebraic graph or (static) network with value x ∈Rn and informa-
+tion ﬂow G = (V, E, A). The value of a node might represent physical quantities including
+attitude, position, temperature, voltage, and so on. We say nodes i and j in a network agree
+if and only xi = xj. We say all the nodes in a network have reached a consensus if and only
+if xi = xj for all i, j ∈I, i ̸= j. Whenever the nodes of a network are in agreement, the
+common value of all nodes is called the (group) decision value.
+3
+
+
+----- Page 4 (native text) -----
+Suppose each node of a graph is a dynamic agent with dynamics
+˙xi = f(xi, ui),
+i ∈I.
+(2)
+A dynamic graph (or dynamic network) is deﬁned as a 4-tuple Gx(t) = (V, E, A, x(t)) together
+with dynamics ˙x = F(x, u) where x denotes the state of the dynamic graph and F(x, u) is
+the column-wise concatenation of the elements Fi(x, u) = f(xi, ui).
+Let χ : Rn →R be a function of n variables x1, . . . , xn. The χ-consensus problem in
+a dynamic graph is a distributed way to calculate χ(x(0)) by applying inputs ui that only
+depend on the values of node i and its neighbors. We say a protocol
+ui = ki(xj1, . . . , xjmi)
+(3)
+with j1, . . . , jmi ∈{i} ∪Ni and mi ≤n asymptotically solves the χ-consensus problem if
+and only if there exists an asymptotically stable equilibrium x∗of ˙x = F(x, k(x)) such that
+x∗
+i = χ(x(0)) for all i ∈I.
+We are interested in solving the χ-consensus problem in a
+distributed fashion in which no node is connected to all other nodes (i.e. mi < n for all i).
+The special cases with χ(x) = Ave(x) =
+1
+n(Pn
+i=1 xi), χ(x) = Max(x) = maxi xi, and
+χ(x) = Min(x) = mini xi are called average-consensus, max-consensus, and min-consensus,
+respectively due to their broad applications in distributed decision-making for multi-agent
+systems.
+Solving average-consensus problem is an an example of distributed computation of a
+linear function χ(x) = Ave(x) using a network of dynamic systems. This is more challenging
+than just reaching a general agreement.
+3
+Consensus Protocols
+In this section, we present three consensus protocols that solve agreement problems in a
+network of continuous-time (CT) integrator agents with dynamics
+˙xi(t) = ui(t)
+(4)
+or agents with discrete-time (DT) model
+xi(k + 1) = xi(k) + ϵui(k)
+(5)
+and step-size ϵ > 0. In this paper, we consider three scenarios:
+i) Fixed or switching topology and zero communication time-delay: We use the following
+linear consensus protocol:
+ui =
+X
+j∈Ni
+aij(xj −xi)
+(A1)
+where the set of neighbors Ni = Ni(G) of node i is variable in networks with switching
+topology.
+4
+
+
+----- Page 5 (native text) -----
+ii) Fixed topology G = (V, E, A) and communication time-delay τij > 0 corresponding to
+the edge ij ∈E: We use the following linear time-delayed consensus protocol:
+ui(t) =
+X
+j∈Ni
+aij[xj(t −τij) −xi(t −τij)]
+(A2)
+The derivation of each of the aforementioned two protocols (A1) and (A2) becomes
+apparent during the convergence analysis that will be presented for each protocol later on.
+We show that in each case, consensus can is asymptotically reached. Moreover, we provide
+suﬃcient and necessary conditions on the directed information ﬂow in the network so that
+average-consensus, max-consensus, and min-consensus can be achieved. Furthermore, we
+provide results on performance and algorithmic robustness of these consensus protocols.
+Remark 1. For an undirected network with ﬁxed topology, both protocols solve the average-
+consensus problem with appropriate technical conditions on delays.
+The challenge is to
+address similar consensus problems for networks with directed graphs and switching topology.
+In multi-agent ﬂocking [22], the information ﬂow is usually directed and the topology of the
+network goes through changes that are discrete-event type in the nature.
+Given Protocol (A1), the state of a network of continuous-time integrator agents evolves
+according to the following linear system
+˙x(t) = −Lx(t)
+(6)
+where L is called the graph Laplacian induced by the information ﬂow G and is deﬁned by
+lij =
+½ Pn
+k=1,k̸=i aik,
+j = i
+−aij,
+j ̸= i
+(7)
+The properties of graph Laplacian is one of the main areas of research in algebraic graph
+theory and is discussed in Section 4.
+In a network with switching topology, convergence analysis of Protocol (A1) is equivalent
+to stability analysis for a hybrid system
+˙x(t) = −Lkx(t),
+k = s(t)
+(8)
+where Lk = L(Gk) is the Laplacian of Gk, s(t) : R →IΓ ⊂Z is a switching signal, and
+Γ ∋Gk is a ﬁnite collection of digraphs (of order n) with the index set IΓ. Later, we will
+see that Γ is a relatively large set for n ≫1. The task of stability analysis for the hybrid
+system in (8) is rather challenging partly because, in general, the product of two Laplacian
+matrices do not commute.
+For agents with discrete-time models, applying protocol (A1) gives the following discrete-
+time network dynamics
+x(k + 1) = Pϵx(k)
+(9)
+5
+
+
+----- Page 6 (native text) -----
+with
+Pϵ = I −ϵL.
+(10)
+Let dmax = maxi lii, then for ϵ ∈(0, 1/dmax), Pϵ is a nonnegative and stochastic matrix that
+we call Perron matrix, i.e. Pϵ in element-wise nonnegative and all of its row sums are 1.
+The convergence analysis of Protocol (A1) for discrete-time agents heavily relies on the
+theory of nonnegative matrices [10, 12, 16] and will be discussed in a separate paper. Our
+approach presents a Lyapunov-based convergence analysis for agreement in networks with
+discrete-time models. This is diﬀerent than the approach pursued in the work by Jadbabaie et
+al. which strongly relies on matrix theoretic properties and inﬁnite right-convergent products
+(RCP) of stochastic matrices [2, 3].
+4
+Algebraic Graph Theory: Properties of Laplacians
+In this section, we introduce some basic concepts and notation in graph theory that will be
+used throughout the paper. More information is available in [11, 5]. A comprehensive survey
+on properties of Laplacians of undirected graphs can be found in [17]. However, we need to
+work with Laplacians of directed graphs that the basic properties cannot be found in graph
+theory literature and will be stated here.
+Let G = (V, E, A) be a weighted directed graph (or digraph) with n nodes. The in-degree
+and out-degree of node vi are, respectively, deﬁned as follows:
+degin(vi) =
+n
+X
+j=1
+aji, degout(vi) =
+n
+X
+j=1
+aij.
+(11)
+For an ordinary graph with adjacency matrix A that has binary elements in the set {0, 1},
+degout(vi) = |Ni|. The degree matrix of G is a diagonal matrix denoted by ∆= [∆ij] where
+∆ij = 0 for all i ̸= j and ∆ii = degout(vi). The (weighted) graph Laplacian matrix associated
+with G is deﬁned as
+L = L(G) = ∆−A.
+(12)
+This is consistent with the deﬁnition of the elements of L in (7).
+Remark 2. The graph Laplacian L does not depend of the diagonal elements aii of the
+adjacency matrix of G corresponding to the weights of loops (vi, vi) (i.e. cycles of length
+one). Depending on the context, without loss of generality we might assume aii = 0 for all
+i. In a restricted part of this work that makes use of graphs with loops that their weight
+cannot be discarded.
+We sometimes use L(A) = L(G) to denote the Laplacian of graph G. By deﬁnition,
+every row sum of the Laplacian matrix is zero. Therefore, graph Laplacian always has a zero
+eigenvalue (i.e. rank(L) ≤n −1) corresponding to a right eigenvector
+wr = 1 = (1, 1, . . . , 1)T
+6
+
+
+----- Page 7 (native text) -----
+with identical nonzero elements.
+A digraph is called strongly connected if and only if any two distinct nodes of the graph
+can be connected via a path that respects the orientation of the edges of the digraph. The
+following theorem establishes a direct relation between the SC property of a digraph and the
+rank of its Laplacian.
+Theorem 1. Let G = (V, E, A) be a weighted digraph with Laplacian L. Then, G is strongly
+connected if and only if rank(L) = n −1.
+Proof. See Section A.1 in the Appendix.
+Remark 3. For an undirected graph G, the proof of Theorem 1 is easy and can be found in
+[1, 11].
+Remark 4. For an undirected graph G with a symmetric adjacency matrix A, the graph
+Laplacian L is symmetric and positive semideﬁnite. The Laplacian potential associated with
+G is deﬁned in [20] as follows
+ΦG(x) = xTLx = 1
+2
+X
+ij∈E
+(xj −xi)2
+(13)
+Here is a short proof of Theorem for an undirected graph: Assume Lx = 0 for x ∈Rn. Then
+xTLx = 0 and xj = xi for all the edges ij ∈E. If the graph is connected, this means that all
+nodes agree and x1 = . . . = xn. Thus, rank(L) = n −1. Since ΦG(x) = 0 for a connected
+graph implies all nodes are in agreement, ΦG(x) provides a meaningful quantiﬁcation of
+disagreement in a group of agents.
+For an undirected graph G that is connected the following well-known property holds
+[11]:
+min
+x ̸= 0
+1T x = 0
+xTLx
+∥x∥2 = λ2(L)
+(14)
+The proof follows from a special case of Courant–Fischer Theorem in [12]. We will later
+establish a connection between λ2(ˆL) with ˆL = (L + LT)/2, called the Fiedler eigenvalue
+of ˆL [8, 9], and the performance (i.e. worst-case negotiation speed) of a linear agreement
+protocol.
+The key in the stability analysis of system (6) is in the spectral properties of graph
+Laplacian. The following result is well-known (e.g. see [17]) and is based on Gerˇsgorin disk
+theorem [12].
+Theorem 2. (spectral localization) Let G = (V, E, A) be a digraph with the Laplacian L.
+Denote the maximum node out-degree of G by dmax(G) = maxi degout(vi). Then, all the
+eigenvalues of L = L(G) are located in the following disk
+D(G) = {z ∈C : |z −dmax(G)| ≤dmax(G)}
+(15)
+centered at z = dmax(G) + 0j in the complex plane (see Figure 1).
+7
+
+
+----- Page 8 (native text) -----
+Spec(L)
+Spec(−L)
+r
+Im
+Re
+r=d  max
+Figure 1: A demonstration of Gerˇsgorin Theorem applied to graph Laplacian.
+Proof. Based on the Gerˇsgorin disk theorem, all the eigenvalues of L = [lij] are located in
+the union of the following n disks
+Di = {z ∈C : |z −lii| ≤
+X
+j∈I,j̸=i
+|lij|}.
+(16)
+But lii = ∆ii and
+X
+j∈I,j̸=i
+|lij| = degout(vi) = ∆ii.
+Thus, Di = {z ∈C : |z −∆ii| ≤∆ii}. On the other hand, all these n disks are contained in
+the largest disk D(G) with radius dmax(G). Clearly, all the eigenvalues of −L are located in
+the disk D′(G) = {z ∈C : |z + dmax(G)| ≤dmax(G)} that is the mirror image of D(G) with
+respect to the imaginary axis.
+Here is an immediate corollary and the ﬁrst convergence proof for protocol (A1) for a
+directed network.
+Corollary 1. Consider a network of integrators ˙xi = ui where each node applies proto-
+col (A1). Assume G is a strongly connected digraph. Then, protocol (A1) globally asymp-
+totically solves a consensus problem.
+Proof. Since G is strongly connected, rank(L) = n −1 and L has a simple eigenvalue at
+zero. Based on Theorem 2, the rest of the eigenvalues of −L have negative real-parts and
+therefore the linear system in (6) is stable. On the other hand, any equilibrium x∗of (6)
+is a right eigenvector of L associated with λ = 0. Since the eigenspace associated with the
+zero eigenvalue is one-dimensional, there exists an α ∈R such that x∗= α1, i.e. x∗
+i = α for
+all i.
+Keep in mind that Corollary 1 does not guarantee whether the decision value α of each
+node is equal to Ave(x(0)) or not. In other words, Corollary 1 does not necessarily address
+the average-consensus problem.
+8
+
+
+----- Page 9 (native text) -----
+2
+3
+1
+Figure 2: A connected digraph of order 3 that does not solve the average-consensus problem
+using Protocol (A1).
+5
+A Counterexample for Average-Consensus
+A suﬃcient condition for the decision value α of each node in the proof of Corollary 1 to be
+equal to Ave(x(0)) is that Pn
+i=1 ui ≡0. If G is undirected (i.e. aij = aji > 0, ∀i, j : aij ̸= 0),
+automatically the condition Pn
+i=1 ui = 0, ∀x holds and Ave(x(t)) is an invariant quantity
+[20]. However, this property does not hold for a general digraph.
+A simple counterexample is a strongly connected digraph of order n = 3, shown in
+Figure 2, with weights in {0, 1} and the following sets of vertices and edges:
+V = {1, 2, 3}, E = {12, 23, 31, 13}.
+For the digraph G = (V, E), P3
+i=1 ui = x3 −x1. Thus, if nodes 1 and 3 disagree, the
+property P3
+i=1 ui = 0 does not hold for all x. On the other hand, the reader can verify that
+for this example
+L =
+
+
+2
+−1
+−1
+0
+1
+−1
+−1
+0
+1
+
+
+and x∗
+i = [x1(0) + x2(0) + 2x3(0)]/4 (this is due to Theorem 3).
+This decision value is
+apparently in the convex hull of all the xi(0)’s but it is diﬀerent from Ave(x(0)) if and only if
+x1(0)+x2(0) ̸= 2x3(0). As a result, for all initial conditions satisfying x1(0)+x2(0) ̸= 2x3(0),
+Protocol (A1) does not solve the average-consensus problem but still all nodes reach an
+agreement. This motivates us to characterize the class of all digraphs that solve the average-
+consensus problem.
+Before presenting our ﬁrst main result, we need to provide a limit theorem for exponential
+matrices of the form exp(−Lt). This is because the solution of (6) is given by
+x(t) = exp(−Lt)x(0)
+(17)
+and by explicit calculation of exp(−Lt), we can obtain the decision value of each node
+after reaching consensus for a general digraph. The following theorem is closely related to
+a famous limit theorem in the theory of nonnegative matrices known as Perron-Frobenius
+Theorem [12].
+9
+
+
+----- Page 10 (native text) -----
+Notation. Following the notation in [12], we denote the set of m × n real matrices by Mm,n
+and the set of square n × n matrices by Mn. Furthermore, throughout this paper, the right
+and left eigenvectors of the Laplacian L associated with λ1 = 0 are denoted by wr and wl,
+respectively.
+Theorem 3. Assume G is a strongly connected digraph with Laplacian L satisfying Lwr = 0,
+wT
+l L = 0, and wT
+l wr = 1. Then
+R = lim
+t→+∞exp(−Lt) = wrwT
+l ∈Mn
+(18)
+Proof. Let A = −L and let J be the Jordan form associated with A, i.e. A = SJS−1.
+We have exp(At) = S exp(Jt)S−1 and as t →+∞, exp(Jt) converges to a matrix Q = [qij]
+with a single nonzero element q11 = 1. The fact that other blocks in the diagonal of exp(Jt)
+vanish is due to the property that Re(λk(A)) < 0 for all k ≥2 where λk(A) is the kth largest
+eigenvalue of A in terms of magnitude |λk|. Notice that R = SQS−1. Since AS = SJ the
+ﬁrst column of S is wr. Similarly, S−1A = JS−1 that means the ﬁrst row of S−1 is wT
+l . Due
+to the fact that S−1S = I, wl satisﬁes the property wT
+l wr = 1 as stated in the question. A
+straightforward calculation shows that R = wrwT
+l ∈Mn.
+6
+Networks with Fixed or Switching Topology
+In this section, we present three of our main results: i) characterization of all connected
+digraphs that solve average-consensus problem using Protocol (A1), and ii) the relation
+between the performance of Protocol (A1) and the Fiedler eigenvalue (i.e. algebraic con-
+nectivity) of graphs, and iii) robust agreement under switching topology due to link fail-
+ure/creation.
+6.1
+Balanced Graphs and Average-Consensus on Digraphs
+The following class of digraphs turns out to be instrumental in solving average-consensus
+problems:
+Deﬁnition 1. (balanced graphs) We say the node vi of a digraph G = (V, E, A) is balanced
+if and only if its in-degree and out-degree are equal, i.e. degout(vi) = degin(vi). A graph
+G = (V, E, A) is called balanced if and only if all of its nodes are balanced, i.e. P
+j aij =
+P
+j aji, ∀i.
+Example 1. Any undirected graph is balanced. Furthermore, the digraphs shown in Figure 3
+are all balanced.
+Here is our ﬁrst main result:
+10
+
+
+----- Page 11 (native text) -----
+1
+4
+6
+5
+3
+2
+3
+1
+5
+9
+2
+4
+8
+10
+6
+7
+2
+3
+4
+1
+(a)
+(b)
+(c)
+Figure 3: Three examples of balanced graphs.
+Theorem 4. Consider a network of integrators with directed information ﬂow G = (V, E, A)
+that is strongly connected. Then, protocol (A1) globally asymptotically solves the average-
+consensus problem using if and only if G is balanced.
+Proof. The proof follows from Theorems 5 and 6, below.
+Remark 5. According to Theorem 4, if a graph is not balanced, then protocol (A1) does
+not necessarily solve the average consensus-problem. This assertion is consistent with the
+counterexample given in Figure 2.
+Theorem 5. Consider a network of integrator agents with a digraph G = (V, E, A) that is
+strongly connected. Then, protocol (A1) globally asymptotically solves the average-consensus
+problem if and only if 1TL = 0.
+Proof. From Theorem 3, with wr =
+1
+√n1 we obtain
+x∗= lim
+t→+∞x(t) = Rx0 = wr(wT
+l x0) =
+1
+√n(wT
+l x0)1.
+This implies Protocol 1 globally exponentially solves a consensus problem with the decision
+value
+1
+√n(wT
+l x0) for each node. If this decision value is equal to Ave(x0), ∀x0 ∈Rn, then
+necessarily
+1
+√nwl =
+1
+√n, i.e. wl = wr =
+1
+√n1. This implies that 1 is the left eigenvector of
+L. To prove the converse, assume that 1TL = 0. Let us take wr =
+1
+√n1, wl = β1 with
+β ∈R, β ̸= 0. From condition wT
+l wr = 1, we get β =
+1
+√n and wl =
+1
+√n1. This means that
+the decision value for every node is
+1
+√n(wT
+l x0) = 1
+n1Tx0 = Ave(x0).
+Corollary 2. Assume all the conditions in Theorem 5 hold. Suppose L has a left eigenvector
+γ = (γ1, . . . , γn)T associated with λ = 0 that is a nonnegative vector in Rn (i.e. a vector with
+non-negative elements) satisfying P
+i γi > 0. Then, the group decision value after reaching
+consensus is given by
+α =
+P
+i γixi(0)
+P
+i γi
+(19)
+11
+
+
+----- Page 12 (native text) -----
+i.e. the decision value is in the convex hull of initial values of the nodes.
+Proof. We have γTL = 0 and thus γTu ≡0 (because u = −Lx). Therefore, β = γTx is
+an invariant quantity. Assume, the digraph G is not balanced. Then, still an agreement is
+asymptotically reached. Let α be the decision value of all nodes after reaching consensus.
+We have γTx∗= γTx(0) due to invariance of γTx(t). But x∗= α1, thus we obtain
+ÃX
+i
+γi
+!
+α = γTx(0)
+and the result follows.
+The following result shows that if one of the agents uses a relatively small update rate
+(or step-size), i.e. γi∗≫γi for all i ̸= i∗. Then, the value of all nodes converges to the
+value of x∗
+i . In other words, the agent i∗plays the role of a leader in leader-follower type
+architecture.
+Corollary 3. (multi-rate integrators) Consider a network of multi-rate integrators with the
+node dynamics
+γi ˙xi = ui,
+γi > 0, ∀i ∈I
+(20)
+Assume each node applies Protocol (A1).
+Then, an agreement is globally asymptotically
+reached and the decision value of the group is
+α =
+P
+i γixi(0)
+P
+i γi
+(21)
+Proof. The dynamics of the network evolves according to
+D ˙x = −Lx
+where D = diag(γ) is a diagonal matrix with the ith diagonal element that is equal to γi > 0.
+The last equation can be rewritten as
+˙x = −˜Lx
+where ˜L = D−1L = diag(1/γ1, . . . , 1/γn)L is a valid Laplacian matrix for a digraph ˜G with
+adjacency matrix ˜A = D−1A (i.e. the weights of the edges leaving node i are divided by γi).
+Clearly, γ is a vector with positive elements that is the left eigenvector of ˜L and based on
+Corollary 2 the decision value is in the weighted average of xi(0)’s with weights speciﬁed by
+γ.
+Remark 6. The discrete-time model and attitude alignment protocol discussed in Jadbabaie
+et al. [13] correspond to the ﬁrst-order Euler approximation of equation (20) with proto-
+col (A1) and the special choice of γi = degout(vi) + 1 in Corollary 3. In [6], a Laplacian
+matrix is deﬁned as I −DA which in the context of this paper is equivalent to a multi-rate
+network of integrators with γi = degout(vi) ≥0. The singularity of D that is caused by the
+choice of γi = degout(vi) is avoided in [13] by properly adding a positive constant (e.g. 1) to
+degout(vi).
+12
+
+
+----- Page 13 (native text) -----
+Theorem 6. Let G = (V, E, A) be a digraph with an adjacency matrix A = [aij]. Then, all
+the following statements are equivalent:
+i) G is balanced,
+ii) wl = 1 is the left eigenvector of the Laplacian of G associates with the zero eigenvalue,
+i.e. 1TL = 0.
+iii) Pn
+i=1 ui = 0, ∀x ∈Rn with ui = P
+j∈Ni aij(xj −xi).
+Proof. We show i) ⇐⇒ii) and ii) ⇐⇒iii).
+Proof of i) ⇐⇒ii): We have ∆ii = degout(vi) and degin(vi) = P
+j,j̸=i aji, thus the ith
+column sum of L is equal to
+X
+i
+lji =
+X
+i,j̸=i
+lji + lii = −degin(vi) + degout(vi) = 0 ⇐⇒node vi of G is balanced
+Noting that the i column sum of L is the same as the ith element of the row vector 1TL,
+one concludes that 1TL = 0 iﬀall the nodes of G are balanced, i.e. G is balanced.
+Proof of ii)
+⇐⇒
+iii): Since u = −Lx, (P
+i ui = 0, ∀x) ⇔(1Tu = −(1TL)x =
+0, ∀x) ⇐⇒1TL = 0.
+Remark 7. Notice that in Theorem 6, the graph G does not need to be connected.
+6.2
+Performance of Group Agreement and Mirror Graphs
+In this section, we discuss performance issues of Protocol (A1) with balanced graphs. An
+important consequence of Theorem 6 is that for networks with balanced information ﬂow,
+α = Ave(x) is an invariant quantity. This is certainly not true for an arbitrary digraph. The
+invariance of Ave(x) allows decomposition of x according to the following equation:
+x = α1 + δ
+(22)
+where α = Ave(x) and δ ∈Rn satisﬁes P
+i δi = 0. We refer to δ as the (group) disagreement
+vector. The vector δ is orthogonal to 1 and belongs to an (n−1)-dimensional subspace called
+the disagreement eigenspace of L provided that G is strongly connected. Moreover, δ evolves
+according to the (group) disagreement dynamics given by
+˙δ = −Lδ.
+(23)
+Deﬁne the Laplacian disagreement function of a digraph G as
+ΦG(x) = xTLx
+(24)
+with L = L(G). For digraphs, ΦG(x) can be negative (e.g. the Laplacian of a digraph with
+two nodes and a single edge 12 is not positive semideﬁnite).
+13
+
+
+----- Page 14 (native text) -----
+It turns out that a useful property of balanced digraphs is that their Laplacian dis-
+agreement function is positive semideﬁnite. In addition, for any balanced digraph G, there
+exists an undirected graph that has the same Laplacian disagreement function as G. In the
+following, we formally deﬁne this induced undirected graph.
+Deﬁnition 2. (mirror graph/operation) Let G = (V, E, A) be weighted digraph. Let ˜E be
+the set of reverse edges of G obtained by reversing the order of nodes of all the pairs in E.
+The mirror of G denoted by ˆG = M(G) is an undirected graph in the form ˆG = (V, ˆE, ˆ
+A)
+with the same set of nodes as G, the set of edges ˆE = E ∪˜E, and the symmetric adjacency
+matrix ˆ
+A = [ˆaij] with elements
+ˆaij = ˆaji = aij + aji
+2
+≥0
+(25)
+The following result shows that the operations of L and Sym on a weighted adjacency
+matrix A commute.
+Theorem 7. Let G be a digraph with adjacency matrix A = adj(G) and Laplacian L = L(G).
+Then Ls = Sym(L) = (L + LT)/2 is a valid Laplacian matrix for ˆG = M(G) if and only if
+G is balanced, i.e. the following diagram commutes iﬀG is balanced
+G
+adj
+−−−→A
+L
+−−−→L
+M
+y
+Sym
+y
+Sym
+y
+ˆG −−−→
+adj
+ˆ
+A −−−→
+L
+ˆL
+(26)
+Moreover, if G is balanced, the Laplacian disagreement functions of G and ˆG are equal.
+Proof. We know that G is balanced iﬀ1TL = 0. Since L1 = 0, we have 1TL = 0 ⇐⇒
+1
+2(L + LT)1 = 0. Thus, G is balanced iﬀLs has a right eigenvector of 1 associated with
+λ = 0, i.e. Ls is a valid Laplacian matrix. Now, we prove that Ls = L( ˆG). For doing so, let
+us calculate ˆ∆element-wise, we get
+ˆ∆ii =
+X
+j
+aij + aji
+2
+= 1
+2(degout(vi) + degin(vi)) = degout(vi) = ∆ii
+Thus, ˆ∆= ∆. On the other hand, we have
+Ls = 1
+2(L + LT) = ∆−A + AT
+2
+= ˆ∆−ˆA = ˆL = L( ˆG)
+The last part simply follows from the fact that ˆL is equal to the symmetric part of L and
+xT(L −LT)x ≡0.
+14
+
+
+----- Page 15 (native text) -----
+Notation. For simplicity of notation, in the context of algebraic graph theory, λk(G) is used
+to denote λk(L(G)).
+Now, we are ready to present our main result on performance of the Protocol (A1) in
+terms of the speed of reaching a consensus as a group.
+Theorem 8. (performance of agreement) Consider a network of integrators with a directed
+information ﬂow G that is balanced and strongly connected. Then, given Protocol (A1), the
+following statements hold:
+i) the group disagreement (vector) δ as the solution of the disagreement dynamics in (23)
+globally asymptotically vanishes with a speed that is equal to κ = λ2( ˆG) (or the Fiedler
+eigenvalue of the mirror graph of G), i.e.
+∥δ(t)∥≤∥δ(0)∥exp(−κt),
+(27)
+ii) the following smooth, positive deﬁnite, and proper function
+V (δ) = 1
+2∥δ∥2
+(28)
+is a valid Lyapunov function for the disagreement dynamics.
+Proof. We have
+˙V = −δTLδ = −δTLsδ = −δT ˆLδ ≤−λ2( ˆG)∥δ∥2 = −2κV (δ) < 0, ∀δ ̸= 0
+(29)
+This proves that V (δ) is a valid Lyapunov function for the group disagreement dynamics.
+Moreover, δ(t) vanishes globally exponentially fast with a speed of κ as t →+∞.. The fact
+that Ls = ˆL is a valid Laplacian matrix for an undirected graph (i.e. mirror of G) follows
+from Theorem 7 and the inequality
+δT ˆLδ ≥λ2( ˆG)∥δ∥2,
+∀δ : 1Tδ = 0
+(30)
+which is due to equation (14).
+A well-known observation regarding the Fiedler eigenvalue of an undirected graph is that
+for dense graphs λ2 is relatively large and for sparse graphs λ2 is relatively small [11] (this is
+why λ2 is called the algebraic connectivity). According to this observation, from Theorem 8,
+one can conclude that a network with dense interconnections solves an agreement problem
+faster than a connected but sparse network. This is consistent with common sense regarding
+agreement in a group. As a special case, a cycle of length n that creates a balanced digraph
+on n nodes solves an agreement problem. However, this is a relatively slow way to solve such
+a consensus problem.
+15
+
+
+----- Page 16 (native text) -----
+6.3
+Consensus in Networks with Switching Topology
+Consider a network of mobile agents that communicate with each other and need to agree
+upon a certain objective of interest or perform synchronization. Since, the nodes of the
+network are moving, it is not hard to imagine that some of the existing communication links
+can fail simply due to the existence of an obstacle between two agents. The opposite situation
+can arise where new links between nearby agents are created because the agents come to
+an eﬀective range of detection with respect to each other. In other words, in the graph G
+representing the information ﬂow of the network, certain edges can be added or removed from
+G. Here, we are interested to investigate that in case of a network with switching topology
+whether it is still possible to reach a consensus or not.
+Consider a hybrid system with a continuous-state x ∈Rn and a discrete-state G that
+belongs to a ﬁnite set of digraphs
+Γn = {G : G is a digraph of order n that is strongly connected and balanced}
+that can be analytically expressed in the form
+Γn = {G = (V, E, A) : rank(L(G)) = n −1, 1TL(G) = 0}.
+(31)
+Given the node dynamics and protocol, the continuous-state of the system evolves according
+to the following dynamics
+˙x(t) = −L(Gk)x(t),
+k = s(t), Gk ∈Γn
+(32)
+where s(t) : R≥0 →IΓn is a switching signal and IΓn ⊂N is the index set associated with
+the elements of Γn. Clearly, Γn is a ﬁnite set, because either a digraph has no edges or it is
+a complete graph with n(n −1) directed edges.
+The key in solving the agreement problem for mobile networks with switching topology
+is a basic property of the Lyapunov function in (28) and the properties of balanced graphs.
+Note that the function V (δ) = 1
+2∥δ∥2 does not depend on G or L = L(G). This property
+of V (δ) makes it an appropriate candidate as a common Lyapunov function for stability
+analysis of the switching system (32).
+Theorem 9. For any arbitrary switching signal s(·), the solution of the switching system (32)
+globally asymptotically converges to Ave(x(0)) (i.e. average-consensus is reached). Moreover,
+the following smooth, positive deﬁnite, and proper function
+V (δ) = 1
+2∥δ∥2
+(33)
+is a valid common Lyapunov function for the disagreement dynamics given by
+˙δ(t) = −L(Gk)δ(t),
+k = s(t), Gk ∈Γn.
+(34)
+Furthermore, the disagreement vector δ vanishes exponentially fast with the least rate of
+κ∗= min
+G∈Γn λ2(L( ˆG))).
+(35)
+In other words, ∥δ(t)∥≤∥δ(0)∥exp(−κ∗t).
+16
+
+
+----- Page 17 (native text) -----
+Proof.
+Due the fact that Gk is balanced for all k and u = −L(Gk)x, we have 1Tu =
+−(1TL(Gk))x ≡0. Thus, α = Ave(x) is an invariant quantity which allows us to decompose
+x as x = α1 + δ. Therefore, the disagreement switching system induced by (32) takes the
+form (34). Calculating ˙V , we get
+˙V = −δTL(Gk)δ = −δTL( ˆGk)δ ≤−λ2(L( ˆGk))∥δ∥2 ≤−κ∗∥δ∥2 = −2κ∗V (δ) < 0, ∀δ ̸= 0
+(36)
+This guarantees that V (δ) is a valid common Lyapunov function for the disagreement switch-
+ing system (34). Moreover, we have
+V (δ(t)) ≤V (δ(0)) exp(−2κ∗t) ⇒∥δ(t)∥≤∥δ(0)∥exp(−κ∗t)
+and the disagreement vector δ(t) globally exponentially vanishes with a speed of κ∗> 0 as
+t →+∞. Finally, the minimum in (35) always exists and is achieved because Γn is a ﬁnite
+set.
+7
+Networks with Communication Time-Delays
+Consider a network of continuous-time integrators with a ﬁxed topology G = (V, E, A) in
+which the state of node i passes through a communication channel (or link) ij with time-
+delay τij > 0 before getting to node j. The transfer function of link ij can be expressed
+as
+hij(s) = e−τijs
+in the Laplace domain. Applying the time-delayed linear protocol (A2), the network dynam-
+ics can be written as
+˙xi(t) =
+X
+j∈Ni
+aij[xj(t −τij) −xi(t −τij)].
+(37)
+After taking the Laplace transform of both sides of equation (37), we get
+sXi(s) −xi(0) =
+X
+j∈Ni
+aijhij(s)(Xj(s) −Xi(s))
+(38)
+where Xi(s) denotes the Laplace transform of xi(t) for all i ∈I. The last set of equations
+can be rewritten in a compact form as
+X(s) = (s + L(s))−1x(0)
+(39)
+where L(s) is the Laplacian matrix of a graph with adjacency matrix A(s) = [aijhij(s)]. In
+general, any ﬁltering eﬀect of channel ij can be incorporated in the link transfer function
+hij(s). The convergence analysis of protocol (A2) for a network of integrator agents with
+communication time-delays reduces to stability analysis for a MIMO transfer function
+G(s) = (sI + L(s))−1.
+17
+
+
+----- Page 18 (native text) -----
+To gain further insight in the relation between the graph Laplacian and the convergence
+properties of the consensus protocol (A2), we focus on the simplest possible case where the
+time-delays in all channels are equal to τ > 0 in a network with an undirected and ﬁxed
+topology G. Immediately, it follows that P
+i ui ≡0 and thus α = Ave(x(t)) is an invariant
+quantity. In addition, we have
+L(s) = e−τsL
+where L = L(G). Here is our main result for average-consensus in a network with commu-
+nication time-delays [20]:
+Theorem 10. Consider a network of integrator agents with equal communication time-delay
+τ > 0 in all links. Assume the information ﬂow G of the network is undirected and connected.
+Then, protocol (A2) with τij = τ globally asymptotically solves average-consensus problem if
+and only if either of the following two equivalent conditions are satisﬁed:
+i) τ ∈(0, τ ∗) with τ ∗=
+π
+2λn
+, λn = λmax(L).
+ii) The Nyquist plot of Γ(s) = e−τs/s has a zero encirclement around −1/λk, ∀k > 1.
+Moreover, for τ = τ ∗the system has a globally asymptotically stable oscillatory solution with
+frequency ω = λn.
+Proof. See Section A.2 in the Appendix.
+Based on part i) of Theorem 10, one concludes that the upper bound on the admissible
+channel time-delay in the network is inversely proportional to λn, i.e. the largest eigenvalue of
+the Laplacian of the information ﬂow. From Gerˇsgorin theorem, we know that λn ≤2dmax(G)
+where dmax(G) is the maximum out-degree of the nodes of G. Therefore, a suﬃcient condition
+for convergence of protocol (A2) is
+τ ≤
+π
+4dmax(G)
+(40)
+This means that networks with nodes that have relatively high out-degrees cannot tolerate
+relatively high communication time-delays. On the other hand, let ˜
+A = kA with k > 0 be
+the adjacency matrix of ˜G. Let ˜L = L( ˜G) and notice that λn(˜L) = kλn(L). Thus, for any
+arbitrary delay τ > 0, there exists a suﬃciently small k > 0 such that τ < π/(2kλn). As a
+result, by scaling the weights of the digraph, any arbitrary time-delay can be tolerated. The
+trade-oﬀis that the negotiation speed degrades by a factor of 1/k > 0. In other words, there
+is trade-oﬀbetween robustness to time-delays and speed of convergence (or performance) of
+the agreement algorithm.
+8
+Max-Consensus and Leader Determination
+In this section, we discuss the problem of max-consensus in a network of agents with a unique
+max-leader, i.e. a node i∗= arg maxi xi(0). The max-consensus problem can be described
+18
+
+
+----- Page 19 (native text) -----
+as follows. Each agent has the following discrete-time model
+xi(k + 1) = max(xi(k), ui(k))
+(41)
+and is called a max-agent. The dynamics of a max-agent can be equivalently expressed as a
+nonlinear discrete-time system
+xi(k + 1) = 1
+2(xi(k) + ui(k) + |xi(k) −ui(k)|)
+(42)
+The value of all nodes in the digraph G = (V, E) has to iteratively converge to the value of the
+max-leader. In addition, each node in a distributed way has to determine whether it is the
+max-leader or not. One of the applications of the max-consensus problem is to determine
+a leader (or coordinator) in a group with superiority in terms of a particular quantity of
+interest (e.g. index number, cost, height, and so on) that has to perform or coordinate a
+task.
+We use the following protocol to solve the max-consensus problem:
+ui(k) = max
+j∈Ni xj
+(A4)
+Remark 8. Apparently, the min-consensus problem can be deﬁned and solved in a similar
+way to the max-consensus problem and will not be discussed here.
+Notice that the value of each max-agent is non-decreasing, i.e. xi(k + 1) ≥xi(k) for all
+i ∈I. To keep track of whether a node is the max-leader or not, we augment the state each
+agent with a Boolean variable fi(k) ∈{0, 1} called the max-ﬂag of node i. The max-ﬂag
+evolves according to the following rule (or state feedback)
+fi(k + 1) = K(fi(k), xi(k), ui(k)) :=
+½ fi(k)
+xi(k + 1) = xi(k)
+¯fi(k)
+xi(k + 1) > xi(k)
+(43)
+where the bar operation negates a Boolean variable. Initially, all nodes assume that they
+are the max leader, or fi(0) = 1 for all i. If the value of each node increases compared to its
+initial value, then it realizes that it is no more a max-leader.
+Theorem 11. Consider a network of max-agents with the following dynamics
+½ xi(k + 1)
+=
+max(xi(k), ui(k))
+fi(k + 1)
+=
+K(fi(k), xi(k), ui(k))
+(44)
+where the map K : {0, 1} × R × R →{0, 1} is deﬁned in (43). Assume G = (V, E) is a
+strongly connected digraph. Then, protocol (A4) solves the max-consensus problem in ﬁnite
+number of iterations l ≤n −1, i.e. the value of all nodes converges to the value of the
+max-leader and the max-ﬂag of all nodes but the max-leader converges to zero in O(n) time.
+19
+
+
+----- Page 20 (native text) -----
+3
+1
+2
+4
+5
+6
+7
+8
+9
+10
+3
+1
+2
+4
+5
+6
+7
+8
+9
+10
+(a)
+(b)
+3
+1
+2
+4
+5
+6
+7
+8
+9
+10
+3
+1
+2
+4
+5
+6
+7
+8
+9
+10
+(c)
+(d)
+Figure 4: For examples of balanced and strongly connected digraphs: (a) Ga, (b) Gb, (c) Gc,
+and (d) Gd satisfying.
+Proof. Let l be the maximum length of the shortest path connecting each node of the
+digraph to the max-leader. Since G is strongly connected l ≤n −1. Observe that the value
+of the max-leader α = xi(k) remains invariant in time, because the value of all other nodes
+are smaller than the value of the max leader and from (43), fi∗(k) = fi∗(0) = 1 for all k > 0.
+Similar to the line of proof of Theorem 1, let J (k) denote a cluster of nodes that are the kth
+neighbors of the max-leader i∗(for the deﬁnition of J (k), see equation (46) in the Appendix).
+Given protocol (A4), it is easy to see that the value of all the kth neighbors of i∗becomes
+equal to α and the max-ﬂag of all nodes in J (k) \ {i∗} becomes zero after k iterations. On
+the other hand, by deﬁnition of l ≤n −1, J (l) = I and the result follows.
+9
+Simulation Results
+Figure 4 shows four diﬀerent networks each with n = 10 nodes that are all strongly connected
+and balanced. The weights associated with all the edges are 1. For the following initial node
+values satisfying Ave(x(0)) = 0
+x(0) = (−10.2999, 0.2575, −4.4997, 3.6258, 3.0922, 9.0156, 3.5099, −2.6645, 2.4552, −4.4921)T
+we have plotted the state trajectories and the disagreement function ∥δ∥2 associated with
+these four digraphs in Figure 5. It is clear that as the number of the edges of the graph
+increase, algebraic connectivity (or λ2) increases, and the settling time of the trajectory
+of the node values decreases. The case of a directed cycle of length n = 10, or Ga, has
+the largest over-shoot. In all four cases, an agreement is asymptotically reached and the
+performance is improved as a function of λ2( ˆGk) for k ∈{a, b, c, d}.
+In Figure 6(a), a ﬁnite automaton is shown with the set of states {Ga, Gb, Gc, Gd} rep-
+resenting the discrete-states of a network with switching topology as a hybrid system. The
+hybrid system starts at the discrete-state Gb and switches every T = 1 second to the next
+20
+
+
+----- Page 21 (native text) -----
+0
+5
+10
+15
+−20
+−10
+0
+10
+Algebraic Connectivity=0.191
+time( sec)
+node value
+0
+5
+10
+15
+0
+100
+200
+300
+time( sec)
+disagreement
+0
+5
+10
+15
+−20
+−10
+0
+10
+Algebraic Connectivity=0.205
+time( sec)
+node value
+0
+5
+10
+15
+0
+100
+200
+300
+time( sec)
+disagreement
+(a)
+(b)
+0
+5
+10
+15
+−20
+−10
+0
+10
+Algebraic Connectivity=0.213
+time( sec)
+node value
+0
+5
+10
+15
+0
+100
+200
+300
+time( sec)
+disagreement
+0
+5
+10
+15
+−20
+−10
+0
+10
+Algebraic Connectivity=0.255
+time( sec)
+node value
+0
+5
+10
+15
+0
+100
+200
+300
+time( sec)
+disagreement
+(c)
+(d)
+Figure 5: For examples of balanced and strongly connected digraphs: (a) Ga, (b) Gb, (c) Gc,
+and (d) Gd satisfying.
+state according to the state machine in Figure 6(a). The continuous-time state trajectories
+and the group disagreement (i.e. ∥δ∥2) of the network are shown in Figure 6(b). Clearly, the
+group disagreement is monotonically decreasing. One can observe that an average-consensus
+is reached asymptotically. Moreover, the group disagreement vanishes exponentially fast.
+Next, we present simulation results for average-consensus problem with communication
+time-delays for a network with information ﬂow shown in Figure 7. Figure 8 shows the
+state trajectories of n = 10 nodes for a network with communication time-delay τ for τ =
+0, 0.5τmax, τmax = π/2λmax(Ga) = 0.266 for a zero-mean random set of initial conditions.
+Clearly, the agreement is achieved for the cases with τ < τmax in Figures 8(a), (b), and (c).
+For the case with τ = τmax, synchronous oscillations are demonstrated in Figure 8(d). A
+third-order Pade approximation is used to model the time-delay as a ﬁnite-order LTI system.
+21
+
+
+----- Page 22 (native text) -----
+Gbt=0
+Ga
+Gd
+Gc
+0
+2
+4
+6
+8
+10
+12
+−20
+−10
+0
+10
+time (sec)
+node values
+0
+2
+4
+6
+8
+10
+12
+0
+100
+200
+300
+time (sec)
+disagreement
+(a)
+(b)
+Figure 6: (a) A ﬁnite automaton with four states representing the discrete-states of a network
+with variable topology and (b) trajectory of the node values and the group disagreement for
+a network with a switching information ﬂow.
+3
+1
+5
+9
+2
+4
+8
+10
+6
+7
+Figure 7: Undirected graph Ge used for consensus with communication time-delays
+10
+Conclusions
+We provided convergence analysis of consensus protocol for a network of integrators with a
+directed information ﬂow and ﬁxed or switching topology. Our analysis relies on several tools
+from algebraic graph theory and matrix theory. We established a connection between the
+performance of the linear consensus protocol and the Fiedler eigenvalue of graph Laplacian
+of the mirror graph. A simple disagreement function was introduced as a Lyapunov function
+for the group disagreement dynamics. This was later used to provide a common Lyapunov
+function that allowed convergence analysis of an agreement protocol for a network with
+switching topology. A commutative diagram was given that shows the operations of taking
+Laplacian and symmetric part of a matrix commute for weighted adjacency matrices of bal-
+anced graphs. Balanced graphs turned out to be instrumental in solving average-consensus
+problems.
+For networks with undirected graphs, we gave suﬃcient and necessary conditions for
+consensus in networks with communication time-delays. It was shown that there is a trade-
+oﬀbetween robustness to time-delays and the speed of convergence of a linear consensus
+22
+
+
+----- Page 23 (native text) -----
+0
+2
+4
+6
+8
+10
+−10
+−8
+−6
+−4
+−2
+0
+2
+4
+6
+8
+Time (sec)
+State
+Time−Delay=0 (sec)
+0
+2
+4
+6
+8
+10
+−10
+−5
+0
+5
+10
+Time (sec)
+State
+Time−Delay=0.133 (sec)
+(a)
+(b)
+0
+2
+4
+6
+8
+10
+−10
+−5
+0
+5
+10
+Time (sec)
+State
+Time−Delay=0.186 (sec)
+0
+2
+4
+6
+8
+10
+−10
+−5
+0
+5
+10
+Time (sec)
+State
+Time−Delay=0.266 (sec)
+(c)
+(d)
+Figure 8: Consensus problem with communication time-delay on Gb in Figure 7: (a) τ = 0,
+(b) τ = 0.5τmax,(c) τ = 0.7τmax, and (d) τ = τmax.
+protocol.
+To determine a superior or leader in a group of agents, we introduced max-agents that
+have a very simple discrete-time model and gave a protocol that solves the max-consensus
+problem in a distributed way after a maximum of n−1 iterations (n is the number of agents).
+We presented extensive simulation results that demonstrate the eﬀectiveness of our the-
+oretical results.
+The consensus problems for discrete-time approximation of integrator agents relies on
+the theory of nonnegative matrices and will be presented in an upcoming paper.
+23
+
+
+----- Page 24 (native text) -----
+Acknowledgments
+This research is supported in part by AFOSR under the grant F49620–01–1–0361 and by
+DARPA under the grant F33615–98–C–3613.
+A
+Appendix
+This section contains the proofs of some of the theorems of the paper.
+A.1
+Proof of Theorem 1
+Proof. Deﬁne φij(z) = aijz for all ij ∈E. It is trivial that if xi = xj for all ij ∈E, then
+u = 0. Thus, we prove the converse: u = 0 implies that all nodes are in agreement. If the
+values of all nodes are equal, the result follows. Thus, assume there exists a node i∗, called
+max-leader, such that xi∗≥xj for all j ̸= i∗, i.e. i∗= arg maxj∈I xj (if i∗is not unique,
+choose one arbitrarily).
+Deﬁne the initial cluster J (0) = {i∗} and denote the indices of all the ﬁrst-neighbors of i∗
+by J(1) = Ni∗. Then, ui∗= 0 implies that
+X
+j∈Ni∗
+φi∗j(xj −xi∗) = 0
+(45)
+Since xj ≤xi∗for all j ∈Ni∗and φij(z) ≤0 for z ≤0 (i.e. all weights are nonnegative),
+we get xi∗= xj for all the ﬁrst-neighbors j ∈J (1), (i.e. the max-leader and all of its ﬁrs-
+neighbors are in agreement). Next, we deﬁne the kth-neighbors of i∗and show that the
+max-leader is in agreement with all of its kth-neighbors for k = 1, . . . , n −1. The set of
+kth-neighbors of i∗is deﬁned by the following recursive equation
+J(k) = J(k−1) ∪NJ(k−1),
+k ≥1, J(0) = {i∗}
+(46)
+where NJ denotes the set of neighbors of cluster J ⊆I (see equation (1)). By deﬁnition,
+{i∗} ⊂J(k) ⊆I for k ≥1 and J(k) is a monotonically increasing sequence of clusters (in
+terms of inclusion).
+Notice that in a strongly connected digraph, the maximum length of the minimum path
+connecting any node j ̸= i∗to node i∗is n −1. Thus, J(n−1) = I. By induction, we prove
+that all the nodes in J (k) are in agreement for k ≥1. The statement holds for k = 1 (i.e. the
+set of ﬁrst-neighbors of the max-leader). Assume all the nodes in J (k) are in agreement with
+i∗, we show that all the nodes in J (k+1) are in agreement with i∗as well. It is suﬃcient to
+show this for an arbitrary node i ∈J (k) with Ni ∩(J(k+1) \ J(k)) ̸= ∅Otherwise, because in
+a strongly connected digraph Ni ̸= ∅for all i, we get J (k+1) = J(k) and the statement holds.
+For node i, we have
+ui =
+X
+j∈Ni
+φij(xj −xi) = 0
+(47)
+24
+
+
+----- Page 25 (native text) -----
+But Ni = (Ni ∩J(k)) ∪(Ni ∩(I \ J(k))) and I \ J(k) = I \ J(k+1) ∪(J(k+1) \ J(k)). Keeping in
+mind that J(k) ⊂equI for all k and J (k+1) contains the set of ﬁrst neighbors of node i, i.e.
+Ni ⊆J(k+1), we have
+Ni ∩(I \ J(k)) = Ni ∩(J(k+1) \ J(k))
+(48)
+and
+ui =
+X
+j∈Ni∩J(k)
+φij(xj −xi) +
+X
+j∈Ni∩(J(k+1)\J(k))
+φij(xj −xi) = 0
+(49)
+The ﬁrst sum is equal to zero because xj = xi all nodes j ∈Ni ∩J(k) ⊆J(k). Thus, the
+second sum must be zero. But xi∗= xi ≥xj for all i ∈J(k) and j ∈I \ J(k) which implies
+all nodes in Ni ∩(J(k+1) \ J(k)) are in agreement with i∗. This means that all nodes in the
+cluster
+∪i∈J(k)Ni ∩(J(k+1) \ J(k))
+=
+(∪i∈J(k)Ni) ∩(J(k+1) \ J(k))
+=
+J(k+1) ∩(J(k+1) \ J(k))
+=
+J(k+1) \ J(k)
+(50)
+are in agreement with i∗, i.e. all the nodes in J (k+1) are in agreement. Combining this with
+the fact that J(n−1) = I we conclude that all the nodes in I are in agreement.
+A.2
+Proof of Theorem 10
+Notice that despite the existence of a nonzero delay τ, Pn
+i=1 ui = 0. Thus, α = Ave(x) is
+an invariant quantity. Given that the solutions of (37) globally asymptotically converge to
+a limit x∗, due to the invariance of α, x∗
+i = Ave(x(0)), ∀i ∈I and the average-consensus will
+be reached. To establish the stability of (37), we use a frequency domain analysis. We have
+X(s) = Gτ(s)x(0) where
+Gτ(s) = (sIn + e−τsL)−1.
+(51)
+Deﬁne Zτ(s) = G−1
+τ (s) = (sIn + e−τsL). We need to ﬁnd suﬃcient conditions such that all
+the zeros of Zτ(s) are on the open LHP or s = 0. Let wk be the kth normalized eigenvector
+of L associated with the eigenvalue λk in an increasing order. For a connected graph G,
+0 = λ1 < λ2 ≤. . . ≤λn = λmax(L). Clearly, s = 0 in the direction w1 is a zero of the
+MIMO transfer function Zτ(s), because Zτ(0)w1 = Lw1 = 0. Furthermore, any eigen vector
+of Zτ(s) is an eigen vector of L and vice verse. Let (s, wk) with k > 1 be a right MIMO
+transmission zero of Zτ(s) at frequency s in the direction wk, i.e. Zτ(s)wk = 0. Then, s ̸= 0
+satisﬁes the following equation
+s + e−τsλk = 0,
+(52)
+or
+1
+λk
++ e−τs
+s
+= 0,
+(53)
+where λk is the kth eigenvalue of L corresponding to wk. This is due to the fact that
+Zτ(s)wk = swk + e−τsLwk = (s + e−τskλk)wk = 0,
+(54)
+25
+
+
+----- Page 26 (native text) -----
+but wk ̸= 0, thus s+e−τλk = 0. Equation (53) provides a Nyquist criterion for convergence of
+protocol (A2). If the net encirclement of the Nyquist plot of Γ(s) = e−τs/s around −1/λk for
+k > 1 is zero, then all the zeros of Zτ(s) (or poles of Gτ(s))) other than s = 0 are stable. For
+the special case where L is symmetric, all the eigenvalues are real and the Nyquist stability
+criterion reduces to zero net encirclement of the Nyquist plot of Γ(s) around −1/λn (note
+that λn = λmax(L)). This is because the plot of Γ(jω) in the s-plane remains on the right
+hand side of −τ. Since
+Γ(jω) = e−jωτ
+jω
+= −sin(ωτ)
+ω
+−j cos(ωτ)
+ω
+,
+(55)
+and clearly Re(Γ(jω)) is a sinc function satisfying Re(Γ(jω)) ≥−τ. A conservative upper
+bound on τ can be obtained according to the property Re(Γ(jω)) ≥−τ of the Nyquist plot
+of Γ(s) by setting −1/λn > −τ which gives the convergence condition τ < 1/λn. As a
+by-product, for τ = 0, the protocol always converges regardless of the value of λk, k > 1.
+A better upper bound on the time-delay τ can be calculated as follows. Let us ﬁnd the
+smallest value of the time-delay τ > 0 such that Zτ(s) has a zero on the imaginary axis. To
+do so, set s = jω in (52), we have
+jω + e−jωτλk
+=
+0,
+−jω + ejωτλk
+=
+0,
+(56)
+multiplying both sides of the last two equations gives
+ω2 + λ2
+k + jωλk(ejωτ −e−jωτ) = 0,
+(57)
+or
+ω2 + λ2
+k −2ωλk sin(ωτ) = 0,
+(58)
+Assuming ω > 0 (due to s ̸= 0), from (58), we get
+(ω −λk)2 + 2ωλk(1 −sin(ωτ)) = 0.
+(59)
+Since both terms in the left hand side of the last equation are positive semi-deﬁnite, the
+equality holds if and only if both terms are zero, i.e.
+ω
+=
+λk,
+sin(ωτ)
+=
+1,
+(60)
+This implies τλk = 2lπ + π/2 for l = 0, 1, 2, . . ., thus the smallest τ > 0 satisﬁes τλk = π/2.
+Therefore, we have
+τ ∗=
+min
+τλk = π/2
+k > 1
+{τ} = min
+k>1
+π
+2λk
+=
+π
+2λn
+(61)
+26
+
+
+----- Page 27 (native text) -----
+Due to the continuous dependence of the roots of equation (52) in τ and the fact that all
+the zeros of this equation other than s = 0 for τ = 0 are located on the open LHP, for all
+τ ∈(0, τ ∗), the roots of (52) with k > 1 are on the open LHP and therefore the poles of Gτ(s)
+(except for s = 0) are all stable. One can repeat a similar argument for the assumption that
+ω < 0 and get the equation
+(ω + λk)2 −2ωλk(1 + sin(ωτ)) = 0,
+(62)
+which leads to ω = −λk and τλk = 2lπ + π/2.
+For τ = τ ∗, Gτ(s) has three poles on the imaginary axis given by
+s = 0, s = ±jλn
+(63)
+All other poles of Gτ(s) are stable and in the steady-state the values of each node takes the
+following form:
+xss
+i (t) = ai + bi sin(λnt + ϕi),
+i ∈I
+(64)
+where ai, bi, ϕi are constants that depend on the initial conditions.
+References
+[1] N. Biggs.
+Algebraic Graph Theory.
+Cambridge Tracks in Mathematics. Cambridge
+University Press, 1974.
+[2] I. Daubechies and J. C. Lagarias. Sets of matrices all inﬁnite products of which converge.
+Linear Algebra and Its Applications, 161:227–263, 1992.
+[3] I. Daubechies and J. C. Lagarias.
+Corrigendum/addendum to: Sets of matrices all
+inﬁnite products of which converge. Linear Algebra and Its Applications, 327:69–83,
+2001.
+[4] J. P. Desai, J. P. Ostrowski, and V. Kumar. Modeling and control of formations of non-
+holonomic mobile robots. IEEE Trans. on Robotics and Automation, 17(6), December
+2002.
+[5] R. Diestel. Graph Theory, volume 173 of Graduate Texts in Mathematics. Springer-
+Verlag, 2000.
+[6] A. Fax and R. M. Murray. Graph Laplacians and stabilization of vehicle formations.
+The 15th IFAC World Congress, June 2002.
+[7] A. Fax and R. M. Murray. Information Flow and Cooperative Control of Vehicle For-
+mations. The 15th IFAC World Congress, June 2002.
+[8] M. Fiedler.
+Algebraic connectivity of graphs.
+Czechoslovak Mathematical Journal,
+23(98):298–305, 1973.
+27
+
+
+----- Page 28 (native text) -----
+[9] M. Fiedler.
+A property of eigenvectors of nonnegative symmetric matrices and its
+application to graph theory. Czechoslovak Mathematical Journal, 25(100):619–633, 1975.
+[10] F. R. Gantmacher. Matrix Theory, volume II. Chelsea Publishing Company, 1959.
+[11] C. Godsil and G. Royle. Algebraic Graph Theory, volume 207 of Graduate Texts in
+Mathematics. Springer, 2001.
+[12] R. A. Horn and C. R. Johnson. Matrix Analysis. Cambridge University Press, 1987.
+[13] A. Jadbabaie, J. Lin, and S. A. Morse. Coordination of groups of mobile agents using
+nearest neighbor rules. IEEE Trans. on Automatic Control (to appear).
+[14] R. W. Lawton, J. R. T. Beard and B. J. Young. A Decentralized Approach to Formation
+Maneuvers. IEEE Trans. on Robotics and Automation (to appear).
+[15] N. A. Lynch. Distributed Algorithms. Morgan Kaufmann Publishers, Inc., 1997.
+[16] M. Marcus and H. Minc. A Survey of Matrix Theory and Matrix Inequalities. Dover
+Publications, 1969.
+[17] R. Merris. Laplacian matrices of a graph: a survey. Linear Algebra and its Applications,
+197:143–176, 1994.
+[18] M. Mesbahi. On a dynamic extension of the theory of graphs. Proc. of the American
+Control Conference, Anchorange, AL, May 2002.
+[19] M. Mesbahi and F. Y. Hadegh. Formation ﬂying of multiple spacecraft via graphs,
+matrix inequalities, and switching. AIAA Journal of Guidance, Control, and Dynamics,
+24(2):369–377, March 2000.
+[20] R. Olfati Saber and R. M. Murray.
+Consensus Protocols for Networks of Dynamic
+Agents. Proc. of the American Control Conference, June 2003.
+[21] F. Paganini, J. Doyle, and S Low. Scalable laws for stable network congestion control.
+Proc. of the Int. Conf. on Decision and Control, Orlando, FL, Dec. 2001.
+[22] C. W. Reynolds. Flocks, herds, and schools: a distributed behavioral model. Computer
+Graphics (ACM SIGGRAPH ’87 Conference Proceedings), 21(4):25–34, July 1987.
+[23] J. Toner and Y. Tu. Flocks, herds, and schools: A quantitative theory of ﬂocking.
+Physical Review E, 58(4):4828–4858, October 1998.
+[24] T. Vicsek, A. Cziro´ok, E. Ben-Jacob, and O. Cohen, I. Shochet. Novel type of phase
+transition in a system of self-deriven particles. Physical Review Letters, 75(6):1226–1229,
+August, 1995.
+28
+
+
+----- Page 29 (native text) -----
+[25] H. Yamaguchi, T. Arai, and G. Beni. A distributed control scheme for multiple robotic
+vehicles to make group formations. Robotics and Autonomous Systems, 36:125–147,
+2001.
+29

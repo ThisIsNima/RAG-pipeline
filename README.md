@@ -6,7 +6,7 @@ The storage layer is PostgreSQL with the pgvector extension, and text embeddings
 
 ## ✅ What this pipeline does
 
-1. **Ingest text** (from your corpus folders — usually OCR full papers and abstracts)
+1. **Ingest text** ( from full papers and abstracts)
 2. **Chunk + embed** locally → store embeddings in a Parquet file
 3. **Load vectors into Postgres** (with IVFFlat index)
 4. **Query** using pgvector
@@ -30,7 +30,7 @@ The storage layer is PostgreSQL with the pgvector extension, and text embeddings
 └── README.md
 ```
 
-> Folders `full_paper_OCRed` and `abstracts` are your knowledge base.
+> The knowledge based include the folders `full_paper_OCRed` and `abstracts`.
 
 ---
 
@@ -110,12 +110,6 @@ python scripts/query_mmr_abstractive.py     --query "How do neurons and axons tr
 - cross-encoder reranker
 - hybrid lexical + vector retrieval
 - multi-database vector support
-
----
-
-## License
-
-MIT
 
 ---
 

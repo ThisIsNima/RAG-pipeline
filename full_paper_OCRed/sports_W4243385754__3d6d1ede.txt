@@ -1,0 +1,5103 @@
+
+
+----- Page 1 (native) -----
+Springer Handbook
+of Robotics
+
+----- Page 2 (native) -----
+Springer Handbooks provide
+a concise compilation of approved
+key information on methods of
+research, general principles, and
+functional relationships in physi-
+cal sciences and engineering. The
+world’s leading experts in the ﬁelds
+of physics and engineering will be
+assigned by one or several renowned
+editors to write the chapters com-
+prising each volume. The content
+is selected by these experts from
+Springer sources (books, journals,
+online content) and other systematic
+and approved recent publications of
+physical and technical information.
+The volumes are designed to be
+useful as readable desk reference
+books to give a fast and comprehen-
+sive overview and easy retrieval of
+essential reliable key information,
+including tables, graphs, and bibli-
+ographies. References to extensive
+sources are provided.
+
+----- Page 3 (native) -----
+123
+Handbook
+Springer
+of Robotics
+Bruno Siciliano, Oussama Khatib (Eds.)
+With DVD-ROM, 953 Figures, 422 in four color and 84 Tables
+
+----- Page 4 (native) -----
+Editors:
+Professor Bruno Siciliano
+PRISMA Lab
+Dipartimento di Informatica e Sistemistica
+Università degli Studi di Napoli Federico II
+Via Claudio 21, 80125 Napoli, Italy
+siciliano@unina.it
+Professor Oussama Khatib
+Artiﬁcial Intelligence Laboratory
+Department of Computer Science
+Stanford University
+Stanford, CA 94305-9010, USA
+khatib@cs.stanford.edu
+Library of Congress Control Number:
+2007942155
+ISBN: 978-3-540-23957-4
+e-ISBN: 978-3-540-30301-5
+This work is subject to copyright. All rights reserved, whether the whole
+or part of the material is concerned, speciﬁcally the rights of translation,
+reprinting, reuse of illustrations, recitation, broadcasting, reproduction on
+microﬁlm or in any other way, and storage in data banks. Duplication of
+this publication or parts thereof is permitted only under the provisions of
+the German Copyright Law of September, 9, 1965, in its current version,
+and permission for use must always be obtained from Springer-Verlag.
+Violations are liable for prosecution under the German Copyright Law.
+Springer is a part of Springer Science+Business Media
+springer.com
+c⃝Springer-Verlag Berlin Heidelberg 2008
+The use of designations, trademarks, etc. in this publication does not imply,
+even in the absence of a speciﬁc statement, that such names are exempt from
+the relevant protective laws and regulations and therefore free for general
+use.
+Product liability: The publisher cannot guarantee the accuracy of any
+information about dosage and application contained in this book. In every
+individual case the user must check such information by consulting the
+relevant literature.
+Production and typesetting: le-tex publishing services oHG, Leipzig
+Senior Manager Springer Handbook: Dr. W. Skolaut, Heidelberg
+Typography and layout: schreiberVIS, Seeheim
+Illustrations: Hippmann GbR, Schwarzenbruck
+Cover design: eStudio Calamar Steinen, Barcelona
+Cover production: WMXDesign GmbH, Heidelberg
+Printing and binding: Stürtz GmbH, Würzburg
+Printed on acid free paper
+SPIN 10918401
+89/3180/YL
+5 4 3 2 1 0
+
+----- Page 5 (native) -----
+V
+Foreword
+My ﬁrst introduction to robotics came via a phone call
+in 1964. The caller was Fred Terman, the author of the
+world-famous Radio Engineer’s Handbook, who was
+at the time Provost of Stanford University. Dr. Terman
+informed me that a computer science professor, John
+McCarthy, had just been awarded a large research grant,
+part of which required the development of computer-
+controlled manipulators. Someone had suggested to
+Terman that it would be prudent if the mathematically
+oriented McCarthy had some contact with mechanical
+designers. Since I was the only one on the Stanford
+faculty whose specialty was mechanism design, Terman
+decided to phone me, even though we had never met and
+I was a young assistant professor fresh out of graduate
+school with only 2 years at Stanford.
+Dr. Terman’s phone call led me to a close association
+with John McCarthy and the Stanford Artiﬁcial Intel-
+ligence Laboratory (SAIL) that he founded. Robotics
+became one of the pillars of my entire academic ca-
+reer, and I have maintained my interest in teaching and
+researching the subject through to the present day.
+The modern history of robotic manipulation dates
+from the late 1940s when servoed arms were developed
+in connection with master–slave manipulator systems
+used to protect technicians handling nuclear materials.
+Developments in this area have continued to the present
+day. However, in the early 1960s there was very little
+academic or commercial activity in robotics. The ﬁrst
+academic activity was the thesis of H. A. Ernst, in 1961,
+at MIT. He used a slave arm equipped with touch sensors,
+and ran it under computer control. The idea in his study
+was to use the information from the touch sensors to
+guide the arm.
+This was followed by the SAIL project and a simi-
+lar project started by Professor Marvin Minsky at MIT,
+which were the only sizeable academic ventures into
+robotics at that time. There were a few attempts at com-
+mercial manipulators, primarily in connection with part
+production in the automotive industry. In the USA there
+were two different manipulator designs that were being
+experimented with in the auto industry; one came from
+American Machine and Foundry (AMF) and the other
+from Unimation, Inc.
+There were also a few mechanical devices developed
+as hand, leg, and arm prosthetics, and, a bit later, some
+Bernard Roth
+Professor of Mechanical
+Engineering
+Stanford University
+exoskeletal devices to enhance hu-
+man performance. In those days
+there were no microprocessors. So,
+these devices were either without
+computer control, or tethered to
+a remote so-called minicomputer,
+or even a mainframe computer.
+Initially, some in the computer
+science community felt that com-
+puters were powerful enough to
+control any mechanical device and
+make it perform satisfactorily. We
+quickly learned that this was not to
+be the case. We started on a twofold
+track. One was to develop particu-
+lar devices for SAIL, so that hardware demonstrations
+and proof-of-concept systems were available for the
+ﬂedgling robotics community to experiment with. The
+other track, which was more or less moonlighted from
+the work at SAIL, was the development of a basic me-
+chanical science of robotics. I had a strong feeling that
+a meaningful science could be developed, and that it
+would be best to think in terms of general concepts rather
+than concentrate exclusively on particular devices.
+Fortuitously, it turned out that the two tracks sup-
+ported each other very naturally and, most importantly,
+the right students were interested in doing their re-
+search in this area. Hardware developments proved to
+be speciﬁc examples of more general concepts, and the
+students were able to develop both the hardware and the
+theory.
+Originally, we purchased an arm in order to get
+started quickly. A group at Rancho Los Amigos
+Hospital, in Los Angeles, was selling a tongue-switch-
+controlled motor-driven exoskeleton arm to assist
+patients without muscular control of their arms. We pur-
+chased one of these, and connected it to a time-shared
+PDP-6 computer. The device was named Butterﬁngers; it
+was our ﬁrst experimental robot. Several ﬁlms demon-
+strating visual feedback control, block stacking tasks,
+and obstacle avoidance were made with Butterﬁngers as
+the star performer.
+The ﬁrst manipulator that we designed on our own
+was known simply as the Hydraulic Arm. As its name
+implies, it was powered by hydraulics. The idea was
+
+----- Page 6 (native) -----
+VI
+to build a very fast arm. We designed special rotary
+actuators, and the arm worked well. It became the ex-
+perimental platform for testing the ﬁrst ever dynamic
+analysis and time-optimal control of a robotic arm. How-
+ever, its use was limited since the design speeds were
+much faster than required due to the limitations of the
+computational, planning, and sensing capabilities that
+were common at that time.
+We made an attempt to develop a truly digital arm.
+This led to a snake-like structure named the Orm (the
+Norwegian word for snake.) The Orm had several stages,
+each with an array of inﬂatable pneumatic actuators that
+were either fully extended or fully contracted. The basic
+idea was that, even though only a ﬁnite number of po-
+sitions in the workspace could be reached, these would
+be sufﬁcient if there were a large number of positions.
+A small prototype proof-of-concept Orm was developed.
+It led to the realization that this type of arm would not
+really serve the SAIL community.
+The ﬁrst truly functional arm from our group was
+designed by Victor Scheinman, who was a graduate stu-
+dent at the time. It was the very successful Stanford Arm,
+of which over ten copies were made as research tools
+to be used in various university, government, and indus-
+trial laboratories. The arm had six independently driven
+joints; all driven by computer-controlled servoed, DC
+electric motors. One joint was telescoping (prismatic)
+and the other ﬁve were rotary (revolute).
+Whereas the geometry of Butterﬁngers required an
+iterative solution of the inverse kinematics, the geomet-
+ric conﬁguration of the Stanford Arm was chosen so
+that the inverse kinematics could be programmed in any
+easy-to-use time-efﬁcient closed form. Furthermore, the
+mechanical design was speciﬁcally made to be compat-
+ible with the limitations inherent in timeshare computer
+control. Various end-effectors could be attached to act
+as hands. On our version, the hand was in the form
+of a vise-grip jaw, with two sliding ﬁngers driven by
+a servoed actuator (hence, a true seventh degree of free-
+dom). It also had a specially designed six-axis wrist force
+sensor. Victor Scheinman went on to develop other im-
+portant robots: the ﬁrst was a small humanoid arm with
+six revolute joints. The original design was paid for by
+Marvin Minsky at the MIT AI Lab. Scheinman founded
+Vicarm, a small company, and produced copies of this
+arm and the Stanford Arm for other labs. Vicarm later be-
+came the West Coast Division of Unimation, Inc., where
+Scheinman designed the PUMA manipulator under Gen-
+eral Motors sponsorship through Unimation. Later, for
+a company called Automatix, Scheinman developed the
+novel Robot World multirobot system. After Scheinman
+left Unimation, his colleagues Brian Carlisle and Bruce
+Shimano reorganized Unimation’s West Coast Division
+into Adept, Inc., which to this day is the largest US
+manufacturer of assembly robots.
+Quickly, the modern trend of carefully detailed me-
+chanical and electronic design, optimized software, and
+complete system integration became the norm; to this
+day, this combination represents the hallmark of most
+highly regarded robotic devices. This is the basic con-
+cept behind mechatronic, a word conied in Japan as
+a concatenation of the words mechanics and electronics.
+Mechatronics that relies on computation is the essence
+of the technology inherent in robotics as we know it
+today.
+As robotics developed around the world, a large
+number of people started working on various aspects,
+and speciﬁc subspecialties developed. The ﬁrst big di-
+vision was between people working on manipulators
+and those working on vision systems. Early on, vi-
+sion systems seemed to hold more promise than any
+other method for giving robots information about their
+environment.
+The idea was to have a television camera capture
+pictures of objects in the environment, and then use
+algorithms that allowed the computer images of the
+pictures to be analyzed, so as to infer required infor-
+mation about location, orientation, and other properties
+of objects. The initial successes with image systems
+were in problems dealing with positioning blocks, solv-
+ing object manipulation problems, and reading assembly
+drawings. It was felt that vision held potential for use
+in robotic systems in connection with factory automa-
+tion and space exploration. This led to research into
+software that would allow vision systems to recognize
+machine parts (particularly partially occluded parts, as
+occurred in the so-called “bin-picking” problems) and
+ragged-shaped rocks.
+After the ability to “see” and move objects became
+established, the next logical need had to do with plan-
+ning a sequence of events to accomplish a complex task.
+This led to the development of planning as an impor-
+tant branch in robotics. Making ﬁxed plans for a known
+ﬁxed environment is relatively straightforward. How-
+ever, in robotics, one of the challenges is to let the
+robot discover its environment, and to modify its ac-
+tions when the environment changes unexpectedly due
+to errors or unplanned events. Some early landmark stud-
+ies in this area were carried out using a vehicle named
+Shakey, which, starting in 1966, was developed by Char-
+lie Rosen’s group at the Stanford Research Institute
+(now called SRI). Shakey had a TV camera, a trian-
+
+----- Page 7 (native) -----
+VII
+gulating range ﬁnder, bump sensors, and was connected
+to DEC PDP-10 and PDP-15 computers via radio and
+video links.
+Shakey was the ﬁrst mobile robot to reason about
+its actions. It used programs that gave it the abil-
+ity for independent perception, world modeling, and
+action generation. Low-level action routines took
+care of simple moving, turning, and route planning.
+Intermediate-level actions combined the low-level ones
+in ways that accomplished more complex tasks. The
+highest level programs could make and execute plans to
+achieve high-level goals supplied by a user.
+Vision is very useful for navigation, locating objects,
+and determining their relative positions and orientation.
+However, it is usually not sufﬁcient for assembling parts
+or working with robots where there are environmental
+constraining forces. This led to the need to measure the
+forces and torques generated by the environment, on
+a robot, and to use these measurements to control the
+robot’s actions. For many years, force-controlled ma-
+nipulation became one of the main topics of study at
+SAIL, and several other labs around the world. The use
+of force control in industrial practice has always lagged
+the research developments in this area. This seems to
+be due to the fact that, while a high level of force
+control is very useful for general manipulation issues,
+speciﬁc problems in very restricted industrial environ-
+ments can often be handled with limited, or no, force
+control.
+In the 1970s, specialized areas of study such as
+walking machines, hands, automated vehicles, sensor
+integration, and design for hostile environments began
+to develop rapidly. Today there are a large number of dif-
+ferent specialties studied under the heading of robotics.
+Some of these specialties are classical engineering sub-
+ject areas within which results have been developed that
+have been particularized to the types of machines called
+robots. Examples here are kinematics, dynamics, con-
+trols, machine design, topology, and trajectory planning.
+Each of these subjects has a long history predating the
+study of robotics; yet each has been an area of in-depth
+robotics research in order to develop its special charac-
+ter in regard to robotic-type systems and applications.
+In doing this specialized development, researchers have
+enriched the classical subjects by increasing both their
+content and scope.
+At the same time that the theory was being devel-
+oped, there was a parallel, although somewhat separate,
+growth of industrial robotics. Strong commercial devel-
+opment occurred in Japan and Europe, and there was
+also continued growth in the USA. Industrial associa-
+tions were formed (the Japan Robot Association was
+formed in March 1971, and the Robotic Industries As-
+sociation (RIA) was founded in 1974 in the USA) and
+trade shows, together with application-oriented techni-
+cal sessions, were introduced and held on a regular basis.
+The most important were the International Symposium
+on Industrial Robots, the Conference on Industrial Robot
+Technology (now called the International Conference on
+Industrial Robot Technology), and the RIA annual trade
+show, which is now called the International Robots and
+Vision Show and Conference.
+The ﬁrst regular series of conferences emphasizing
+research, rather than the industrial, aspects of robotics,
+was inaugurated in 1973. It was sponsored jointly by the
+International Center for Mechanical Sciences (CISM),
+based in Udine, Italy, and the International Federation
+fortheTheoryofMechanismsandMachines(IFToMM).
+(Although IFToMM is still used, its meaning has been
+changed to the International Federation for the Pro-
+motion of Mechanism and Machine Science.) It was
+named the Symposium on Theory and Practice of Robots
+and Manipulators (RoManSy). Its trademark was an
+emphasis on the mechanical sciences and the active
+participation of researchers from Eastern and Western
+Europe as well as North America and Japan. It is still
+held biannually. On a personal note, it is at RoManSy
+where I ﬁrst met each of the editors of this Handbook:
+Dr. Khatib in 1978 and Dr. Siciliano in 1984. They were
+both students: Bruno Siciliano had been working on his
+PhD for about one year, and Oussama Khatib had just
+completed his PhD research. In both cases, it was love
+at ﬁrst sight!
+RoManSy was quickly joined by a host of other
+new conferences and workshops; today there are a large
+number of research oriented robotics meetings that take
+place through the year in many countries. Currently,
+the largest conference is the International Conference
+on Robotics and Automation (ICRA), which regularly
+draws well over 1000 participants.
+In the beginning of the 1980s, the ﬁrst real text-
+book on robotic manipulation in the USA was written
+by Richard “Lou” Paul (Richard P. Paul, Robot Manip-
+ulators: Mathematics, Programming, and Control, The
+MIT Press, Cambridge, MA, 1981). It used the idea
+of taking classical subjects in mechanics and applying
+them to robotics. In addition there were several top-
+ics developed directly from his thesis research at SAIL.
+(In the book, many examples are based on Scheinman’s
+Stanford Arm.) Paul’s book was a landmark event in
+the USA; it created a pattern for several inﬂuential
+future textbooks and also encouraged the creation of
+
+----- Page 8 (native) -----
+VIII
+specialized robotics courses at a host of colleges and
+universities.
+At about this same time, new journals were created
+to deal primarily with research papers in the areas re-
+lated to robotics. The International Journal of Robotics
+Research was founded in the spring of 1982, and three
+years later the IEEE Journal of Robotics and Automation
+(now the IEEE Transactions on Robotics) was founded.
+As microprocessors became ubiquitous, the ques-
+tion of what is or is not a robot came more into play.
+This issue has, in my mind, never been successfully
+resolved. I do not think a deﬁnition will ever be univer-
+sally agreed upon. There are of course the science ﬁction
+creatures-from-outer-space varieties, and the robots of
+the theater, literature, and the movies. There are ex-
+amples of imaginary robot-like beings that predate the
+industrial revolution, but how about more down-to-Earth
+robots? In my view the deﬁnition is essentially a mov-
+ing target that changes its character with technological
+progress. For example, when it was ﬁrst developed,
+a ship’s gyro auto-compass was considered a robot. To-
+day, it is not generally included when we list the robots
+in our world. It has been demoted and is now considered
+an automatic control device.
+For many, the idea of a robot includes the concept
+of multifunctionality, meaning the device is designed
+and built with the ability to be easily adapted or repro-
+grammed to do different tasks. In theory this idea is
+valid, but in practice it turns out that most robotic de-
+vices are multifunctional in only a very limited arena.
+In industry it was quickly discovered that a specialized
+machine, in general, performs much better than a gen-
+eral purpose machine. Furthermore, when the volume of
+production is high enough, a specialized machine can
+cost less to manufacture than a generalized one. So, spe-
+cialized robots were developed for painting, riveting,
+quasiplanar parts assembly, press loading, circuit board
+stufﬁng, etc. In some cases robots are used in such spe-
+cialized ways that it becomes difﬁcult to draw the line
+between a so-called robot and an adjustable piece of
+“ﬁxed” automation. Much of this practical unfolding is
+contrary to the dream of the pioneers in robotics, who
+had hoped for the development of general purpose ma-
+chines that would do “everything”, and hence sell in
+great enough volume to be relatively inexpensive.
+My view is that the notion of a robot has to do with
+which activities are, at a given time, associated with
+people and which are associated with machines. If a ma-
+chine suddenly becomes able to do what we normally
+associate with people, the machine can be upgraded in
+classiﬁcation and classiﬁed as a robot. After a while,
+people get used to the activity being done by machines,
+and the devices get downgraded from “robot” to “ma-
+chine”. Machines that do not have ﬁxed bases, and those
+that have arm- or leg-like appendages have the advan-
+tage of being more likely called robots, but it is hard to
+think of a consistent set of criteria that ﬁts all the current
+naming conventions.
+In actuality any machines, including familiar house-
+hold appliances, which have microprocessors directing
+their actions can be considered as robots. In addition
+to vacuum cleaners, there are washing machines, refrig-
+erators, and dishwashers that could be easily marketed
+as robotic devices. There are of course a wide range
+of possibilities, including those machines that have
+sensory environmental feedback and decision-making
+capabilities. In actual practice, in devices considered
+to be robotic, the amount of sensory and decision
+making capability may vary from a great deal to
+none.
+In recent decades the study of robotics has expanded
+from a discipline centered on the study of mechatronic
+devices to a much broader interdisciplinary subject.
+An example of this is the area called human-centered
+robotics. Here one deals with the interactions between
+humans and intelligent machines. This is a growing area
+where the study of the interactions between robots and
+humans has enlisted expertise from outside the classi-
+cal robotics domain. Concepts such as emotions in both
+robots and people are being studied, and older areas such
+as human physiology and biology are being incorporated
+into the mainstream of robotics research. These activi-
+ties enrich the ﬁeld of robotics, as they introduce new
+engineering and science dimensions into the research
+discourse.
+Originally, the nascent robotics community was fo-
+cused on getting things to work. Many early devices
+were remarkable in that they worked at all, and little
+notice was taken of their limited performance. Today,
+we have sophisticated, reliable devices as part of the
+modern array of robotic systems. This progress is the
+result of the work of thousands of people throughout
+the world. A lot of this work took place in universi-
+ties, government research laboratories, and companies.
+It is a tribute to the worldwide engineering and scien-
+tiﬁc community that it has been able to create the vast
+amount of information that is contained in the 64 chap-
+ters of this Handbook. Clearly these results did not arise
+by any central planning or by an overall orderly scheme.
+So the editors of this handbook were faced with the dif-
+ﬁcult task of organizing the material into a logical and
+coherent whole.
+
+----- Page 9 (native) -----
+IX
+The editors have accomplished this by organizing the
+contributions into a three-layer structure. The ﬁrst layer
+deals with the foundations of the subject. This layer
+consists of a single part of nine chapters in which the
+authors lay out the root subjects: kinematics, dynamics,
+control, mechanisms, architecture, programming, rea-
+soning, and sensing. These are the basic technological
+building blocks for robotics study and development.
+The second layer has four parts. The ﬁrst of these
+deals with robot structures; these are the arms, legs,
+hands, and other parts that most robots are made up of.
+At ﬁrst blush, the hardware of legs, arms, and hands
+may look quite different from each other, yet they share
+a common set of attributes that allows them to all be
+treated with the same, or closely related, aspects of the
+fundamentals described in the ﬁrst layer.
+The second part of this layer deals with sensing
+and perception, which are basic abilities any truly au-
+tonomous robotic system must have. As was pointed out
+earlier, in practice, many so-called robotic devices have
+little of these abilities, but clearly the more advanced
+robots cannot exist without them, and the trend is very
+much toward incorporating such capabilities into robotic
+devices. The third part of this layer treats the subject ar-
+eas associated with the technology of manipulation and
+the interfacing of devices. The fourth part of this layer
+is made up of eight chapters that treat mobile robots and
+various forms of distributed robotics.
+The third layer consists of two separate parts (a total
+of 22 chapters) that deal with advanced applications at
+the forefront of today’s research and development. There
+are two parts to this layer; one deals with ﬁeld and service
+robots, and the other deals with human-centered and
+lifelike robots. To the uninitiated observer, these chapters
+are what advanced robotics is all about. However, it is
+important to realize that many of these extraordinary
+accomplishments would probably not exist without the
+previous developments introduced in the ﬁrst two layers
+of this Handbook.
+It is this intimate connection between theory and
+practice that has nurtured the growth of robotics and
+become a hallmark of modern robotics. These two com-
+plementary aspects have been a source of great personal
+satisfaction to those of us who have had the opportu-
+nity to both research and develop robotic devices. The
+contents of this Handbook admirably reﬂect this com-
+plementary aspect of the subject, and present a very
+useful bringing together of the vast accomplishments
+which have taken place in the last 50 years. Certainly,
+the contents of this Handbook will serve as a valuable
+tool and guide to those who will produce the even more
+capable and diverse next generations of robotic devices.
+The editors and authors have my congratulations and
+admiration.
+Stanford, August 2007
+Bernard Roth
+
+----- Page 10 (native) -----
+X
+Foreword
+Georges Giralt
+Emeritus Research Director
+LAAS-CNRS Toulouse
+To open this Handbook and un-
+fold the richness of its 64 chapters,
+we here attempt a brief personal
+overview to sketch the evolution of
+robotics in its many aspects, con-
+cepts, trends, and central issues.
+The modern story of Robotics
+began about half a century ago with
+developments in two different di-
+rections.
+First, let us acknowledge the
+domain of mechanical arms, rang-
+ing from teleoperated tasks on
+radiation-contaminated products to
+industrial arms, with the landmark
+machine UNIMATE – standing for uni(versal)mate.
+The industrial development of products, mostly around
+the six-degree-of-freedom serial links paradigm and
+active research and development, associating mechan-
+ical engineering to the control specialism, was the
+main driving force here. Of particular note nowa-
+days is the successfully pursued effort to design
+novel application-optimized structures, using power-
+ful sophisticated mathematical tools. In a similar
+way, an important issue concerns the design and
+the actual building of arms and hands in the con-
+text of human-friendly robots for tomorrow’s cognitive
+robot.
+Second, and less well recognized, we should ac-
+knowledge the stream of work concerned with themes
+in artiﬁcial intelligence. A landmark project in this area
+was the mobile robot Shakey developed at Stanford In-
+ternational. This work, which aimed to bring together
+computer science, artiﬁcial intelligence, and applied
+mathematics to develop intelligent machines, remained
+a secondary area for quite some time. During the 1980s,
+building strength from many study cases encompassing
+a spectacular spectrum ranging from rovers for extreme
+environments (planet exploration, Antarctica, etc.), to
+service robots (hospitals, museum guides, etc.), a broad
+research domain arose in which machines could claim
+the status of intelligent robots.
+Hence robotics researches could bring together these
+two different branches, with intelligent robots cate-
+gorized in a solely computational way as bounded
+rationality machines, expanding on the 1980s third-
+generation robot deﬁnition:
+“(robot) . . .
+operating in the three-dimensional
+world as a machine endowed with the capacity to inter-
+pret and to reason about a task and about its execution,
+by intelligently relating perception to action.”
+The ﬁeld of autonomous robots, a widely recognized
+test-bed, has recently beneﬁted from salient contribu-
+tions in robot planning using the results of algorithmic
+geometry as well as of a stochastic framework approach
+applied both to environmental modeling and robot local-
+ization problems (SLAM, simultaneous localization and
+modeling), and further from the development of deci-
+sional procedures via Bayesian estimation and decision
+approaches.
+For the last decade of the millennium, robotics
+largely dealt with the intelligent robot paradigm, blend-
+ing together robots and machine-intelligence generic
+research within themes covering advanced sensing and
+perception, task reasoning and planning, operational
+and decisional autonomy, functional integration archi-
+tectures, intelligent human–machine interfaces, safety,
+and dependability.
+The second branch, for years referred to as non-
+manufacturing robotics, concerns a wide spectrum of
+research-driven real-world cases pertaining to ﬁeld,
+service, assistive, and, later, personal robotics. Here, ma-
+chine intelligence is, in its various themes, the central
+research direction, enabling the robot to act:
+1. as a human surrogate, in particular for intervention
+tasks in remote and/or hostile environments
+2. in close interaction with humans and operating
+in human environments in all applications encom-
+passed by human-friendly robotics, also referred to
+as human-centered robotics
+3. in tight synergy with the user, expanding from me-
+chanical exoskeleton assistance, surgery, health care,
+and rehabilitation into human augmentation.
+Consequently, at the turn of the millennium, robotics
+appears as a broad spectrum of research themes
+both supporting market products for well-engineered
+industrial workplaces, and a large number of domain-
+oriented application cases operating in hazardous and/or
+
+----- Page 11 (native) -----
+XI
+harsh environments (underwater robotics, rough-terrain
+rovers, health/rehabilitation care robotics, etc.) where
+robots exhibit meaningful levels of shared autonomy.
+The evolution levels for robotics stress the role of
+theoretical aspects, moving from application domains
+to the technical and scientiﬁc area. The organization of
+this Handbook illustrates very well these different lev-
+els. Furthermore, it rightly considers, besides a body of
+software systems, front-line matters on physical appear-
+ance and novel appendages, including legs, arms, and
+hands design in the context of human-friendly robots
+for tomorrow’s cognitive robot.
+Forefront robotics in the ﬁrst decade of the current
+millennium is making outstanding progress, compound-
+ing the strength of two general directions:
+•
+short/mid-term application-oriented study cases
+•
+mid/long-term generic situated research
+For completeness, we should mention the large num-
+ber of peripheral, robotics-inspired subjects, quite often
+concerning entertainment, advertising, and sophisticated
+toys.
+The salient ﬁeld of human-friendly robotics encom-
+passes several front-line application domains where the
+robots operate in a human environment and in close
+interaction with humans (entertainment and education,
+public-oriented services, assistive and personal robots,
+etc.), which introduces the critical issue of human–robot
+interaction.
+Right at the core of the ﬁeld, emerges the fore-
+front topic of personal robots for which three general
+characteristics should be emphasized:
+1. They may be operated by a nonprofessional user;
+2. They may be designed to share high-level decision
+making with the human user;
+3. They may include a link to environment devices
+and machine appendages, remote systems, and op-
+erators; the shared decisional autonomy concept
+(co-autonomy) implied here unfolds into a large set
+of cutting-edge research issues and ethical problems.
+The concept of the personal robot, expanding to
+robot assistant and universal companion, is a truly great
+challenge for robotics as a scientiﬁc and technical ﬁeld,
+offering the mid/long-term perspective of achieving
+a paramount societal and economical impact. This in-
+troduces, and questions, front-line topics encompassing
+cognitive aspects: user-tunable human–machine intel-
+ligent interfaces, perception (scene analysis, category
+identiﬁcation), open-ended learning (understanding
+the universe of action), skills acquisition, extensive
+robot-world data processing, decisional autonomy, and
+dependability (safety, reliability, communication, and
+operating robustness).
+There is an obvious synergistic effort between the
+two aforementioned approaches, in spite of the neces-
+sary framework time differences. The scientiﬁc link not
+only brings together the problems and obtained results
+but also creates a synergistic exchange between the two
+sides and the beneﬁts of technological progress.
+Indeed, the corresponding research trends and ap-
+plication developments are supported by an explosive
+evolution of enabling technologies: computer process-
+ing power, telecommunications, networking, sensing
+devices, knowledge retrieval, new materials, micro- and
+nanotechnologies.
+Today, looking to the mid- and long-term future, we
+are faced with very positive issues and perspectives but
+also having to respond to critical comments and looming
+dangers for machines that are in physical contact with
+the user and may also be capable of unwanted, unsafe
+behavior. Therefore, there is a clear need to include at the
+research level safety issues and the topic of multifaced
+dependability and the corresponding system constraints.
+The Handbook of Robotics is an ambitious and
+timely endeavor. It summarizes a large number of prob-
+lems, questions, and facets considered by 164 authors
+in 64 chapters. As such it not only provides an efﬁ-
+cient display of basic topics and results obtained by
+researches around the world, but furthermore gives ac-
+cess to this variety of viewpoints and approaches to
+everyone. This is indeed an important tool for progress
+but, much more, is the central factor that will establish
+the two ﬁrst decades of this millennium as the dawn of
+robotics, lifted to a scientiﬁc discipline at the core of
+machine intelligence.
+Toulouse, December 2007
+Georges Giralt
+
+----- Page 12 (native) -----
+XII
+Foreword
+Hirochika Inoue
+Professor Emeritus
+The University of Tokyo
+The ﬁeld of robotics was born in
+the middle of the last century when
+emerging computers were altering
+every ﬁeld of science and engineer-
+ing. Having gone through fast yet
+steady growth via a procession of
+stages from infancy, childhood, and
+adolescence to adulthood, robotics
+is now mature and is expected to en-
+hance the quality of people’s lives
+in society in the future.
+In its infancy, the core of
+robotics consisted of pattern recog-
+nition, automatic control, and arti-
+ﬁcial intelligence. Taking on these
+new challenge, scientists and engineers in these ﬁelds
+gathered to investigate novel robotic sensors and ac-
+tuators, planning and programming algorithms, and
+architectures to connect these components intelligently.
+In so doing, they created artifacts that could interact with
+humans in the real world. An integration of these early
+robotics studies yielded hand–eye systems, the test-bed
+of artiﬁcial intelligence research.
+The playground for childhood robotics was the fac-
+tory ﬂoor. Industrial robots were invented and introduced
+into the factory for automating spraying, spot welding,
+grinding, materials handling, and parts assembly. Ma-
+chines with sensors and memories made the factory ﬂoor
+smarter, and its operations more ﬂexible, reliable, and
+precise. Such robotic automation freed humans from
+heavy and tedious labor. The automobile, electric appli-
+ance, and semiconductor industries rapidly retooled their
+manufacturing lines into robot-integrated systems. In the
+late 1970s, the word mechatronics, originally coined by
+the Japanese, deﬁned a new concept of machinery, one in
+which electronics was fused with mechanical systems,
+making a wide range of industrial products simpler, more
+functional, programmable, and intelligent. Robotics and
+mechatronics exerted an evolutionary impact on the de-
+sign and operation of manufacturing processes as well
+as on manufactured products.
+As robotics entered its adolescence, researchers were
+ambitious to explore new horizons. Kinematics, dynam-
+ics, and control system theory were reﬁned and applied
+to real complex robot mechanisms. To plan and carry
+out real tasks, robots had to be made cognizant of their
+surroundings. Vision, the primary channel for external
+sensing, was exploited as the most general, effective, and
+efﬁcient means for robots to understand their external sit-
+uation. Advanced algorithms and powerful devices were
+developed to improve the speed and robustness of robot
+vision systems. Tactile and force sensing systems also
+needed to be developed for robots to manipulate objects.
+Studies on modeling, planning, knowledge, reasoning,
+and memorization expanded their intelligent properties.
+Robotics became deﬁned as the study of intelligent con-
+nection of sensing to actuation. This deﬁnition covered
+all aspects of robotics: three scientiﬁc cores and one
+synthetic approach to integrate them. Indeed, system in-
+tegration became a key aspect of robotic engineering
+as it allows the creation of lifelike machines. The fun
+of creating such robots attracted many students to the
+robotics ﬁeld.
+In advancing robotics further, scientiﬁc interest
+was directed at understanding humans. Comparative
+studies of humans and robots led to new approaches
+in scientiﬁc modeling of human functions. Cognitive
+robotics, lifelike behavior, biologically inspired robots,
+and a psychophysiological approach to robotic machines
+culminated in expanding the horizons of robotic po-
+tential. Generally speaking, an immature ﬁeld is sparse
+in scientiﬁc understanding. Robotics in the 1980s and
+1990s was in such a youthful stage, attracting a great
+many inquisitive researchers to this new frontier. Their
+continuous explorations into new realms form the rich
+scientiﬁc contents of this comprehensive volume.
+Further challenges, along with expertise acquired
+on the cutting edge of robotics, opened the way to
+real-world applications for mature robotics. The early-
+stage playground gave way to a workshop for industrial
+robotics. Medical robotics, robot surgery, and in vivo
+imaging save patients from pain while providing doc-
+tors with powerful tools for conducting operations. New
+robots in such areas as rehabilitation, health care, and
+welfare are expected to improve quality of life in an ag-
+ing society. It is the destiny of robots to go everywhere,
+in the air, under water, and into space. They are ex-
+pected to work hand in hand with humans in such areas
+as agriculture, forestry, mining, construction, and haz-
+ardous environments and rescue operations, and to ﬁnd
+
+----- Page 13 (native) -----
+XIII
+utility both in domestic work and in providing services
+in shops, stores, restaurants, and hospitals. In a myr-
+iad of ways, robotic devices are expected to support our
+daily lives. At this point, however, robot applications
+are largely limited to structured environments, where
+they are separated from humans for safety sake. In
+the next stage, their environment will be expanded to
+an unstructured world, one in which humans, as ser-
+vice takers, will always live and work beside robots.
+Improved sensing, more intelligence, enhanced safety,
+and better human understanding will be needed to pre-
+pare robots to function in such an environment. Not
+only technical but also social matters must be con-
+sidered in ﬁnding solutions to issues impeding this
+progress.
+Since my initial research to make a robot turn
+a crank, four decades have passed. I feel both lucky and
+happy to have witnessed the growth of robotics from its
+early beginnings. To give birth to robotics, fundamental
+technologies were imported from other disciplines. Nei-
+ther textbooks nor handbooks were available. To reach
+the present stage, a great many scientists and engineers
+have challenged new frontiers; advancing robotics, they
+have enriched this body of knowledge from a variety
+of perspectives. The fruits of their endeavors are com-
+piled in this Handbook of Robotics. More than 100 of
+the world’s leading experts have collaborated in produc-
+ing this publication. Now, people who wish to commit
+themselves to robotics research can ﬁnd a ﬁrm founda-
+tion to build upon. This Handbook is sure to be used to
+further advance robotics science, reinforce engineering
+education, and systematically compile knowledge that
+will innovate both society and industry.
+The roles of humans and robots in an aging soci-
+ety pose an important issue for scientists and engineers
+to consider. Can robotics contribute to securing peace,
+prosperity, and a greater quality of life? This is still
+an open question. However, recent advances in personal
+robots, robotic home appliances, and humanoids suggest
+a paradigm shift from the industrial to the service sector.
+To realize this, robotics must be addressed from such
+viewpoints as the working infrastructure within soci-
+ety, psychophysiology, law, economy, insurance, ethics,
+art, design, drama, and sports science. Future robotics
+should be studied as a subject that envelops both hu-
+manity and technology. This Handbook offers a selected
+technical foundation upon which to advance such newly
+emerging ﬁelds of robotics. I look forward to contin-
+uing progress adding page after page of robot-based
+prosperity to future society.
+Tokyo, September 2007
+Hirochika Inoue
+
+----- Page 14 (native) -----
+XIV
+Foreword
+Rodney Brooks
+Panasonic Professor
+of Robotics
+Massachusetts Institute
+of Technology
+Robots have fascinated people for
+thousands of years. Those automa-
+tons that were built before the
+20th century did not connect sens-
+ing to action but rather operated
+through human agency or as repet-
+itive machines. However, by the
+1920s electronics had gotten to the
+stage that the ﬁrst true robots that
+sensed the world and acted in it ap-
+propriately could be built. By 1950
+we started to see descriptions of
+real robots appearing in popular
+magazines. By the 1960s industrial
+robots came onto the scene. Com-
+mercial pressures made them less
+and less responsive to their envi-
+ronments but faster and faster in what they did in their
+carefully engineered world. Then in the mid 1970s in
+France, Japan, and the USA we started to see robots ris-
+ing again in a handful of research laboratories, and now
+we have arrived at a world-wide frenzy in research and
+the beginnings of large-scale deployment of intelligent
+robots throughout our world. This Handbook brings to-
+gether the current state of robotics research in one place.
+It ranges from the mechanism of robots through sens-
+ing and perceptual processing, intelligence, action, and
+many application areas.
+I have been more than fortunate to have lived with
+this revolution in robotics research over the last 30 years.
+As a teenager in Australia I built robots inspired by the
+tortoises of Walter described in the Scientiﬁc Ameri-
+can in 1949 and 1950. When I arrived in Silicon Valley
+in 1977, just as the revolution in the personalization
+of computation was really coming into being, I instead
+turned to the much more obscure world of robots. In
+1979 I was able to assist Hans Moravec at the Stanford
+Artiﬁcial Intelligence Lab (SAIL) as he coaxed his robot
+“The Cart” to navigate 20 m in 6 hours. Just 26 years
+later, in 2005, at the same laboratory, SAIL, Sebastian
+Thrun and his team coaxed their robot to autonomously
+drive 200,000 m in 6 hours: four orders of magnitude
+improvement in a mere 26 years, which is slightly better
+than a doubling every 2 years. However, robots have not
+just improved in speed, they have also increased in num-
+ber. When I arrived at SAIL in 1977 we knew of three
+mobile robots operating in the world. Recently a com-
+pany that I founded manufactured its 3,000,000th mobile
+robot, and the pace is increasing. Other aspects of robots
+have had similarly spectacular advances, although it is
+harder to provide such crisp numeric characterizations.
+In recent years we have gone from robots being too un-
+aware of their surroundings that it was unsafe for people
+to share their workspace to robots that people can work
+with in close contact, and from robots that were totally
+unaware of people to robots that pick up on natural so-
+cial cues from facial expressions to prosody in people’s
+voices. Recently robotics has crossed the divide between
+ﬂesh and machines so that now we are seeing neuro-
+robotics ranging from prosthetic robotic extensions to
+rehabilitative robots for the disabled. And very recently
+robotics has become a respected contributor to research
+in cognitive science and neuroscience.
+The research results chronicled in this volume
+give the key ideas that have enabled these spectacu-
+lar advances. The editors, the part editors, and all the
+contributors have done a stellar job in bring this knowl-
+edge together in one place. Their efforts have produced
+a work that will provide a basis for much further research
+and development. Thank you, and congratulations to all
+who have labored on this pivotal book.
+Some of the future robotics research will be incre-
+mental in nature, taking the state of the art and improving
+upon it. Other parts of future research will be more rev-
+olutionary, based on ideas that are antithetical to some
+of the ideas and current state of the art presented in this
+book.
+As you study this volume and look for places to con-
+tribute to research through your own talents and hard
+work I want to alert you to capabilities or aspirations
+that I believe will make robots even more useful, more
+productive, and more accepted. I describe these capabil-
+ities in terms of the age at which a child has equivalent
+capabilities:
+•
+the object-recognition capabilities of a 2-year-old
+child
+•
+the language capabilities of a 4-year-old child
+
+----- Page 15 (native) -----
+XV
+•
+the manual dexterity of a 6-year-old child
+•
+the social understanding of an 8-year-old child
+Each of these is a very difﬁcult goal. However even
+small amounts of progress towards any one of these goals
+will have immediate applications to robots out in the
+world. Good reading and best wishes as you contribute
+further to robotkind.
+Cambridge, October 2007
+Rodney Brooks
+
+----- Page 16 (native) -----
+XVII
+Preface
+Reaching for the human frontier, robotics is vigorously
+engaged in the growing challenges of new emerging
+domains. Interacting, exploring, and working with hu-
+mans, the new generation of robots will increasingly
+touch people and their lives. The credible prospect
+of practical robots among humans is the result of the
+scientiﬁc endeavor of a half a century of robotic devel-
+opments that established robotics as a modern scientiﬁc
+discipline.
+The undertaking of the Springer Handbook of
+Robotics was motivated by the rapid growth of the
+ﬁeld. With the ever increasing amount of publications
+in journals, conference proceedings and monographs, it
+is difﬁcult for those involved in robotics, particularly
+those who are just entering the ﬁeld, to stay abreast of
+its wide range of developments. This task is made even
+more arduous by the very multidisciplinary nature of
+robotics.
+The handbook follows preceding efforts in the 1980s
+and1990s,whichhavebroughtvaluablereferencestothe
+robotics community: Robot Motion: Planning and Con-
+trol (Brady, Hollerbach, Johnson, Lozano-Pérez, and
+Mason, MIT Press 1982), Robotics Science (Brady, MIT
+Press 1989), The Robotics Review 1 and 2 (Khatib,
+Craig, and Lozano-Pérez, MIT Press 1989 and 1992).
+With the greater expansion of the robotics ﬁeld and its
+increased outreach towards other scientiﬁc disciplines,
+the need for a comprehensive reference source com-
+bining basic and advanced developments has naturally
+become yet more urgent.
+The volume is the result of the effort by a number
+of contributors who themselves are actively involved in
+robotics research in countries around the world. It has
+been a gigantic task to insightfully provide coverage of
+all the areas of robotics by such a motivated and versatile
+group of individuals committed to this endeavour.
+The project started in May 2002 during a meeting
+the two of us had with Springer Director Engineering
+Europe Dieter Merkle and STAR Senior Editor Thomas
+Ditzinger. A year earlier, together with Frans Groen, we
+had launched the Springer Tracts in Advanced Robotics
+(STAR) series, which was rapidly establishing itself as
+an important medium for the timely dissemination of
+robotics research.
+It was in this context that we took on this challenging
+task and enthusiastically began the planning to develop
+the technical structure and build the group of contribu-
+tors. To capture the multiple dimensions of the ﬁeld in its
+well-established academic core, ongoing research devel-
+opments, and emerging applications, we conceived the
+handbook in a three-layer structure for a total of seven
+parts.
+The ﬁrst layer and part is devoted to the robotics
+foundations. The consolidated methodologies and tech-
+nologies are grouped in the four parts of the second
+layer, covering robot structures, sensing and percep-
+tion, manipulation and interfaces, mobile and distributed
+robotics. The third layer includes the advanced applica-
+tions in the two parts on ﬁeld and service robotics, and
+human-centered and life-like robotics, respectively.
+To develop each of these parts, we envisioned the es-
+tablishment of an editorial team which could coordinate
+the authors’ contributions to the various chapters. A year
+later our seven-member editorial team was formed:
+David Orin, Frank Park, Henrik Christensen, Makoto
+Kaneko, Raja Chatila, Alex Zelinsky and Daniela Rus.
+With the commitment of such a group of distinguished
+scholars, the handbook was granted quality, span, and
+balance in the scientiﬁc areas.
+By early 2005, we assembled an authorship of
+more than one-hundred-and-ﬁfty contributors. An in-
+ternal web site was created to facilitate inter-part and
+chapter cross-references, and to pace the schedule for
+the development of the project. The contents were care-
+fully tuned over the following year, and especially during
+the two full-day workshops held in the spring of 2005
+and 2006, well attended by most of the authors.
+Each chapter was peer reviewed by at least three in-
+dependent reviewers, typically involving the part editor,
+and two authors of related chapters; and in some cases,
+included external experts in the ﬁeld. Two review cycles
+were necessary, and even three in some cases. During
+the process, a few more authors were recruited whenever
+it was deemed necessary. Most chapters were ﬁnalized
+by the end of the summer of 2007, and the project was
+completed by the early spring of 2008 – generating, by
+that time, a record of over 10 000 emails in our fold-
+ers. The result is an impressive collection of 64 chapters
+
+----- Page 17 (native) -----
+XVIII
+over the 7 parts, contributed by 165 authors, with more
+than 1650 pages, 950 illustrations and 5500 references.
+We are deeply thankful to the authors for their intel-
+lectual contributions, as well as to the reviewers and part
+editors for their conscientious work. We are indebted to
+Werner Skolaut, the Senior Manager of Springer Hand-
+books in Science and Engineering, who soon became
+a devoted member of our team with his painstaking sup-
+port to technically editing the authors’ typescripts and
+linking the editors’ work with the copy editing and pro-
+duction of the handbook. We also wish to acknowledge
+the highly professional work by the Le-TeX staff, which
+re-typeset all the text, redrew and improved the many
+illustrations, while timely interacting with the authors
+during the proof-reading of the material.
+Six years after its conception the handbook comes
+to light. Beyond its tutorial value for our community,
+it is our hope that it will serve as a useful source to
+attract new researchers to robotics and inspire decades of
+vibrant progress in this fascinating ﬁeld. The completion
+of every endeavor also brings new exciting challenges;
+at such times, our fellows are always reminded to . . .
+keep the gradient ;-)
+Napoli and Stanford
+Bruno Siciliano
+April 2008
+Oussama Khatib
+
+----- Page 18 (native) -----
+XIX
+About the Editors
+Bruno Siciliano received his Doctorate degree in Electronic Engineering from the
+University of Naples in 1987. He is Professor of Control and Robotics, and Director
+of the PRISMA Lab in the Department of Computer and Systems Engineering at
+University of Naples. His current research is in force control, visual servoing, dual-
+arm/hand manipulation, lightweight ﬂexible arms, human-robot interaction and service
+robotics. Professor Siciliano has co-authored 6 books and 5 edited volumes, 65 journal
+papers, 165 conference papers and book chapters, and has delivered 85 invited lectures
+and seminars at institutions around the world. He is Co-Editor of the Springer Tracts
+in Advanced Robotics (STAR) series, the Springer Handbook of Robotics, and has
+served on the Editorial Boards of prestigious journals, as well as Chair or Co-Chair for
+numerous international conferences. He is a Fellow of both IEEE and ASME. Professor
+Siciliano is the President of the IEEE Robotics and Automation Society (RAS), after
+serving as Vice President for Technical Activities and Vice President for Publications,
+as a Distinguished Lecturer, as a member of the Administrative Committee and of
+several other society committees.
+Oussama Khatib received his Doctorate degree in Electrical Engineering from
+Sup’Aero, Toulouse, France, in 1980. He is Professor of Computer Science at Stanford
+University. His current research, which focuses on human-centered robotics, is con-
+cerned with human motion synthesis, humanoid robotics, haptic teleoperation, medical
+robotics, and human-friendly robot design. His research in these areas builds on a large
+body of studies he pursued over the past 25 years and published in over 200 con-
+tributions. Professor Khatib has delivered over 50 keynote presentations and several
+hundreds of colloquia and seminars at institutions around the world. He is Co-Editor
+of the STAR series, the Springer Handbook of Robotics, and has served on the Ad-
+visory and Editorial Boards of prestigious institutions and journals, as well as Chair
+or Co-Chair for numerous international conferences. He is a Fellow of IEEE and has
+served RAS as a Distinguished Lecturer and as a member of the Administrative Com-
+mittee. Professor Khatib is the President of the International Foundation of Robotics
+Research (IFRR) and a recipient of the Japan Robot Association (JARA) Award in
+Research and Development.
+
+----- Page 19 (native) -----
+XX
+
+----- Page 20 (native) -----
+XXI
+About the Part Editors
+David E. Orin
+Part A
+The Ohio State University
+Department of Electrical Engineering
+Columbus, OH, USA
+orin.1@osu.edu
+David E. Orin received his PhD degree in Electrical Engineering from The Ohio
+State University in 1976. From 1976 to 1980 he taught at Case Western Reserve
+University. Since 1981, he has been at The Ohio State University, where he is currently
+a Professor of Electrical and Computer Engineering. His current work focuses on
+dynamic movement in biped locomotion. He has made many contributions to robot
+dynamics and legged locomotion, and he has over 125 publications. He has received
+a number of educational awards from his institution. He is an IEEE Fellow and has
+served on the program committee for several international conferences. He has received
+the Distinguished Service Award in recognition of his service for the IEEE Robotics
+and Automation Society, such as Vice President for Finance, Secretary, member of the
+Administrative Committee, and co-chair of the Fellow Evaluation Committee.
+Frank C. Park
+Part B
+Seoul National University
+Mechanical and Aerospace Engineering
+Seoul, Korea
+fcp@snu.ac.kr
+Frank C. Park received the PhD degree in Applied Mathematics from Harvard
+University in 1991. From 1991 to 1995 he was an Assistant Professor of Mechanical
+and Aerospace Engineering at the University of California, Irvine. Since 1995 he
+has been at the School of Mechanical and Aerospace Engineering at Seoul National
+University, where he is currently full professor. His primary research interests in
+robotics include robot mechanics, planning, and control, robot design and structures,
+and industrial robotics. His other research interests include nonlinear systems theory,
+differential geometry and its applications, and related areas of applied mathematics. He
+has served the IEEE Robotics and Automation Society as a Secretary and as a Senior
+Editor of the IEEE Transactions on Robotics.
+Henrik I. Christensen
+Part C
+Georgia Institute of Technology
+Robotics and Intelligent Machines @ GT
+Atlanta, GA, USA
+hic@cc.gatech.edu
+Henrik I. Christensen is the KUKA Chair of Robotics and Director of
+Robotics at Georgia Institute of Technology, Atlanta, GA. He received
+the MS and PhD degrees from Aalborg University in 1987 and 1990,
+respectively. He has held positions in Denmark, Sweden, and USA. He
+has published more than 250 contributions across vision, robotics, and AI.
+Results from his research have been commercialized through a number of
+major companies and 4 spin-offs. He served as the founding coordinator of
+the European Robotics Research Network (EURON). He has participated
+as a senior organizer in more than 50 different conferences and workshops.
+He is a Fellow of the International Foundation of Robotics Research, an
+Editorial Board member of the STAR series, and has served on the editorial
+board of several leading journals in the ﬁeld. He has been a Distinguished
+Lecturer of the IEEE Robotics and Automation Society.
+
+----- Page 21 (native) -----
+XXII
+Makoto Kaneko
+Part D
+Osaka University
+Department of Mechanical Engineering
+Graduate School of Engineering
+Suita, Japan
+mk@mech.eng.osaka-u.ac.jp
+Makoto Kaneko received the MS and PhD degrees in Mechanical
+Engineering from Tokyo University in 1978 and 1981, respectively.
+From 1981 to 1990 he was Researcher at the Mechanical Engineering
+Laboratory, from 1990 to 1993 an Associate Professor at Kyushu
+Institute of Technology, from 1993 to 2006 Professor at Hiroshima
+University, and in 2006 became a Professor at Osaka University. His
+research interests include tactile-based active sensing, grasping strategy,
+hyper human technology and its application to medical diagnosis, and
+his work has received 17 awards. He is an Editorial Board member of the
+STAR series and has served as chair or co-chair for several international
+conferences. He is an IEEE Fellow. He has served the IEEE Robotics
+and Automation Society as a Vice-President for Member Activities
+and as a Technical Editor of the IEEE Transactions on Robotics and
+Automation.
+Raja Chatila
+Part E
+LAAS-CNRS
+Toulouse, France
+raja.chatila@laas.fr
+Raja Chatila received his PhD degree from the University of Toulouse in 1981. He is
+currently Director of LAAS-CNRS (Laboratory of Systems Analysis and Architecture),
+Toulouse, France where he is since 1983. He was an invited professor at Tsukuba
+University in 1997. His research work encompasses several aspects in ﬁeld, planetary,
+aerial and service robotics, cognitive robotics, learning, human-robot interaction, and
+networked robotics. He is author of over 150 international publications on these topics.
+He is a Fellow of the International Foundation of Robotics Research. He has served
+on the editorial boards of several leading publications, including the STAR series,
+and as chair or co-chair for several international conferences. He has served the IEEE
+Robotics and Automation Society as a member of the Administrative Committee, as
+an Associate Editor of the IEEE Transactions on Robotics and Automation and as
+a Distinguished Lecturer. He is a member of IEEE, ACM and AAAI, and a member of
+various national and international boards and evaluation committees.
+Alexander Zelinsky
+Part F
+Commonwealth Scientiﬁc and Industrial
+Research Organisation (CSIRO)
+ICT Centre
+Epping, NSW, Australia
+alex.zelinsky@csiro.au
+Alexander Zelinsky is the Director of the Information and Communication Technologies
+Centre at the CSIRO. Before joining CSIRO, he was CEO and Founder of Seeing
+Machines Pty Limited and a Professor at the Australian National University, in the
+Research School of Information Sciences and Engineering. He is a well-known scientist
+specializing in robotics and computer vision, he is widely recognized as an innovator in
+human-machine interaction, and he has over 100 publications in the ﬁeld. His work has
+received both national and international awards. He has served on the editorial boards
+of two leading publications, and on the program committees of several international
+conferences. He is an IEEE Fellow and has served the IEEE Robotics and Automation
+Society as a member of the Administrative Committee and as Vice-President for
+Industrial Activities.
+Daniela Rus
+Part G
+Massachusetts Institute of Technology
+CSAIL Center for Robotics
+Cambridge, MA, USA
+rus@csail.mit.edu
+Daniela Rus received her PhD degree in Computer Science from Cornell
+University in 1992. From 1994 to 2003 she taught at Dartmouth, Hanover.
+Since 2004 she has been at MIT, where she is currently a Professor of
+Electrical Engineering and Computer Science. She co-directs the CSAIL
+Center for robotics and is an Associate Director of CSAIL. Her research
+interests center on distributed robotics and mobile computing, and she has
+published extensively in the ﬁeld. Her work in robotics aims to develop
+self-organizing systems and spans the spectrum from novel mechanical
+design and experimental platforms to developing and analyzing algorithms
+for locomotion, manipulation, and group control. She has received
+a number of awards, including the MacArthur Fellow. She has been on the
+program committees of several international conferences, and has served
+the IEEE Robotics and Automation Society as Education Co-Chair.
+
+----- Page 22 (native) -----
+XXIII
+List of Contributors
+Jorge Angeles
+McGill University
+Department of Mechanical Engineering
+and Centre for Intelligent Machines
+817 Sherbrooke St. W.
+Montreal, Quebec H3A 2K6, Canada
+e-mail: angeles@cim.mcgill.ca
+Gianluca Antonelli
+Università degli Studi di Cassino
+Dipartimento di Automazione, Ingegneria
+dell’Informazione e Matematica Industriale
+Via G. Di Biasio 43
+03043 Cassino, Italy
+e-mail: antonelli@unicas.it
+Fumihito Arai
+Tohoku University
+Department of Bioengineering and Robotics
+6-6-01 Aoba-yama
+980-8579 Sendai, Japan
+e-mail: arai@imech.mech.tohoku.ac.jp
+Michael A. Arbib
+University of Southern California
+Computer, Neuroscience and USC Brain Project
+Los Angeles, CA 90089-2520, USA
+e-mail: arbib@usc.edu
+Antonio Bicchi
+Università degli Studi di Pisa
+Centro Interdipartimentale di Ricerca
+“Enrico Piaggio” e Dipartimento
+di Sistemi Elettrici e Automazione
+Via Diotisalvi 2
+56125 Pisa, Italy
+e-mail: bicchi@ing.unipi.it
+Aude Billard
+Ecole Polytechnique Federale de Lausanne (EPFL)
+Learning Algorithms and Systems Laboratory (LASA)
+STI-I2S-LASA
+1015 Lausanne, Switzerland
+e-mail: aude.billard@epﬂ.ch
+John Billingsley
+University of Southern Queensland
+Faculty of Engineering and Surveying
+Toowoomba QLD 4350, Australia
+e-mail: billings@usq.edu.au
+Wayne Book
+Georgia Institute of Technology
+G.W. Woodruff School of Mechanical Engineering
+771 Ferst Drive
+Atlanta, GA 30332-0405, USA
+e-mail: wayne.book@me.gatech.edu
+Cynthia Breazeal
+Massachusetts Institute of Technology
+The Media Lab
+20 Ames St.
+Cambridge, MA 02139, USA
+e-mail: cynthiab@media.mit.edu
+Oliver Brock
+University of Massachusetts
+Robotics and Biology Laboratory
+140 Governors Drive
+Amherst, MA 01003, USA
+e-mail: oli@cs.umass.edu
+Alberto Broggi
+Università degli Studi di Parma
+Dipartimento di Ingegneria dell’Informazione
+Viale delle Scienze 181A
+43100 Parma, Italy
+e-mail: broggi@ce.unipr.it
+Heinrich H. Bülthoff
+Max-Planck-Institut für biologische Kybernetik
+Kognitive Humanpsychophysik
+Spemannstr. 38
+72076 Tübingen, Germany
+e-mail: heinrich.buelthoff@tuebingen.mpg.de
+
+----- Page 23 (native) -----
+XXIV
+List of Contributors
+Joel W. Burdick
+California Institute of Technology
+Mechanical Engineering Department
+1200 E. California Blvd.
+Pasadena, CA 91125, USA
+e-mail: jwb@robotics.caltech.edu
+Wolfram Burgard
+Albert-Ludwigs-Universität Freiburg
+Institut für Informatik
+Georges-Koehler-Allee 079
+79110 Freiburg, Germany
+e-mail: burgard@informatik.uni-freiburg.de
+Zack Butler
+Rochester Institute of Technology
+Department of Computer Science
+102 Lomb Memorial Dr.
+Rochester, NY 14623, USA
+e-mail: zjb@cs.rit.edu
+Fabrizio Caccavale
+Università degli Studi della Basilicata
+Dipartimento di Ingegneria e Fisica dell’Ambiente
+Via dell’Ateneo Lucano 10
+85100 Potenza, Italy
+e-mail: fabrizio.caccavale@unibas.it
+Sylvain Calinon
+Ecole Polytechnique Federale de Lausanne (EPFL)
+Learning Algorithms and Systems Laboratory (LASA)
+STI-I2S-LASA
+1015 Lausanne, Switzerland
+e-mail: sylvain.calinon@epﬂ.ch
+Guy Campion
+Université Catholique de Louvain
+Centre d’Ingénierie des Systèmes d’Automatique
+et de Mécanique Appliquée
+4 Avenue G. Lemaître
+1348 Louvain-la-Neuve, Belgium
+e-mail: guy.campion@uclouvain.be
+Raja Chatila
+LAAS-CNRS
+7 Avenue du Colonel Roche
+31077 Toulouse, France
+e-mail: raja.chatila@laas.fr
+François Chaumette
+INRIA/IRISA
+Campus de Beaulieu
+35042 Rennes, France
+e-mail: francois.chaumette@irisa.fr
+Stefano Chiaverini
+Università degli Studi di Cassino
+Dipartimento di Automazione, Ingegneria
+dell’Informazione e Matematica Industriale
+Via G. Di Biasio 43
+03043 Cassino, Italy
+e-mail: chiaverini@unicas.it
+Nak Young Chong
+Japan Advanced Institute of Science
+and Technology (JAIST)
+School of Infomation Science
+1-1 Asahidai, Nomi
+923-1292 Ishikawa, Japan
+e-mail: nakyoung@jaist.ac.jp
+Howie Choset
+Carnegie Mellon University
+The Robotics Institute
+5000 Forbes Ave.
+Pittsburgh, PA 15213, USA
+e-mail: choset@cs.cmu.edu
+Henrik I. Christensen
+Georgia Institute of Technology
+Robotics and Intelligent Machines @ GT
+Atlanta, GA 30332-0760, USA
+e-mail: hic@cc.gatech.edu
+Wankyun Chung
+POSTECH
+Department of Mechanical Engineering
+San 31 Hyojading
+Pohang 790-784, Korea
+e-mail: wkchung@postech.ac.kr
+Woojin Chung
+Korea University
+Department of Mechanical Engineering
+Anam-dong, Sungbuk-ku
+Seoul 136-701, Korea
+e-mail: smartrobot@korea.ac.kr
+
+----- Page 24 (native) -----
+List of Contributors
+XXV
+J. Edward Colgate
+Northwestern University
+Department of Mechanical Engineering
+Segal Design Institute
+2145 Sheridan Rd.
+Evanston, IL 60208, USA
+e-mail: colgate@northwestern.edu
+Peter Corke
+Commonwealth Scientiﬁc
+and Industrial Research Organisation (CSIRO)
+ICT Centre
+PO Box 883
+Kenmore QLD 4069, Australia
+e-mail: peter.corke@csiro.au
+Jock Cunningham
+Commonwealth Scientiﬁc
+and Industrial Research Organisation (CSIRO)
+Division of Exploration and Mining
+PO Box 883
+Kenmore QLD 4069, Australia
+e-mail: jock.cunningham@csiro.au
+Mark R. Cutkosky
+Stanford University
+Mechanical Engineering
+Building 560, 424 Panama Mall
+Stanford, CA 94305-2232, USA
+e-mail: cutkosky@stanford.edu
+Kostas Daniilidis
+University of Pennsylvania
+Department of Computer and Information Science
+GRASP Laboratory
+3330 Walnut Street
+Philadelphia, PA 19104, USA
+e-mail: kostas@cis.upenn.edu
+Paolo Dario
+Scuola Superiore Sant’Anna
+ARTS Lab e CRIM Lab
+Piazza Martiri della Libertà 33
+56127 Pisa, Italy
+e-mail: paolo.dario@sssup.it
+Alessandro De Luca
+Università degli Studi di Roma “La Sapienza”
+Dipartimento di Informatica
+e Sistemistica “A. Ruberti”
+Via Ariosto 25
+00185 Roma, Italy
+e-mail: deluca@dis.uniroma1.it
+Joris De Schutter
+Katholieke Universiteit Leuven
+Department of Mechanical Engineering
+Celestijnenlaan 300, Box 02420
+3001 Leuven-Heverlee, Belgium
+e-mail: joris.deschutter@mech.kuleuven.be
+Rüdiger Dillmann
+Universität Karlsruhe
+Institut für Technische Informatik
+Haid-und-Neu-Str. 7
+76131 Karlsruhe, Germany
+e-mail: dillmann@ira.uka.de
+Lixin Dong
+ETH Zentrum
+Institute of Robotics and Intelligent Systems
+Tannenstr. 3
+8092 Zürich, Switzerland
+e-mail: ldong@ethz.ch
+Gregory Dudek
+McGill University
+Department of Computer Science
+3480 University Street
+Montreal, QC H3Y 3H4, Canada
+e-mail: dudek@cim.mcgill.ca
+Mark Dunn
+University of Southern Queensland
+National Centre for Engineering in Agriculture
+Toowoomba QLD 4350, Australia
+e-mail: mark.dunn@usq.edu.au
+Hugh Durrant-Whyte
+University of Sydney
+ARC Centre of Excellence for Autonomous Systems
+Australian Centre for Field Robotics (ACFR)
+Sydney NSW 2006, Australia
+e-mail: hugh@acfr.usyd.edu.au
+
+----- Page 25 (native) -----
+XXVI
+List of Contributors
+Jan-Olof Eklundh
+KTH Royal Institute of Technology
+Teknikringen 14
+10044 Stockholm, Sweden
+e-mail: joe@nada.kth.se
+Aydan M. Erkmen
+Middle East Technical University
+Department of Electrical Engineering
+Ankara, 06531, Turkey
+e-mail: aydan@metu.edu.tr
+Bernard Espiau
+INRIA Rhône-Alpes
+38334 Saint-Ismier, France
+e-mail: bernard.espiau@inria.fr
+Roy Featherstone
+The Australian National University
+Department of Information Engineering
+RSISE Building 115
+Canberra ACT 0200, Australia
+e-mail: roy.featherstone@anu.edu.au
+Eric Feron
+Georgia Institute of Technology
+School of Aerospace Engineering
+270 Ferst Drive
+Atlanta, GA 30332-0150, USA
+e-mail: feron@gatech.edu
+Gabor Fichtinger
+Queen’s University
+School of Computing
+#725 Goodwin Hall, 25 Union St.
+Kingston, ON K7L 3N6, Canada
+e-mail: gabor@cs.queensu.ca
+Paolo Fiorini
+Università degli Studi di Verona
+Dipartimento di Informatica
+Strada le Grazie 15
+37134 Verona, Italy
+e-mail: paolo.ﬁorini@univr.it
+Robert B. Fisher
+University of Edinburgh
+School of Informatics
+James Clerk Maxwell Building, Mayﬁeld Road
+Edinburgh, EH9 3JZ, UK
+e-mail: rbr@inf.ed.ac.uk
+Paul Fitzpatrick
+Italian Institute of Technology
+Robotics, Brain, and Cognitive
+Sciences Department
+Via Morego 30
+16163 Genova, Italy
+e-mail: paul.ﬁtzpatrick@iit.it
+Dario Floreano
+Ecole Polytechnique Federale de Lausanne (EPFL)
+Laboratory of Intelligent Systems
+EPFL-STI-I2S-LIS
+1015 Lausanne, Switzerland
+e-mail: dario.ﬂoreano@epﬂ.ch
+Thor I. Fossen
+Norwegian University of Science
+and Technology (NTNU)
+Department of Engineering Cybernetics
+Trondheim, 7491, Norway
+e-mail: fossen@ieee.org
+Li-Chen Fu
+National Taiwan University
+Department of Electrical Engineering
+Taipei, 106, Taiwan, R.O.C.
+e-mail: lichen@ntu.edu.tw
+Maxime Gautier
+Université de Nantes
+IRCCyN, ECN
+1 Rue de la Noë
+44321 Nantes, France
+e-mail: maxime.gautier@irccyn.ec-nantes.fr
+Martin A. Giese
+University of Wales
+Department of Psychology
+Penrallt Rd.
+Bangor, LL 57 2AS, UK
+e-mail: martin.giese@uni-tuebingen.de
+
+----- Page 26 (native) -----
+List of Contributors
+XXVII
+Ken Goldberg
+University of California at Berkeley
+Department of Industrial Engineering
+and Operations Research
+4141 Etcheverry Hall
+Berkeley, CA 94720-1777, USA
+e-mail: goldberg@ieor.berkeley.edu
+Clément Gosselin
+Université Laval
+Departement de Genie Mecanique
+Quebec, QC G1K 7P4, Canada
+e-mail: gosselin@gmc.ulaval.ca
+Agnès Guillot
+Université Pierre et Marie Curie – CNRS
+Institut des Systèmes Intelligents et de Robotique
+4 Place Jussieu
+75252 Paris, France
+e-mail: agnes.guillot@lip6.fr
+Martin Hägele
+Fraunhofer IPA
+Robot Systems
+Nobelstr. 12
+70569 Stuttgart, Germany
+e-mail: mmh@ipa.fhg.de
+Gregory D. Hager
+Johns Hopkins University
+Department of Computer Science
+3400 N. Charles St.
+Baltimore, MD 21218, USA
+e-mail: hager@cs.jhu.edu
+David Hainsworth
+Commonwealth Scientiﬁc
+and Industrial Research Organisation (CSIRO)
+Division of Exploration and Mining
+PO Box 883
+Kenmore QLD 4069, Australia
+e-mail: david.hainsworth@csiro.au
+William R. Hamel
+University of Tennessee
+Mechanical, Aerospace,
+and Biomedical Engineering
+414 Dougherty Engineering Building
+Knoxville, TN 37996-2210, USA
+e-mail: whamel@utk.edu
+Blake Hannaford
+University of Washington
+Department of Electrical Engineering
+Box 352500
+Seattle, WA 98195-2500, USA
+e-mail: blake@ee.washington.edu
+Kensuke Harada
+National Institute of Advanced Industrial Science
+and Technology (AIST)
+Intelligent Systems Research Institute
+1-1-1 Umezono
+305-8568 Tsukuba, Japan
+e-mail: kensuke.harada@aist.go.jp
+Martial Hebert
+Carnegie Mellon University
+The Robotics Institute
+5000 Forbes Ave.
+Pittsburgh, PA 15213, USA
+e-mail: hebert@ri.cmu.edu
+Thomas C. Henderson
+University of Utah
+School of Computing
+50 S. Central Campus Dr. 3190 MEB
+Salt Lake City, UT 84112, USA
+e-mail: tch@cs.utah.edu
+Joachim Hertzberg
+Universität Osnabrück
+Institut für Informatik
+Albrechtstr. 28
+54076 Osnabrück, Germany
+e-mail: hertzberg@informatik.uni-osnabrueck.de
+
+----- Page 27 (native) -----
+XXVIII
+List of Contributors
+Hirohisa Hirukawa
+National Institute of Advanced Industrial Science
+and Technology (AIST)
+Intelligent Systems Research Institute
+1-1-1 Umezono
+305-8568 Tsukuba, Japan
+e-mail: hiro.hirukawa@aist.go.jp
+Gerd Hirzinger
+Deutsches Zentrum für Luft- und Raumfahrt (DLR)
+Oberpfaffenhofen
+Institut für Robotik und Mechatronik
+Münchner Str. 20
+82230 Wessling, Germany
+e-mail: gerd.hirzinger@dlr.de
+John Hollerbach
+University of Utah
+School of Computing
+50 S. Central Campus Dr.
+Salt Lake City, UT 84112, USA
+e-mail: jmh@cs.utah.ledu
+Robert D. Howe
+Harvard University
+Division of Engineering and Applied Sciences
+Pierce Hall, 29 Oxford St.
+Cambridge, MA 02138, USA
+e-mail: howe@seas.harvard.edu
+Su-Hau Hsu†
+National Taiwan University
+Taipei, Taiwan
+Phil Husbands
+University of Sussex
+Department of Informatics
+Falmer, Brighton BN1 9QH, UK
+e-mail: philh@sussex.ac.uk
+Seth Hutchinson
+University of Illinois
+Department of Electrical and Computer
+Engineering
+Urbana, IL 61801, USA
+e-mail: seth@uiuc.edu
+Adam Jacoff
+National Institute of Standards and Technology
+Intelligent Systems Division
+100 Bureau Drive
+Gaithersburg, MD 20899, USA
+e-mail: adam.jacoff@nist.gov
+Michael Jenkin
+York University
+Computer Science and Engineering
+4700 Keel St.
+Toronto, Ontario M3J 1P3, Canada
+e-mail: jenkin@cse.yorku.ca
+Eric N. Johnson
+Georgia Institute of Technology
+Daniel Guggenheim School of
+Aerospace Engineering
+270 Ferst Drive
+Atlanta, GA 30332-0150, USA
+e-mail: eric.johnson@ae.gatech.edu
+Shuuji Kajita
+National Institute of Advanced Industrial Science
+and Technology (AIST)
+Intelligent Systems Research Institute
+1-1-1 Umezono
+305-8568 Tsukuba, Japan
+e-mail: s.kajita@aist.go.jp
+Makoto Kaneko
+Osaka University
+Department of Mechanical Engineering
+Graduate School of Engineering
+2-1 Yamadaoka
+565-0871 Suita, Osaka, Japan
+e-mail: mk@mech.eng.osaka-u.ac.jp
+Sung-Chul Kang
+Korea Institute of Science and Technology
+Cognitive Robotics Research Center
+Hawolgok-dong 39-1, Sungbuk-ku
+Seoul 136-791, Korea
+e-mail: kasch@kist.re.kr
+
+----- Page 28 (native) -----
+List of Contributors
+XXIX
+Imin Kao
+State University of New York at Stony Brook
+Department of Mechanical Engineering
+Stony Brook, NY 11794-2300, USA
+e-mail: imin.kao@stonybrook.edu
+Lydia E. Kavraki
+Rice University
+Department of Computer Science, MS 132
+6100 Main Street
+Houston, TX 77005, USA
+e-mail: kavraki@rice.edu
+Homayoon Kazerooni
+University of California at Berkeley
+Berkeley Robotics and Human Engineering
+Laboratory
+5124 Etcheverry Hall
+Berkeley, CA 94720-1740, USA
+e-mail: kazerooni@berkeley.edu
+Charles C. Kemp
+Georgia Institute of Technology
+and Emory University
+The Wallace H. Coulter Department
+of Biomedical Engineering
+313 Ferst Drive
+Atlanta, GA 30332-0535, USA
+e-mail: charlie.kemp@bme.gatech.edu
+Wisama Khalil
+Université de Nantes
+IRCCyN, ECN
+1 Rue de la Noë
+44321 Nantes, France
+e-mail: wisama.khalil@irccyn.ec-nantes.fr
+Oussama Khatib
+Stanford University
+Department of Computer Science
+Artiﬁcial Intelligence Laboratory
+Stanford, CA 94305-9010, USA
+e-mail: khatib@cs.stanford.edu
+Lindsay Kleeman
+Monash University
+Department of Electrical and Computer Systems
+Engineering
+Department of ECSEng
+Monash VIC 3800, Australia
+e-mail: kleeman@eng.monash.edu.au
+Tetsunori Kobayashi
+Waseda University
+Department of Computer Science
+3-4-1 Okubo, Shinjuku-ku
+169-8555 Tokyo, Japan
+e-mail: koba@waseda.jp
+Kurt Konolige
+SRI International
+Artiﬁcial Intelligence Center
+333 Ravenswood Ave.
+Menlo Park, CA 94025, USA
+e-mail: konolige@ai.sri.com
+David Kortenkamp
+TRACLabs Inc.
+1012 Hercules Drive
+Houston, TX 77058, USA
+e-mail: korten@traclabs.com
+Kazuhiro Kosuge
+Tohoku University
+Department of Bioengineering and Robotics
+Graduate School of Engineering
+6-6-01 Aoba-yama
+980-8579 Sendai, Japan
+e-mail: kosuge@irs.mech.tohoku.ac.jp
+Roman Kuc
+Yale University
+Department of Electrical Engineering
+10 Hillhouse Ave
+New Haven, CT 06520-8267, USA
+e-mail: kuc@yale.edu
+James Kuffner
+Carnegie Mellon University
+The Robotics Institute
+5000 Forbes Ave.
+Pittsburgh, PA 15213, USA
+e-mail: kuffner@cs.cmu.edu
+
+----- Page 29 (native) -----
+XXX
+List of Contributors
+Vijay Kumar
+University of Pennsylvania
+Department of Mechanical Engineering
+and Applied Mechanics
+220 S. 33rd Street
+Philadelphia, PA 19104-6315, USA
+e-mail: kumar@grasp.upenn.edu
+Florent Lamiraux
+LAAS-CNRS
+7 Avenue du Colonel Roche
+31077 Toulouse, France
+e-mail: ﬂorent@laas.fr
+Jean-Paul Laumond
+LAAS-CNRS
+7 Avenue du Colonel Roche
+31077 Toulouse, France
+e-mail: jpl@laas.fr
+Steven M. LaValle
+University of Illinois
+Department of Computer Science
+201 N. Goodwin Ave, 3318 Siebel Center
+Urbana, IL 61801, USA
+e-mail: lavalle@cs.uiuc.edu
+John J. Leonard
+Massachusetts Institute of Technology
+Department of Mechanical Engineering
+5-214 77 Massachusetts Ave
+Cambridge, MA 02139, USA
+e-mail: jleonard@mit.edu
+Kevin Lynch
+Northwestern University
+Mechanical Engineering Department
+2145 Sheridan Road
+Evanston, IL 60208, USA
+e-mail: kmlynch@northwestern.edu
+Alan M. Lytle
+National Institute of Standards and Technology
+Construction Metrology and Automation Group
+100 Bureau Drive
+Gaithersburg, MD 20899, USA
+e-mail: alan.lytle@nist.gov
+Maja J. Matari´c
+University of Southern California
+Computer Science Department
+3650 McClintock Avenue
+Los Angeles, CA 90089, USA
+e-mail: mataric@usc.edu
+Yoshio Matsumoto
+Osaka University
+Department of Adaptive Machine Systems
+Graduate School of Engineering
+565-0871 Suita, Osaka, Japan
+e-mail: matsumoto@ams.eng.osaka-u.ac.jp
+J. Michael McCarthy
+University of California at Irvine
+Department of Mechanical and Aerospace
+Engineering
+Irvine, CA 92697, USA
+e-mail: jmmccart@uci.edu
+Claudio Melchiorri
+Università degli Studi di Bologna
+Dipartimento di Elettronica Informatica
+e Sistemistica
+Via Risorgimento 2
+40136 Bologna, Italy
+e-mail: claudio.melchiorri@unibo.it
+Arianna Menciassi
+Scuola Superiore Sant’Anna
+CRIM Lab
+Piazza Martiri della Libertà 33
+56127 Pisa, Italy
+e-mail: arianna@sssup.it
+Jean-Pierre Merlet
+INRIA Sophia-Antipolis
+2004 Route des Lucioles
+06902 Sophia-Antipolis, France
+e-mail: jean-pierre.merlet@sophia.inria.fr
+Giorgio Metta
+Italian Institute of Technology
+Department of Robotics, Brain and Cognitive
+Sciences
+Via Morego 30
+16163 Genova, Italy
+e-mail: pasa@liralab.it
+
+----- Page 30 (native) -----
+List of Contributors
+XXXI
+Jean-Arcady Meyer
+Université Pierre et Marie Curie – CNRS
+Institut des Systèmes Intelligents et de Robotique
+4 Place Jussieu
+75252 Paris, France
+e-mail: jean-arcady.meyer@lip6.fr
+François Michaud
+Université de Sherbrooke
+Department of Electrical Engineering
+and Computer Engineering
+2500 Boulevard Université
+Sherbrooke, Québec J1K 2R1, Canada
+e-mail: francois.michaud@usherbrooke.ca
+David P. Miller
+University of Oklahoma
+School of Aerospace and Mechanical Engineering
+865 Asp Ave.
+Norman, OK 73019, USA
+e-mail: dpmiller@ou.edu
+Javier Minguez
+Universidad de Zaragoza
+Departamento de Informática e Ingeniería de
+Sistemas
+Centro Politécnico Superior
+Ediﬁcio Ada Byron, Maria de Luna 1
+Zaragoza 50018, Spain
+e-mail: jminguez@unizar.es
+Pascal Morin
+INRIA Sophia-Antipolis
+2004 Route des Lucioles
+06902 Sophia-Antipolis, France
+e-mail: pascal.morin@inria.fr
+Robin R. Murphy
+University of South Florida
+Computer Science and Engineering
+4202 E. Fowler Ave ENB342
+Tampa, FL 33620-5399, USA
+e-mail: murphy@cse.usf.edu
+Daniele Nardi
+Università degli Studi di Roma “La Sapienza”
+Dipartimento di Informatica e Sistemistica
+“A. Ruberti”
+Via Ariosto 25
+00185 Roma, Italy
+e-mail: nardi@dis.uniroma1.it
+Bradley J. Nelson
+ETH Zentrum
+Institute of Robotics and Intelligent Systems
+Tannenstr. 3
+8092 Zürich, Switzerland
+e-mail: bnelson@ethz.ch
+Günter Niemeyer
+Stanford University
+Department of Mechanical Engineering
+Design Group, Terman Engineering Center
+Stanford, CA 94305-4021, USA
+e-mail: gunter.niemeyer@stanford.edu
+Klas Nilsson
+Lund University
+Department of Computer Science
+Ole Römers väg 3
+22100 Lund, Sweden
+e-mail: klas@cs.lu.se
+Stefano Nolﬁ
+Consiglio Nazionale delle Ricerche (CNR)
+Instituto di Scienze e Tecnologie della Cognizione
+Via S. Martino della Battaglia 44
+00185 Roma, Italy
+e-mail: stefano.nolﬁ@istc.cnr.it
+Illah R. Nourbakhsh
+Carnegie Mellon University
+The Robotics Institute
+5000 Forbes Ave.
+Pittsburgh, PA 15213, USA
+e-mail: illah@cs.cmu.edu
+Jonathan B. O’Brien
+University of New South Wales
+School of Civil and Environmental Engineering
+Sydney 2052, Australia
+e-mail: j.obrien@unsw.edu.au
+
+----- Page 31 (native) -----
+XXXII
+List of Contributors
+Allison M. Okamura
+The Johns Hopkins University
+Department of Mechanical Engineering
+3400 N. Charles Street
+Baltimore, MD 21218, USA
+e-mail: aokamura@jhu.edu
+Fiorella Operto
+Scuola di Robotica
+Piazza Monastero 4
+16149 Sampierdarena, Genova, Italy
+e-mail: operto@scuoladirobotica.it
+David E. Orin
+The Ohio State University
+Department of Electrical Engineering
+2015 Neil Avenue
+Columbus, OH 43210, USA
+e-mail: orin.1@osu.edu
+Giuseppe Oriolo
+Università degli Studi di Roma “La Sapienza”
+Dipartimento di Informatica e Sistemistica
+“A.Ruberti”
+Via Ariosto 25
+00185 Roma, Italy
+e-mail: oriolo@dis.uniroma1.it
+Michel Parent
+INRIA Rocquencourt
+78153 Le Chesnay, France
+e-mail: michel.parent@inria.fr
+Frank C. Park
+Seoul National University
+Mechanical and Aerospace Engineering
+Seoul 51-742, Korea
+e-mail: fcp@snu.ac.kr
+Lynne E. Parker
+University of Tennessee
+Department of Electrical Engineering
+and Computer Science
+1122 Volunteer Blvd.
+Knoxville, TN 37996-3450, USA
+e-mail: parker@eecs.utk.edu
+Michael A. Peshkin
+Northwestern University
+Department of Mechanical Engineering
+2145 Sheridan Road
+Evanston, IL 60208, USA
+e-mail: peshkin@northwestern.edu
+J. Norberto Pires
+Universidade de Coimbra
+Departamento de Engenharia Mecânica
+Polo II
+Coimbra 3030, Portugal
+e-mail: norberto@robotics.dem.uc.pt
+Erwin Prassler
+Fachhochschule Bonn-Rhein-Sieg
+Fachbereich Informatik
+Grantham-Allee 20
+53757 Sankt Augustin, Germany
+e-mail: erwin.prassler@fh-brs.de
+Domenico Prattichizzo
+Università degli Studi di Siena
+Dipartimento di Ingegneria dell’Informazione
+Via Roma 56
+53100 Siena, Italy
+e-mail: prattichizzo@ing.unisi.it
+Carsten Preusche
+Deutsches Zentrum für Luft- und Raumfahrt (DLR)
+Oberpfaffenhofen
+Institut für Robotik und Mechatronik
+Münchner Str. 20
+82234 Wessling, Germany
+e-mail: carsten.preusche@dlr.de
+William R. Provancher
+University of Utah
+Department of Mechanical Engineering
+50 S. Central Campus, 2120 MEB
+Salt Lake City, UT 84112-9208, USA
+e-mail: wil@mech.utah.edu
+David J. Reinkensmeyer
+University of California at Irvine
+Mechanical and Aerospace Engineering
+4200 Engineering Gateway
+Irvine, CA 92617-3975, USA
+e-mail: dreinken@uci.edu
+
+----- Page 32 (native) -----
+List of Contributors
+XXXIII
+Alfred Rizzi
+Boston Dynamics
+78 Fourth Ave
+Waltham, MA 02451, USA
+e-mail: arizzi@bostondynamics.com
+Jonathan Roberts
+Commonwealth Scientiﬁc
+and Industrial Research Organisation (CSIRO)
+ICT Centre, Autonomous Systems Laboratory
+P.O. Box 883
+Kenmore QLD 4069, Australia
+e-mail: jonathan.roberts@csiro.au
+Daniela Rus
+Massachusetts Institute of Technology
+CSAIL Center for Robotics
+32 Vassar Street
+Cambridge, MA 01239, USA
+e-mail: rus@csail.mit.edu
+Kamel S. Saidi
+National Institute of Standards and Technology
+Building and Fire Research Laboratory
+100 Bureau Drive
+Gaitherbsurg, MD 20899, USA
+e-mail: kamel.saidi@nist.gov
+Claude Samson
+INRIA Sophia-Antipolis
+2004 Route des Lucioles
+06902 Sophia-Antipolis, France
+e-mail: claude.samson@inria.fr
+Stefan Schaal
+University of Southern California
+Computer Science and Neuroscience
+3710 S. McClintock Ave.
+Los Angeles, CA 90089-2905, USA
+e-mail: sschaal@usc.edu
+Victor Scheinman
+Stanford University
+Department of Mechanical Engineering
+Stanford, CA 94305, USA
+e-mail: vds@stanford.edu
+James Schmiedeler
+The Ohio State University
+Department of Mechanical Engineering
+E307 Scott Laboratory, 201 West 19th Ave
+Columbus, OH 43210, USA
+e-mail: schmiedeler.2@osu.edu
+Bruno Siciliano
+Università degli Studi di Napoli Federico II
+Dipartimento di Informatica e Sistemistica,
+PRISMA Lab
+Via Claudio 21
+80125 Napoli, Italy
+e-mail: siciliano@unina.it
+Roland Siegwart
+ETH Zentrum
+Department of Mechanical and Process
+Engineering
+Tannenstr. 3, CLA E32
+8092 Zürich, Switzerland
+e-mail: rsiegwart@ethz.ch
+Reid Simmons
+Carnegie Mellon University
+The Robotics Institute
+School of Computer Science
+5000 Forbes Ave.
+Pittsburgh, PA 15241, USA
+e-mail: reids@cs.cmu.edu
+Dezhen Song
+Texas A&M University
+Department of Computer Science
+H.R. Bright Building
+College Station, TX 77843, USA
+e-mail: dzsong@cs.tamu.edu
+Gaurav S. Sukhatme
+University of Southern California
+Department of Computer Science
+3710 South McClintock Ave
+Los Angeles, CA 90089-2905, USA
+e-mail: gaurav@usc.edu
+
+----- Page 33 (native) -----
+XXXIV
+List of Contributors
+Satoshi Tadokoro
+Tohoku University
+Graduate School of Information Sciences
+6-6-01 Aoba-yama
+980-8579 Sendai, Japan
+e-mail: tadokoro@rm.is.tohoku.ac.jp
+Atsuo Takanishi
+Waseda University
+Department of Modern Mechanical Engineering
+3-4-1 Ookubo, Shinjuku-ku
+169-8555 Tokyo, Japan
+e-mail: takanisi@waseda.jp
+Russell H. Taylor
+The Johns Hopkins University
+Department of Computer Science
+Computational Science and Engineering Building
+1-127, 3400 North Charles Street
+Baltimore, MD 21218, USA
+e-mail: rht@jhu.edu
+Charles E. Thorpe
+Carnegie Mellon University in Qatar
+Qatar Ofﬁce SMC 1070
+5032 Forbes Ave.
+Pittsburgh, PA 15289, USA
+e-mail: thorpe@qatar.cmu.edu
+Sebastian Thrun
+Stanford University
+Department of Computer Science
+Artiﬁcial Intelligence Laboratory
+Stanford, CA 94305-9010, USA
+e-mail: thrun@stanford.edu
+James P. Trevelyan
+The University of Western Australia
+School of Mechanical Engineering
+35 Stirling Highway, Crawley
+Perth Western Australia 6009, Australia
+e-mail: james.trevelyan@uwa.edu.au
+Jeffrey C. Trinkle
+Rensselaer Polytechnic Institute
+Department of Computer Science
+Troy, NY 12180-3590, USA
+e-mail: trink@cs.rpi.edu
+Masaru Uchiyama
+Tohoku University
+Department of Aerospace Engineering
+6-6-01 Aoba-yama
+980-8579 Sendai, Japan
+e-mail: uchiyama@space.mech.tohoku.ac.jp
+H.F. Machiel Van der Loos
+University of British Columbia
+Department of Mechanical Engineering
+6250 Applied Science Lane
+Vancouver, BC V6T 1Z4, Canada
+e-mail: vdl@mech.ubc.ca
+Patrick van der Smagt
+Deutsches Zentrum für Luft- und Raumfahrt (DLR)
+Oberpfaffenhofen
+Institut für Robotik und Mechatronik
+Münchner Str. 20
+82230 Wessling, Germany
+e-mail: smagt@dlr.de
+Gianmarco Veruggio
+Consiglio Nazionale delle Ricerche
+Istituto di Elettronica e di Ingegneria
+dell’Informazione e delle Telecomunicazioni
+Via De Marini 6
+16149 Genova, Italy
+e-mail: gianmarco@veruggio.it
+Luigi Villani
+Università degli Studi di Napoli Federico II
+Dipartimento di Informatica e Sistemistica,
+PRISMA Lab
+Via Claudio 21
+80125 Napoli, Italy
+e-mail: luigi.villani@unina.it
+Arto Visala
+Helsinki University of Technology (TKK)
+Department of Automation and Systems
+Technology
+Helsinki 02015, Finland
+e-mail: arto.visala@tkk.ﬁ
+
+----- Page 34 (native) -----
+List of Contributors
+XXXV
+Kenneth Waldron
+Stanford University
+Department of Mechanical Engineering
+Terman Engineering Center 521
+Stanford, CA 94305-4021, USA
+e-mail: kwaldron@stanford.edu
+Ian D. Walker
+Clemson University
+Department of Electrical and Computer
+Engineering
+Clemson, SC 29634, USA
+e-mail: ianw@ces.clemson.edu
+Christian Wallraven
+Max-Planck-Institut für biologische Kybernetic
+Kognitive Humanpsychophysik
+Spemannstr. 38
+72076 Tübingen, Germany
+e-mail: christian.wallraven@tuebingen.mpg.de
+Brian Wilcox
+California Institute of Technology
+Jet Propulsion Laboratory
+4800 Oak Grove Drive
+Pasadena, CA 91109, USA
+e-mail: brian.h.wilcox@jpl.nasa.gov
+Jing Xiao
+University of North Carolina
+Department of Computer Science
+Charlotte, NC 28223, USA
+e-mail: xiao@uncc.edu
+Dana R. Yoerger
+Woods Hole Oceanographic Institution
+Department of Applied Ocean Physics
+and Engineering
+MS7 Blake Bldg.
+Woods Hole, MA 02543, USA
+e-mail: dyoerger@whoi.edu
+Kazuhito Yokoi
+National Institute of Advanced Industrial Science
+and Technology (AIST)
+Intelligent Systems Research Institute
+1-1-1 Umezono
+305-8568 Tsukuba, Japan
+e-mail: kazuhito.yokoi@aist.go.jp
+Kazuya Yoshida
+Tohoku University
+Department of Aerospace Engineering
+6-6-01 Aoba-yama
+980-8579 Sendai, Japan
+e-mail: yoshida@astro.mech.tohoku.ac.jp
+Alexander Zelinsky
+Commonwealth Scientiﬁc
+and Industrial Research Organisation (CSIRO)
+ICT Centre
+Epping, Sydney NSW 1710, Australia
+e-mail: alex.zelinsky@csiro.au
+
+----- Page 35 (native) -----
+XXXVII
+Contents
+List of Abbreviations .................................................................................
+LIII
+Introduction
+Bruno Siciliano, Oussama Khatib...................................................................
+1
+Part A Robotics Foundations
+1
+Kinematics
+Kenneth Waldron, James Schmiedeler.......................................................
+9
+1.1
+Overview.......................................................................................
+9
+1.2
+Position and Orientation Representation ........................................
+10
+1.3
+Joint Kinematics............................................................................
+18
+1.4
+Geometric Representation .............................................................
+23
+1.5
+Workspace ....................................................................................
+25
+1.6
+Forward Kinematics.......................................................................
+26
+1.7
+Inverse Kinematics ........................................................................
+27
+1.8
+Forward Instantaneous Kinematics ................................................
+29
+1.9
+Inverse Instantaneous Kinematics ..................................................
+30
+1.10
+Static Wrench Transmission............................................................
+30
+1.11
+Conclusions and Further Reading ...................................................
+31
+References ..............................................................................................
+31
+2
+Dynamics
+Roy Featherstone, David E. Orin................................................................
+35
+2.1
+Overview.......................................................................................
+36
+2.2
+Spatial Vector Notation ..................................................................
+37
+2.3
+Canonical Equations ......................................................................
+43
+2.4
+Dynamic Models of Rigid-Body Systems..........................................
+45
+2.5
+Kinematic Trees.............................................................................
+50
+2.6
+Kinematic Loops............................................................................
+57
+2.7
+Conclusions and Further Reading ...................................................
+60
+References ..............................................................................................
+62
+3
+Mechanisms and Actuation
+Victor Scheinman, J. Michael McCarthy......................................................
+67
+3.1
+Overview.......................................................................................
+67
+3.2
+System Features ............................................................................
+68
+3.3
+Kinematics and Kinetics.................................................................
+69
+3.4
+Serial Robots .................................................................................
+72
+3.5
+Parallel Robots ..............................................................................
+73
+3.6
+Mechanical Structure .....................................................................
+75
+
+----- Page 36 (native) -----
+XXXVIII
+Contents
+3.7
+Joint Mechanisms..........................................................................
+76
+3.8
+Robot Performance........................................................................
+82
+3.9
+Conclusions and Further Reading ...................................................
+84
+References ..............................................................................................
+84
+4
+Sensing and Estimation
+Henrik I. Christensen, Gregory D. Hager ....................................................
+87
+4.1
+The Perception Process ..................................................................
+88
+4.2
+Sensors .........................................................................................
+90
+4.3
+Estimation Processes .....................................................................
+93
+4.4
+Representations ............................................................................
+104
+4.5
+Conclusions and Further Readings..................................................
+106
+References ..............................................................................................
+106
+5
+Motion Planning
+Lydia E. Kavraki, Steven M. LaValle...........................................................
+109
+5.1
+Motion Planning Concepts .............................................................
+110
+5.2
+Sampling-Based Planning .............................................................
+111
+5.3
+Alternative Approaches..................................................................
+115
+5.4
+Differential Constraints ..................................................................
+118
+5.5
+Extensions and Variations..............................................................
+121
+5.6
+Advanced Issues............................................................................
+124
+5.7
+Conclusions and Further Reading ...................................................
+127
+References ..............................................................................................
+128
+6
+Motion Control
+Wankyun Chung, Li-Chen Fu, Su-Hau Hsu† ...............................................
+133
+6.1
+Introduction to Motion Control.......................................................
+134
+6.2
+Joint Space Versus Operational Space Control ..................................
+135
+6.3
+Independent-Joint Control ............................................................
+137
+6.4
+PID Control....................................................................................
+139
+6.5
+Tracking Control ............................................................................
+141
+6.6
+Computed-Torque Control..............................................................
+143
+6.7
+Adaptive Control ...........................................................................
+147
+6.8
+Optimal and Robust Control ...........................................................
+150
+6.9
+Digital Implementation .................................................................
+153
+6.10
+Learning Control............................................................................
+155
+References ..............................................................................................
+157
+7
+Force Control
+Luigi Villani, Joris De Schutter...................................................................
+161
+7.1
+Background ..................................................................................
+161
+7.2
+Indirect Force Control ....................................................................
+164
+7.3
+Interaction Tasks ...........................................................................
+171
+7.4
+Hybrid Force/Motion Control...........................................................
+177
+
+----- Page 37 (native) -----
+Contents
+XXXIX
+7.5
+Conclusions and Further Reading ...................................................
+181
+References ..............................................................................................
+183
+8
+Robotic Systems Architectures and Programming
+David Kortenkamp, Reid Simmons............................................................
+187
+8.1
+Overview.......................................................................................
+187
+8.2
+History..........................................................................................
+189
+8.3
+Architectural Components..............................................................
+193
+8.4
+Case Study – GRACE .......................................................................
+200
+8.5
+The Art of Robot Architectures ........................................................
+202
+8.6
+Conclusions and Further Reading ...................................................
+203
+References ..............................................................................................
+204
+9
+AI Reasoning Methods for Robotics
+Joachim Hertzberg, Raja Chatila...............................................................
+207
+9.1
+Knowledge Representation and Inference ......................................
+208
+9.2
+KR Issues for Robots ......................................................................
+212
+9.3
+Action Planning.............................................................................
+214
+9.4
+Robot Learning .............................................................................
+219
+9.5
+Conclusions and Further Reading ...................................................
+221
+References ..............................................................................................
+222
+Part B Robot Structures
+10 Performance Evaluation and Design Criteria
+Jorge Angeles, Frank C. Park.....................................................................
+229
+10.1
+The Robot Design Process...............................................................
+229
+10.2
+Workspace Criteria.........................................................................
+231
+10.3
+Dexterity Indices ...........................................................................
+235
+10.4
+Other Performance Indices.............................................................
+238
+References ..............................................................................................
+242
+11 Kinematically Redundant Manipulators
+Stefano Chiaverini, Giuseppe Oriolo, Ian D. Walker ....................................
+245
+11.1
+Overview.......................................................................................
+245
+11.2
+Task-Oriented Kinematics ..............................................................
+247
+11.3
+Inverse Differential Kinematics ......................................................
+250
+11.4
+Redundancy Resolution via Optimization........................................
+255
+11.5
+Redundancy Resolution via Task Augmentation ..............................
+256
+11.6
+Second-Order Redundancy Resolution............................................
+259
+11.7
+Cyclicity ........................................................................................
+260
+11.8
+Hyperredundant Manipulators .......................................................
+261
+11.9
+Conclusion and Further Reading ....................................................
+265
+References ..............................................................................................
+265
+
+----- Page 38 (native) -----
+XL
+Contents
+12 Parallel Mechanisms and Robots
+Jean-Pierre Merlet, Clément Gosselin ........................................................
+269
+12.1
+Deﬁnitions....................................................................................
+269
+12.2
+Type Synthesis of Parallel Mechanisms ...........................................
+271
+12.3
+Kinematics....................................................................................
+271
+12.4
+Velocity and Accuracy Analysis .......................................................
+273
+12.5
+Singularity Analysis .......................................................................
+274
+12.6
+Workspace Analysis .......................................................................
+276
+12.7
+Static Analysis and Static Balancing................................................
+277
+12.8
+Dynamic Analysis ..........................................................................
+279
+12.9
+Design ..........................................................................................
+279
+12.10 Application Examples ....................................................................
+280
+12.11 Conclusion and Further Reading ....................................................
+281
+References ..............................................................................................
+281
+13 Robots with Flexible Elements
+Alessandro De Luca, Wayne Book..............................................................
+287
+13.1
+Robots with Flexible Joints ............................................................
+288
+13.2
+Robots with Flexible Links .............................................................
+306
+References ..............................................................................................
+317
+14 Model Identiﬁcation
+John Hollerbach, Wisama Khalil, Maxime Gautier .....................................
+321
+14.1
+Overview.......................................................................................
+321
+14.2
+Kinematic Calibration ....................................................................
+323
+14.3
+Inertial Parameter Estimation ........................................................
+330
+14.4
+Identiﬁability and Numerical Conditioning .....................................
+334
+14.5
+Conclusions and Further Reading ...................................................
+341
+References ..............................................................................................
+342
+15 Robot Hands
+Claudio Melchiorri, Makoto Kaneko...........................................................
+345
+15.1
+Basic Concepts ..............................................................................
+346
+15.2
+Design of Robot Hands ..................................................................
+347
+15.3
+Technologies for Actuation and Sensing..........................................
+351
+15.4
+Modeling and Control of a Robot Hand...........................................
+355
+15.5
+Applications and Trends ................................................................
+359
+15.6
+Conclusions and Further Reading ...................................................
+359
+References ..............................................................................................
+359
+16 Legged Robots
+Shuuji Kajita, Bernard Espiau...................................................................
+361
+16.1
+A Brief History ...............................................................................
+362
+16.2
+Analysis of Cyclic Walking...............................................................
+363
+16.3
+Control of Biped Robots Using Forward Dynamics............................
+366
+16.4
+Biped Robots in the ZMP Scheme ...................................................
+371
+16.5
+Multilegged Robots........................................................................
+378
+
+----- Page 39 (native) -----
+Contents
+XLI
+16.6
+Other Legged Robots......................................................................
+383
+16.7
+Performance Indices......................................................................
+385
+16.8
+Conclusions and Future Trends.......................................................
+386
+References ..............................................................................................
+387
+17 Wheeled Robots
+Guy Campion, Woojin Chung ....................................................................
+391
+17.1
+Overview.......................................................................................
+391
+17.2
+Mobility of Wheeled Robots ...........................................................
+392
+17.3
+State-Space Models of Wheeled Mobile Robots ...............................
+398
+17.4
+Structural Properties of Wheeled Robots Models..............................
+403
+17.5
+Wheeled Robot Structures ..............................................................
+405
+17.6
+Conclusions...................................................................................
+409
+References ..............................................................................................
+410
+18 Micro/Nanorobots
+Bradley J. Nelson, Lixin Dong, Fumihito Arai .............................................
+411
+18.1
+Overview of Micro- and Nanorobotics.............................................
+411
+18.2
+Scaling..........................................................................................
+414
+18.3
+Actuation at the Micro- and Nanoscales .........................................
+415
+18.4
+Sensing at the Micro- and Nanoscales............................................
+417
+18.5
+Fabrication ...................................................................................
+419
+18.6
+Microassembly ..............................................................................
+422
+18.7
+Microrobotics ................................................................................
+427
+18.8
+Nanorobotics ................................................................................
+431
+18.9
+Conclusions...................................................................................
+443
+References ..............................................................................................
+444
+Part C Sensing and Perception
+19 Force and Tactile Sensors
+Mark R. Cutkosky, Robert D. Howe, William R. Provancher .........................
+455
+19.1
+Sensor Types .................................................................................
+456
+19.2
+Tactile Information Processing .......................................................
+464
+19.3
+Integration Challenges...................................................................
+471
+19.4
+Conclusions and Future Developments ...........................................
+471
+References ..............................................................................................
+471
+20 Inertial Sensors, GPS, and Odometry
+Gregory Dudek, Michael Jenkin.................................................................
+477
+20.1
+Odometry......................................................................................
+477
+20.2
+Gyroscopic Systems........................................................................
+479
+20.3
+Accelerometers..............................................................................
+482
+20.4
+IMU Packages ................................................................................
+483
+20.5
+GPS...............................................................................................
+484
+20.6
+GPS–IMU Integration .....................................................................
+488
+
+----- Page 40 (native) -----
+XLII
+Contents
+20.7
+Further Reading ............................................................................
+489
+20.8
+Currently Available Hardware.........................................................
+489
+References ..............................................................................................
+490
+21 Sonar Sensing
+Lindsay Kleeman, Roman Kuc...................................................................
+491
+21.1
+Sonar Principles ............................................................................
+492
+21.2
+Sonar Beam Pattern ......................................................................
+494
+21.3
+Speed of Sound .............................................................................
+496
+21.4
+Waveforms....................................................................................
+496
+21.5
+Transducer Technologies ................................................................
+497
+21.6
+Reﬂecting Object Models................................................................
+499
+21.7
+Artifacts ........................................................................................
+500
+21.8
+TOF Ranging ..................................................................................
+501
+21.9
+Echo Waveform Coding ..................................................................
+503
+21.10 Echo Waveform Processing.............................................................
+506
+21.11 CTFM Sonar....................................................................................
+508
+21.12 Multipulse Sonar ...........................................................................
+511
+21.13 Sonar Rings...................................................................................
+512
+21.14 Motion Effects ...............................................................................
+513
+21.15 Biomimetic Sonars ........................................................................
+515
+21.16 Conclusions...................................................................................
+516
+References ..............................................................................................
+517
+22 Range Sensors
+Robert B. Fisher, Kurt Konolige.................................................................
+521
+22.1
+Range Sensing Basics.....................................................................
+521
+22.2
+Registration ..................................................................................
+530
+22.3
+Navigation and Terrain Classiﬁcation..............................................
+537
+22.4
+Conclusions and Further Reading ...................................................
+540
+References ..............................................................................................
+540
+23 3-D Vision and Recognition
+Kostas Daniilidis, Jan-Olof Eklundh..........................................................
+543
+23.1
+3-D Vision and Visual SLAM ............................................................
+544
+23.2
+Recognition ..................................................................................
+551
+23.3
+Conclusion and Further Reading ....................................................
+558
+References ..............................................................................................
+559
+24 Visual Servoing and Visual Tracking
+François Chaumette, Seth Hutchinson .......................................................
+563
+24.1
+The Basic Components of Visual Servoing........................................
+564
+24.2
+Image-Based Visual Servo..............................................................
+565
+24.3
+Position-Based Visual Servo...........................................................
+572
+24.4
+Advanced Approaches....................................................................
+574
+24.5
+Performance Optimization and Planning ........................................
+577
+24.6
+Estimation of 3-D Parameters ........................................................
+578
+
+----- Page 41 (native) -----
+Contents
+XLIII
+24.7
+Target Tracking..............................................................................
+579
+24.8
+Eye-in-Hand and Eye-to-Hand Systems Controlled
+in the Joint Space..........................................................................
+580
+24.9
+Conclusions...................................................................................
+581
+References ..............................................................................................
+582
+25 Multisensor Data Fusion
+Hugh Durrant-Whyte, Thomas C. Henderson .............................................
+585
+25.1
+Multisensor Data Fusion Methods...................................................
+585
+25.2
+Multisensor Fusion Architectures ....................................................
+598
+25.3
+Applications..................................................................................
+603
+25.4
+Conclusions...................................................................................
+608
+References ..............................................................................................
+608
+Part D Manipulation and Interfaces
+26 Motion for Manipulation Tasks
+Oliver Brock, James Kuffner, Jing Xiao.......................................................
+615
+26.1
+Overview.......................................................................................
+615
+26.2
+Task-Level Control .........................................................................
+618
+26.3
+Manipulation Planning..................................................................
+622
+26.4
+Assembly Motion ...........................................................................
+628
+26.5
+Unifying Feedback Control and Planning ........................................
+634
+26.6
+Conclusions and Further Reading ...................................................
+637
+References ..............................................................................................
+639
+27 Contact Modeling and Manipulation
+Imin Kao, Kevin Lynch, Joel W. Burdick.....................................................
+647
+27.1
+Overview.......................................................................................
+647
+27.2
+Kinematics of Rigid-Body Contact ..................................................
+648
+27.3
+Forces and Friction ........................................................................
+652
+27.4
+Rigid-Body Mechanics with Friction ...............................................
+655
+27.5
+Pushing Manipulation ...................................................................
+658
+27.6
+Contact Interfaces and Modeling ....................................................
+659
+27.7
+Friction Limit Surface.....................................................................
+661
+27.8
+Contacts in Grasping and Fixture Designs .......................................
+664
+27.9
+Conclusions and Further Reading ...................................................
+666
+References ..............................................................................................
+666
+28 Grasping
+Domenico Prattichizzo, Jeffrey C. Trinkle ...................................................
+671
+28.1
+Background ..................................................................................
+671
+28.2
+Models and Deﬁnitions..................................................................
+672
+28.3
+Controllable Twists and Wrenches ..................................................
+677
+28.4
+Restraint Analysis ..........................................................................
+680
+28.5
+Examples ......................................................................................
+687
+
+----- Page 42 (native) -----
+XLIV
+Contents
+28.6
+Conclusion and Further Reading ....................................................
+697
+References ..............................................................................................
+698
+29 Cooperative Manipulators
+Fabrizio Caccavale, Masaru Uchiyama ......................................................
+701
+29.1
+A Historical Overview .....................................................................
+701
+29.2
+Kinematics and Statics...................................................................
+703
+29.3
+Cooperative Task Space ..................................................................
+707
+29.4
+Dynamics and Load Distribution.....................................................
+708
+29.5
+Task-Space Analysis.......................................................................
+710
+29.6
+Control .........................................................................................
+711
+29.7
+Conclusions and Further Reading ...................................................
+715
+References ..............................................................................................
+716
+30 Haptics
+Blake Hannaford, Allison M. Okamura ......................................................
+719
+30.1
+Overview.......................................................................................
+719
+30.2
+Haptic Device Design .....................................................................
+724
+30.3
+Haptic Rendering ..........................................................................
+727
+30.4
+Control and Stability of Haptic Interfaces ........................................
+730
+30.5
+Tactile Display ...............................................................................
+731
+30.6
+Conclusions and Further Reading ...................................................
+735
+References ..............................................................................................
+735
+31 Telerobotics
+Günter Niemeyer, Carsten Preusche, Gerd Hirzinger ...................................
+741
+31.1
+Overview.......................................................................................
+741
+31.2
+Telerobotic Systems and Applications .............................................
+743
+31.3
+Control Architectures .....................................................................
+746
+31.4
+Bilateral Control and Force Feedback..............................................
+751
+31.5
+Conclusions and Further Reading ...................................................
+754
+References ..............................................................................................
+755
+32 Networked Telerobots
+Dezhen Song, Ken Goldberg, Nak Young Chong.........................................
+759
+32.1
+Overview and Background .............................................................
+759
+32.2
+A Brief History ...............................................................................
+760
+32.3
+Communications and Networking ..................................................
+761
+32.4
+Conclusion and Future Directions ...................................................
+769
+References ..............................................................................................
+769
+33 Exoskeletons for Human Performance Augmentation
+Homayoon Kazerooni...............................................................................
+773
+33.1
+Survey of Exoskeleton Systems .......................................................
+773
+33.2
+Upper-Extremity Exoskeleton.........................................................
+775
+33.3
+Intelligent Assist Device .................................................................
+776
+33.4
+Control Architecture for Upper-Extremity Exoskeleton Augmentation
+778
+
+----- Page 43 (native) -----
+Contents
+XLV
+33.5
+Applications of Intelligent Assist Device ..........................................
+780
+33.6
+Lower-Extremity Exoskeleton.........................................................
+780
+33.7
+The Control Scheme of an Exoskeleton............................................
+782
+33.8
+Highlights of the Lower-Extremity Design.......................................
+786
+33.9
+Field-Ready Exoskeleton Systems...................................................
+790
+33.10 Conclusion and Further Reading ....................................................
+792
+References ..............................................................................................
+792
+Part E Mobile and Distributed Robotics
+34 Motion Control of Wheeled Mobile Robots
+Pascal Morin, Claude Samson ...................................................................
+799
+34.1
+Background ..................................................................................
+800
+34.2
+Control Models ..............................................................................
+801
+34.3
+Adaptation of Control Methods for Holonomic Systems....................
+804
+34.4
+Methods Speciﬁc to Nonholonomic Systems ....................................
+806
+34.5
+Complementary Issues and Bibliographical Guide ...........................
+823
+References ..............................................................................................
+825
+35 Motion Planning and Obstacle Avoidance
+Javier Minguez, Florent Lamiraux, Jean-Paul Laumond.............................
+827
+35.1
+Nonholonomic Mobile Robots:
+Where Motion Planning Meets Control Theory ................................
+828
+35.2
+Kinematic Constraints and Controllability .......................................
+829
+35.3
+Motion Planning and Small-Time Controllability ............................
+830
+35.4
+Local Steering Methods and Small-Time Controllability ..................
+832
+35.5
+Robots and Trailers........................................................................
+835
+35.6
+Approximate Methods ...................................................................
+837
+35.7
+From Motion Planning to Obstacle Avoidance ................................
+837
+35.8
+Deﬁnition of Obstacle Avoidance....................................................
+838
+35.9
+Obstacle Avoidance Techniques ......................................................
+839
+35.10 Robot Shape, Kinematics, and Dynamics in Obstacle Avoidance.......
+845
+35.11 Integration Planning – Reaction ....................................................
+847
+35.12 Conclusions, Future Directions, and Further Reading.......................
+849
+References ..............................................................................................
+850
+36 World Modeling
+Wolfram Burgard, Martial Hebert .............................................................
+853
+36.1
+Historical Overview........................................................................
+854
+36.2
+World Models for Indoors and Structured Environments ..................
+855
+36.3
+World and Terrain Models for Natural Environments .......................
+859
+36.4
+Dynamic Environments ..................................................................
+866
+References ..............................................................................................
+867
+37 Simultaneous Localization and Mapping
+Sebastian Thrun, John J. Leonard .............................................................
+871
+37.1
+Overview.......................................................................................
+871
+
+----- Page 44 (native) -----
+XLVI
+Contents
+37.2
+SLAM: Problem Deﬁnition...............................................................
+872
+37.3
+The Three Main SLAM Paradigms.....................................................
+875
+37.4
+Conclusion and Future Challenges ..................................................
+885
+37.5
+Suggestions for Further Reading.....................................................
+886
+References ..............................................................................................
+886
+38 Behavior-Based Systems
+Maja J. Matari´c, François Michaud............................................................
+891
+38.1
+Robot Control Approaches..............................................................
+891
+38.2
+Basic Principles of Behavior-Based Systems....................................
+894
+38.3
+Basis Behaviors .............................................................................
+897
+38.4
+Representation in Behavior-Based Systems ....................................
+897
+38.5
+Learning in Behavior-Based Systems..............................................
+898
+38.6
+Continuing Work ...........................................................................
+902
+38.7
+Conclusions and Further Reading ...................................................
+905
+References ..............................................................................................
+906
+39 Distributed and Cellular Robots
+Zack Butler, Alfred Rizzi............................................................................
+911
+39.1
+Modularity for Locomotion.............................................................
+911
+39.2
+Modularity for Manipulation ..........................................................
+914
+39.3
+Modularity for Geometric Reconﬁguration of Robot Systems ............
+915
+39.4
+Modularity for Robustness .............................................................
+918
+39.5
+Conclusions and Further Reading ...................................................
+918
+References ..............................................................................................
+919
+40 Multiple Mobile Robot Systems
+Lynne E. Parker........................................................................................
+921
+40.1
+History..........................................................................................
+922
+40.2
+Architectures for Multirobot Systems ..............................................
+922
+40.3
+Communication.............................................................................
+925
+40.4
+Swarm Robots ...............................................................................
+926
+40.5
+Heterogeneity ...............................................................................
+928
+40.6
+Task Allocation ..............................................................................
+930
+40.7
+Learning .......................................................................................
+932
+40.8
+Applications..................................................................................
+933
+40.9
+Conclusions and Further Reading ...................................................
+935
+References ..............................................................................................
+936
+41 Networked Robots
+Vijay Kumar, Daniela Rus, Gaurav S. Sukhatme.........................................
+943
+41.1
+Overview.......................................................................................
+943
+41.2
+State of the Art and Potential ........................................................
+945
+41.3
+Research Challenges ......................................................................
+947
+41.4
+Control .........................................................................................
+949
+41.5
+Communication for Control ............................................................
+950
+41.6
+Communication for Perception.......................................................
+951
+
+----- Page 45 (native) -----
+Contents
+XLVII
+41.7
+Control for Perception....................................................................
+952
+41.8
+Control for Communication ............................................................
+953
+41.9
+Conclusions and Further Reading ...................................................
+955
+References ..............................................................................................
+955
+Part F Field and Service Robotics
+42 Industrial Robotics
+Martin Hägele, Klas Nilsson, J. Norberto Pires............................................
+963
+42.1
+A Short History of Industrial Robots ................................................
+964
+42.2
+Typical Applications and Robot Conﬁgurations ................................
+969
+42.3
+Kinematics and Mechanisms ..........................................................
+975
+42.4
+Task Descriptions – Teaching and Programming..............................
+976
+42.5
+End-Effectors and System Integration ............................................
+980
+42.6
+Conclusions and Long-Term Challenges ..........................................
+983
+References ..............................................................................................
+985
+43 Underwater Robotics
+Gianluca Antonelli, Thor I. Fossen, Dana R. Yoerger...................................
+987
+43.1
+The Expanding Role of Marine Robotics in Oceanic Engineering .......
+987
+43.2
+Underwater Robotics .....................................................................
+989
+43.3
+Applications.................................................................................. 1003
+43.4
+Conclusions and Further Reading ................................................... 1005
+References .............................................................................................. 1005
+44 Aerial Robotics
+Eric Feron, Eric N. Johnson ....................................................................... 1009
+44.1
+Background .................................................................................. 1010
+44.2
+History of Aerial Robotics ............................................................... 1010
+44.3
+Applications of Aerial Robotics ....................................................... 1012
+44.4
+Current Challenges ........................................................................ 1014
+44.5
+Basic Aerial Robot Flight Concepts .................................................. 1015
+44.6
+The Entry Level for Aerial Robotics: Inner-Loop Control ................... 1020
+44.7
+Active Research Areas .................................................................... 1022
+44.8
+Conclusions and Further Reading ................................................... 1026
+References .............................................................................................. 1027
+45 Space Robots and Systems
+Kazuya Yoshida, Brian Wilcox .................................................................. 1031
+45.1
+Historical Developments and Advances of Orbital Robotic Systems ... 1032
+45.2
+Historical Developments and Advances of Surface Robotic Systems .. 1037
+45.3
+Mathematical Modeling ................................................................. 1044
+45.4
+Future Directions of Orbital and Surface Robotic Systems ................. 1056
+45.5
+Conclusions and Further Reading ................................................... 1060
+References .............................................................................................. 1060
+
+----- Page 46 (native) -----
+XLVIII
+Contents
+46 Robotics in Agriculture and Forestry
+John Billingsley, Arto Visala, Mark Dunn................................................... 1065
+46.1
+Deﬁnitions.................................................................................... 1066
+46.2
+Forestry ........................................................................................ 1066
+46.3
+Broad Acre Applications ................................................................. 1070
+46.4
+Horticulture .................................................................................. 1071
+46.5
+Livestock....................................................................................... 1072
+46.6
+Unmanned Vehicles....................................................................... 1075
+46.7
+Conclusions and Future Directions.................................................. 1075
+References .............................................................................................. 1075
+47 Robotics in Construction
+Kamel S. Saidi, Jonathan B. O’Brien, Alan M. Lytle .................................... 1079
+47.1
+Overview....................................................................................... 1080
+47.2
+Economic Aspects .......................................................................... 1085
+47.3
+Applications.................................................................................. 1086
+47.4
+Currently Unsolved Technical Problems........................................... 1093
+47.5
+Future Directions........................................................................... 1095
+47.6
+Conclusions and Further Reading ................................................... 1096
+References .............................................................................................. 1096
+48 Robotics in Hazardous Applications
+James P. Trevelyan, Sung-Chul Kang, William R. Hamel ............................ 1101
+48.1
+Operation in Hazardous Environments:
+The Need for a Robotics Solution .................................................... 1101
+48.2
+Applications.................................................................................. 1103
+48.3
+Enabling Technologies ................................................................... 1114
+48.4
+Conclusions and Further Reading ................................................... 1122
+References .............................................................................................. 1123
+49 Mining Robotics
+Peter Corke, Jonathan Roberts, Jock Cunningham, David Hainsworth......... 1127
+49.1
+Background .................................................................................. 1127
+49.2
+Metalliferous Mining ..................................................................... 1132
+49.3
+Underground Coal Mining .............................................................. 1140
+49.4
+Surface Coal Mining ....................................................................... 1144
+49.5
+Conclusions and Further Reading ................................................... 1148
+References .............................................................................................. 1148
+50 Search and Rescue Robotics
+Robin R. Murphy, Satoshi Tadokoro, Daniele Nardi, Adam Jacoff,
+Paolo Fiorini, Howie Choset, Aydan M. Erkmen.......................................... 1151
+50.1
+Overview....................................................................................... 1152
+50.2
+Disaster Characteristics and Impact on Robots ................................ 1153
+50.3
+Robots Actually Used at Disasters ................................................... 1156
+50.4
+Promising Robots and Concepts ..................................................... 1161
+50.5
+Evaluation and Benchmarks .......................................................... 1165
+
+----- Page 47 (native) -----
+Contents
+XLIX
+50.6
+Fundamental Problems and Open Issues ........................................ 1167
+50.7
+Conclusions and Further Reading ................................................... 1171
+References .............................................................................................. 1171
+51 Intelligent Vehicles
+Alberto Broggi, Alexander Zelinsky, Michel Parent, Charles E. Thorpe.......... 1175
+51.1
+Why Intelligent Vehicles? ............................................................... 1175
+51.2
+Enabling Technologies ................................................................... 1178
+51.3
+Road Scene Understanding ............................................................ 1181
+51.4
+Advanced Driver Assistance ............................................................ 1184
+51.5
+Driver Monitoring .......................................................................... 1188
+51.6
+Automated Vehicles....................................................................... 1191
+51.7
+Future Trends and Prospects .......................................................... 1194
+51.8
+Conclusions and Further Reading ................................................... 1195
+References .............................................................................................. 1195
+52 Medical Robotics and Computer-Integrated Surgery
+Russell H. Taylor, Arianna Menciassi, Gabor Fichtinger, Paolo Dario........... 1199
+52.1
+Core Concepts................................................................................ 1200
+52.2
+Technology ................................................................................... 1204
+52.3
+Systems, Research Areas, and Applications ..................................... 1209
+52.4
+Conclusion and Future Directions ................................................... 1217
+References .............................................................................................. 1218
+53 Rehabilitation and Health Care Robotics
+H.F. Machiel Van der Loos, David J. Reinkensmeyer ................................... 1223
+53.1
+Overview....................................................................................... 1223
+53.2
+Physical Therapy and Training Robots............................................. 1227
+53.3
+Aids for People with Disabilities ..................................................... 1235
+53.4
+Smart Prostheses and Orthoses ...................................................... 1240
+53.5
+Augmentation for Diagnosis and Monitoring................................... 1242
+53.6
+Safety, Ethics, Access, and Economics ............................................. 1244
+53.7
+Conclusions and Further Readings.................................................. 1245
+References .............................................................................................. 1246
+54 Domestic Robotics
+Erwin Prassler, Kazuhiro Kosuge............................................................... 1253
+54.1
+Cleaning Robots ............................................................................ 1254
+54.2
+Lawn-Mowing Robots.................................................................... 1271
+54.3
+Smart Appliances........................................................................... 1273
+54.4
+Smart Homes ................................................................................ 1275
+54.5
+Domestic Robotics: It Is the Business Case Which Matters ................ 1279
+54.6
+Conclusions and Further Reading ................................................... 1280
+References .............................................................................................. 1280
+
+----- Page 48 (native) -----
+L
+Contents
+55 Robots for Education
+David P. Miller, Illah R. Nourbakhsh, Roland Siegwart .............................. 1283
+55.1
+The Role of Robots in Education ..................................................... 1284
+55.2
+Educational Robot Tournaments..................................................... 1285
+55.3
+Education Robot Platforms............................................................. 1287
+55.4
+Education Robot Controllers and Programming Environments.......... 1290
+55.5
+Robots and Informal Learning Venues (Museums) ........................... 1292
+55.6
+Educational Evaluation of Robot Programs ..................................... 1296
+55.7
+Conclusions and Further Reading ................................................... 1298
+References .............................................................................................. 1298
+Part G Human-Centered and Life-Like Robotics
+56 Humanoids
+Charles C. Kemp, Paul Fitzpatrick, Hirohisa Hirukawa, Kazuhito Yokoi,
+Kensuke Harada, Yoshio Matsumoto......................................................... 1307
+56.1
+Why Humanoids? .......................................................................... 1307
+56.2
+History and Overview..................................................................... 1310
+56.3
+Locomotion................................................................................... 1312
+56.4
+Manipulation ................................................................................ 1315
+56.5
+Whole-Body Activities ................................................................... 1318
+56.6
+Communication............................................................................. 1325
+56.7
+Conclusions and Further Reading ................................................... 1329
+References .............................................................................................. 1329
+57 Safety for Physical Human–Robot Interaction
+Antonio Bicchi, Michael A. Peshkin, J. Edward Colgate............................... 1335
+57.1
+Motivations for Safe pHRI............................................................... 1336
+57.2
+Safety for Hands-Off pHRI .............................................................. 1337
+57.3
+Design of Intrinsically Safe Robots.................................................. 1338
+57.4
+Safety for Hands-On pHRI .............................................................. 1341
+57.5
+Safety Standards for pHRI .............................................................. 1345
+57.6
+Conclusions................................................................................... 1346
+References .............................................................................................. 1346
+58 Social Robots that Interact with People
+Cynthia Breazeal, Atsuo Takanishi, Tetsunori Kobayashi ............................ 1349
+58.1
+Social Robot Embodiment .............................................................. 1350
+58.2
+Multimodal Communication........................................................... 1352
+58.3
+Expressive Emotion-Based Interaction ........................................... 1356
+58.4
+Socio-cognitive Skills..................................................................... 1360
+58.5
+Conclusion and Further Reading .................................................... 1365
+References .............................................................................................. 1366
+59 Robot Programming by Demonstration
+Aude Billard, Sylvain Calinon, Rüdiger Dillmann, Stefan Schaal ................. 1371
+59.1
+History.......................................................................................... 1372
+
+----- Page 49 (native) -----
+Contents
+LI
+59.2
+Engineering-Oriented Approaches.................................................. 1374
+59.3
+Biologically-Oriented Learning Approaches .................................... 1386
+59.4
+Conclusions and Open Issues in Robot PbD ..................................... 1389
+References .............................................................................................. 1389
+60 Biologically Inspired Robots
+Jean-Arcady Meyer, Agnès Guillot............................................................. 1395
+60.1
+General Background ...................................................................... 1395
+60.2
+Bio-inspired Morphologies ............................................................ 1396
+60.3
+Bio-inspired Sensors ..................................................................... 1398
+60.4
+Bio-inspired Actuators .................................................................. 1402
+60.5
+Bio-inspired Control Architectures ................................................. 1408
+60.6
+Energetic Autonomy ...................................................................... 1412
+60.7
+Collective Robotics......................................................................... 1413
+60.8
+Biohybrid Robots........................................................................... 1415
+60.9
+Discussion..................................................................................... 1417
+60.10 Conclusion .................................................................................... 1418
+References .............................................................................................. 1418
+61 Evolutionary Robotics
+Dario Floreano, Phil Husbands, Stefano Nolﬁ............................................ 1423
+61.1
+Method......................................................................................... 1423
+61.2
+First Steps ..................................................................................... 1424
+61.3
+Simulation and Reality .................................................................. 1428
+61.4
+Simple Controllers, Complex Behaviors ........................................... 1429
+61.5
+Seeing the Light ............................................................................ 1431
+61.6
+Computational Neuroethology ....................................................... 1434
+61.7
+Evolution and Learning ................................................................. 1439
+61.8
+Competition and Cooperation ........................................................ 1442
+61.9
+Evolutionary Hardware .................................................................. 1444
+61.10 Closing Remarks ............................................................................ 1447
+References .............................................................................................. 1447
+62 Neurorobotics: From Vision to Action
+Michael A. Arbib, Giorgio Metta, Patrick van der Smagt............................. 1453
+62.1
+Deﬁnitions.................................................................................... 1453
+62.2
+Neuroethological Inspiration ......................................................... 1454
+62.3
+The Role of the Cerebellum ............................................................ 1462
+62.4
+The Role of Mirror Systems ............................................................. 1467
+62.5
+Extroduction ................................................................................. 1474
+62.6
+Further Reading ............................................................................ 1475
+References .............................................................................................. 1475
+63 Perceptual Robotics
+Heinrich H. Bülthoff, Christian Wallraven, Martin A. Giese ......................... 1481
+63.1
+Overview....................................................................................... 1481
+63.2
+Example-Based Object Representations.......................................... 1483
+
+----- Page 50 (native) -----
+LII
+Contents
+63.3
+Example-Based Movement Representations ................................... 1490
+63.4
+Example-Based Synthesis Models: From Faces to Movements .......... 1492
+63.5
+Conclusions and Further Reading ................................................... 1494
+References .............................................................................................. 1495
+64 Roboethics: Social and Ethical Implications of Robotics
+Gianmarco Veruggio, Fiorella Operto ........................................................ 1499
+64.1
+A Methodological Note................................................................... 1501
+64.2
+Speciﬁcity of Robotics .................................................................... 1502
+64.3
+What Is a Robot? ........................................................................... 1502
+64.4
+Cultural Differences in Robot’s Acceptance...................................... 1503
+64.5
+From Literature to Today’s Debate .................................................. 1503
+64.6
+Roboethics.................................................................................... 1504
+64.7
+Ethics and Morality........................................................................ 1505
+64.8
+Moral Theories .............................................................................. 1505
+64.9
+Ethics in Science and Technology ................................................... 1506
+64.10 Conditions for Implementation ...................................................... 1507
+64.11 Operativeness of the Principles ...................................................... 1507
+64.12 Ethical Issues in an ICT Society ....................................................... 1507
+64.13 Harmonization of Principles........................................................... 1509
+64.14 Ethics and Professional Responsibility ............................................ 1510
+64.15 Roboethics Taxonomy.................................................................... 1511
+64.16 Conclusions and Further Reading ................................................... 1519
+References .............................................................................................. 1522
+Acknowledgements................................................................................... 1525
+About the Authors..................................................................................... 1527
+Detailed Contents...................................................................................... 1555
+Subject Index............................................................................................. 1591
+
+----- Page 51 (native) -----
+LIII
+List of Abbreviations
+A
+AAAI
+American Association for Artiﬁcial
+Intelligence
+ABA
+articulated-body algorithm
+ABRT
+automated bus rapid transit
+ACAS
+airborne collision avoidance
+systems
+ACC
+adaptive cruise control
+ACM
+active cord mechanism
+ACM
+Association of Computing
+Machinery
+ADAS
+advanced driver assistance systems
+ADL
+activities of daily living
+ADSL
+asymmetric digital subscriber line
+AGV
+automated guided vehicles
+AHS
+advanced highway systems
+AI
+artiﬁcial intelligence
+AIP
+anterior interparietal area
+AIS
+artiﬁcial intelligence (AI) system
+AISB
+artiﬁcial intelligence and simulation o
+behavior
+AIT
+anterior inferotemporal cortex
+AM
+actuators for manipulation
+AMA
+artiﬁcial moral agents
+AMD
+autonomous mental development
+ANSI
+American National Standards Institute
+AP
+antipersonnel
+APG
+adjustable pattern generator
+AR
+augmented reality
+ARAMIS
+Space Application of Automation,
+Robotics and Machine Intelligence
+ASCL
+adaptive seek control logic
+ASD
+autism spectrum disorder
+ASIC
+application-speciﬁc integrated circuit
+ASKA
+receptionist robot
+ASM
+advanced servomanipulator
+ASN
+active sensor network
+ASTRO
+autonomous space transport robotic
+operations
+ASV
+adaptive suspension vehicle
+AT
+antitank
+ATLSS
+advanced technology for large structural
+systems
+ATR
+Advanced Telecommunications Research
+Institute International
+AuRA
+autonomous robot architecture
+AUV
+autonomous underwater vehicles
+AV
+antivehicle
+B
+BIOROB
+biomimetic robotics
+BLDC
+brushless direct current
+BLE
+broadcast of local eligibility
+BLEEX
+Berkeley lower-extremity exoskeleton
+BLUE
+best linear unbiased estimator
+BN
+Bayes network
+BRT
+bus rapid transit
+C
+C/A
+coarse-acquisition
+CAM
+computer-aided manufacturing
+CAD
+computer-aided design
+CAE
+computer-aided engineering
+CALM
+continuous air interface long and medium
+range
+CAN
+controller area network
+CARD
+computer-aided remote driving
+CASPER
+continuous activity scheduling, planning,
+execution and replanning
+CAT
+computer-aided tomography
+CB
+cluster bombs
+CCD
+charge-coupled devices
+CCI
+control command interpreter
+CCP
+coverage conﬁguration protocol
+CCT
+conservative congruence transformation
+CCW
+counterclockwise
+CE
+computer ethics
+CEA
+Commission de Energie Atomique
+CEBOT
+cellular robot
+CF
+climbing ﬁbers
+CF
+contact formation
+CG
+center of gravity
+CGA
+clinical gait analysis
+CGI
+common gateway interface
+CIE
+International Commission on Illumination
+CIRCA
+cooperative intelligent real-time control
+architecture
+CIS
+computer-integrated surgery
+CLARAty
+coupled layered architecture for robot
+autonomy
+CLEaR
+closed-loop execution and recovery
+CLIK
+closed-loop inverse kinematics
+CMAC
+cerebellar model articulation controller
+CML
+concurrent mapping and localization
+CNC
+computer numerical control
+CNP
+contract net protocol
+
+----- Page 52 (native) -----
+LIV
+List of Abbreviations
+CNT
+carbon nanotubes
+COG
+center of gravity
+CONE
+Collaborative Observatory for Nature
+Environments
+CONRO
+conﬁgurable robot
+COR
+center of rotation
+CORBA
+common object request broker
+architecture
+COV
+characteristic output vector
+CP
+closest point
+CP
+complementarity problem
+CP
+cerebral palsy
+CPG
+central pattern generators
+CPSR
+computer professional for social
+responsibility
+CRBA
+composite-rigid-body algorithm
+CRLB
+Cramer–Rao lower bound
+CSIRO
+Commonwealth Scientiﬁc and Industrial
+Research Organization
+CSMA
+carrier sense multiple access
+CT
+computed tomography
+CTFM
+continuous-transmission
+frequency-modulated
+CTL
+cut-to-length
+CU
+control unit
+CVIS
+cooperative vehicle infrastructure systems
+CW
+clockwise
+D
+DARPA
+Defense Advanced Research Projects
+Agency
+DARS
+distributed autonomous robotics systems
+DBNs
+dynamic Bayesian networks
+DD
+differentially driven
+DDF
+decentralized data fusion
+DeVAR
+desktop vocational assistant robot
+DFRA
+distributed ﬁeld robot architecture
+DFT
+discrete Fourier transform
+DGA
+Delegation Generale pour L’Armement
+DH
+Denavit–Hartenberg
+DIO
+digital input-output
+DIRA
+distributed robot architecture
+DL
+description logics
+DLR
+Deutsches Zentrum für Luft- und
+Raumfahrt
+DM2
+distributed macro-mini actuation
+DoD
+Department of Defense
+DOF
+degree of freedom
+DOG
+difference of Gaussian
+DOP
+dilution of precision
+DPN
+dip-pen nanolithography
+DRIE
+deep reactive ion etching
+DSM
+dynamic state machine
+DSO
+Defense Sciences Ofﬁce
+DSRC
+dedicated short-range communications
+DVL
+Doppler velocity log
+DWA
+dynamic window approach
+E
+EBA
+extrastriate body part area
+EBID
+electron-beam-induced deposition
+ECU
+electronics controller unit
+EDM
+electrical discharge machining
+EDM
+electronic distance measuring
+EEG
+electroencephalogram
+EGNOS
+Euro Geostationary Navigation Overlay
+Service
+EKF
+extended Kalman ﬁlter
+EM
+expectation maximization
+EMG
+electromyography
+EMS
+electrical master–slave manipulators
+ENSICA
+Ecole Nationale Superieure des
+Constructions Aeronautiques
+EO
+elementary operators
+EOD
+explosive ordnance disposal
+EP
+exploratory procedures
+EPFL
+Ecole Polytechnique Fédérale de
+Lausanne
+EPP
+extended physiological proprioception
+ERA
+European robotic arm
+ES
+electrical stimulation
+ESA
+European Space Agency
+ESL
+execution support language
+ETS
+engineering test satellite
+EVA
+extravehicular activity
+F
+FARS
+Fagg-Arbib-Rizzolatti-Sakata
+FE
+ﬁnite element
+FESEM
+ﬁeld-emission SEM
+FIFO
+ﬁrst-in ﬁrst-out
+fMRI
+functional magnetic resonance imaging
+FMS
+ﬂexible manufacturing systems
+FNS
+functional neural stimulation
+FOPL
+ﬁrst-order predicate logic
+FPGAs
+ﬁeld programmable gate array
+FRI
+foot rotating indicator
+FSA
+ﬁnite-state acceptors
+FSM
+ﬁnite-state machine
+FSR
+force sensing resistor
+FST
+ﬁnite-state transducer
+FSW
+feasible solution of wrench
+FTTH
+ﬁber to the home
+G
+GAS
+global asymptotic stability
+GBAS
+ground-based augmentation systems
+GCR
+goal-contact relaxation
+
+----- Page 53 (native) -----
+List of Abbreviations
+LV
+GDP
+gross domestic product
+GenoM
+generator of modules
+GEO
+geostationary Earth orbit
+GI
+gastrointestinal
+GICHD
+Geneva International Center for
+Humanitarian Demining
+GJM
+generalized Jacobian matrix
+GLS
+Global Navigation Satellite System
+Landing System
+GMM
+Gaussian mixture model
+GMR
+Gaussian mixture regression
+GNS
+global navigation systems
+GNSS
+global navigation satellite system
+GP
+Gaussian processes
+GPR
+ground-penetrating radar
+GPRS
+general packet radio service
+GPS
+global positioning system
+GRACE
+graduate robot attending conference
+GSD
+geon structural description
+GSI
+Gadd’s severity index
+GUI
+graphical user interface
+GZMP
+generalized ZMP
+H
+HAL
+hybrid assisted limb
+HAMMER
+hierarchical attentive multiple models for
+execution and recognition
+HCI
+human computer interaction
+HD
+haptic device
+HDSL
+high data rate digital subscriber line
+HEPA
+semi-high efﬁciency-particulate
+airﬁlter
+HF
+hard-ﬁnger
+HIC
+head injury criterion
+HIP
+haptic interaction point
+HJB
+Hamilton–Jacobi–Bellman
+HJI
+Hamilton–Jacobi–Isaac
+HMD
+head-mounted display
+HMM
+hidden Markov model
+HMX
+high melting point explosives
+HO
+human operator
+HRI
+human–robot interaction
+HRTEM
+high-resolution transmission electron
+microscopes
+HST
+Hubble space telescope
+HSTAMIDS
+handheld standoff mine detection
+system
+HTML
+hypertext markup language
+HTN
+hierarchical task network
+I
+I/O
+input/output
+I3CON
+industrialized, integrated, intelligent,
+construction
+IA
+instantaneous allocation
+IAD
+intelligent assist device
+ICA
+independent component analysis
+ICBL
+International Campaign to Ban
+Landmines
+ICE
+internet communications engine
+ICP
+iterative closest-point algorithm
+ICR
+instantaneous center of rotation
+ICRA
+International Conference on Robotics
+and Automation
+ICT
+information and communication
+technology
+IDL
+interface deﬁnition language
+IE
+information ethics
+IED
+improvised explosive device
+IEEE
+Institute of Electrical and Electronics
+Engineers
+IETF
+Internet engineering task force
+IFRR
+International Foundation of Robotics
+Research
+iGPS
+indoor GPS
+IHIP
+intermediate haptic interaction
+points
+IK
+inverse kinematics
+ILP
+inductive logic programming
+ILS
+instrument landing system
+IMTS
+intelligent multimode transit
+system
+IMU
+inertial measurement units
+IOSS
+input-output-to-state stability
+IP
+internet protocol
+IPC
+interprocess communication
+ISO
+International Organization for
+Standardization
+ISP
+internet service provider
+ISS
+input-to-state stability
+IST
+Information Society Technologies
+IST
+Instituto Superior Técnico
+IT
+intrinsic tactile
+IT
+inferotemporal
+ITD
+interaural time difference
+IxTeT
+indexed time table
+J
+JAUS
+joint architecture for unmanned
+systems
+JAXA
+Japan space exploration agency
+JDL
+joint directors of the laboratories
+JEMRMS
+Japanese experiment module remote
+manipulator system
+JHU
+Johns Hopkins University
+JND
+just noticeable difference
+JPL
+Jet Propulsion Laboratory
+JSIM
+joint-space inertia matrix
+JSP
+Java Server Pages
+
+----- Page 54 (native) -----
+LVI
+List of Abbreviations
+K
+KR
+knowledge representation
+L
+LAAS
+Laboratoire d’Analyse et d’Architecture
+des Systèmes
+LADAR
+laser radar or laser detection and ranging
+LAN
+local-area network
+LARC
+Lie algebra rank condition
+LBL
+long-baseline system
+LCSP
+linear constraint satisfaction program
+LGN
+lateral geniculate nucleus
+LIDAR
+light detection and ranging
+LOS
+line of sight
+LP
+linear program
+LQG
+linear quadratic Gaussian
+LSS
+logical sensor system
+LVDT
+linear variable differential transformer
+LWR
+locally weighted regression
+M
+MACA
+Afghanistan Mine Action Center
+MANET
+mobile ad hoc network
+MAP
+maximum a posteriori probability
+MBARI
+Monterey Bay Aquarium Research
+Institute
+MBE
+molecular-beam epitaxy
+MBS
+mobile base system
+MC
+Monte Carlo
+MCS
+mission control system
+MDP
+Markovian decision process
+MST
+microsystem technology
+MEMS
+microelectromechanical systems
+MER
+Mars exploration rovers
+MESUR
+Mars environmental survey
+MF
+Mossy ﬁbers
+MIA
+mechanical impedance adjuster
+MIG
+metal inert gas
+MIMO
+multi-input multi-output
+MIR
+mode identiﬁcation and recovery
+MIS
+minimally invasive surgery
+MITI
+Ministry of International Trade and
+Industry
+ML
+maximum likelihood
+ML
+machine learning
+MLE
+maximum-likelihood estimation
+MLS
+multilevel surface map
+MNS
+mirror neuron system
+MOCVD
+metallo-organic chemical vapor
+deposition
+MOMR
+multiple operator multiple robot
+MOSR
+multiple operator single robot
+MPC
+model predictive control
+MPFIM
+multiple paired forward-inverse models
+MPM
+manipulator positioning mechanism
+MR
+multirobot tasks
+MR
+multiple reﬂection
+MR
+magnetorheological
+MRAC
+model reference adaptive control
+MRI
+magnetic resonance imaging
+MRL
+manipulator retention latch
+MRSR
+Mars rover sample return
+MRTA
+multirobot task allocation
+MSAS
+Multifunctional Satellite Augmentation
+System
+MSER
+maximally stable extremal regions
+MSM
+master–slave manipulator
+N
+MT
+multitask
+MT
+medial temporal
+MTBF
+mean time between failure
+MTRAN
+modular transformer
+NAP
+nonaccidental properties
+NASA
+National Aeronautics and Space Agency
+NASDA
+National Space Development Agency of
+Japan
+NASREM
+NASA/NBS standard reference model
+NBS
+National Bureau of Standards
+NCEA
+National Center for Engineering in
+Agriculture
+NCER
+National Conference on Educational
+Robotics
+ND
+nearness diagram navigation
+NDDS
+network data distribution service
+NEMO
+network mobility
+NEMS
+nanoelectromechanical systems
+NICT
+National Institute of Information and
+Communications Technology
+NIDRR
+National Institute on Disability and
+Rehabilitation Research
+NIMS
+networked infomechanical systems
+NIOSH
+National Institute for Occupational
+Health and Safety
+NMEA
+National Marine Electronics
+Association
+NN
+neural networks
+NPS
+Naval Postgraduate School
+NRM
+nanorobotic manipulators
+NURBS
+non-uniform rational B-spline
+O
+OASIS
+onboard autonomous science
+investigation system
+OBSS
+orbiter boom sensor system
+OCU
+operator control units
+ODE
+ordinary differential equation
+
+----- Page 55 (native) -----
+List of Abbreviations
+LVII
+OH&S
+occupation health and safety
+OLP
+ofﬂine programming
+OM
+optical microscope
+ORB
+object request brokers
+ORCCAD
+open robot controller computer aided
+design
+ORM
+obstacle restriction method
+ORU
+orbital replacement unit
+OSIM
+operational-space inertia matrix
+P
+P&O
+prosthetics and orthotics
+PAPA
+privacy, accuracy, intellectual property,
+and access
+PAS
+pseudo-amplitude scan
+PB
+parametric bias
+PbD
+programming by demonstration
+PC
+principal contact
+PC
+Purkinje cells
+PCA
+principle components analysis
+PD
+proportional-derivative
+PDDL
+planning domain description
+language
+PDGF
+power data grapple ﬁxtures
+PEAS
+probing environment and adaptive
+sleeping protocol
+PET
+positron emission tomography
+PF
+parallel ﬁbers
+PFC
+prefrontal cortex
+PFM
+potential ﬁeld method
+pHRI
+physical human–robot interaction
+PI
+policy iteration
+PIC
+programmable interrupt controller
+PIC
+programmable intelligent computer
+PID
+proportional–integral–derivative
+PIT
+posterior inferotemporal cortex
+PKM
+parallel kinematic machine
+PLC
+programmable logic controller
+PLD
+programmable logic device
+PLEXIL
+plan execution interchange
+language
+PMD
+photonic mixer device
+PMMA
+polymethyl methacrylate
+PNT
+Petri net transducers
+POMDP
+partially observable MDP
+PPRK
+palm pilot robot kit
+PPS
+precise positioning system
+PR
+photoresist
+PRISMA
+Projects of Robotics for Industry and
+Services, Mechatronics and Automation
+PRM
+probabilistic roadmap method
+PRN
+pseudorandom noise
+PRS
+procedural reasoning system
+PS
+power source
+PTP
+point-to-point
+PTU
+pan–tilt unit
+PVDF
+polyvinyledene ﬂuoride
+PwoF
+point-contact-without-friction
+PZT
+lead zirconate titanate
+Q
+QD
+quantum dot
+QRIO
+quest for curiosity
+QT
+quasistatic telerobotics
+R
+R.U.R.
+Rossum’s Universal Robots
+RAIM
+receiver autonomous integrity
+monitoring
+RALPH
+rapidly adapting lane position
+handler
+RAM
+random-access (volatile) memory
+RANSAC
+random sample consensus
+RAP
+reactive action packages
+RAS
+Robotics and Automation Society
+RBC
+recognition-by-components
+RBF
+radial basis function
+RC
+radio-controlled
+RCC
+remote center of compliance
+RCM
+remote center of motion
+RCR
+responsible conduct of research
+RCS
+real-time control system
+RERC
+Rehabilitation Engineering Research
+Center on Rehabilitation Robotics
+RF
+radiofrequency
+RFID
+radiofrequency identiﬁcation
+RFWR
+receptive ﬁeld weighted regression
+RG
+rate gyros
+RGB
+red, green, blue
+RIG
+rate-integrating gyros
+RL
+reinforcement learning
+RLG
+random loop generator
+RMMS
+reconﬁgurable modular manipulator
+system
+RNEA
+recursive Newton–Euler algorithm
+RNNPB
+recurrent neural network with parametric
+bias
+RNS
+reaction null space
+ROC
+receiver operating curve
+ROKVISS
+robotic components veriﬁcation on the
+ISS
+ROM
+read-only memory
+ROTEX
+robot technology experiment
+ROV
+remotely operated vehicle
+RPC
+remote procedure call
+RPI
+Rensselaer Polytechnic Institute
+RPV
+remotely piloted vehicle
+RRT
+rapid random tree
+RSS
+realistic robot simulation
+
+----- Page 56 (native) -----
+LVIII
+List of Abbreviations
+RT
+reaction time
+RT
+room-temperature
+RTCA
+Radio Technical Commission for
+Aeronautics
+RTD
+resistance temperature device
+RTI
+real-time innovations
+RTK
+real-time kinematics
+RTS
+real-time system
+RWI
+real-world interface
+RWS
+robotic work station
+S
+SA
+selective availability
+SAIC
+Science Applications International, Inc.
+SAIL
+Stanford Artiﬁcial Intelligence
+Laboratory
+SAN
+semiautonomous navigation
+SBAS
+satellite-based augmentation systems
+SBL
+short-baseline system
+SCARA
+selective compliance assembly robot arm
+SCI
+spinal cord injury
+SDK
+standard development kit
+SDR
+software for distributed robotics
+SDV
+spatial dynamic voting
+SEA
+series elastic actuator
+SEE
+standard end-effector
+SELF
+sensorized environment for life
+SEM
+scanning electron microscopes
+SET
+single-electron transistors
+SF
+soft-ﬁnger
+SfM
+structure from motion
+SFX
+sensor fusion effects
+SGAS
+semiglobal asymptotic stability
+SGUUB
+semiglobal uniform ultimate boundedness
+SHOP
+simple hierarchical ordered planner
+SIFT
+scale-invariant feature transformation
+SIGMOD
+Special Interest Group on Management of
+Data
+SIPE
+system for interactive planning and
+execution monitoring
+SIR
+sampling importance resampling
+SISO
+single-input single-output
+SKM
+serial kinematic machines
+SLAM
+simultaneous localization and mapping
+SLAMP
+sheep loading animal manipulation
+platform
+SLICE
+speciﬁcation language for ICE
+SLRV
+surveyor lunar rover vehicle
+SMA
+shape-memory alloy
+SMC
+sequential Monte Carlo
+SNOM
+scanning near-ﬁeld OM
+SOI
+silicon-on-insulator
+SOMR
+single operator multiple robot
+SOSR
+single operator single robot
+SPA
+sense–plan–act
+SPDM
+special-purpose dexterous manipulator
+SPS
+standard position system
+SR
+single-robot
+SRMS
+shuttle remote manipulator system
+SSRMS
+Space shuttle remote manipulator
+system
+ST
+single-task
+STM
+scanning tunneling microscopes
+STS
+superior temporal sulcus
+SVD
+singular value decomposition
+SWNT
+single-walled carbon nanotubes
+T
+TA
+time-extended assignment
+TAP
+test action pairs
+TC
+technical committee
+TCP
+transmission control protocol
+TDL
+task description language
+TDT
+tension differential type
+TEM
+transmission electron microscopes
+tEODor
+telerob explosive ordnance disposal and
+observation robot
+TF-IDF
+term-frequency inverse document
+frequency
+TMS
+transcranial magnetic stimulation
+TOF
+time of ﬂight
+TPBVP
+two-point boundary value problem
+TSEE
+teleoperated small emplacement
+excavator
+TSP
+telesensor programming
+TTI
+thoracic trauma index
+TTS
+text-to-speech
+U
+UAS
+unmanned aerial systems
+UAV
+unmanned aerial vehicles
+UDP
+user data protocol
+UGV
+unmanned ground vehicle
+UML
+uniﬁed modeling language
+URL
+uniform resource locator
+US
+ultrasound
+USBL
+ultrashort-baseline system
+USV
+unmanned surface vehicle
+UUB
+uniform ultimate boundedness
+UUV
+unmanned underwater vehicles
+UVMS
+underwater vehicle manipulator system
+UWB
+ultra-wideband
+UXO
+unexploded ordnance
+V
+VANET
+vehicular ad-hoc network
+VC
+viscous injury response
+VCR
+videocassette recorder
+
+----- Page 57 (native) -----
+List of Abbreviations
+LIX
+vdW
+van der Waals
+VFH
+vector ﬁeld histogram
+VI
+value iteration
+VIA
+variable-impedance actuation
+VLSI
+very-large-scale integrated
+VM
+virtual manipulator
+VO
+velocity obstacles
+VOR
+vestibular-ocular reﬂex
+VOR
+VHF omnidirectional range
+VR
+virtual reality
+VRML
+virtual reality modeling language
+VVV
+versatile volumetric vision
+W
+WABIAN
+Waseda bipedal humanoid
+WAM
+whole-arm manipulator
+WAN
+wide-area network
+WG
+world graph
+WMR
+wheeled mobile robot
+WMSD
+work-related musculoskeletal
+disorders
+WTA
+winner-take-all
+WWW
+world wide web
+X
+XHTML
+extensible hyper text markup
+language
+XML
+extensible markup language
+Z
+ZMP
+zero-moment point
+ZP
+zona pellucida

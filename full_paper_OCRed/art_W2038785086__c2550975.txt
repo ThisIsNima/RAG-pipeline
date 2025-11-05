@@ -1,0 +1,1148 @@
+
+
+----- Page 1 (native) -----
+Computational Methods for Fluid Dynamics
+
+----- Page 2 (native) -----
+Joel H. Ferziger
+• Milovan Perić
+•
+Robert L. Street
+Computational Methods
+for Fluid Dynamics
+Fourth Edition
+123
+
+----- Page 3 (native) -----
+Joel H. Ferziger
+Department of Mechanical Engineering
+Stanford University
+Stanford, CA, USA
+Milovan Perić
+University of Duisburg-Essen
+Duisburg, Germany
+Robert L. Street
+Department of Civil and Environmental
+Engineering
+Stanford University
+Stanford, CA, USA
+ISBN 978-3-319-99691-2
+ISBN 978-3-319-99693-6
+(eBook)
+https://doi.org/10.1007/978-3-319-99693-6
+1st–3rd edition: © Springer-Verlag Berlin Heidelberg 1996, 1999, 2002
+4th edition: © Springer Nature Switzerland AG 2020
+This work is subject to copyright. All rights are reserved by the Publisher, whether the whole or part
+of the material is concerned, speciﬁcally the rights of translation, reprinting, reuse of illustrations,
+recitation, broadcasting, reproduction on microﬁlms or in any other physical way, and transmission
+or information storage and retrieval, electronic adaptation, computer software, or by similar or dissimilar
+methodology now known or hereafter developed.
+The use of general descriptive names, registered names, trademarks, service marks, etc. in this
+publication does not imply, even in the absence of a speciﬁc statement, that such names are exempt from
+the relevant protective laws and regulations and therefore free for general use.
+The publisher, the authors and the editors are safe to assume that the advice and information in this
+book are believed to be true and accurate at the date of publication. Neither the publisher nor the
+authors or the editors give a warranty, expressed or implied, with respect to the material contained
+herein or for any errors or omissions that may have been made. The publisher remains neutral with regard
+to jurisdictional claims in published maps and institutional afﬁliations.
+This Springer imprint is published by the registered company Springer Nature Switzerland AG
+The registered company address is: Gewerbestrasse 11, 6330 Cham, Switzerland
+
+----- Page 4 (native) -----
+Preface
+Computational ﬂuid dynamics, commonly known by the acronym ‘CFD’, continues
+to have signiﬁcant expansion. There are many software packages available that
+solve ﬂuid ﬂow problems; thousands of engineers are using them across a broad
+range of industries and research areas. The market is growing apparently at a rate of
+around 15% each year. CFD codes are accepted nowadays as design tools in many
+industries and are used not only to solve problems but also to help in designing and
+optimizing
+various
+products
+and
+as
+a
+vehicle
+for
+research.
+While
+the
+user-friendliness of commercial CFD-tools has greatly increased since the ﬁrst
+edition of this book appeared in 1996, for their efﬁcient and reliable application it is
+still necessary that the user has a solid background in both ﬂuid mechanics and
+CFD-methods. We assume that our readers are familiar with theoretical ﬂuid
+mechanics, so we try to provide useful information on the other component—
+computational methods for ﬂuid dynamics.
+The book is based on material offered by the authors in the past in courses at
+Stanford University, the University of Erlangen-Nürnberg and the Technical
+University of Hamburg-Harburg, as well as in a number of short courses. It reﬂects
+the authors’ experience in developing numerical methods, writing CFD codes and
+using them to solve engineering and geophysical problems. Many of the codes used
+in the examples, from the simple ones involving rectangular grids to the ones using
+non-orthogonal grids and multigrid methods, are available to interested readers; the
+information on how to access them via the Internet is given in the appendix. These
+codes illustrate some of the methods described in the book; they can be extended
+and adapted to the solution of many ﬂuid mechanical problems. Students should try
+to modify them (e.g., to implement different boundary conditions, interpolation
+schemes, differentiation and integration approximations, etc.). This is important as
+one does not really know a method until she or he has programmed and/or run it.
+We have learned that many researchers have used these codes in the past as the
+basis for their research projects.
+The ﬁnite volume method is favored in this book, although ﬁnite difference
+methods are described in what we hope is sufﬁcient detail. Finite element methods
+are not covered in detail as a number of books on that subject already exist.
+v
+
+----- Page 5 (native) -----
+The basic ideas of each topic are described in such a way that they can be
+understood by the reader; where possible, we have avoided lengthy mathematical
+analysis. Usually, a general description of an idea or method is followed by a more
+detailed description (including the necessary equations) of one or two numerical
+schemes representative of the better methods of the type; other possible approaches
+and extensions are brieﬂy described. We have tried to emphasize common elements
+of methods rather than their differences and to provide the basis upon which
+variants can be built.
+We have placed considerable emphasis on the need to estimate numerical errors;
+almost all examples in this book are accompanied with error analysis. Although it is
+possible for a qualitatively incorrect solution of a problem to look reasonable (it
+may even be a good solution of another problem), the consequences of accepting it
+may be severe. On the other hand, sometimes a solution of a relatively low accuracy
+can be of value if treated with care. Industrial users of commercial codes need to
+learn to judge the quality of the results before believing them. Likewise, researchers
+have the same challenge. We hope that this book will contribute to the awareness
+that numerical solutions are always approximate and need to be properly assessed.
+We have tried to cover a cross-section of modern approaches, including arbitrary
+polyhedral and overlapping grids, multigrid methods and parallel computing,
+methods for moving grids and free surface ﬂows, direct and large-eddy simulation
+of turbulence, etc. Obviously, we could not cover all these topics in detail, but we
+hope that the information contained herein will provide the reader with a useful
+general knowledge of the subject; those interested in a more detailed study of a
+particular topic will ﬁnd recommendations for further reading.
+The long time between the previous and the current edition of this book was
+caused by the sudden passing of Joel H. Ferziger in 2004. Although the remaining
+co-author of the previous edition found an excellent partner for continuing the
+project in Bob Street, for various reasons (but mostly the lack of time), it took a
+while before this new edition was ﬁnished. The new co-author has brought a new
+expertise, and the time passed also required that most chapters be signiﬁcantly
+revised. Notably, the former Chap. 7 dealing with methods for solving the
+Navier-Stokes equations has been completely re-written and broken-up into two
+chapters. Fractional-step methods, which are widely used for large-eddy simula-
+tions, have been described in more detail and a new, implicit version has been
+derived. New codes based on the fractional-step method have been added to the set
+which can be downloaded by readers from the web-site created specially for that
+purpose
+(www.cfd-peric.de).
+Most
+examples
+in
+later
+chapters
+have
+been
+re-computed using commercial software; the simulation ﬁles for these examples
+with some instructions can also be downloaded from the above web-site.
+While we have invested every effort to avoid typing, spelling, and other errors,
+no doubt some remain to be found by readers. We will appreciate your notifying us
+of any mistakes you might ﬁnd, as well as your comments and suggestions for
+improvement of future editions of the book. For that purpose, the authors’ electronic
+mail addresses are given below. Corrections, as well as additional extended reports
+on some of the examples will become available for download at the above web-site.
+vi
+Preface
+
+----- Page 6 (native) -----
+We also hope that colleagues whose work has not been referenced will forgive us,
+because any omissions are unintentional.
+We have to thank all our present and former students, colleagues, and friends,
+who helped us in one way or another to ﬁnish this work; the complete list of names
+is too long to present here. Names that we cannot avoid mentioning include (in
+alphabetic order) Drs. Steven Armﬁeld, David Briggs, Fotini (Tina) Katapodes
+Chow, Ismet Demirdžić, Gene Golub, Sylvain Lardeau, Željko Lilek, Samir
+Muzaferija, Joseph Oliger, Eberhard Schreck, Volker Seidl, and Kishan Shah. The
+help provided by those people who created and made available TEX, LATEX, Linux,
+Xﬁg, Gnuplot, and other tools which made our job easier is also greatly appreciated.
+Special thanks to Rafael Ritterbusch who provided the ﬂuid-structure interaction
+example in Chap. 13.
+Our families gave us a tremendous support during this endeavor; our special
+thanks go to Eva Ferziger, Anna James, Robinson and Kerstin Perić and Norma
+Street.
+The initial collaboration between geographically distant colleagues was made
+possible by grants and fellowships from the Alexander von Humboldt Foundation
+(to JHF) and the Deutsche Forschungsgemeinschaft (German National Research
+Foundation, to MP). Without their support, this work would never have come into
+existence and we cannot express sufﬁcient thanks to them. One of the authors
+(MP) is especially indebted to the late Peter S. MacDonald, former president of
+CD-adapco, for his support, and to managers at Siemens (Jean-Claude Ercollanely,
+Deryl Sneider, and Sven Enger), who provided both support and the software
+Simcenter STAR-CCM+ to create examples in Chaps. 9–131. RLS is deeply
+appreciative of the opportunity to contribute to the continuation of the work of his
+great friend and research colleague, Joel Ferziger.
+Duisburg, Germany
+Milovan Perić
+milovan.peric@t-online.de
+Stanford, USA
+Joel H. Ferziger
+Stanford, USA
+Robert L. Street
+street@stanford.edu
+1Examples in Sects. 9.12.2, 10.3.5, 10.3.8, 12.2.2, 12.5.2, 12.6.4, and all of Chap. 13 (except
+where another source is explicitly named) were simulated and the images were created with
+Simcenter STAR-CCM+, a trademark or registered trademark of Siemens Industry Software NV
+and any of its afﬁliates.
+Preface
+vii
+
+----- Page 7 (native) -----
+Contents
+1
+Basic Concepts of Fluid Flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1
+1.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1
+1.2
+Conservation Principles . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3
+1.3
+Mass Conservation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+1.4
+Momentum Conservation . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+1.5
+Conservation of Scalar Quantities. . . . . . . . . . . . . . . . . . . . . .
+9
+1.6
+Dimensionless Form of Equations . . . . . . . . . . . . . . . . . . . . .
+11
+1.7
+Simpliﬁed Mathematical Models . . . . . . . . . . . . . . . . . . . . . .
+12
+1.7.1
+Incompressible Flow . . . . . . . . . . . . . . . . . . . . . . . .
+13
+1.7.2
+Inviscid (Euler) Flow . . . . . . . . . . . . . . . . . . . . . . .
+13
+1.7.3
+Potential Flow . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+1.7.4
+Creeping (Stokes) Flow . . . . . . . . . . . . . . . . . . . . . .
+15
+1.7.5
+Boussinesq Approximation . . . . . . . . . . . . . . . . . . .
+15
+1.7.6
+Boundary Layer Approximation . . . . . . . . . . . . . . . .
+16
+1.7.7
+Modeling of Complex Flow Phenomena . . . . . . . . .
+16
+1.8
+Mathematical Classiﬁcation of Flows . . . . . . . . . . . . . . . . . . .
+17
+1.8.1
+Hyperbolic Flows . . . . . . . . . . . . . . . . . . . . . . . . . .
+18
+1.8.2
+Parabolic Flows . . . . . . . . . . . . . . . . . . . . . . . . . . .
+18
+1.8.3
+Elliptic Flows . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+18
+1.8.4
+Mixed Flow Types . . . . . . . . . . . . . . . . . . . . . . . . .
+19
+1.9
+Plan of This Book . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+19
+2
+Introduction to Numerical Methods . . . . . . . . . . . . . . . . . . . . . . . .
+23
+2.1
+Approaches to Solving Problems in Fluid Dynamics . . . . . . . .
+23
+2.2
+What is CFD? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+25
+2.3
+Possibilities and Limitations of Numerical Methods . . . . . . . .
+26
+2.4
+Components of a Numerical Solution Method . . . . . . . . . . . . .
+27
+2.4.1
+Mathematical Model . . . . . . . . . . . . . . . . . . . . . . . .
+27
+2.4.2
+Discretization Method . . . . . . . . . . . . . . . . . . . . . . .
+27
+2.4.3
+Coordinate and Basis Vector Systems . . . . . . . . . . .
+28
+ix
+
+----- Page 8 (native) -----
+2.4.4
+Numerical Grid . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+28
+2.4.5
+Finite Approximations . . . . . . . . . . . . . . . . . . . . . . .
+33
+2.4.6
+Solution Method . . . . . . . . . . . . . . . . . . . . . . . . . . .
+34
+2.4.7
+Convergence Criteria . . . . . . . . . . . . . . . . . . . . . . .
+34
+2.5
+Properties of Numerical Solution Methods . . . . . . . . . . . . . . .
+34
+2.5.1
+Consistency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+34
+2.5.2
+Stability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+35
+2.5.3
+Convergence. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+36
+2.5.4
+Conservation . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+36
+2.5.5
+Boundedness . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+37
+2.5.6
+Realizability . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+37
+2.5.7
+Accuracy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+37
+2.6
+Discretization Approaches . . . . . . . . . . . . . . . . . . . . . . . . . . .
+39
+2.6.1
+Finite Difference Method. . . . . . . . . . . . . . . . . . . . .
+39
+2.6.2
+Finite Volume Method . . . . . . . . . . . . . . . . . . . . . .
+39
+2.6.3
+Finite Element Method . . . . . . . . . . . . . . . . . . . . . .
+40
+3
+Finite Difference Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+41
+3.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+41
+3.2
+Basic Concept . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+42
+3.3
+Approximation of the First Derivative . . . . . . . . . . . . . . . . . .
+44
+3.3.1
+Taylor Series Expansion . . . . . . . . . . . . . . . . . . . . .
+44
+3.3.2
+Polynomial Fitting . . . . . . . . . . . . . . . . . . . . . . . . .
+46
+3.3.3
+Compact Schemes. . . . . . . . . . . . . . . . . . . . . . . . . .
+47
+3.3.4
+Non-uniform Grids . . . . . . . . . . . . . . . . . . . . . . . . .
+49
+3.4
+Approximation of the Second Derivative . . . . . . . . . . . . . . . .
+51
+3.5
+Approximation of Mixed Derivatives . . . . . . . . . . . . . . . . . . .
+54
+3.6
+Approximation of Other Terms . . . . . . . . . . . . . . . . . . . . . . .
+55
+3.6.1
+Non-differentiated Terms . . . . . . . . . . . . . . . . . . . . .
+55
+3.6.2
+Differentiated Terms Near Boundaries . . . . . . . . . . .
+55
+3.7
+Implementation of Boundary Conditions . . . . . . . . . . . . . . . . .
+56
+3.7.1
+Implementation of Boundary Conditions Using
+Internal Grid Points . . . . . . . . . . . . . . . . . . . . . . . .
+56
+3.7.2
+Implementation of Boundary Conditions Using
+Ghost Points . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+57
+3.8
+The Algebraic Equation System . . . . . . . . . . . . . . . . . . . . . . .
+58
+3.9
+Discretization Errors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+61
+3.10
+Finite-Difference Example . . . . . . . . . . . . . . . . . . . . . . . . . . .
+63
+3.11
+An Introduction to Spectral Methods . . . . . . . . . . . . . . . . . . .
+69
+3.11.1
+Tools for Analysis . . . . . . . . . . . . . . . . . . . . . . . . .
+70
+3.11.2
+Solution of Differential Equations . . . . . . . . . . . . . .
+73
+x
+Contents
+
+----- Page 9 (native) -----
+4
+Finite Volume Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+81
+4.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+81
+4.2
+Approximation of Surface Integrals . . . . . . . . . . . . . . . . . . . .
+82
+4.3
+Approximation of Volume Integrals . . . . . . . . . . . . . . . . . . . .
+86
+4.4
+Interpolation and Differentiation Practices . . . . . . . . . . . . . . . .
+87
+4.4.1
+Upwind Interpolation (UDS) . . . . . . . . . . . . . . . . . .
+87
+4.4.2
+Linear Interpolation (CDS) . . . . . . . . . . . . . . . . . . .
+88
+4.4.3
+Quadratic Upwind Interpolation (QUICK) . . . . . . . .
+89
+4.4.4
+Higher-Order Schemes . . . . . . . . . . . . . . . . . . . . . .
+90
+4.4.5
+Other Schemes . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+92
+4.4.6
+A General Strategy, TVD Schemes, and Flux
+Limiters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+93
+4.5
+Implementation of Boundary Conditions . . . . . . . . . . . . . . . . .
+97
+4.6
+The Algebraic Equation System . . . . . . . . . . . . . . . . . . . . . . .
+98
+4.7
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+98
+4.7.1
+Testing the Order of FV-Approximations . . . . . . . . .
+98
+4.7.2
+Scalar Transport in a Known Velocity Field . . . . . . .
+103
+4.7.3
+Testing the Numerical Diffusion . . . . . . . . . . . . . . .
+107
+5
+Solution of Linear Equation Systems . . . . . . . . . . . . . . . . . . . . . . .
+111
+5.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+111
+5.2
+Direct Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+112
+5.2.1
+Gauss Elimination. . . . . . . . . . . . . . . . . . . . . . . . . .
+112
+5.2.2
+LU Decomposition . . . . . . . . . . . . . . . . . . . . . . . . .
+114
+5.2.3
+Tridiagonal Systems . . . . . . . . . . . . . . . . . . . . . . . .
+115
+5.2.4
+Cyclic Reduction . . . . . . . . . . . . . . . . . . . . . . . . . .
+116
+5.3
+Iterative Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+117
+5.3.1
+Basic Concept . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+117
+5.3.2
+Convergence. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+118
+5.3.3
+Some Basic Methods . . . . . . . . . . . . . . . . . . . . . . .
+120
+5.3.4
+Incomplete LU Decomposition: Stone’s Method . . . .
+121
+5.3.5
+ADI and Other Splitting Methods . . . . . . . . . . . . . .
+125
+5.3.6
+Krylov Methods . . . . . . . . . . . . . . . . . . . . . . . . . . .
+127
+5.3.7
+Multigrid Methods . . . . . . . . . . . . . . . . . . . . . . . . .
+134
+5.3.8
+Other Iterative Solvers . . . . . . . . . . . . . . . . . . . . . .
+138
+5.4
+Coupled Equations and Their Solution . . . . . . . . . . . . . . . . . .
+139
+5.4.1
+Simultaneous Solution. . . . . . . . . . . . . . . . . . . . . . .
+139
+5.4.2
+Sequential Solution . . . . . . . . . . . . . . . . . . . . . . . . .
+140
+5.4.3
+Under-Relaxation . . . . . . . . . . . . . . . . . . . . . . . . . .
+140
+5.5
+Non-linear Equations and Their Solution . . . . . . . . . . . . . . . .
+142
+5.5.1
+Newton-Like Techniques . . . . . . . . . . . . . . . . . . . . .
+142
+5.5.2
+Other Techniques . . . . . . . . . . . . . . . . . . . . . . . . . .
+143
+Contents
+xi
+
+----- Page 10 (native) -----
+5.6
+Deferred-Correction Approaches . . . . . . . . . . . . . . . . . . . . . .
+144
+5.7
+Convergence Criteria and Iteration Errors . . . . . . . . . . . . . . . .
+146
+5.8
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+151
+6
+Methods for Unsteady Problems . . . . . . . . . . . . . . . . . . . . . . . . . . .
+157
+6.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+157
+6.2
+Methods for Initial Value Problems in ODEs . . . . . . . . . . . . .
+157
+6.2.1
+Two-Level Methods . . . . . . . . . . . . . . . . . . . . . . . .
+157
+6.2.2
+Predictor-Corrector and Multipoint Methods . . . . . . .
+160
+6.2.3
+Runge–Kutta Methods. . . . . . . . . . . . . . . . . . . . . . .
+163
+6.2.4
+Other Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+165
+6.3
+Application to the Generic Transport Equation . . . . . . . . . . . .
+167
+6.3.1
+Explicit Methods . . . . . . . . . . . . . . . . . . . . . . . . . .
+168
+6.3.2
+Implicit Methods . . . . . . . . . . . . . . . . . . . . . . . . . .
+173
+6.3.3
+Other Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+178
+6.4
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+178
+7
+Solution of the Navier–Stokes Equations: Part 1. . . . . . . . . . . . . . .
+183
+7.1
+Basics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+183
+7.1.1
+Discretization of Convection and Viscous Terms . . .
+184
+7.1.2
+Discretization of Pressure Terms and Body
+Forces . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+185
+7.1.3
+Conservation Properties . . . . . . . . . . . . . . . . . . . . . .
+186
+7.1.4
+Choice of Variable Arrangement on the Grid . . . . . .
+191
+7.1.5
+Calculation of the Pressure . . . . . . . . . . . . . . . . . . .
+193
+7.1.6
+Initial and Boundary Conditions
+for the Navier–Stokes Equations . . . . . . . . . . . . . . .
+197
+7.1.7
+Illustrative Simple Schemes . . . . . . . . . . . . . . . . . . .
+201
+7.2
+Calculation Strategies for Steady and Unsteady Flows . . . . . . .
+204
+7.2.1
+Fractional-Step Methods . . . . . . . . . . . . . . . . . . . . .
+204
+7.2.2
+SIMPLE, SIMPLER, SIMPLEC and PISO . . . . . . . .
+210
+7.2.3
+Artiﬁcial Compressibility Methods . . . . . . . . . . . . . .
+221
+7.2.4
+Streamfunction-Vorticity Methods . . . . . . . . . . . . . .
+224
+8
+Solution of the Navier–Stokes Equations: Part 2. . . . . . . . . . . . . . .
+227
+8.1
+Implicit Iterative Methods on a Staggered Grid . . . . . . . . . . . .
+227
+8.1.1
+SIMPLE for Staggered Grids . . . . . . . . . . . . . . . . . .
+233
+8.1.2
+IFSM for Staggered Grids . . . . . . . . . . . . . . . . . . . .
+236
+8.2
+Implicit Iterative Methods for Colocated Grids . . . . . . . . . . . .
+237
+8.2.1
+Treatment of Pressure for Colocated Variables . . . . .
+237
+8.2.2
+SIMPLE for Colocated Grids. . . . . . . . . . . . . . . . . .
+241
+8.2.3
+IFSM for Colocated Grids . . . . . . . . . . . . . . . . . . . .
+243
+8.3
+Non-iterative Implicit Methods for Unsteady Flows. . . . . . . . .
+244
+8.3.1
+Spatial Discretization of the Adams–Bashforth
+Convection Term . . . . . . . . . . . . . . . . . . . . . . . . . .
+246
+xii
+Contents
+
+----- Page 11 (native) -----
+8.3.2
+An Alternating-Direction Implicit Scheme . . . . . . . .
+247
+8.3.3
+The Poisson Equation for Pressure . . . . . . . . . . . . . .
+248
+8.3.4
+Initial and Boundary Conditions . . . . . . . . . . . . . . .
+252
+8.3.5
+Iterative Versus Non-iterative Schemes . . . . . . . . . .
+253
+8.4
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+255
+8.4.1
+Steady Flow in Square Enclosures . . . . . . . . . . . . . .
+256
+8.4.2
+Unsteady Flow in Square Enclosures . . . . . . . . . . . .
+267
+9
+Complex Geometries . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+275
+9.1
+The Choice of Grid . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+275
+9.1.1
+Stepwise Approximation of Curved Boundaries . . . .
+275
+9.1.2
+Immersed-Boundary Methods . . . . . . . . . . . . . . . . .
+277
+9.1.3
+Overlapping Grids . . . . . . . . . . . . . . . . . . . . . . . . .
+278
+9.1.4
+Boundary-Fitted Non-orthogonal Grids. . . . . . . . . . .
+280
+9.2
+Grid Generation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+280
+9.2.1
+Deﬁnition of Flow Domain . . . . . . . . . . . . . . . . . . .
+282
+9.2.2
+Generation of a Surface Grid . . . . . . . . . . . . . . . . . .
+283
+9.2.3
+Generation of a Volume Grid . . . . . . . . . . . . . . . . .
+284
+9.3
+The Choice of Velocity Components . . . . . . . . . . . . . . . . . . .
+288
+9.3.1
+Grid-Oriented Velocity Components . . . . . . . . . . . .
+289
+9.3.2
+Cartesian Velocity Components . . . . . . . . . . . . . . . .
+290
+9.4
+The Choice of Variable Arrangement . . . . . . . . . . . . . . . . . . .
+290
+9.4.1
+Staggered Arrangements . . . . . . . . . . . . . . . . . . . . .
+290
+9.4.2
+Colocated Arrangement . . . . . . . . . . . . . . . . . . . . . .
+291
+9.5
+Finite-Difference Methods . . . . . . . . . . . . . . . . . . . . . . . . . . .
+292
+9.5.1
+Methods Based on Coordinate Transformation . . . . .
+292
+9.5.2
+Methods Based on Shape Functions . . . . . . . . . . . . .
+295
+9.6
+Finite-Volume Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+296
+9.6.1
+Block-Structured Grids . . . . . . . . . . . . . . . . . . . . . .
+297
+9.6.2
+Unstructured Grids . . . . . . . . . . . . . . . . . . . . . . . . .
+301
+9.6.3
+Grids for Control-Volume-Based Finite-Element
+Methods . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+303
+9.6.4
+Computation of Grid Parameters . . . . . . . . . . . . . . .
+304
+9.7
+Approximation of Fluxes and Source Terms . . . . . . . . . . . . . .
+307
+9.7.1
+Approximation of Convection Fluxes . . . . . . . . . . . .
+307
+9.7.2
+Approximation of Diffusion Fluxes . . . . . . . . . . . . .
+311
+9.7.3
+Approximation of Source Terms . . . . . . . . . . . . . . .
+314
+9.8
+Pressure-Correction Equation . . . . . . . . . . . . . . . . . . . . . . . . .
+315
+9.9
+Axisymmetric Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+321
+9.10
+Higher-Order Finite-Volume Methods . . . . . . . . . . . . . . . . . .
+323
+9.11
+Implementation of Boundary Conditions . . . . . . . . . . . . . . . . .
+324
+9.11.1
+Inlet . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+324
+9.11.2
+Outlet. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+324
+Contents
+xiii
+
+----- Page 12 (native) -----
+9.11.3
+Impermeable Walls . . . . . . . . . . . . . . . . . . . . . . . . .
+326
+9.11.4
+Symmetry Planes . . . . . . . . . . . . . . . . . . . . . . . . . .
+328
+9.11.5
+Speciﬁed Pressure . . . . . . . . . . . . . . . . . . . . . . . . . .
+329
+9.12
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+330
+9.12.1
+Flow Around Circular Cylinder at Re ¼ 20 . . . . . . .
+330
+9.12.2
+Flow Around Circular Cylinder at Re ¼ 200 . . . . . .
+334
+9.12.3
+Flow Around Circular Cylinder in a Channel
+at Re ¼ 200 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+338
+10
+Turbulent Flows . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+347
+10.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+347
+10.2
+Direct Numerical Simulation (DNS) . . . . . . . . . . . . . . . . . . . .
+350
+10.2.1
+Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+350
+10.2.2
+Discussion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+351
+10.2.3
+Initial and Boundary Conditions . . . . . . . . . . . . . . .
+355
+10.2.4
+Examples of DNS Application . . . . . . . . . . . . . . . . .
+358
+10.2.5
+Other Applications of DNS . . . . . . . . . . . . . . . . . . .
+363
+10.3
+Simulation of Turbulence with Models . . . . . . . . . . . . . . . . . .
+363
+10.3.1
+Model Categories . . . . . . . . . . . . . . . . . . . . . . . . . .
+363
+10.3.2
+Implicit Large-Eddy Simulation (ILES) . . . . . . . . . .
+366
+10.3.3
+Large-Eddy Simulation (LES) . . . . . . . . . . . . . . . . .
+366
+10.3.4
+Examples of LES Application . . . . . . . . . . . . . . . . .
+380
+10.3.5
+Reynolds-Averaged Navier–Stokes (RANS)
+Simulations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+395
+10.3.6
+Example of RANS Application: Flow Around
+a Sphere at Re ¼ 500,000 . . . . . . . . . . . . . . . . . . . .
+414
+10.3.7
+Very-Large-Eddy Simulation/TRANS/DES . . . . . . . .
+417
+11
+Compressible Flow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+421
+11.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+421
+11.2
+Pressure-Correction Methods for Arbitrary Mach Number . . . .
+422
+11.2.1
+Implicit Fractional-Step Method for All Flow
+Speeds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+423
+11.2.2
+SIMPLE Method for All Flow Speeds . . . . . . . . . . .
+426
+11.2.3
+Properties of the Pressure-Correction Equation . . . . .
+427
+11.2.4
+Boundary Conditions . . . . . . . . . . . . . . . . . . . . . . .
+428
+11.2.5
+Examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+433
+11.3
+Methods Designed for Compressible Flow . . . . . . . . . . . . . . .
+438
+11.3.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+438
+11.3.2
+Discontinuities . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+439
+11.3.3
+Limiters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+440
+11.3.4
+Preconditioning. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+442
+11.4
+Comments on Applications . . . . . . . . . . . . . . . . . . . . . . . . . .
+444
+xiv
+Contents
+
+----- Page 13 (native) -----
+12
+Efﬁciency and Accuracy Improvement . . . . . . . . . . . . . . . . . . . . . .
+447
+12.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+447
+12.1.1
+Grid and Flow Feature Resolution . . . . . . . . . . . . . .
+447
+12.1.2
+Organization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+450
+12.2
+Error Analysis and Estimation . . . . . . . . . . . . . . . . . . . . . . . .
+450
+12.2.1
+Description of Errors. . . . . . . . . . . . . . . . . . . . . . . .
+450
+12.2.2
+Estimation of Errors . . . . . . . . . . . . . . . . . . . . . . . .
+453
+12.2.3
+Recommended Practice for CFD Uncertainty
+Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+464
+12.3
+Grid Quality and Optimization . . . . . . . . . . . . . . . . . . . . . . . .
+468
+12.4
+Multigrid Methods for Flow Calculation . . . . . . . . . . . . . . . . .
+472
+12.5
+Adaptive Mesh Reﬁnement (AMR) . . . . . . . . . . . . . . . . . . . .
+479
+12.5.1
+Motivation for Adaptive Mesh Reﬁnement . . . . . . . .
+479
+12.5.2
+The AMR Strategy . . . . . . . . . . . . . . . . . . . . . . . . .
+480
+12.6
+Parallel Computing in CFD . . . . . . . . . . . . . . . . . . . . . . . . . .
+485
+12.6.1
+Parallelization of Iterative Solvers for Linear
+Equation Systems . . . . . . . . . . . . . . . . . . . . . . . . . .
+486
+12.6.2
+Domain Decomposition in Space . . . . . . . . . . . . . . .
+488
+12.6.3
+Domain Decomposition in Time . . . . . . . . . . . . . . .
+491
+12.6.4
+Efﬁciency of Parallel Computing . . . . . . . . . . . . . . .
+492
+12.6.5
+Graphics Processing Units (GPUs) and Parallel
+Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+497
+13
+Special Topics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+499
+13.1
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+499
+13.2
+Heat and Mass Transfer . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+500
+13.3
+Flows with Variable Fluid Properties . . . . . . . . . . . . . . . . . . .
+510
+13.4
+Moving Grids . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+511
+13.5
+Free-Surface Flows . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+521
+13.5.1
+Interface-Capturing Methods . . . . . . . . . . . . . . . . . .
+524
+13.5.2
+Interface-Tracking Methods . . . . . . . . . . . . . . . . . . .
+531
+13.5.3
+Hybrid Methods . . . . . . . . . . . . . . . . . . . . . . . . . . .
+536
+13.6
+Solution Forcing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+537
+13.7
+Meteorological and Oceanographic Applications . . . . . . . . . . .
+538
+13.8
+Multiphase Flows . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+541
+13.9
+Combustion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+548
+13.10
+Fluid-Structure Interaction . . . . . . . . . . . . . . . . . . . . . . . . . . .
+550
+13.10.1
+Floating and Flying Bodies . . . . . . . . . . . . . . . . . . .
+551
+13.10.2
+Deformable Bodies . . . . . . . . . . . . . . . . . . . . . . . . .
+560
+Appendix: Supplementary Information . . . . . . . . . . . . . . . . . . . . . . . . . . .
+565
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+569
+Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+591
+Contents
+xv
+
+----- Page 14 (native) -----
+Acronyms
+1D
+One-dimensional
+2D
+Two-dimensional
+3D
+Three-dimensional
+ADI
+Alternating direction implicit
+ALM
+Actuator line model
+BDS
+Backward difference scheme
+CDS
+Central difference scheme
+CFD
+Computational ﬂuid dynamics
+CG
+Conjugate gradient method
+CGSTAB
+CG stabilized
+CM
+Control mass
+CV
+Control volume
+CVFEM
+Control-volume-based ﬁnite element method
+DDES
+Delayed detached-eddy simulation
+DES
+Detached-eddy simulation
+DNS
+Direct numerical simulation
+EARSM
+Explicit algebraic Reynolds-stress model
+EB
+Elliptic blending
+ENO
+Essentially non-oscillatory
+FAS
+Full approximation scheme
+FD
+Finite difference
+FDS
+Forward difference scheme
+FE
+Finite elements
+FFT
+Fast Fourier transform
+FMG
+Full multigrid method
+FV
+Finite volume
+GC
+Global communication
+GS
+Gauss-Seidel method
+ICCG
+CG preconditioned by incomplete Cholesky method
+IDDES
+Improved delayed detached-eddy simulation
+xvii
+
+----- Page 15 (native) -----
+IFSM
+Implicit fractional-step method
+ILES
+Implicit large-eddy simulation
+ILU
+Incomplete lower-upper decomposition
+LC
+Local communication
+LES
+Large-eddy simulation
+LU
+Lower-upper decomposition
+MAC
+Marker-and-cell
+MG
+Multigrid
+MPI
+Message-passing interface
+ODE
+Ordinary differential equation
+PDE
+Partial differential equation
+PVM
+Parallel virtual machine
+RANS
+Reynolds averaged Navier-Stokes
+rms
+Root mean square
+rpm
+Revolutions per minute
+RSFS
+Resolved sub-ﬁlter scale
+RSM
+Reynolds-stress model
+SBL
+Stable boundary layer
+SCL
+Space conservation law
+SFS
+Sub-ﬁlter scale
+SGS
+Subgrid scale
+SIP
+Strongly implicit procedure
+SOR
+Successive over-relaxation
+SST
+Shear stress transport
+TDMA
+Tridiagonal matrix algorithm
+TRANS
+Transient RANS
+TVD
+Total variation diminishing
+UDS
+Upwind difference scheme
+URANS
+Unsteady RANS
+VLES
+Very-large-eddy simulation
+VOF
+Volume-of-ﬂuid
+xviii
+Acronyms

@@ -1,0 +1,1949 @@
+
+
+----- Page 1 (native) -----
+Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics, pages 255–269
+April 19 - 23, 2021. ©2021 Association for Computational Linguistics
+255
+Exploiting Cloze Questions for Few Shot Text Classiﬁcation and Natural
+Language Inference
+Timo Schick1,2
+Hinrich Sch¨utze1
+1 Center for Information and Language Processing, LMU Munich, Germany
+2 Sulzer GmbH, Munich, Germany
+schickt@cis.lmu.de
+inquiries@cislmu.org
+Abstract
+Some NLP tasks can be solved in a fully unsu-
+pervised fashion by providing a pretrained lan-
+guage model with “task descriptions” in natu-
+ral language (e.g., Radford et al., 2019). While
+this approach underperforms its supervised
+counterpart, we show in this work that the two
+ideas can be combined: We introduce Pattern-
+Exploiting Training (PET), a semi-supervised
+training procedure that reformulates input ex-
+amples as cloze-style phrases to help language
+models understand a given task. These phrases
+are then used to assign soft labels to a large
+set of unlabeled examples. Finally, standard
+supervised training is performed on the result-
+ing training set.
+For several tasks and lan-
+guages, PET outperforms supervised training
+and strong semi-supervised approaches in low-
+resource settings by a large margin.1
+1
+Introduction
+Learning from examples is the predominant ap-
+proach for many NLP tasks: A model is trained
+on a set of labeled examples from which it then
+generalizes to unseen data. Due to the vast number
+of languages, domains and tasks and the cost of
+annotating data, it is common in real-world uses of
+NLP to have only a small number of labeled exam-
+ples, making few-shot learning a highly important
+research area. Unfortunately, applying standard
+supervised learning to small training sets often per-
+forms poorly; many problems are difﬁcult to grasp
+from just looking at a few examples. For instance,
+assume we are given the following pieces of text:
+• T1: This was the best pizza I’ve ever had.
+• T2: You can get better sushi for half the price.
+• T3: Pizza was average. Not worth the price.
+1Our implementation is publicly available at https://
+github.com/timoschick/pet.
+Best pizza ever!
++1 ) ∈T
+(
+Best pizza ever!
+It was
+.
+PLM
+great : 0.8
+bad
+: 0.2
++1: 0.8
+-1: 0.2
+LCE
+(1)
+(2)
+Just gross. ∈D
+Just gross.
++1: 0.1
+-1: 0.9
+C
+(3)
+Figure 1: PET for sentiment classiﬁcation. (1) A num-
+ber of patterns encoding some form of task description
+are created to convert training examples to cloze ques-
+tions; for each pattern, a pretrained language model is
+ﬁnetuned. (2) The ensemble of trained models anno-
+tates unlabeled data. (3) A classiﬁer is trained on the
+resulting soft-labeled dataset.
+Furthermore, imagine we are told that the labels
+of T1 and T2 are l and l′, respectively, and we are
+asked to infer the correct label for T3. Based only
+on these examples, this is impossible because plau-
+sible justiﬁcations can be found for both l and l′.
+However, if we know that the underlying task is to
+identify whether the text says anything about prices,
+we can easily assign l′ to T3. This illustrates that
+solving a task from only a few examples becomes
+much easier when we also have a task description,
+i.e., a textual explanation that helps us understand
+what the task is about.
+With the rise of pretrained language models
+(PLMs) such as GPT (Radford et al., 2018), BERT
+(Devlin et al., 2019) and RoBERTa (Liu et al.,
+2019), the idea of providing task descriptions has
+become feasible for neural architectures: We can
+
+----- Page 2 (native) -----
+256
+simply append such descriptions in natural lan-
+guage to an input and let the PLM predict continua-
+tions that solve the task (Radford et al., 2019; Puri
+and Catanzaro, 2019). So far, this idea has mostly
+been considered in zero-shot scenarios where no
+training data is available at all.
+In this work, we show that providing task de-
+scriptions can successfully be combined with stan-
+dard supervised learning in few-shot settings: We
+introduce Pattern-Exploiting Training (PET), a
+semi-supervised training procedure that uses natu-
+ral language patterns to reformulate input examples
+into cloze-style phrases. As illustrated in Figure 1,
+PET works in three steps: First, for each pattern
+a separate PLM is ﬁnetuned on a small training
+set T . The ensemble of all models is then used
+to annotate a large unlabeled dataset D with soft
+labels. Finally, a standard classiﬁer is trained on
+the soft-labeled dataset. We also devise iPET, an
+iterative variant of PET in which this process is
+repeated with increasing training set sizes.
+On a diverse set of tasks in multiple languages,
+we show that given a small to medium number
+of labeled examples, PET and iPET substantially
+outperform unsupervised approaches, supervised
+training and strong semi-supervised baselines.
+2
+Related Work
+Radford et al. (2019) provide hints in the form of
+natural language patterns for zero-shot learning of
+challenging tasks such as reading comprehension
+and question answering (QA). This idea has been
+applied to unsupervised text classiﬁcation (Puri
+and Catanzaro, 2019), commonsense knowledge
+mining (Davison et al., 2019) and argumentative re-
+lation classiﬁcation (Opitz, 2019). Srivastava et al.
+(2018) use task descriptions for zero-shot classiﬁ-
+cation but require a semantic parser. For relation
+extraction, Bouraoui et al. (2020) automatically
+identify patterns that express given relations. Mc-
+Cann et al. (2018) rephrase several tasks as QA
+problems. Raffel et al. (2020) frame various prob-
+lems as language modeling tasks, but their patterns
+only loosely resemble natural language and are un-
+suitable for few-shot learning.2
+Another recent line of work uses cloze-style
+phrases to probe the knowledge that PLMs acquire
+during pretraining; this includes probing for factual
+2For example, they convert inputs (a, b) for recognizing
+textual entailment (RTE) to “rte sentence1: a sentence2: b”,
+and the PLM is asked to predict strings like “not entailment”.
+and commonsense knowledge (Trinh and Le, 2018;
+Petroni et al., 2019; Wang et al., 2019; Sakaguchi
+et al., 2020), linguistic capabilities (Ettinger, 2020;
+Kassner and Sch¨utze, 2020), understanding of rare
+words (Schick and Sch¨utze, 2020), and ability to
+perform symbolic reasoning (Talmor et al., 2019).
+Jiang et al. (2020) consider the problem of ﬁnding
+the best pattern to express a given task.
+Other approaches for few-shot learning in NLP
+include exploiting examples from related tasks (Yu
+et al., 2018; Gu et al., 2018; Dou et al., 2019; Qian
+and Yu, 2019; Yin et al., 2019) and using data aug-
+mentation (Xie et al., 2020; Chen et al., 2020); the
+latter commonly relies on back-translation (Sen-
+nrich et al., 2016), requiring large amounts of paral-
+lel data. Approaches using textual class descriptors
+typically assume that abundant examples are avail-
+able for a subset of classes (e.g., Romera-Paredes
+and Torr, 2015; Veeranna et al., 2016; Ye et al.,
+2020). In contrast, our approach requires no addi-
+tional labeled data and provides an intuitive inter-
+face to leverage task-speciﬁc human knowledge.
+The idea behind iPET – training multiple gen-
+erations of models on data labeled by previous
+generations – bears resemblance to self-training
+and bootstrapping approaches for word sense dis-
+ambiguation (Yarowsky, 1995), relation extraction
+(Brin, 1999; Agichtein and Gravano, 2000; Batista
+et al., 2015), parsing (McClosky et al., 2006; Re-
+ichart and Rappoport, 2007; Huang and Harper,
+2009), machine translation (Hoang et al., 2018),
+and sequence generation (He et al., 2020).
+3
+Pattern-Exploiting Training
+Let M be a masked language model with vocab-
+ulary V and mask token
+∈V , and let L be a
+set of labels for our target classiﬁcation task A.
+We write an input for task A as a sequence of
+phrases x = (s1, . . . , sk) with si ∈V ∗; for ex-
+ample, k = 2 if A is textual inference (two input
+sentences). We deﬁne a pattern to be a function P
+that takes x as input and outputs a phrase or sen-
+tence P(x) ∈V ∗that contains exactly one mask
+token, i.e., its output can be viewed as a cloze ques-
+tion. Furthermore, we deﬁne a verbalizer as an
+injective function v : L →V that maps each label
+to a word from M’s vocabulary. We refer to (P, v)
+as a pattern-verbalizer pair (PVP).
+Using a PVP (P, v) enables us to solve task A as
+follows: Given an input x, we apply P to obtain an
+input representation P(x), which is then processed
+
+----- Page 3 (native) -----
+257
+by M to determine the label y ∈L for which
+v(y) is the most likely substitute for the mask. For
+example, consider the task of identifying whether
+two sentences a and b contradict each other (label
+y0) or agree with each other (y1). For this task,
+we may choose the pattern P(a, b) = a?
+, b.
+combined with a verbalizer v that maps y0 to “Yes”
+and y1 to “No”. Given an example input pair
+x = (Mia likes pie, Mia hates pie),
+the task now changes from having to assign a label
+without inherent meaning to answering whether the
+most likely choice for the masked position in
+P(x) = Mia likes pie?
+, Mia hates pie.
+is “Yes” or “No”.
+3.1
+PVP Training and Inference
+Let p = (P, v) be a PVP. We assume access to a
+small training set T and a (typically much larger)
+set of unlabeled examples D. For each sequence
+z ∈V ∗that contains exactly one mask token and
+w ∈V , we denote with M(w | z) the unnormal-
+ized score that the language model assigns to w
+at the masked position. Given some input x, we
+deﬁne the score for label l ∈L as
+sp(l | x) = M(v(l) | P(x))
+and obtain a probability distribution over labels
+using softmax:
+qp(l | x) =
+esp(l|x)
+P
+l′∈L esp(l′|x)
+We use the cross-entropy between qp(l | x) and
+the true (one-hot) distribution of training example
+(x, l) – summed over all (x, l) ∈T – as loss for
+ﬁnetuning M for p.
+3.2
+Auxiliary Language Modeling
+In our application scenario, only a few training ex-
+amples are available and catastrophic forgetting can
+occur. As a PLM ﬁnetuned for some PVP is still a
+language model at its core, we address this by us-
+ing language modeling as auxiliary task. With LCE
+denoting cross-entropy loss and LMLM language
+modeling loss, we compute the ﬁnal loss as
+L = (1 −α) · LCE + α · LMLM
+This idea was recently applied by Chronopoulou
+et al. (2019) in a data-rich scenario. As LMLM
+is typically much larger than LCE, in preliminary
+experiments, we found a small value of α = 10−4
+to consistently give good results, so we use it in all
+our experiments. To obtain sentences for language
+modeling, we use the unlabeled set D. However,
+we do not train directly on each x ∈D, but rather
+on P(x), where we never ask the language model
+to predict anything for the masked slot.
+3.3
+Combining PVPs
+A key challenge for our approach is that in the
+absence of a large development set, it is hard to
+identify which PVPs perform well. To address this,
+we use a strategy similar to knowledge distillation
+(Hinton et al., 2015). First, we deﬁne a set P of
+PVPs that intuitively make sense for a given task
+A. We then use these PVPs as follows:
+(1) We ﬁnetune a separate language model Mp
+for each p ∈P as described in Section 3.1.
+As T is small, this ﬁnetuning is cheap even
+for a large number of PVPs.
+(2) We use the ensemble M = {Mp | p ∈P} of
+ﬁnetuned models to annotate examples from
+D. We ﬁrst combine the unnormalized class
+scores for each example x ∈D as
+sM(l | x) = 1
+Z
+X
+p∈P
+w(p) · sp(l | x)
+where Z = P
+p∈P w(p) and the w(p) are
+weighting terms for the PVPs. We experiment
+with two different realizations of this weigh-
+ing term: either we simply set w(p) = 1 for
+all p or we set w(p) to be the accuracy ob-
+tained using p on the training set before train-
+ing. We refer to these two variants as uniform
+and weighted. Jiang et al. (2020) use a similar
+idea in a zero-shot setting.
+We transform the above scores into a proba-
+bility distribution q using softmax. Following
+Hinton et al. (2015), we use a temperature of
+T = 2 to obtain a suitably soft distribution.
+All pairs (x, q) are collected in a (soft-labeled)
+training set TC.
+(3) We ﬁnetune a PLM C with a standard se-
+quence classiﬁcation head on TC.
+The ﬁnetuned model C then serves as our classi-
+ﬁer for A. All steps described above are depicted
+in Figure 2; an example is shown in Figure 1.
+
+----- Page 4 (native) -----
+258
+iPET
+(1)
+(a)
+(b)
+(c)
+(2)
+(3)
+M 0
+1
+M 0
+2
+M 0
+3
+M 0
+4
+T
+T 1
+1
+T 1
+2
+T 1
+3
+T 1
+4
+D
+M 1
+1
+M 1
+2
+M 1
+3
+M 1
+4
+T 2
+1
+T 2
+2
+T 2
+3
+T 2
+4
+D
+. . .
+. . .
+. . .
+. . .
+M k
+1
+M k
+2
+M k
+3
+M k
+4
+TC
+C
+D
+Figure 2: Schematic representation of PET (1-3) and iPET (a-c). (1) The initial training set is used to ﬁnetune an
+ensemble of PLMs. (a) For each model, a random subset of other models generates a new training set by labeling
+examples from D. (b) A new set of PET models is trained using the larger, model-speciﬁc datasets. (c) The
+previous two steps are repeated k times, each time increasing the size of the generated training sets by a factor of d.
+(2) The ﬁnal set of models is used to create a soft-labeled dataset TC. (3) A classiﬁer C is trained on this dataset.
+3.4
+Iterative PET (iPET)
+Distilling the knowledge of all individual models
+into a single classiﬁer C means they cannot learn
+from each other. As some patterns perform (pos-
+sibly much) worse than others, the training set TC
+for our ﬁnal model may therefore contain many
+mislabeled examples.
+To compensate for this shortcoming, we devise
+iPET, an iterative variant of PET. The core idea
+of iPET is to train several generations of models
+on datasets of increasing size. To this end, we ﬁrst
+enlarge the original dataset T by labeling selected
+examples from D using a random subset of trained
+PET models (Figure 2a). We then train a new gen-
+eration of PET models on the enlarged dataset (b);
+this process is repeated several times (c).
+More formally, let M0 = {M0
+1 , . . . , M0
+n} be
+the initial set of PET models ﬁnetuned on T , where
+each M0
+i is trained for some PVP pi. We train k
+generations of models M1, . . . , Mk where Mj =
+{Mj
+1, . . . , Mj
+n} and each Mj
+i is trained for pi on its
+own training set T j
+i . In each iteration, we multiply
+the training set size by a ﬁxed constant d ∈N
+while maintaining the label ratio of the original
+dataset. That is, with c0(l) denoting the number
+of examples with label l in T , each T j
+i contains
+cj(l) = d · cj−1(l) examples with label l. This is
+achieved by generating each T j
+i as follows:
+1. We obtain N ⊂Mj−1 \ {Mj−1
+i
+} by ran-
+domly choosing λ · (n −1) models from the
+previous generation with λ ∈(0, 1] being a
+hyperparameter.
+2. Using this subset, we create a labeled dataset
+TN = {(x, arg max
+l∈L sN (l | x)) | x ∈D} .
+For each l ∈L, we obtain TN (l) ⊂TN by
+randomly choosing cj(l) −c0(l) examples
+with label l from TN . To avoid training fu-
+ture generations on mislabeled data, we prefer
+examples for which the ensemble of models is
+conﬁdent in its prediction. The underlying in-
+tuition is that even without calibration, exam-
+ples for which labels are predicted with high
+conﬁdence are typically more likely to be clas-
+siﬁed correctly (Guo et al., 2017). Therefore,
+when drawing from TN , we set the probability
+of each (x, y) proportional to sN (l | x).
+3. We deﬁne T j
+i
+= T ∪S
+l∈L TN (l). As can
+easily be veriﬁed, this dataset contains cj(l)
+examples for each l ∈L.
+After training k generations of PET models, we use
+Mk to create TC and train C as in basic PET.
+With minor adjustments, iPET can even be used
+in a zero-shot setting. To this end, we deﬁne M0 to
+be the set of untrained models and c1(l) = 10/|L|
+for all l ∈L so that M1 is trained on 10 examples
+evenly distributed across all labels. As TN may not
+contain enough examples for some label l, we cre-
+ate all TN (l) by sampling from the 100 examples
+x ∈D for which sN (l | x) is the highest, even if
+l ̸= arg maxl∈L sN (l | x). For each subsequent
+generation, we proceed exactly as in basic iPET.
+
+----- Page 5 (native) -----
+259
+4
+Experiments
+We evaluate PET on four English datasets: Yelp
+Reviews, AG’s News, Yahoo Questions (Zhang
+et al., 2015) and MNLI (Williams et al., 2018).
+Additionally, we use x-stance (Vamvas and Sen-
+nrich, 2020) to investigate how well PET works for
+other languages. For all experiments on English,
+we use RoBERTa large (Liu et al., 2019) as lan-
+guage model; for x-stance, we use XLM-R (Con-
+neau et al., 2020). We investigate the performance
+of PET and all baselines for different training set
+sizes; each model is trained three times using dif-
+ferent seeds and average results are reported.
+As we consider a few-shot setting, we assume
+no access to a large development set on which hy-
+perparameters could be optimized. Our choice of
+hyperparameters is thus based on choices made in
+previous work and practical considerations. We
+use a learning rate of 1 · 10−5, a batch size of 16
+and a maximum sequence length of 256. Unless
+otherwise speciﬁed, we always use the weighted
+variant of PET with auxiliary language modeling.
+For iPET, we set λ = 0.25 and d = 5; that is,
+we select 25% of all models to label examples for
+the next generation and quintuple the number of
+training examples in each iteration. We train new
+generations until each model was trained on at least
+1000 examples, i.e., we set k = ⌈logd(1000/|T |)⌉.
+As we always repeat training three times, the en-
+semble M (or M0) for n PVPs contains 3n models.
+Further hyperparameters and detailed explanations
+for all our choices are given in Appendix B.
+4.1
+Patterns
+We now describe the patterns and verbalizers used
+for all tasks. We use two vertical bars (∥) to mark
+boundaries between text segments.3
+Yelp
+For the Yelp Reviews Full Star dataset
+(Zhang et al., 2015), the task is to estimate the
+rating that a customer gave to a restaurant on a 1-
+to 5-star scale based on their review’s text. We
+deﬁne the following patterns for an input text a:
+P1(a) = It was
+. a
+P2(a) = Just
+! ∥a
+P3(a) = a. All in all, it was
+.
+P4(a) = a ∥In summary, the restaurant is
+.
+3The way different segments are handled depends on the
+model being used; they may e.g. be assigned different embed-
+dings (Devlin et al., 2019) or separated by special tokens (Liu
+et al., 2019; Yang et al., 2019). For example, “a ∥b” is given
+to BERT as the input “[CLS] a [SEP] b [SEP]”.
+We deﬁne a single verbalizer v for all patterns as
+v(1) = terrible
+v(2) = bad
+v(3) = okay
+v(4) = good
+v(5) = great
+AG’s News
+AG’s News is a news classiﬁcation
+dataset, where given a headline a and text body b,
+news have to be classiﬁed as belonging to one of
+the categories World (1), Sports (2), Business (3)
+or Science/Tech (4). For x = (a, b), we deﬁne the
+following patterns:
+P1(x) =
+: a b
+P2(x) = a (
+) b
+P3(x) =
+– a b
+P4(x) = a b (
+)
+P5(x) =
+News: a b
+P6(x) = [ Category:
+] a b
+We use a verbalizer that maps 1–4 to “World”,
+“Sports”, “Business” and “Tech”, respectively.
+Yahoo
+Yahoo Questions (Zhang et al., 2015) is
+a text classiﬁcation dataset. Given a question a
+and an answer b, one of ten possible categories has
+to be assigned. We use the same patterns as for
+AG’s News, but we replace the word “News” in
+P5 with the word “Question”. We deﬁne a ver-
+balizer that maps categories 1–10 to “Society”,
+“Science”, “Health”, “Education”, “Computer”,
+“Sports”, “Business”, “Entertainment”, “Relation-
+ship” and “Politics”.
+MNLI
+The MNLI dataset (Williams et al., 2018)
+consists of text pairs x = (a, b). The task is to ﬁnd
+out whether a implies b (0), a and b contradict each
+other (1) or neither (2). We deﬁne
+P1(x) = “a”? ∥
+, “b”
+P2(x) = a? ∥
+, b
+and consider two different verbalizers v1 and v2:
+v1(0) = Wrong v1(1) = Right v1(2) = Maybe
+v2(0) = No
+v2(1) = Yes
+v2(2) = Maybe
+Combining the two patterns with the two verbaliz-
+ers results in a total of 4 PVPs.
+X-Stance
+The x-stance dataset (Vamvas and Sen-
+nrich, 2020) is a multilingual stance detection
+dataset with German, French and Italian examples.
+Each example x = (a, b) consists of a question
+a concerning some political issue and a comment
+b; the task is to identify whether the writer of b
+
+----- Page 6 (native) -----
+260
+Line
+Examples
+Method
+Yelp
+AG’s
+Yahoo
+MNLI (m/mm)
+1
+|T | = 0
+unsupervised (avg)
+33.8 ±9.6
+69.5 ±7.2
+44.0 ±9.1
+39.1 ±4.3 / 39.8 ±5.1
+2
+unsupervised (max)
+40.8 ±0.0
+79.4 ±0.0
+56.4 ±0.0
+43.8 ±0.0 / 45.0 ±0.0
+3
+iPET
+56.7 ±0.2
+87.5 ±0.1
+70.7 ±0.1
+53.6 ±0.1 / 54.2 ±0.1
+4
+|T | = 10
+supervised
+21.1 ±1.6
+25.0 ±0.1
+10.1 ±0.1
+34.2 ±2.1 / 34.1 ±2.0
+5
+PET
+52.9 ±0.1
+87.5 ±0.0
+63.8 ±0.2
+41.8 ±0.1 / 41.5 ±0.2
+6
+iPET
+57.6 ±0.0
+89.3 ±0.1
+70.7 ±0.1
+43.2 ±0.0 / 45.7 ±0.1
+7
+|T | = 50
+supervised
+44.8 ±2.7
+82.1 ±2.5
+52.5 ±3.1
+45.6 ±1.8 / 47.6 ±2.4
+8
+PET
+60.0 ±0.1
+86.3 ±0.0
+66.2 ±0.1
+63.9 ±0.0 / 64.2 ±0.0
+9
+iPET
+60.7 ±0.1
+88.4 ±0.1
+69.7 ±0.0
+67.4 ±0.3 / 68.3 ±0.3
+10
+|T | = 100
+supervised
+53.0 ±3.1
+86.0 ±0.7
+62.9 ±0.9
+47.9 ±2.8 / 51.2 ±2.6
+11
+PET
+61.9 ±0.0
+88.3 ±0.1
+69.2 ±0.0
+74.7 ±0.3 / 75.9 ±0.4
+12
+iPET
+62.9 ±0.0
+89.6 ±0.1
+71.2 ±0.1
+78.4 ±0.7 / 78.6 ±0.5
+13
+|T | = 1000
+supervised
+63.0 ±0.5
+86.9 ±0.4
+70.5 ±0.3
+73.1 ±0.2 / 74.8 ±0.3
+14
+PET
+64.8 ±0.1
+86.9 ±0.2
+72.7 ±0.0
+85.3 ±0.2 / 85.5 ±0.4
+Table 1: Average accuracy and standard deviation for RoBERTa (large) on Yelp, AG’s News, Yahoo and MNLI
+(m:matched/mm:mismatched) for ﬁve training set sizes |T |.
+supports the subject of the question (0) or not (1).
+We use two simple patterns
+P1(x) = “a” ∥
+. “b”
+P2(x) = a ∥
+. b
+and deﬁne an English verbalizer vEn mapping 0 to
+“Yes” and 1 to “No” as well as a French (German)
+verbalizer vFr (vDe), replacing “Yes” and “No” with
+“Oui” and “Non” (“Ja” and “Nein”). We do not
+deﬁne an Italian verbalizer because x-stance does
+not contain any Italian training examples.
+4.2
+Results
+English Datasets
+Table 1 shows results for En-
+glish text classiﬁcation and language understanding
+tasks; we report mean accuracy and standard de-
+viation for three training runs. Lines 1–2 (L1–L2)
+show unsupervised performance, i.e., individual
+PVPs without any training (similar to Radford et al.,
+2018; Puri and Catanzaro, 2019); we give both av-
+erage results across all PVPs (avg) and results for
+the PVP that works best on the test set (max). The
+large difference between both rows highlights the
+importance of coping with the fact that without
+looking at the test set, we have no means of eval-
+uating which PVPs perform well. Zero-shot iPET
+clearly outperforms the unsupervised baselines for
+all datasets (L3 vs L1); on AG’s News, it even per-
+forms better than standard supervised training with
+1000 examples (L3 vs L13). With just 10 training
+examples, standard supervised learning does not
+perform above chance (L4). In contrast, PET (L5)
+performs much better than the fully unsupervised
+baselines (L1–L2); training multiple generations
+using iPET (L6) gives consistent improvements. As
+Ex.
+Method
+Yelp
+AG’s
+Yahoo
+MNLI
+|T | = 10
+UDA
+27.3
+72.6
+36.7
+34.7
+MixText
+20.4
+81.1
+20.6
+32.9
+PET
+48.8
+84.1
+59.0
+39.5
+iPET
+52.9
+87.5
+67.0
+42.1
+|T | = 50
+UDA
+46.6
+83.0
+60.2
+40.8
+MixText
+31.3
+84.8
+61.5
+34.8
+PET
+55.3
+86.4
+63.3
+55.1
+iPET
+56.7
+87.3
+66.4
+56.3
+Table 2: Comparison of PET with two state-of-the-art
+semi-supervised methods using RoBERTa (base)
+we increase the training set size, the performance
+gains of PET and iPET become smaller, but for
+both 50 and 100 examples, PET continues to con-
+siderably outperform standard supervised training
+(L8 vs L7, L11 vs L10) with iPET (L9, L12) still
+giving consistent improvements. For |T | = 1000,
+PET has no advantage on AG’s but still improves
+accuracy for all other tasks (L14 vs L13).4
+Comparison with SotA
+We compare PET to
+UDA (Xie et al., 2020) and MixText (Chen et al.,
+2020), two state-of-the-art methods for semi-
+supervised learning in NLP that rely on data aug-
+mentation. Whereas PET requires that a task can be
+expressed using patterns and that such patterns be
+found, UDA and MixText both use backtranslation
+(Sennrich et al., 2016) and thus require thousands
+of labeled examples for training a machine transla-
+tion model. We use RoBERTa (base) for our com-
+parison as MixText is speciﬁcally tailored towards
+4One of the three supervised MNLI runs for |T | = 1000
+underﬁtted the training data and performed extremely poorly.
+This run is excluded in the reported score (73.1/74.8).
+
+----- Page 7 (native) -----
+261
+Examples
+Method
+De
+Fr
+It
+|T | = 1000
+supervised
+43.3
+49.5
+41.0
+PET
+66.4
+68.7
+64.7
+|T | = 2000
+supervised
+57.4
+62.1
+52.8
+PET
+69.5
+71.7
+67.3
+|T | = 4000
+supervised
+63.2
+66.7
+58.7
+PET
+71.7
+74.0
+69.5
+TDe , TFr
+supervised
+76.6
+76.0
+71.0
+PET
+77.9
+79.0
+73.6
+TDe + TFr
+sup. (*)
+76.8
+76.7
+70.2
+supervised
+77.6
+79.1
+75.9
+PET
+78.8
+80.6
+77.2
+Table 3: Results on x-stance intra-target for XLM-R
+(base) trained on subsets of TDe and TFr and for joint
+training on all data (TDe + TFr). (*): Best results for
+mBERT reported in Vamvas and Sennrich (2020).
+a 12-layer Transformer (Vaswani et al., 2017). Both
+Xie et al. (2020) and Chen et al. (2020) use large de-
+velopment sets to optimize the number of training
+steps. We instead try several values for both ap-
+proaches directly on the test set and only report the
+best results obtained. Despite this, Table 2 shows
+that PET and iPET substantially outperform both
+methods across all tasks, clearly demonstrating the
+beneﬁt of incorporating human knowledge in the
+form of PVPs.
+X-Stance
+We evaluate PET on x-stance to inves-
+tigate (i) whether it works for languages other than
+English and (ii) whether it also brings improve-
+ments when training sets have medium size. In
+contrast to Vamvas and Sennrich (2020), we do not
+perform any hyperparameter optimization on dev
+and use a shorter maximum sequence length (256
+vs 512) to speed up training and evaluation.
+To investigate whether PET brings beneﬁts even
+when numerous examples are available, we con-
+sider training set sizes of 1000, 2000, and 4000; for
+each of these conﬁgurations, we separately ﬁnetune
+French and German models to allow for a more
+straightforward downsampling of the training data.
+Additionally, we train models on the entire French
+(|TFr| = 11 790) and German (|TDe| = 33 850)
+training sets. In this case we do not have any ad-
+ditional unlabeled data, so we simply set D = T .
+For the French models, we use vEn and vFr as ver-
+balizers and for German vEn and vDe (Section 4.1).
+Finally, we also investigate the performance of a
+model trained jointly on French and German data
+(|TFr + TDe| = 45 640) using vEn, vFr and vDe.
+Results are shown in Table 3; following Vamvas
+Method
+Yelp
+AG’s
+Yahoo
+MNLI
+min
+39.6
+82.1
+50.2
+36.4
+max
+52.4
+85.0
+63.6
+40.2
+PET (no distillation)
+51.7
+87.0
+62.8
+40.6
+PET uniform
+52.7
+87.3
+63.8
+42.0
+PET weighted
+52.9
+87.5
+63.8
+41.8
+Table 4: Minimum (min) and maximum (max) accu-
+racy of models based on individual PVPs as well as PET
+with and without knowledge distillation (|T | = 10).
+10
+50
+100
+1000
+0
+5
+10
+15
+Training set size
+Accuracy Improvements
+Yelp
+AG’s
+MNLI
+Yahoo
+Figure 3:
+Accuracy improvements for PET due to
+adding LMLM during training
+and Sennrich (2020), we report the macro-average
+of the F1 scores for labels 0 and 1, averaged over
+three runs. For Italian (column “It”), we report
+the average zero-shot cross-lingual performance of
+German and French models as there are no Ital-
+ian training examples. Our results show that PET
+brings huge improvements across all languages
+even when training on much more than a thousand
+examples; it also considerably improves zero-shot
+cross-lingual performance.
+5
+Analysis
+Combining PVPs
+We ﬁrst investigate whether
+PET is able to cope with situations were some PVPs
+perform much worse than others. For |T | = 10,
+Table 4 compares the performance of PET to that
+of the best and worst performing patterns after ﬁne-
+tuning; we also include results obtained using the
+ensemble of PET models corresponding to indi-
+vidual PVPs without knowledge distillation. Even
+after ﬁnetuning, the gap between the best and worst
+pattern is large, especially for Yelp.
+However,
+PET is not only able to compensate for this, but
+even improves accuracies over using only the best-
+performing pattern across all tasks. Distillation
+brings consistent improvements over the ensemble;
+additionally, it signiﬁcantly reduces the size of the
+
+----- Page 8 (native) -----
+262
+M0
+M1
+M2
+M3
+M4
+40
+60
+80
+Model generation
+Accuracy
+Yelp
+AG’s
+MNLI
+Yahoo
+Figure 4: Average accuracy for each generation of mod-
+els with iPET in a zero-shot setting. Accuracy on AG’s
+News and Yahoo when skipping generation 2 and 3 is
+indicated through dashed lines.
+ﬁnal classiﬁer. We ﬁnd no clear difference between
+the uniform and weighted variants of PET.
+Auxiliary Language Modeling
+We analyze the
+inﬂuence of the auxiliary language modeling task
+on PET’s performance. Figure 3 shows perfor-
+mance improvements from adding the language
+modeling task for four training set sizes. We see
+that the auxiliary task is extremely valuable when
+training on just 10 examples. With more data, it
+becomes less important, sometimes even leading
+to worse performance. Only for MNLI, we ﬁnd
+language modeling to consistently help.
+Iterative PET
+To check whether iPET is able to
+improve models over multiple generations, Fig-
+ure 4 shows the average performance of all gen-
+erations of models in a zero-shot setting. Each
+additional iteration does indeed further improve
+the ensemble’s performance. We did not investi-
+gate whether continuing this process for even more
+iterations gives further improvements.
+Another natural question is whether similar re-
+sults can be obtained with fewer iterations by in-
+creasing the training set size more aggressively. To
+answer this question, we skip generations 2 and 3
+for AG’s News and Yahoo and for both tasks di-
+rectly let ensemble M1 annotate 10 · 54 examples
+for M4. As indicated in Figure 4 through dashed
+lines, this clearly leads to worse performance, high-
+lighting the importance of only gradually increas-
+ing the training set size. We surmise that this is
+the case because annotating too many examples
+too early leads to a large percentage of mislabeled
+training examples.
+10
+50
+100
+1000
+20
+40
+60
+Training set size
+Accuracy
+PET
+PET + PT
+sup.
+sup. + PT
+Figure 5: Accuracy of supervised learning (sup.) and
+PET both with and without pretraining (PT) on Yelp
+In-Domain Pretraining
+Unlike our supervised
+baseline, PET makes use of the additional unla-
+beled dataset D. Thus, at least some of PET’s per-
+formance gains over the supervised baseline may
+arise from this additional in-domain data.
+To test this hypothesis, we simply further pre-
+train RoBERTa on in-domain data, a common
+technique for improving text classiﬁcation accu-
+racy (e.g., Howard and Ruder, 2018; Sun et al.,
+2019). As language model pretraining is expen-
+sive in terms of GPU usage, we do so only for the
+Yelp dataset. Figure 5 shows results of supervised
+learning and PET both with and without this in-
+domain pretraining. While pretraining does indeed
+improve accuracy for supervised training, the su-
+pervised model still clearly performs worse than
+PET, showing that the success of our method is
+not simply due to the usage of additional unlabeled
+data. Interestingly, in-domain pretraining is also
+helpful for PET, indicating that PET leverages un-
+labeled data in a way that is clearly different from
+standard masked language model pretraining.
+6
+Conclusion
+We have shown that providing task descriptions
+to pretrained language models can be combined
+with standard supervised training. Our proposed
+method, PET, consists of deﬁning pairs of cloze
+question patterns and verbalizers that help lever-
+age the knowledge contained within pretrained lan-
+guage models for downstream tasks. We ﬁnetune
+models for all pattern-verbalizer pairs and use them
+to create large annotated datasets on which stan-
+dard classiﬁers can be trained. When the initial
+amount of training data is limited, PET gives large
+improvements over standard supervised training
+and strong semi-supervised approaches.
+
+----- Page 9 (native) -----
+263
+Acknowledgments
+This work was funded by the European Research
+Council (ERC #740516). We would like to thank
+the anonymous reviewers for their helpful com-
+ments.
+References
+Eugene Agichtein and Luis Gravano. 2000. Snowball:
+Extracting relations from large plain-text collections.
+In Proceedings of the Fifth ACM Conference on Dig-
+ital Libraries, DL ’00, page 85–94, New York, NY,
+USA. Association for Computing Machinery.
+David S. Batista, Bruno Martins, and M´ario J. Silva.
+2015.
+Semi-supervised bootstrapping of relation-
+ship extractors with distributional semantics. In Pro-
+ceedings of the 2015 Conference on Empirical Meth-
+ods in Natural Language Processing, pages 499–
+504, Lisbon, Portugal. Association for Computa-
+tional Linguistics.
+Zied Bouraoui, Jose Camacho-Collados, and Steven
+Schockaert. 2020.
+Inducing relational knowledge
+from BERT.
+In Proceedings of the Thirty-Fourth
+AAAI Conference on Artiﬁcial Intelligence.
+Sergey Brin. 1999. Extracting patterns and relations
+from the world wide web. In The World Wide Web
+and Databases, pages 172–183, Berlin, Heidelberg.
+Springer Berlin Heidelberg.
+Jiaao Chen, Zichao Yang, and Diyi Yang. 2020. Mix-
+Text: Linguistically-informed interpolation of hid-
+den space for semi-supervised text classiﬁcation. In
+Proceedings of the 58th Annual Meeting of the Asso-
+ciation for Computational Linguistics, pages 2147–
+2157, Online. Association for Computational Lin-
+guistics.
+Alexandra Chronopoulou,
+Christos Baziotis,
+and
+Alexandros Potamianos. 2019. An embarrassingly
+simple approach for transfer learning from pre-
+trained language models.
+In Proceedings of the
+2019 Conference of the North American Chapter of
+the Association for Computational Linguistics: Hu-
+man Language Technologies, Volume 1 (Long and
+Short Papers), pages 2089–2095, Minneapolis, Min-
+nesota. Association for Computational Linguistics.
+Alexis Conneau, Kartikay Khandelwal, Naman Goyal,
+Vishrav Chaudhary, Guillaume Wenzek, Francisco
+Guzm´an, Edouard Grave, Myle Ott, Luke Zettle-
+moyer, and Veselin Stoyanov. 2020. Unsupervised
+cross-lingual representation learning at scale.
+In
+Proceedings of the 58th Annual Meeting of the Asso-
+ciation for Computational Linguistics, pages 8440–
+8451, Online. Association for Computational Lin-
+guistics.
+Joe Davison, Joshua Feldman, and Alexander Rush.
+2019. Commonsense knowledge mining from pre-
+trained models.
+In Proceedings of the 2019 Con-
+ference on Empirical Methods in Natural Language
+Processing and the 9th International Joint Confer-
+ence on Natural Language Processing (EMNLP-
+IJCNLP), pages 1173–1178, Hong Kong, China. As-
+sociation for Computational Linguistics.
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+Kristina Toutanova. 2019.
+BERT: Pre-training of
+deep bidirectional transformers for language under-
+standing.
+In Proceedings of the 2019 Conference
+of the North American Chapter of the Association
+for Computational Linguistics: Human Language
+Technologies, Volume 1 (Long and Short Papers),
+pages 4171–4186, Minneapolis, Minnesota. Associ-
+ation for Computational Linguistics.
+Zi-Yi Dou, Keyi Yu, and Antonios Anastasopoulos.
+2019.
+Investigating meta-learning algorithms for
+low-resource natural language understanding tasks.
+In Proceedings of the 2019 Conference on Empirical
+Methods in Natural Language Processing and the
+9th International Joint Conference on Natural Lan-
+guage Processing (EMNLP-IJCNLP), pages 1192–
+1197, Hong Kong, China. Association for Computa-
+tional Linguistics.
+Allyson Ettinger. 2020. What BERT is not: Lessons
+from a new suite of psycholinguistic diagnostics for
+language models. Transactions of the Association
+for Computational Linguistics, 8:34–48.
+Jiatao Gu, Yong Wang, Yun Chen, Victor O. K. Li,
+and Kyunghyun Cho. 2018. Meta-learning for low-
+resource neural machine translation.
+In Proceed-
+ings of the 2018 Conference on Empirical Methods
+in Natural Language Processing, pages 3622–3631,
+Brussels, Belgium. Association for Computational
+Linguistics.
+Chuan Guo, Geoff Pleiss, Yu Sun, and Kilian Q.
+Weinberger. 2017.
+On calibration of modern neu-
+ral networks.
+In Proceedings of the 34th Interna-
+tional Conference on Machine Learning - Volume 70,
+ICML’17, page 1321–1330. JMLR.org.
+Junxian He, Jiatao Gu, Jiajun Shen, and Marc’Aurelio
+Ranzato. 2020.
+Revisiting self-training for neural
+sequence generation.
+In International Conference
+on Learning Representations.
+Geoffrey Hinton, Oriol Vinyals, and Jeff Dean. 2015.
+Distilling the knowledge in a neural network. Com-
+puting Research Repository, arXiv:1503.02531.
+Vu Cong Duy Hoang, Philipp Koehn, Gholamreza
+Haffari, and Trevor Cohn. 2018.
+Iterative back-
+translation for neural machine translation. In Pro-
+ceedings of the 2nd Workshop on Neural Machine
+Translation and Generation, pages 18–24, Mel-
+bourne, Australia. Association for Computational
+Linguistics.
+Jeremy Howard and Sebastian Ruder. 2018. Universal
+language model ﬁne-tuning for text classiﬁcation. In
+Proceedings of the 56th Annual Meeting of the As-
+sociation for Computational Linguistics (Volume 1:
+
+----- Page 10 (native) -----
+264
+Long Papers), pages 328–339, Melbourne, Australia.
+Association for Computational Linguistics.
+Zhongqiang Huang and Mary Harper. 2009.
+Self-
+training PCFG grammars with latent annotations
+across languages. In Proceedings of the 2009 Con-
+ference on Empirical Methods in Natural Language
+Processing, pages 832–841, Singapore. Association
+for Computational Linguistics.
+Zhengbao Jiang, Frank F. Xu, Jun Araki, and Graham
+Neubig. 2020.
+How can we know what language
+models know? Transactions of the Association for
+Computational Linguistics, 8:423–438.
+Nora Kassner and Hinrich Sch¨utze. 2020. Negated and
+misprimed probes for pretrained language models:
+Birds can talk, but cannot ﬂy. In Proceedings of the
+58th Annual Meeting of the Association for Compu-
+tational Linguistics, pages 7811–7818, Online. As-
+sociation for Computational Linguistics.
+Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du,
+Mandar Joshi, Danqi Chen, Omer Levy, Mike
+Lewis, Luke Zettlemoyer, and Veselin Stoyanov.
+2019. RoBERTa: A robustly optimized BERT pre-
+training approach. Computing Research Repository,
+arXiv:1907.11692.
+Bryan McCann, Nitish Shirish Keskar, Caiming Xiong,
+and Richard Socher. 2018. The natural language de-
+cathlon: Multitask learning as question answering.
+Computing Research Repository, arXiv:1806.08730.
+David McClosky, Eugene Charniak, and Mark Johnson.
+2006.
+Effective self-training for parsing.
+In Pro-
+ceedings of the Human Language Technology Con-
+ference of the NAACL, Main Conference, pages 152–
+159, New York City, USA. Association for Compu-
+tational Linguistics.
+Juri Opitz. 2019. Argumentative relation classiﬁcation
+as plausibility ranking. In Preliminary proceedings
+of the 15th Conference on Natural Language Pro-
+cessing (KONVENS 2019): Long Papers, pages 193–
+202, Erlangen, Germany. German Society for Com-
+putational Linguistics & Language Technology.
+Adam Paszke, Sam Gross, Soumith Chintala, Gregory
+Chanan, Edward Yang, Zachary DeVito, Zeming
+Lin, Alban Desmaison, Luca Antiga, and Adam
+Lerer. 2017. Automatic differentiation in PyTorch.
+In NIPS Autodiff Workshop.
+Fabio Petroni, Tim Rockt¨aschel, Sebastian Riedel,
+Patrick Lewis, Anton Bakhtin, Yuxiang Wu, and
+Alexander Miller. 2019. Language models as knowl-
+edge bases? Proceedings of the 2019 Conference on
+Empirical Methods in Natural Language Processing
+and the 9th International Joint Conference on Natu-
+ral Language Processing (EMNLP-IJCNLP).
+Raul Puri and Bryan Catanzaro. 2019.
+Zero-shot
+text classiﬁcation with generative language models.
+Computing Research Repository, arXiv:1912.10165.
+Kun Qian and Zhou Yu. 2019. Domain adaptive dia-
+log generation via meta learning. In Proceedings of
+the 57th Annual Meeting of the Association for Com-
+putational Linguistics, pages 2639–2649, Florence,
+Italy. Association for Computational Linguistics.
+Alec Radford, Karthik Narasimhan, Tim Salimans, and
+Ilya Sutskever. 2018.
+Improving language under-
+standing by generative pre-training.
+Alec Radford, Jeff Wu, Rewon Child, David Luan,
+Dario Amodei, and Ilya Sutskever. 2019. Language
+models are unsupervised multitask learners. Techni-
+cal report.
+Colin Raffel, Noam Shazeer, Adam Roberts, Kather-
+ine Lee, Sharan Narang, Michael Matena, Yanqi
+Zhou, Wei Li, and Peter J. Liu. 2020.
+Exploring
+the limits of transfer learning with a uniﬁed text-to-
+text transformer. Journal of Machine Learning Re-
+search, 21(140):1–67.
+Roi Reichart and Ari Rappoport. 2007. Self-training
+for enhancement and domain adaptation of statisti-
+cal parsers trained on small datasets.
+In Proceed-
+ings of the 45th Annual Meeting of the Association of
+Computational Linguistics, pages 616–623, Prague,
+Czech Republic. Association for Computational Lin-
+guistics.
+Bernardino Romera-Paredes and Philip Torr. 2015. An
+embarrassingly simple approach to zero-shot learn-
+ing. In International Conference on Machine Learn-
+ing, pages 2152–2161.
+Keisuke Sakaguchi, Ronan Le Bras, Chandra Bhagavat-
+ula, and Yejin Choi. 2020. WinoGrande: An adver-
+sarial winograd schema challenge at scale. In Pro-
+ceedings of the Thirty-Fourth AAAI Conference on
+Artiﬁcial Intelligence.
+Timo Schick and Hinrich Sch¨utze. 2020. Rare words:
+A major problem for contextualized embeddings and
+how to ﬁx it by attentive mimicking. In Proceedings
+of the Thirty-Fourth AAAI Conference on Artiﬁcial
+Intelligence.
+Rico Sennrich, Barry Haddow, and Alexandra Birch.
+2016. Improving neural machine translation mod-
+els with monolingual data.
+In Proceedings of the
+54th Annual Meeting of the Association for Compu-
+tational Linguistics (Volume 1: Long Papers), pages
+86–96, Berlin, Germany. Association for Computa-
+tional Linguistics.
+Shashank Srivastava, Igor Labutov, and Tom Mitchell.
+2018.
+Zero-shot learning of classiﬁers from natu-
+ral language quantiﬁcation. In Proceedings of the
+56th Annual Meeting of the Association for Com-
+putational Linguistics (Volume 1:
+Long Papers),
+pages 306–316, Melbourne, Australia. Association
+for Computational Linguistics.
+Chi Sun, Xipeng Qiu, Yige Xu, and Xuanjing Huang.
+2019. How to ﬁne-tune BERT for text classiﬁcation?
+In Chinese Computational Linguistics, pages 194–
+206, Cham. Springer International Publishing.
+
+----- Page 11 (native) -----
+265
+Alon Talmor, Yanai Elazar, Yoav Goldberg, and
+Jonathan Berant. 2019.
+oLMpics – on what lan-
+guage model pre-training captures. Computing Re-
+search Repository, arXiv:1912.13283.
+Trieu H. Trinh and Quoc V. Le. 2018. A simple method
+for commonsense reasoning. Computing Research
+Repository, arXiv:1806.02847.
+Jannis Vamvas and Rico Sennrich. 2020. X-stance: A
+multilingual multi-target dataset for stance detection.
+Computing Research Repository, arXiv:2003.08385.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob
+Uszkoreit, Llion Jones, Aidan N Gomez, Lukasz
+Kaiser, and Illia Polosukhin. 2017. Attention is all
+you need. In Advances in Neural Information Pro-
+cessing Systems 30, pages 5998–6008. Curran Asso-
+ciates, Inc.
+Sappadla Prateek Veeranna, Jinseok Nam, Eneldo Loza
+Mencıa, and Johannes F¨urnkranz. 2016. Using se-
+mantic similarity for multi-label zero-shot classiﬁca-
+tion of text documents. In Proceeding of European
+Symposium on Artiﬁcial Neural Networks, Compu-
+tational Intelligence and Machine Learning. Bruges,
+Belgium: Elsevier, pages 423–428.
+Cunxiang Wang, Shuailong Liang, Yue Zhang, Xiao-
+nan Li, and Tian Gao. 2019. Does it make sense?
+And why? A pilot study for sense making and ex-
+planation. In Proceedings of the 57th Annual Meet-
+ing of the Association for Computational Linguistics,
+pages 4020–4026, Florence, Italy. Association for
+Computational Linguistics.
+Adina Williams, Nikita Nangia, and Samuel Bowman.
+2018. A broad-coverage challenge corpus for sen-
+tence understanding through inference. In Proceed-
+ings of the 2018 Conference of the North American
+Chapter of the Association for Computational Lin-
+guistics: Human Language Technologies, Volume
+1 (Long Papers), pages 1112–1122. Association for
+Computational Linguistics.
+Thomas Wolf, Lysandre Debut, Victor Sanh, Julien
+Chaumond, Clement Delangue, Anthony Moi, Pier-
+ric Cistac, Tim Rault, Remi Louf, Morgan Funtow-
+icz, Joe Davison, Sam Shleifer, Patrick von Platen,
+Clara Ma, Yacine Jernite, Julien Plu, Canwen Xu,
+Teven Le Scao, Sylvain Gugger, Mariama Drame,
+Quentin Lhoest, and Alexander Rush. 2020. Trans-
+formers: State-of-the-art natural language process-
+ing. In Proceedings of the 2020 Conference on Em-
+pirical Methods in Natural Language Processing:
+System Demonstrations, pages 38–45, Online. Asso-
+ciation for Computational Linguistics.
+Qizhe Xie, Zihang Dai, Eduard Hovy, Minh-Thang Lu-
+ong, and Quoc V. Le. 2020. Unsupervised data aug-
+mentation for consistency training. In Advances in
+Neural Information Processing Systems, volume 33.
+Curran Associates, Inc.
+Zhilin Yang, Zihang Dai, Yiming Yang, Jaime Car-
+bonell, Russ R Salakhutdinov, and Quoc V Le. 2019.
+Xlnet: Generalized autoregressive pretraining for
+language understanding.
+In Advances in Neural
+Information Processing Systems, volume 32, pages
+5753–5763. Curran Associates, Inc.
+David Yarowsky. 1995. Unsupervised word sense dis-
+ambiguation rivaling supervised methods. In 33rd
+Annual Meeting of the Association for Computa-
+tional Linguistics, pages 189–196, Cambridge, Mas-
+sachusetts, USA. Association for Computational
+Linguistics.
+Zhiquan Ye, Yuxia Geng, Jiaoyan Chen, Jingmin Chen,
+Xiaoxiao Xu, SuHang Zheng, Feng Wang, Jun
+Zhang, and Huajun Chen. 2020. Zero-shot text clas-
+siﬁcation via reinforced self-training.
+In Proceed-
+ings of the 58th Annual Meeting of the Association
+for Computational Linguistics, pages 3014–3024,
+Online. Association for Computational Linguistics.
+Wenpeng Yin, Jamaal Hay, and Dan Roth. 2019.
+Benchmarking
+zero-shot
+text
+classiﬁcation:
+Datasets,
+evaluation
+and
+entailment
+approach.
+In Proceedings of the 2019 Conference on Empiri-
+cal Methods in Natural Language Processing and
+the 9th International Joint Conference on Natural
+Language Processing (EMNLP-IJCNLP), pages
+3914–3923, Hong Kong, China. Association for
+Computational Linguistics.
+Mo Yu, Xiaoxiao Guo, Jinfeng Yi, Shiyu Chang, Saloni
+Potdar, Yu Cheng, Gerald Tesauro, Haoyu Wang,
+and Bowen Zhou. 2018. Diverse few-shot text clas-
+siﬁcation with multiple metrics. In Proceedings of
+the 2018 Conference of the North American Chap-
+ter of the Association for Computational Linguistics:
+Human Language Technologies, Volume 1 (Long Pa-
+pers), pages 1206–1215, New Orleans, Louisiana.
+Association for Computational Linguistics.
+Xiang Zhang, Junbo Zhao, and Yann LeCun. 2015.
+Character-level convolutional networks for text clas-
+siﬁcation. In C. Cortes, N. D. Lawrence, D. D. Lee,
+M. Sugiyama, and R. Garnett, editors, Advances in
+Neural Information Processing Systems 28, pages
+649–657. Curran Associates, Inc.
+
+----- Page 12 (native) -----
+266
+A
+Implementation
+Our implementation of PET and iPET is based on
+the Transformers library (Wolf et al., 2020) and
+PyTorch (Paszke et al., 2017).
+B
+Training Details
+Except for the in-domain pretraining experiment
+described in Section 5, all of our experiments were
+conducted using a single GPU with 11GB RAM
+(NVIDIA GeForce GTX 1080 Ti).
+B.1
+Hyperparameter Choices
+Relevant training hyperparameters for both individ-
+ual PET models and the ﬁnal classiﬁer C as well
+as our supervised baseline are listed in Table 5.
+All hyperparameters were selected based on the
+following considerations and experiments:
+Batch size / maximum length
+Both batch size
+and maximum sequence length (or block size) are
+chosen so that one batch ﬁts into 11GB of GPU
+memory. As Devlin et al. (2019) and Liu et al.
+(2019) use larger batch sizes of 16–32, we accu-
+mulate gradients for 4 steps to obtain an effective
+batch size of 16.
+Learning rate
+We found a learning rate of 5e−5
+(as used by Devlin et al. (2019)) to often result in
+unstable training for regular supervised learning
+with no accuracy improvements on the training set.
+We therefore use a lower learning rate of 1e−5,
+similar to Liu et al. (2019). Experiments with vari-
+ous learning rates can be found in Appendix D.
+Training steps
+As the number of training epochs
+recommended by Liu et al. (2019) in a data-rich
+scenario is in the range 2–10, we perform super-
+vised training for 250 training steps, corresponding
+to 4 epochs when training on 1000 examples. For
+individual PET models, we subdivide each batch
+into one labeled example from T to compute LCE
+and three unlabeled examples from D to compute
+LMLM. Accordingly, we multiply the number of
+total training steps by 4 (i.e., 1000), so that the
+number of times each labeled example is seen re-
+mains constant (16 · 250 = 4 · 1000). For the ﬁnal
+PET classiﬁer, we train for 5000 steps due to the in-
+creased training set size (depending on the task, the
+unlabeled set D contains at least 20 000 examples).
+Deviating from the above, we always perform train-
+ing for 3 epochs on x-stance to match the setup of
+Vamvas and Sennrich (2020) more closely. The
+effect of varying the number of training steps is
+further investigated in Appendix D.
+Temperature
+We choose a temperature of 2
+when training the ﬁnal classiﬁer following Hinton
+et al. (2015).
+Auxiliary language modeling
+To ﬁnd a suitable
+value of α for combining language modeling loss
+and cross-entropy loss, we ﬁrst observed that in
+the early stages of training, the former is a few
+orders of magnitude higher than the latter for
+all tasks considered. We thus selected a range
+{1e−3, 1e−4, 1e−5} of reasonable choices for α
+and performed preliminary experiments on Yelp
+with 100 training examples to ﬁnd the best value
+among these candidates. To this end, we split the
+training examples into a training set and a dev set
+using both a 90/10 split and a 50/50 split and took
+the value of α that maximizes average dev set ac-
+curacy. We adopt this value for all other tasks and
+training set sizes without further optimization.
+Models per ensemble
+As we always train three
+models per pattern, for both iPET and training the
+ﬁnal classiﬁer C, the ensemble M (or M0) for
+n PVPs contains 3n models. This ensures consis-
+tency as randomly choosing any of the three models
+for each PVP would result in high variance. In pre-
+liminary experiments, we found this to have only
+little impact on the ﬁnal model’s performance.
+iPET dataset size
+For iPET, we quintuple the
+number of training examples after each iteration
+(d = 5) so that only a small number of generations
+is required to reach a sufﬁcient amount of labeled
+data. We did not choose a higher value because we
+presume that this may cause training sets for early
+generations to contain a prohibitively large amount
+of mislabeled data.
+iPET dataset creation
+We create training sets
+for the next generation in iPET using 25% of the
+models in the current generation (λ = 0.25) be-
+cause we want the training sets for all models to
+be diverse while at the same time, a single model
+should not have too much inﬂuence.
+Others
+For all other hyperparameters listed in
+Table 5, we took the default settings of the Trans-
+formers library (Wolf et al., 2020).
+B.2
+Number of parameters
+As PET does not require any additional learnable
+parameters, the number of parameters for both PET
+
+----- Page 13 (native) -----
+267
+and iPET is identical to the number of parame-
+ters in the underlying language model: 355M for
+RoBERTa (large) and 270M for XLM-R (base).
+B.3
+Average runtime
+Training a single PET classiﬁer for 250 steps on
+one GPU took approximately 30 minutes; training
+for 1000 steps with auxiliary language modeling
+took 60 minutes. Depending on the task, labeling
+examples from D took 15–30 minutes per model.
+Training the ﬁnal classiﬁer C for 5000 steps on the
+soft-labeled dataset TC took 2 hours on average.
+B.4
+Comparison with SotA
+For comparing PET to UDA (Xie et al., 2020) and
+MixText (Chen et al., 2020), we reduce the number
+of unlabeled examples by half to speed up the re-
+quired backtranslation step. We use the backtransla-
+tion script provided by Chen et al. (2020) with their
+recommended hyperparameter values and use both
+Russian and German as intermediate languages.
+For MixText, we use the original implemen-
+tation5 and the default set of hyperparameters.
+Speciﬁcally, each batch consists of 4 labeled and 8
+unlabeled examples, we use layers 7, 9 and 12 for
+mixing, we set T = 5, α = 16, and use a learning
+rate of 5 · 10−6 for RoBERTa and 5 · 10−4 for the
+ﬁnal classiﬁcation layer. We optimize the number
+of training steps for each task and dataset size in
+the range {1000, 2000, 3000, 4000, 5000}.
+For UDA, we use a PyTorch-based reimplemen-
+tation6. We use the same batch size as for MixText
+and the hyperparameter values recommended by
+Xie et al. (2020); we use an exponential schedule
+for training signal annealing and a learning rate
+of 2 · 10−5. We optimize the number of training
+steps for each task and dataset size in the range
+{500, 1000, 1500, . . . , 10000}.
+B.5
+In-Domain Pretraining
+For in-domain pretraining experiments described
+in Section 5, we use the language model ﬁnetun-
+ing script of the Transformers library (Wolf et al.,
+2020); all hyperparameters are listed in the last col-
+umn of Table 5. Pretraining was performed on a
+total of 3 NVIDIA GeForce GTX 1080 Ti GPUs.
+5https://github.com/GT-SALT/MixText
+6https://github.com/SanghunYun/UDA_
+pytorch
+C
+Dataset Details
+For each task and number of examples t, we create
+the training set T by collecting the ﬁrst t/|L| exam-
+ples per label from the original training set, where
+|L| is the number of labels for the task. Similarly,
+we construct the set D of unlabeled examples by
+selecting 10 000 examples per label and removing
+all labels. For evaluation, we use the ofﬁcial test
+set for all tasks except MNLI, for which we report
+results on the dev set; this is due to the limit of
+2 submissions per 14 hours for the ofﬁcial MNLI
+test set. An overview of the number of test exam-
+ples and links to downloadable versions of all used
+datasets can be found in Table 6.
+Preprocessing
+In some of the datasets used, new-
+lines are indicated through the character sequence
+“\n”. As the vocabularies of RoBERTa and XLM-R
+do not feature a newline, we replace this sequence
+with a single space. We do not perform any other
+preprocessing, except shortening all examples to
+the maximum sequence length of 256 tokens. This
+is done using the longest ﬁrst strategy implemented
+in the Transformers library. For PET, all input se-
+quences are truncated before applying patterns.
+Evaluation metrics
+For Yelp, AG’s News, Ya-
+hoo and MNLI, we use accuracy. For x-stance,
+we report macro-average of F1 scores using the
+evaluation script of Vamvas and Sennrich (2020).
+D
+Hyperparameter Importance
+To analyze the importance of hyperparameter
+choices for PET’s performance gains over super-
+vised learning, we look at the inﬂuence of both the
+learning rate (LR) and the number of training steps
+on their test set accuracies.
+We try values of {1e−5, 2e−5, 5e−5} for the
+learning rate and {50, 100, 250, 500, 1000} for the
+number of training steps. As this results in 30 dif-
+ferent conﬁgurations for just one task and training
+set size, we only perform this analysis on Yelp with
+100 examples, for which results can be seen in Fig-
+ure 6. For supervised learning, the conﬁguration
+used throughout the paper (LR = 1e−5, 250 steps)
+turns out to perform best whereas for PET, training
+for fewer steps consistently performs even better.
+Importantly, PET clearly outperforms regular su-
+pervised training regardless of the chosen learning
+rate and number of training steps.
+
+----- Page 14 (native) -----
+268
+Parameter
+PET
+−LM
+PET
+(En/Xs)
+C
+(En/Xs)
+sup.
+(En/Xs)
+In-Dom.
+PT
+adam epsilon
+1e-8
+1e-8
+1e-8
+1e-8
+1e-8
+* alpha
+–
+1e-4
+–
+–
+–
+block size
+–
+–
+–
+–
+256
+gradient accumulation steps
+4
+4
+4
+4
+2
+learning rate
+1e-5
+1e-5
+1e-5
+1e-5
+5e-5
+max grad norm
+1.0
+1.0
+1.0
+1.0
+1.0
+max seq length
+256
+256
+256
+256
+–
+max steps
+250
+1000 / –
+5000 / –
+250 / –
+50000
+mlm probability
+–
+0.15
+–
+–
+0.15
+num train epochs
+–
+– / 3
+– / 3
+– / 3
+–
+per gpu train batch size
+4
+1
+4
+4
+2
+* per gpu helper batch size
+–
+3
+–
+–
+–
+* temperature
+–
+–
+2.0
+–
+–
+weight decay
+0.01
+0.01
+0.01
+0.01
+0.0
+Table 5: Hyperparameters for training individual PET models without auxiliary language modeling (PET−LM)
+and with language modeling (PET), the ﬁnal PET classiﬁer (C), regular supervised training (sup.) and in-domain
+pretraining (In-Dom. PT). Whenever different values are used for the English datasets (En) and x-stance (Xs), both
+values are given separated by a slash. (*): PET-speciﬁc hyperparameters
+Dataset
+Link
+Test Examples
+AG’s News
+http://goo.gl/JyCnZq
+7600
+MNLI (m / mm)
+https://cims.nyu.edu/˜sbowman/multinli/
+10000 / 10000
+X-Stance (De / Fr / It)
+https://github.com/ZurichNLP/xstance
+3479 / 1284 / 1173
+Yahoo! Answers
+http://goo.gl/JyCnZq
+60000
+Yelp Review Full
+http://goo.gl/JyCnZq
+50000
+Table 6: Download links and number of test examples for all datasets
+50
+100
+250
+500 1000
+30
+40
+50
+60
+Training steps
+Accuracy
+LR = 1e−5
+sup.
+PET
+50
+100
+250
+500 1000
+30
+40
+50
+60
+Training steps
+Accuracy
+LR = 2e−5
+sup.
+PET
+50
+100
+250
+500 1000
+30
+40
+50
+60
+Training steps
+Accuracy
+LR = 5e−5
+sup.
+PET
+Figure 6: Performance of supervised learning and PET (weighted, without auxiliary language modeling) for various
+learning rates and training steps on Yelp with 100 training examples
+
+----- Page 15 (native) -----
+269
+E
+Automatic Verbalizer Search
+Given a set of patterns P1, . . . , Pn, manually ﬁnd-
+ing a verbalization v(l) for each l ∈L that repre-
+sents the meaning of l well and corresponds to a
+single token in V can be difﬁcult. We therefore
+devise automatic verbalizer search (AVS), a pro-
+cedure that automatically ﬁnds suitable verbalizers
+given a training set T and a language model M.
+Assuming we already have a PVP p = (P, v),
+we can easily check whether some token t ∈V
+is a good verbalization of l ∈L. To this end, we
+deﬁne p[l ←t] = (P, v′), where v′ is identical to
+v, except that v′(l) = t. Intuitively, if t represents
+l well, then qp[l←t](l | x) (i.e., the probability M
+assigns to t given P(x)) should be high only for
+those examples (x, y) ∈T where y = l. We thus
+deﬁne the score of t for l given p as
+sl(t | p) =
+1
+|Tl| ·
+X
+(x,y)∈Tl
+qp[l←t](l | x)
+−
+1
+|T \ Tl| ·
+X
+(x,y)∈T \Tl
+qp[l←t](l | x)
+where Tl = {(x, y) ∈T : y = l} is the set of all
+training examples with label l. While this allows
+us to easily compute the best verbalization for l as
+ˆt = arg max
+t∈V sl(t | p) ,
+it requires us to already know verbalizations v(l′)
+for all other labels l′.
+AVS solves this problem as follows: We ﬁrst as-
+sign random verbalizations to all labels and then re-
+peatedly recompute the best verbalization for each
+label. As we do not want the resulting verbalizer
+to depend strongly on the initial random assign-
+ment, we simply consider multiple such assign-
+ments. Speciﬁcally, we deﬁne an initial proba-
+bility distribution ρ0 where for all t ∈V, l ∈L,
+ρ0(t | l) = 1/|V | is the probability of choosing t as
+verbalization for l. For each l ∈L, we then sample
+k verbalizers v1, . . . , vk using ρ0 to compute
+sk
+l (t) =
+1
+n · k
+n
+X
+i=1
+k
+X
+j=1
+sl(t | (Pi, vj))
+for all t ∈V .7 These scores enable us to deﬁne a
+probability distribution ρ1 that more closely reﬂects
+7Note that the score sk
+l (t) jointly considers all patterns;
+in preliminary experiments, we found this to result in more
+robust verbalizers.
+Yelp
+AG’s
+Yahoo
+MNLI
+supervised
+44.8
+82.1
+52.5
+45.6
+PET
+60.0
+86.3
+66.2
+63.9
+PET + AVS
+55.2
+85.0
+58.2
+52.6
+Table 7: Results for supervised learning, PET and PET
+with AVS (PET + AVS) after training on 50 examples
+y
+Top Verbalizers
+1
+worthless, BAD, useless, appalling
+2
+worse, slow, frustrating, annoying
+3
+edible, mixed, cute, tasty, Okay
+4
+marvelous, loved, love, divine, fab
+5
+golden, magical, marvelous, perfection
+Table 8: Most probable verbalizers according to AVS
+for Yelp with 50 training examples
+a word’s suitability as a verbalizer for a given label:
+ρ1(t | l) = 1
+Z max(sk
+l (t), ϵ)
+where Z = P
+t′∈V max(sk
+l (t′), ϵ) and ϵ ≥0 en-
+sures that ρ1 is a proper probability distribution.
+We repeat this process to obtain a sequence of
+probability distributions ρ1, . . . , ρimax. Finally, we
+choose the m ∈N most likely tokens according to
+ρimax(t | l) as verbalizers for each l. During train-
+ing and inference, we compute the unnormalized
+score sp(y | x) for each label by averaging over its
+m verbalizers.
+We analyze the performance of AVS for all tasks
+with |T | = 50 training examples and set k = 250,
+ϵ = 10−3, imax = 5 and m = 10.8 To speed
+up the search, we additionally restrict our search
+space to tokens t ∈V that contain at least two
+alphabetic characters. Of these tokens, we only
+keep the 10 000 most frequent ones in D.
+Results are shown in Table 7. As can be seen,
+carefully handcrafted verbalizers perform much
+better than AVS; however, PET with AVS still con-
+siderably outperforms regular supervised training
+while eliminating the challenge of manually ﬁnd-
+ing suitable verbalizers. Table 8 shows the most
+probable verbalizers found using AVS for the Yelp
+dataset. While most verbalizers for this dataset
+intuitively make sense, we found AVS to struggle
+with ﬁnding good verbalizers for three out of ten
+labels in the Yahoo dataset and for all MNLI labels.
+8We tried values of k and imax in {250, 500, 1000} and
+{5, 10, 20}, respectively, but found the resulting verbalizers
+to be almost identical.

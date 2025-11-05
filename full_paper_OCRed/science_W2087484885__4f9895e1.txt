@@ -1,0 +1,3467 @@
+
+
+----- Page 1 (native) -----
+Statistics textbooks in the social, behavioral, and biomed-
+ical sciences typically stress the importance of power analy-
+ses. By definition, the power of a statistical test is the prob-
+ability that its null hypothesis (H0) will be rejected given that 
+it is in fact false. Obviously, significance tests that lack sta-
+tistical power are of limited use because they cannot reliably 
+discriminate between H0 and the alternative hypothesis (H1) 
+of interest. However, although power analyses are indispens-
+able for rational statistical decisions, it was not until the late 
+1980s that power charts (see, e.g., Scheffé, 1959) and power 
+tables (see, e.g., Cohen, 1988) were supplemented by more 
+efficient, precise, and easy-to-use power analysis programs 
+for personal computers (Goldstein, 1989). G*Power 2 (Erd-
+felder, Faul, & Buchner, 1996) can be seen as a second-
+ generation power analysis program designed as a stand-
+alone application to handle several types of statistical tests 
+commonly used in social and behavioral research. In the past 
+10 years, this program has been found useful not only in the 
+social and behavioral sciences but also in many other disci-
+plines that routinely apply statistical tests, including biology 
+(Baeza & Stotz, 2003), genetics (Akkad et al., 2006), ecol-
+ogy (Sheppard, 1999), forest and wildlife research (Mellina, 
+Hinch, Donaldson, & Pearson, 2005), the geosciences (Bus-
+bey, 1999), pharmacology (Quednow et al., 2004), and med-
+ical research (Gleissner, Clusmann, Sassen, Elger, & Helm-
+staedter, 2006). G*Power 2 was evaluated positively in the 
+reviews of which we are aware (Kornbrot, 1997; Ortseifen, 
+Bruckner, Burke, & Kieser, 1997; Thomas & Krebs, 1997). 
+It has been used in several power tutorials (e.g., Buchner, 
+Erdfelder, & Faul, 1996, 1997; Erdfelder, Buchner, Faul, & 
+Brandt, 2004; Levin, 1997; Sheppard, 1999) and in statis-
+tics textbooks (e.g., Field, 2005; Keppel & Wickens, 2004; 
+Myers & Well, 2003; Rasch, Friese, Hofmann, & Naumann, 
+2006a, 2006b). Nevertheless, the user feedback that we re-
+ceived coincided with our own experience in showing some 
+limitations and weaknesses of G*Power 2 that required a 
+major extension and revision.
+In the present article, we describe G*Power 3, a program 
+that was designed to address the problems of G*Power 2. 
+We begin with an outline of the major improvements in 
+G*Power 3 and then discuss the types of power analyses cov-
+ered by this program. Next, we describe program handling 
+and the types of statistical tests to which it can be applied. 
+We then discuss the statistical algorithms of G*Power 3 and 
+their accuracy. Finally, program availability and some Inter-
+net resources supporting users of G*Power 3 are described.
+IMPROVEMENTS IN G*POWER 3 IN 
+COMPARISON WITH G*POWER 2
+G*Power 3 is an improvement over G*Power 2 in five 
+major respects. First, whereas G*Power 2 requires the 
+ 
+175 
+Copyright 2007 Psychonomic Society, Inc.
+G*Power 3: A flexible statistical power analysis 
+program for the social, behavioral, and 
+biomedical sciences
+FRANZ FAUL
+Christian-Albrechts-Universität Kiel, Kiel, Germany
+EDGAR ERDFELDER
+Universität Mannheim, Mannheim, Germany
+AND
+ALBERT-GEORG LANG AND AXEL BUCHNER
+Heinrich-Heine-Universität Düsseldorf, Düsseldorf, Germany
+G*Power (Erdfelder, Faul, & Buchner, 1996) was designed as a general stand-alone power analysis program 
+for statistical tests commonly used in social and behavioral research. G*Power 3 is a major extension of, and 
+improvement over, the previous versions. It runs on widely used computer platforms (i.e., Windows XP, Win-
+dows Vista, and Mac OS X 10.4) and covers many different statistical tests of the t, F, and O2 test families. In 
+addition, it includes power analyses for z tests and some exact tests. G*Power 3 provides improved effect size 
+calculators and graphic options, supports both distribution-based and design-based input modes, and offers all 
+types of power analyses in which users might be interested. Like its predecessors, G*Power 3 is free.
+Behavior Research Methods
+2007, 39 (2), 175-191
+E. Erdfelder, erdfelder@psychologie.uni-mannheim.de
+
+----- Page 2 (native) -----
+176    FAUL, ERDFELDER, LANG, AND BUCHNER
+DOS and Mac OS 7–9 operating systems that were com-
+mon in the 1990s but are now outdated, G*Power 3 runs 
+on the personal computer platforms currently in widest 
+use: Windows XP, Windows Vista, and Mac OS X 10.4. 
+The Windows and Mac versions of the program are es-
+sentially equivalent. They use the same computational 
+routines and share very similar user interfaces. For this 
+reason, we will not differentiate between these versions in 
+what follows; users simply have to make sure to download 
+the version appropriate for their operating system.
+Second, whereas G*Power 2 is limited to three types 
+of power analyses, G*Power 3 supports five different 
+ways to assess statistical power. In addition to the a pri-
+ori, post hoc, and compromise power analyses that were 
+already covered by G*Power 2, the new program offers 
+sensitivity analyses and criterion analyses.
+Third, G*Power 3 provides dedicated power analysis 
+options for a variety of frequently used t, F, z, O2, and 
+exact tests in addition to the standard tests covered by 
+G*Power 2. The tests captured by G*Power 3 and their 
+effect size parameters are described in the Program Han-
+dling section. Importantly, users are not limited to these 
+tests because G*Power 3 also offers power analyses for 
+generic t, F, z, O2, and binomial tests for which the non-
+centrality parameter of the distribution under H1 may 
+be entered directly. In this way, users are provided with 
+a flexible tool for computing the power of basically any 
+statistical test that uses t, F, z, O2, or binomial reference 
+distributions.
+Fourth, statistical tests can be specified in G*Power 3 
+using two different approaches: the distribution-based ap-
+proach and the design-based approach. In the distribution-
+based approach, users select the family of the test statistic 
+(t, F, z, O2, or exact test) and the particular test within 
+that family. This is how power analyses were specified in 
+G*Power 2. In addition, a separate menu in G*Power 3 
+provides access to power analyses via the design-based 
+approach: Users select (1) the parameter class to which 
+the statistical test refers (correlations, means, proportions, 
+regression coefficients, variances) and (2) the design of 
+the study (e.g., number of groups, independent vs. depen-
+dent samples). On the basis of the feedback we received 
+about G*Power 2, we expect that some users might find 
+the design-based input mode more intuitive and easier to 
+use.
+Fifth, G*Power 3 supports users with enhanced graph-
+ics features. The details of these features will be outlined 
+in the Program Handling section.
+TYPES OF STATISTICAL POWER ANALYSES
+The power (1  ;) of a statistical test is the complement 
+of ;, which denotes the Type II or beta error probability 
+of falsely retaining an incorrect H0. Statistical power de-
+pends on three classes of parameters: (1) the significance 
+level (i.e., the Type I error probability) ( of the test, (2) the 
+size(s) of the sample(s) used for the test, and (3) an effect 
+size parameter defining H1 and thus indexing the degree 
+of deviation from H0 in the underlying population. De-
+pending on the available resources, the actual phase of the 
+research process, and the specific research question, five 
+different types of power analysis can be reasonable (cf. 
+Erdfelder et al., 2004; Erdfelder, Faul, & Buchner, 2005). 
+We describe these methods and their uses in turn.
+A Priori Power Analyses
+In a priori power analyses (Cohen, 1988), sample 
+size N is computed as a function of the required power 
+level (1  ;), the prespecified significance level (, and 
+the population effect size to be detected with probability 
+1  ;. A priori analyses provide an efficient method of 
+controlling statistical power before a study is actually con-
+ducted (see, e.g., Bredenkamp, 1969; Hager, 2006) and 
+can be recommended whenever resources such as the time 
+and money required for data collection are not critical.
+Post Hoc Power Analyses
+In contrast to a priori power analyses, post hoc power 
+analyses (Cohen, 1988) often make sense after a study 
+has already been conducted. In post hoc analyses, 1  ; 
+is computed as a function of (, the population effect size 
+parameter, and the sample size(s) used in a study. It thus 
+becomes possible to assess whether or not a published 
+statistical test in fact had a fair chance of rejecting an in-
+correct H0. Importantly, post hoc analyses, like a priori 
+analyses, require an H1 effect size specification for the 
+underlying population. Post hoc power analyses should 
+not be confused with so-called retrospective power anal-
+yses, in which the effect size is estimated from sample 
+data and used to calculate the observed power, a sample 
+estimate of the true power.1 Retrospective power analy-
+ses are based on the highly questionable assumption that 
+the sample effect size is essentially identical to the effect 
+size in the population from which it was drawn (Zumbo & 
+Hubley, 1998). Obviously, this assumption is likely to be 
+false, and the more so the smaller the sample. In addition, 
+sample effect sizes are typically biased estimates of their 
+population counterparts (Richardson, 1996). For these 
+reasons, we agree with other critics of retrospective power 
+analyses (e.g., Gerard, Smith, & Weerakkody, 1998; Hoe-
+nig & Heisey, 2001; Kromrey & Hogarty, 2000; Lenth, 
+2001; Steidl, Hayes, & Schauber, 1997). Rather than use 
+retrospective power analyses, researchers should specify 
+population effect sizes on a priori grounds. To specify the 
+effect size simply means to define the minimum degree 
+of violation of H0 a researcher would like to detect with 
+a probability not less than 1  ;. Cohen’s definitions of 
+small, medium, and large effects can be helpful in such 
+effect size specifications (see, e.g., Smith & Bayen, 2005). 
+However, researchers should be aware of the fact that 
+these conventions may have different meanings for differ-
+ent tests (cf. Erdfelder et al., 2005).
+Compromise Power Analyses
+In compromise power analyses (Erdfelder, 1984; 
+Erdfelder et al., 1996; Müller, Manz, & Hoyer, 2002), 
+both ( and 1  ; are computed as functions of the ef-
+fect size, N, and the error probability ratio q  ;/(. To 
+illustrate, setting q to 1 would mean that the researcher 
+prefers balanced Type I and Type II error risks ((  ;),
+
+----- Page 3 (native) -----
+G*POWER 3    177
+whereas a q of 4 would imply that ;  4( (cf. Cohen, 
+1988). Compromise power analyses can be useful both 
+before and after data collection. For example, an a priori 
+power analysis might result in a sample size that exceeds 
+the available resources. In such a situation, a researcher 
+could specify the maximum affordable sample size and, 
+using a compromise power analysis, compute ( and 1  ; 
+associated with, say, q  ;/(  4. Alternatively, if a study 
+has already been conducted but has not yet been analyzed, 
+a researcher could ask for a reasonable decision criterion 
+that guarantees perfectly balanced error risks (i.e., (  ;) 
+given the size of the sample and the critical effect size 
+in which he or she is interested. Of course, compromise 
+power analyses can easily result in unconventional sig-
+nificance levels greater than (  .05 (in the case of small 
+samples or effect sizes) or less than (  .001 (in the case 
+of large samples or effect sizes). However, we believe that 
+the benefit of balanced Type I and Type II error risks often 
+offsets the costs of violating significance level conven-
+tions (cf. Gigerenzer, Krauss, & Vitouch, 2004).
+Sensitivity Analyses
+In sensitivity analyses, the critical population effect size 
+is computed as a function of (, 1  ;, and N. Sensitivity 
+analyses may be particularly useful for evaluating pub-
+lished research. They provide answers to questions such as 
+“What effect size was a study able to detect with a power 
+of 1  ;  .80 given its sample size and ( as specified 
+by the author? In other words, what is the minimum ef-
+fect size to which the test was sufficiently sensitive?” In 
+addition, it may be useful to perform sensitivity analyses 
+before conducting a study to see whether, given a lim-
+ited N, the size of the effect that can be detected is at all 
+realistic (or, for instance, much too large to be expected 
+realistically).
+Criterion Analyses
+Finally, criterion analyses compute ( (and the associ-
+ated decision criterion) as a function of 1  ;, the effect 
+size, and a given sample size. Criterion analyses are alter-
+natives to post hoc power analyses. They may be reason-
+able whenever the control of ( is less important than the 
+control of ;. In case of goodness-of-fit tests for statistical 
+models, for example, it is most important to minimize the 
+; risk of wrong decisions in favor of the model (H0). Re-
+searchers could thus use criterion analyses to compute the 
+significance level ( which is compatible with ;  .05 for 
+a small effect size.
+Whereas G*Power 2 was limited to the first three types 
+of power analysis, G*Power 3 covers all five types. On the 
+basis of the feedback we received from G*Power 2 users, 
+we believe that any question related to statistical power 
+that arises in research practice can be categorized under 
+one of these analysis types.
+PROGRAM HANDLING
+Using G*Power 3 typically involves the following 
+four steps: (1) Select the statistical test appropriate for 
+the problem, (2) choose one of the five types of power 
+analyses defined in the previous section, (3) provide the 
+input parameters required for the analysis, and (4) click on 
+“Calculate” to obtain the results.
+In the first step, the statistical test is chosen using 
+the distribution-based or the design-based approach. 
+G*Power 2 users probably have adapted to the distribution-
+based approach: One first selects the family of the test 
+statistic (t, F, z, O2, or exact test) using the “Test fam-
+ily” menu in the main window. The “Statistical test” menu 
+adapts accordingly, showing a list of all tests available for 
+the test family. For the two-groups t test, for example, one 
+would first select the t family of distributions and then 
+“Means: Difference between two independent means (two 
+groups)” in the “Statistical test” menu (see Figure 1). Al-
+ternatively, one might use the design-based approach of 
+test selection. With the “Tests” pull-down menu in the top 
+row, it is possible to select (1) the parameter class to which 
+the statistical test refers (i.e., correlation and regression, 
+means, proportions, variances, or generic) and (2) the de-
+sign of the study (e.g., number of groups, independent 
+vs. dependent samples). For example, a researcher would 
+select “Means” followed by “Two independent groups” to 
+specify the two-groups t test (see Figure 2). The design-
+based approach has the advantage that test options refer-
+ring to the same parameter class (e.g., means) are located 
+in close proximity, whereas in the distribution-based ap-
+proach they may be scattered across different distribution 
+families.
+In the second step, the “Type of power analysis” menu 
+in the center of the main window should be used to choose 
+the appropriate analysis type. In the third step, the power 
+analysis input parameters are specified in the lower left of 
+the main window. To illustrate, an a priori power analysis 
+for a two-groups t test would require a decision between a 
+one-tailed and a two-tailed test, a specification of Cohen’s 
+(1988) effect size measure (d) under H1, the significance 
+level (, the required power (1  ;) of the test, and the 
+preferred group size allocation ratio n2/n1. The final step 
+consists of clicking on “Calculate” to obtain the output in 
+the lower right of the main window.
+For instance, input parameters specifying a one-tailed 
+t test, a medium effect size of d  0.5, (  .05, 1  ;  
+.95, and an allocation ratio of n2/n1  1 would result in 
+a total sample size of N  176 (88 observation units in 
+each group; see Figures 1 and 2). The noncentrality pa-
+rameter Y defining the t distribution under H1, the decision 
+criterion to be used (i.e., the critical value of the t statis-
+tic), the degrees of freedom2 of the t test, and the actual 
+power value are also displayed. Note that the actual power 
+will often be slightly larger than the prespecified power 
+in a priori power analyses. The reason is that noninteger 
+sample sizes are always rounded up by G*Power to obtain 
+integer values consistent with a power level not lower than 
+the prespecified one.
+In addition to the numerical output, G*Power 3 dis-
+plays the central (H0) and the noncentral (H1) test statistic 
+distributions along with the decision criterion and the as-
+sociated error probabilities in the upper part of the main 
+window (see Figure 1).3 This supports understanding of 
+the effects of the input parameters and is likely to be a
+
+----- Page 4 (native) -----
+178    FAUL, ERDFELDER, LANG, AND BUCHNER
+useful visualization tool in the teaching of, or the learning 
+about, inferential statistics. The distributions plot can be 
+printed, saved, or copied by clicking on the right mouse 
+button inside the plot area.
+The input and output of each power calculation in a 
+G*Power session is automatically written to a protocol 
+that can be displayed by selecting the “Protocol of power 
+analyses” tab in the main window. It is possible to clear 
+the protocol or to print, save, and copy the protocol in the 
+same way as the distributions plot.
+Because Cohen’s (1988) book on power analysis appears 
+to be well-known in the social and behavioral sciences, we 
+made use of his effect size measures whenever possible. 
+Researchers unfamiliar with these measures and users 
+who prefer to compute Cohen’s measures from more basic 
+parameters can click on the “Determine” button to the left 
+of the “Effect size” input field (see Figures 1 and 2). A 
+drawer will open next to the main window and provide 
+access to an effect size calculator tailored to the selected 
+test (see Figure 2). For the two-groups t test, for example, 
+users can specify the means (1, 2) and the common SD 
+(À) in the populations underlying the groups to calculate 
+Cohen’s d  | 1  2|/À. Clicking on the “Calculate and 
+transfer to main window” button copies the computed ef-
+fect size to the appropriate field in the main window.
+Another useful option is the Power Plot window (see 
+Figure 3), which is opened by clicking on “X–Y plot for a 
+range of values” on the lower right side of the main win-
+dow (see Figures 1 and 2).
+By selecting the appropriate parameters for the y- and 
+x-axes, one parameter ((, 1  ;, effect size, or sample size) 
+can be plotted as a function of any other parameter. Of the 
+remaining two parameters, one can be chosen to draw a fam-
+ily of graphs, whereas the fourth parameter is kept constant. 
+For instance, sample size can be drawn as a function of the 
+power 1  ; for several different population effects sizes 
+while ( is kept at a particular value. The plot may be printed, 
+saved, or copied by clicking on the right mouse button inside 
+the plot area. Selecting the “Table” tab reveals the data un-
+derlying the plot; they may be copied to other applications.
+The Power Plot window inherits all input parameters of 
+the analysis that is active when the “X–Y plot for a range of 
+Figure 1. The distribution-based approach of test specification in G*Power 3.0.
+
+----- Page 5 (native) -----
+G*POWER 3    179
+Figure 2. The design-based approach of test specification in G*Power 3.0 and the “Effect size” drawer.
+Figure 3. The Power Plot window of G*Power 3.0.
+
+----- Page 6 (native) -----
+180    FAUL, ERDFELDER, LANG, AND BUCHNER
+values” button is clicked. Only some of these parameters 
+can be directly manipulated in the Power Plot window. For 
+instance, switching from a plot of a two-tailed test to a plot 
+of a one-tailed test requires choosing the “Tail(s): One” 
+option in the main window and then clicking on the “X–Y 
+plot for a range of values” button.
+TYPES OF STATISTICAL TESTS
+G*Power 3 provides power analyses for test statistics 
+following t, F, O2, or standard normal distributions under 
+H0 (either exact or asymptotic) and noncentral distributions 
+of the same test families under H1. In addition, it includes 
+power analyses for some exact tests. In Tables 2–9, we 
+briefly describe the tests currently covered by G*Power 3. 
+Table 1 lists the symbols used in Tables 2–9 and their 
+meanings.
+Tests for Correlation and Regression
+Table 2 summarizes the procedures supported for test-
+ing hypotheses on correlation and regression. One-sample 
+tests are provided for the point–biserial model—that is, 
+the model for correlations between a binary variable and 
+a continuous variable—and for correlations between two 
+normally distributed variables (Cohen, 1988, chap. 3).4 
+The latter test uses the exact sample correlation coefficient 
+distribution (Barabesi & Greco, 2002) or, optionally, a 
+large-sample approximation based on Fisher’s r-to-z trans-
+formation. The two-sample test for differences between 
+two correlations uses Cohen’s (1988, chap. 4) effect size q 
+and is based on Fisher’s r-to-z transformation. Cohen de-
+fines qs of 0.10, 0.30, and 0.50 as small, medium, and large 
+effects, respectively.
+The two procedures available for the multiple regres-
+sion model handle the cases of (1) a test of an overall 
+ effect—that is, the hypothesis that the population value 
+of R2 is different from zero—and (2) a test of the hypoth-
+esis that adding more predictors increases the value of R2 
+(Cohen, 1988, chap. 9). According to Cohen’s criteria, 
+effect sizes ( f 2) of 0.02, 0.15, and 0.35 are considered 
+small, medium, and large, respectively.
+Tests for Means (Univariate Case)
+Table 3 summarizes the power analysis procedures for 
+tests on means. G*Power 3 supports all cases of the t test 
+for means described by Cohen (1988, chap. 2): the test for 
+independent means, the test of the null hypothesis that the 
+population mean equals some specified value (one sample 
+case), and the test on the means of two dependent samples 
+(matched pairs). Cohen’s d and dz are used as effect size 
+indices. Cohen defines ds of 0.2, 0.5, and 0.8 as small, 
+medium, and large effects, respectively. Effect size dialogs 
+are available to compute the appropriate effect size param-
+eter from means and SDs. For example, assume we want to 
+compare visual search times for targets embedded in rare 
+versus frequent local contexts in a within-subjects design 
+(cf. Hoffmann & Sebald, 2005, Experiment 1). It is ex-
+pected that the mean search time for targets in rare contexts 
+(e.g., 600 msec) should decrease by at least 10 msec (i.e., 
+to 590 msec) in frequent contexts as a consequence of local 
+contextual cuing. If prior evidence suggests population 
+SDs of, say, À  25 msec in each of the conditions and a 
+correlation of ¼  .70 between search times in the two con-
+ditions, we can use the “Effect size” drawer of G*Power 3 
+for the matched pairs t test to calculate the effect size dz  
+0.516 (see the second row of Table 3 for the formula). By 
+selecting a post hoc power analysis for one-tailed matched 
+pairs t tests, we easily see that for dz  0.516, (  .05, and 
+N  16 participants, the power (1  ;) is only .47. Thus, 
+provided that the assumptions outlined above are appropri-
+ate, the nonsignificant statistic [t(15)  1.475] obtained by 
+Hoffmann and Sebald (2005, Experiment 1, p. 34) might 
+in fact be due to a Type II error. This interpretation would 
+be consistent with the fact that Hoffmann and Sebald ob-
+Table 1 
+Symbols and Their Meanings As Used in the Tables
+Symbols
+ 
+Meaning
+ (i)
+population mean (in group i)
+
+% (
+%
+i)
+vector of population means (in group i)
+xy
+population mean of the difference
+N
+total sample size
+ni
+sample size in group i
+À
+standard deviation in the population
+À
+standard deviation of the effect
+Àxy
+standard deviation of the difference
+
+noncentrality parameter of the noncentral F and O2 distribution
+Y
+noncentrality parameter of the noncentral t distribution
+df
+degrees of freedom
+df1, df2
+numerator and denominator degrees of freedom, respectively
+¼ (¼i)
+population correlation (in group i)
+R2
+Y_A, R2
+Y_A,B
+squared multiple correlation coefficients, corresponding to the proportion of Y 
+variance that can be accounted for by multiple regression on the set of predictor 
+variables A and AB, respectively
+
+population variance–covariance matrix
+M
+matrix of regression parameters (population means)
+C
+contrast matrix (contrasts between rows of M)
+A
+contrast matrix (contrasts between columns of M)
+® (®i)
+ probability of success (in group i)
+
+----- Page 7 (native) -----
+G*POWER 3    181
+served significant local contextual cuing effects in each of 
+the other four experiments they reported. 
+The procedures provided by G*Power 3 to test effects in 
+between-subjects designs with more than two groups (i.e., 
+one-way ANOVA designs and general main effects and 
+interactions in factorial ANOVA designs of any order) are 
+identical to those in G*Power 2 (Erdfelder et al., 1996). In 
+all these cases, the effect size f as defined by Cohen (1988) 
+is used. In a one-way ANOVA, the “Effect size” drawer 
+can be used to compute f from the means and group sizes 
+of k groups and an SD common to all groups. For tests of 
+effects in factorial designs, the “Effect size” drawer offers 
+the possibility of computing effect size f from the vari-
+ance explained by the tested effect and the error variance. 
+Cohen defines fs of 0.1, 0.25, and 0.4 as small, medium, 
+and large effects, respectively.
+New in G*Power 3 are procedures for analyzing main 
+effects and interactions for A  B mixed designs, where 
+A is a between-subjects factor (or an enumeration of 
+the groups generated by cross-classification of several 
+ between-subjects factors) and B is a within-subjects fac-
+tor (or an enumeration of the repeated measures generated 
+by cross-classification of several within-subjects factors). 
+Both the univariate and the multivariate approaches to re-
+peated measures (O’Brien & Kaiser, 1985) are supported. 
+The multivariate approach will be discussed below. The 
+univariate approach is based on the sphericity assump-
+tion. This assumption is correct if (in the population) all 
+variances of the repeated measurements are equal and all 
+correlations between pairs of repeated measurements are 
+equal. If all the distributional assumptions are met, then the 
+univariate approach is the most powerful method (Muller 
+& Barton, 1989; O’Brien & Kaiser, 1985). Unfortunately, 
+the assumption of equal correlations is violated quite 
+often, which can lead to very misleading results. In order 
+to compensate for such adverse effects in tests of within 
+effects or between–within interactions, the noncentrality 
+parameter and the degrees of freedom of the F distribu-
+tion can be multiplied by a correction factor e (Geisser & 
+Greenhouse, 1958; Huynh & Feldt, 1970). e  1 if the 
+sphericity assumption is met and approaches 1/(m  1) 
+with increasing degrees of violation of sphericity, where 
+m denotes the number of repeated measurements.
+G*Power provides three separate yet very similar rou-
+tines to calculate power in the univariate approach for 
+between effects, within effects, and interactions. If the to-
+be-detected effect size f is known, these procedures are 
+very easy to apply. To illustrate, Berti, Münzer, Schröger, 
+and Pechmann (2006) compared the pitch discrimination 
+ability of 10 musicians and 10 control subjects (between-
+subjects factor A) for 10 different interference conditions 
+(within-subjects factor B). Assuming that A, B, and A  
+B effects of medium size ( f  0.25; see Cohen, 1988; 
+Table 3 of the present article) should be detected given a 
+correlation of ¼  .50 between repeated measures and a 
+significance level of (  .05, the power values of the F 
+tests for the A main effect, the B main effect, and the A  
+B interaction are easily computed as .30, .95, and .95, re-
+spectively, by inserting f  0.25, (  .05, the total sample 
+size (20), the number of groups (2), the number of repeti-
+tions (10), and ¼  .50 into the appropriate input fields of 
+the procedures designed for these tests.
+If the to-be-detected effect size f is unknown, it must be 
+computed from more basic parameters characterizing the 
+expected population scenario under H1. To demonstrate 
+the general procedure, we will show how to do post hoc 
+power analyses in the scenario illustrated in Figure 4 as-
+suming the variance and correlations structure defined 
+in matrix SR1. We first consider the power of the within 
+effect: We select the “F tests” family, the “Repeated mea-
+Table 2 
+Tests for Correlation and Regression
+Test
+Null
+Noncentrality Parameter
+Test
+ Family  
+Hypothesis
+ 
+Effect Size
+ Other Parameters  and Degrees of Freedom
+Difference from 
+t tests
+¼  0
+¼
+D
+R
+R
+
+
+
+2
+2
+1
+N
+zero: point biserial 
+model
+df  N  2
+Difference from 
+constant
+(bivariate normal)
+exact 
+tests
+¼  c
+¼
+Constant 
+correlation c
+Inequality of two 
+correlation
+coefficients 
+z tests
+¼1  ¼2
+q  z1  z2
+zi
+i
+i
+
+
+
+1
+2
+1
+1
+ln
+R
+R
+m
+q
+s
+1 
+s
+n
+n
+n
+n
+
+
+
+
+
+	
+
+
+	
+1
+2
+1
+2
+6
+3
+3
+Multiple 
+regression: 
+deviation of R2
+from zero
+F tests
+R2
+Y_ A  0
+f
+R
+R
+Y A
+Y A
+2
+2
+2
+1
+
+
+
+
+Number of 
+predictors p (#A)
+  f 2N
+df1  p
+df2  N  p  1
+Multiple 
+regression:
+increase of R2
+F tests
+R2
+Y_ A,B  R2
+Y _A
+f
+R
+R
+R
+Y A B
+Y A
+Y A B
+2
+2
+2
+2
+1
+
+
+
+
+
+
+,
+,
+Total number of
+predictors p
+(#A  #B)
+Number of tested
+  f 2N
+df1  q
+df2  N  p  1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+predictors q (#B)
+
+----- Page 8 (native) -----
+182    FAUL, ERDFELDER, LANG, AND BUCHNER
+sures: Within factors, ANOVA-approach” test, and “post 
+hoc” as the type of power analysis. Both the “Number of 
+groups” and “Repetitions” fields are set to 3. Total sample 
+size is set to 90 and ( error probability to .05. Referring 
+to matrix SR1, we insert .3 in the “Corr among rep mea-
+sures” input field and—since sphericity obviously holds 
+in this case—set nonsphericity correction e to 1. To deter-
+mine effect size f, we first calculate À2, the variance of the 
+Table 3 
+Tests for Means (Univariate Case)
+Test
+Null
+Noncentrality Parameter
+Test
+ Family  
+Hypothesis
+ 
+Effect Size
+ 
+Other Parameters  and Degrees of Freedom
+Difference from 
+constant (one-
+sample case)
+t tests
+  c
+d
+c
+
+
+M
+S
+Y  d ·Å
+__
+ 
+N 
+df  N  1
+Inequality of 
+two dependent
+means 
+(matched pairs)
+t tests
+xy  0
+dz
+x y
+x y
+
+
+
+M
+S
+Y  dz ·Å
+__
+ 
+N 
+df  N  1
+S
+S
+S
+RS S
+x y
+x
+y
+x
+y
+ 
+
+
+2
+2
+2
+Inequality of 
+two independent
+means
+t tests
+1  2
+d 
+
+M
+M
+S
+1
+2
+D 
+
+d
+n n
+n
+n
+1
+2
+1
+2
+df  N  2
+ANOVA, fixed 
+effects, one
+way: inequality
+of multiple
+means
+F tests
+i    0
+i  1, . . ., k
+f 
+S
+S
+M
+Number of 
+groups k
+  f 2N
+df1  k  1
+df2  N  k
+S
+M
+M
+M
+2
+2
+1
+
+
+
+	
+£n
+N
+j
+i
+i
+k
+ANOVA, fixed 
+effects, 
+multifactor
+designs, and 
+planned 
+comparisons 
+F tests
+i    0
+i  1, . . ., k
+f 
+S
+S
+M
+Total number of 
+cells in the 
+design k
+Degrees of 
+freedom of the 
+tested effect q
+  f 2N
+df1  q
+df2  N  k
+ANOVA:
+repeated
+measures,
+between effects
+F tests
+i    0
+i  1, . . ., k
+f 
+S
+S
+M
+Levels of
+between factor k
+  f 2uNe
+u
+m
+m
+
+
+
+1
+1
+(
+)R
+Levels of
+repeated measures 
+factor m
+df1  k  1
+df2  N  k
+ANOVA: 
+repeated
+measures,
+within effects
+F tests
+i    0
+i  1, . . ., m
+f 
+S
+S
+M
+  f 2uN
+u
+m
+
+
+1
+R
+Population 
+correlation 
+df1  (m  1)e
+among repeated 
+measures ¼
+df2  (N  k)(m  1)e
+ANOVA: 
+repeated 
+measures, 
+between–within 
+interactions
+F tests
+ij  i  . . .
+Å j    0
+i  1, . . ., k
+j  1, . . ., m
+f 
+S
+S
+M
+  f 2uNe
+u
+m
+
+
+1
+R
+For within and 
+within–between 
+df1  (k  1)(m  1)e
+interactions: 
+df2  (N  k)(m  1)e
+Nonsphericity 
+correction e
+ 
+Time 1
+Time 2
+Time 3
+i•
+ni
+Group 1
+10
+15
+20
+15
+30
+Group 2
+10
+12
+15
+12.333
+30
+Group 3
+10
+12
+12
+11.333
+30
+•j
+10
+13
+15.667
+••  12.889
+ 
+SR
+SR
+2
+1
+10
+0 3
+0 1
+0 3
+9
+0 3
+0 1
+0 3
+8
+9
+0
+
+¤
+¦
+¥
+¥¥
+³
+µ
+´
+´´
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+3
+0 3
+0 3
+9
+0 3
+0 3
+0 3
+9
+¤
+¦
+¥
+¥¥
+³
+µ
+´
+´´
+Figure 4. Sample 3  3 repeated measures designs. Three groups are repeatedly measured at three dif-
+ferent times. The shaded portion of the table is the postulated matrix M of population means ij. The last 
+column of the table contains the sample size of each group. The symmetric matrices SRi specify two dif-
+ferent covariance structures between measurements taken at different times: The main diagonal contains 
+the SDs of the measurements at each time, and the off-diagonal elements contain the correlations between 
+pairs of measurements taken at different times.
+
+----- Page 9 (native) -----
+G*POWER 3    183
+within effect. From the three column means •j of matrix 
+M and the grand mean ••, we get
+S M
+2 
+
+
+
+
+
+(10
+12.889)
+(13
+12.889)
+(15.667
+12.88
+2
+2
+9)
+5.35679.
+2
+3
+
+Clicking on the “Determine” button next to the “Effect 
+size” label opens the “Effect size” drawer. We choose the 
+“From variances” option and set “Variance explained by 
+special effect” to 5.357 and “Variance within groups” to 
+92  81. Clicking on the “Calculate and transfer to main 
+window” button calculates an effect size f  0.2572 and 
+transfers f to the effect size field in the main window. 
+Clicking on “Calculate” yields the results: The power is 
+.997, the critical F value with df1  2 and df2  174 is 
+3.048, and the noncentrality parameter  is 25.52. The 
+procedure for tests of between–within interactions ef-
+fects (“Repeated measures: Within–between interac-
+tions, ANOVA-approach”) is almost identical to that just 
+described. The only difference is in how the effect size f 
+is computed. Here, we first calculate the variance of the 
+residual values ij  i•  •j  •• of matrix M:
+S M
+2
+2
+10 10 15 12 889
+12 15 667 11 33
+
+
+
+
+
+
+
+
+(
+.
+)
+. . .
+(
+.
+.
+3 12 889
+9 0
+1 90123
+2
+
+
+.
+)
+.
+.
+.
+Using the “Effect size” drawer in the same way as above, 
+we get an effect size f  0.1532, which results in a power of 
+.653. To test between effects, we choose “Repeated measures: 
+Between factors, ANOVA-approach” and set all parameters 
+to the same values as before. Note that in this case we do not 
+need to specify e—no correction is necessary because tests 
+of between factors do not require the sphericity assumption. 
+To calculate the effect size, we use “Effect size from means” 
+in the “Effect size” drawer. We select three groups, set “SD 
+À within each group” to 9, and insert for each group the cor-
+responding row mean i• of M (15, 12.3333, 11.3333) and 
+an equal group size of 30. Effect size f  0.1719571 is cal-
+culated, and the resulting power is .488.
+Note that G*Power 3 can easily handle pure repeated 
+measures designs without any between-subjects factors 
+(see, e.g., Frings & Wentura, 2005; Schwarz & Müller, 
+2006) by choosing the “Repeated measures: Within fac-
+tors, ANOVA-approach” procedure and setting the num-
+ber of groups to 1.
+Tests for Mean Vectors (Multivariate Case)
+G*Power 3 contains several procedures for performing 
+power analyses in multivariate designs (see Table 4). All 
+these tests belong to the F test family.
+The Hotelling T 2 tests are extensions of univariate 
+t tests to the multivariate case, in which more than one 
+dependent variable is measured: Instead of two single 
+means, two mean vectors are compared, and instead of a 
+single variance, a variance–covariance matrix is consid-
+ered (Rencher, 1998). In the one-sample case, H0 posits 
+that the vector of population means is identical to a speci-
+fied constant mean vector. The “Effect size” drawer can 
+be used to calculate the effect size  from the difference 
+
+%  c
+% and the expected variance–covariance matrix under 
+H1. For example, assume that we have two variables, a 
+difference vector 
+%  c
+%  (1.88, 1.88) under H1, vari-
+ances À1
+2  56.79, À2
+2  29.28, and a covariance of 11.98 
+(Rencher, 1998, p. 106). To perform a post hoc power 
+analysis, choose “F tests,” then “Multivariate: Hotelling 
+T 2, one group” and set the analysis type to “Post hoc.” 
+Enter 2 in the “Response variables” field and then click 
+on the “Determine” button next to the “Effect size” label. 
+In the “Effect size” drawer, at “Input method: Means and 
+. . . ,” choose “Variance–covariance matrix” and click on 
+“Specify/edit input values.” Under the “Means” tab, insert 
+1.88 in both input fields; under the “Cov sigma” tab, in-
+sert 56.79 and 29.28 in the main diagonal and 11.98 as the 
+off-diagonal element in the lower left cell. Clicking on the 
+“Calculate and transfer to main window” button initiates 
+the calculation of the effect size (0.380) and transfers it to 
+the main window. For this effect size, (  .05, and a total 
+sample size of N  100, the power amounts to .9282. The 
+procedure in the two-group case is exactly the same, with 
+the following exceptions. First, in the “Effect size” drawer 
+two mean vectors have to be specified. Second, the group 
+sizes may differ.
+The MANOVA tests in G*Power 3 refer to the multi-
+variate general linear model (O’Brien & Muller, 1993; 
+O’Brien & Shieh, 1999): Y  XB  e, where Y is N  
+p of rank p, X is N  r of rank r, and the r  p matrix 
+B contains fixed coefficients. The rows of e are taken to 
+be independent p-variate normal random vectors with 
+mean 0 and p  p positive definite covariance matrix . 
+The multivariate general linear hypothesis is H0: CBA  
+0, where C is c  r with full row rank and A is p  a 
+with full column rank (in G*Power 3, 0 is assumed to be 
+zero). H0 has df1  a _ c degrees of freedom. All tests of 
+the hypothesis H0 refer to the matrices
+H
+CBU
+C X WX
+C
+CBU
+H
+
+
+
+	
+
+	
+§
+©¨
+¶
+¸·
+
+
+	
+
+
+
+N
+N
+T
+T
+T
+1
+1
+0
+1
+1
+0
+*
+and
+E
+U
+U
+
+
+
+	
+T
+N
+r
+3
+,
+where ¨X is a q  q essence model matrix, W is a q  q di-
+agonal matrix containing weights wj  nj/N, and XTX  
+N( ¨XTW ¨X) (see O’Brien & Shieh, 1999, p. 14). Let {¬1*, 
+. . ., ¬s*} be the s  min(a,c) eigenvalues of E1H* and 
+{¬1, . . ., ¬s} the s eigenvalues of E1H/(N  r)—that is, 
+¬i  ¬i*N/(N  r).
+G*Power 3 offers power analyses for the multivariate 
+model following either the approach outlined in Muller and 
+Peterson (1984; Muller, LaVange, Landesman-Ramey, & 
+Ramey, 1992) or, alternatively, the approach of O’Brien and 
+Shieh (1999; Shieh, 2003). Both approaches approximate the 
+exact distributions of Wilks’s U (Rao, 1951), the Hotelling–
+Lawley T1 (Pillai & Samson, 1959), the Hotelling–Lawley
+
+----- Page 10 (native) -----
+184    FAUL, ERDFELDER, LANG, AND BUCHNER
+T2 (McKeon, 1974), and Pillai’s V (Pillai & Mijares, 1959) 
+by F distributions and are asymptotically equivalent. Table 5 
+outlines details of both approximations. The type of statistic 
+(U, T1, T2, V) and the approach (Muller & Peterson, 1984, 
+or O’Brien & Shieh, 1999) can be selected in an Options 
+dialog that can be evoked by clicking on the “Options” but-
+ton at the bottom of the main window.
+The approach of Muller and Peterson (1984) has found 
+widespread use; for instance, it has been adopted in the 
+SPSS software package. We nevertheless recommend the 
+approach of O’Brien and Shieh (1999) because it has a 
+number of advantages: (1) Unlike the method of Muller 
+and Peterson, it provides the exact noncentral F distri-
+bution whenever the hypothesis involves at most s  1 
+positive eigenvalues; (2) its approximations for s  1 
+eigenvalues are almost always more accurate than those 
+of Muller and Peterson’s method (which systematically 
+underestimates power); and (3) it provides a simpler form 
+of the noncentrality parameter—that is,   * N, where 
+* is not a function of the total sample size.
+G*Power 3 provides procedures to calculate the power 
+for global effects in a one-way MANOVA and for special 
+effects and interactions in factorial MANOVA designs. 
+These procedures are the direct multivariate analogues 
+of the ANOVA routines described above. Table 5 sum-
+marizes information that is needed in addition to the 
+formulas given above to calculate effect size f from hy-
+pothesized values for mean matrix M (corresponding to 
+matrix B in the model), covariance matrix , and contrast 
+matrix C, which describes the effect under scrutiny. The 
+“Effect size” drawer can be used to calculate f from known 
+values of the statistic U, T1, T2, or V. Note, however, that 
+the transformation of T2 to f depends on the sample size. 
+Thus, this test statistic seems not very well suited for 
+a priori analyses. In line with Bredenkamp and Erdfelder 
+(1985), we recommend V as the multivariate test statistic.
+Another group of procedures in G*Power 3 supports 
+the multivariate approach to power analyses of repeated 
+measures designs. G*Power provides separate but very 
+similar routines for the analysis of between effects, within 
+effects, and interactions in simple A  B designs, where 
+A is a between-subjects factor and B a within-subjects 
+factor. To illustrate the general procedure, we describe 
+in some detail a post hoc analysis of the within effect for 
+Table 4 
+Tests for Mean Vectors (Multivariate Case)
+Test
+Null
+Noncentrality Parameter
+Test
+ Family  
+Hypothesis
+ 
+Effect Size
+ Other Parameters  
+and Degrees of Freedom
+Hotelling T2: 
+F tests
+
+%  c%
+   ·Å
+_______ 
+v%T 1 v%Å 
+Number of 
+  2N
+difference from 
+v  %  c%
+response 
+df1  k
+constant mean 
+variables k
+df2  N  k
+vector
+Hotelling T2: 
+difference 
+between two 
+mean vectors
+F tests
+
+%
+1  %
+2
+   ·Å
+_______ 
+v%T 1 v%Å 
+v  %
+1  %
+2
+Number of 
+response 
+variables k
+L 
+
+$2
+1
+2
+1
+2
+n n
+n
+n
+df1  k
+df2  N  k  1
+MANOVA: 
+global effects
+F tests
+CM  0
+Means matrix
+M 
+Contrast 
+matrix C
+Effect size
+fmult
+depends on the test 
+statistics: 
+• Wilks’s U 
+• Hotelling–
+• Lawley T1
+• Hotelling–
+• Lawley T2 
+• Pillai’s V
+and algorithms: 
+• Muller & 
+• Peterson 
+• (1984) 
+• O’Brien & 
+• Shieh 
+• (1999)
+Number of 
+groups g 
+Number of 
+response 
+variables k
+Noncentrality parameter 
+and degrees of freedom 
+depend on the test statistic 
+and algorithm used (see 
+Effect Size column and 
+Table 5).
+MANOVA: 
+special effects
+F tests
+Number of 
+groups g
+Number of 
+predictors p
+Number of 
+response 
+variables k
+MANOVA:
+repeated 
+measures, 
+between 
+effects
+F tests
+CMA  0
+Means matrix 
+M
+Between 
+contrast 
+matrix C
+Within 
+contrast 
+matrix A
+Levels of 
+between factor 
+k
+Levels of 
+repeated 
+measures factor 
+m
+ 
+ 
+  
+ 
+  
+MANOVA: 
+repeated 
+measures, 
+within effects
+F tests 
+MANOVA: 
+repeated 
+measures, 
+between–within 
+interactions
+F tests
+
+----- Page 11 (native) -----
+G*POWER 3    185
+the scenario illustrated in Figure 4, assuming the variance 
+and correlations structure defined in matrix SR2. We first 
+choose “F tests,” then “Repeated measures: Within factors, 
+MANOVA-approach.” In the “Type of power analysis” 
+menu, we choose “Post hoc.” We click on the “Options” 
+button to open a dialog in which we deselect the “Use mean 
+correlation in effect size calculation” option. We choose 
+Pillai’s V statistic and the O’Brien and Shieh algorithm. 
+Back at the main window, we set both number of groups 
+and repetitions to 3, total sample size to 90, and ( error 
+probability to .05. To compute the effect size f(V) for the 
+Pillai statistic, we open the “Effect size” drawer by clicking 
+on the “Determine” button next to the “Effect size” label. 
+In the “Effect size” drawer, select, as procedure, “Effect 
+size from mean and variance–covariance matrix” and, as 
+input method, “SD and correlation matrix.” Clicking on 
+“Specify/edit matrices” opens another window, in which we 
+specify the hypothesized parameters. Under the “Means” 
+tab, we insert our means matrix M; under the “Cov sigma” 
+tab, we choose “SD and correlation” and insert the values 
+of SR2. Because this matrix is always symmetric, it suf-
+fices to specify the lower diagonal values. After closing 
+the dialog and clicking on “Calculate and transfer to main 
+window,” we get a value of 0.1791 for Pillai’s V and the 
+effect size f(V)  0.4672. Clicking on “Calculate” shows 
+that the power is .980. The analyses of between effects and 
+interaction effects are performed analogously.
+Tests for Proportions
+The support for tests on proportions has been greatly 
+enhanced in G*Power 3. Table 6 summarizes the tests that 
+are currently implemented. In particular, all tests on pro-
+portions considered by Cohen (1988) are now available, 
+including the sign test (chap. 5), the z tests for the differ-
+ence between two proportions (chap. 6), and the O2 tests 
+for goodness-of-fit and contingency tables (chap. 7).
+The sign test is implemented as a special case (c  .5) of 
+the more general binomial test (also available in G*Power 3) 
+that a single proportion has a specified value c. In both 
+procedures, Cohen’s (1988) effect size g is used and exact 
+power values based on the binomial distribution are cal-
+culated. Note, however, that, due to the discrete nature of 
+the binomial distribution, the nominal value of ( usually 
+cannot be realized. Since the tables in chapter 5 of Cohen’s 
+book use the ( value closest to the nominal value, even if it 
+is higher than the nominal value, the tabulated power values 
+Table 5 
+Approximating Univariate Statistics for Multivariate Hypotheses
+Effect Size and 
+Statistic  
+Formula
+ 
+Numerator df2
+ Noncentrality Parameter
+Wilks’s U
+MP
+U
+k
+k
+s
+
+
+
+	
+
+ 1
+1
+1
+F
+df2 g(N  g1)  g2
+g
+r
+a
+c
+1
+1
+2
+
+
+
+
+g
+ca
+2
+2
+2
+
+
+g
+ca
+ca
+c
+a
+ca
+
+a
+
+
+
+a
+ª
+«­
+¬­
+1
+3
+4
+5
+4
+2
+2
+2
+(
+)
+f U
+U
+U
+g
+g
+(
+)
+/
+/
+2
+1
+1
+1
+
+
+Å f (U)2df2
+Wilks’s U
+OS
+U
+k
+k
+s
+
+
+
+	
+
+ 1
+1
+1
+F*
+f U
+U
+U
+g
+g
+(
+)
+/
+/
+2
+1
+1
+1
+
+
+Å Ng f (U)2
+Pillai’s V
+MP
+V
+k
+k
+k
+s
+
+
+
+	
+F
+F
+/ 1
+1
+df2  s(N  r  a  s)
+f V
+V
+s
+V
+(
+)
+(
+)
+2 
+
+Å f (V)2 df2
+Pillai’s V
+OS
+V
+k
+k
+k
+s
+
+
+
+	
+F
+F
+*
+*
+/ 1
+1
+f V
+V
+s
+V
+(
+)
+(
+)
+2 
+
+Å Ns f (V)2
+Hotelling–
+Lawley T1
+MP
+T
+k
+k
+s
+
+F
+1
+df2  s(N  r  a  1)  2
+f (T)2  T/s
+Å f (T)2 df2
+Hotelling–
+Lawley T1
+OS
+T
+k
+k
+s
+
+F*
+1
+f (T)2  T/s
+Å Ns f (T)2
+Hotelling–
+Lawley T2
+MP
+T
+k
+k
+s
+
+F
+1
+df2  4  (ca  2)g
+g
+N
+r
+N
+r g
+g
+N
+r g
+g
+
+
+
+
+
+
+
+(
+)
+(
+)
+(
+)
+2
+4
+3
+2
+1
+g1  c  2a  a2  1
+g2  c  a  1
+g3  a(a  3)
+g4  2a  3
+h
+df
+N
+r
+a
+
+
+
+
+
+2
+2
+1
+f (T)2  T/h
+Å f (T)2 df2
+Hotelling–
+Lawley T2 
+OS
+T
+k
+k
+s
+
+F*
+1
+f (T)2  T/h
+Å Nh f (T)2
+Note—MP, Muller–Peterson algorithm; OS, O’Brien and Shieh algorithm. ¬ and ¬* are eigenvalues of 
+the effect size matrix (for details and the meaning of the variables a, c, r, and N, see text on p. 183).
+
+----- Page 12 (native) -----
+186    FAUL, ERDFELDER, LANG, AND BUCHNER
+are sometimes larger than those calculated by G*Power 3. 
+G*Power 3 always requires the actual ( not to be larger than 
+the nominal value.
+Numerous procedures have been proposed to test the 
+null hypothesis that two independent proportions are iden-
+tical (Cohen, 1988; D’Agostino, Chase, & Belanger, 1988; 
+Suissa & Shuster, 1985; Upton, 1982), and G*Power 3 
+implements several of them. The simplest procedure is a z 
+test with optional arcsin transformation and optional conti-
+nuity correction. Besides these two computational options, 
+one can also choose whether Cohen’s effect size measure h 
+or, alternatively, two proportions are used to specify the 
+alternate hypothesis. With the options “Use continuity cor-
+rection” off and “Use arcsin transform” on, the procedure 
+calculates power values close to those tabulated by Cohen 
+(1988, chap. 6). With both “Use continuity correction” and 
+“Use arcsin transform” off, the uncorrected O2 approxima-
+tion is computed (Fleiss, 1981); with “Use continuity cor-
+rection” on and “Use arcsin transform” off, the corrected 
+O2 approximation is computed (Fleiss, 1981).
+A second variant is Fisher’s exact conditional test (Hase-
+man, 1978). Normally, G*Power 3 calculates the exact 
+unconditional power. However, despite the highly opti-
+mized algorithm used in G*Power 3, long computation 
+times may result for large sample sizes (e.g., N  1,000). 
+Therefore, a limiting N can be specified in the Options 
+dialog that determines at which sample size G*Power 3 
+switches to a large sample approximation.
+A third variant calculates the exact unconditional power 
+for approximate test statistics T (Table 7 summarizes the 
+supported statistics). The logic underlying this procedure 
+is to enumerate all possible outcomes for the 2  2 bi-
+nomial table, given fixed sample sizes n1, n2 in the two 
+respective groups. This is done by choosing, as success 
+frequencies x1 and x2 in the first and the second groups, 
+respectively, any combination of the values 0  x1  n1 
+and 0  x2  n2. Given the success probabilities ®1, ®2 in 
+the two respective groups, the probability of observing a 
+table X with success frequencies x1, x2 is
+P X
+n
+x
+n
+x
+x
+n
+x
+|
+,
+P P
+P
+P
+1
+2
+1
+1
+1
+1
+2
+2
+1
+1
+1
+1
+
+	 
+¤
+¦¥
+³
+µ´
+
+
+	
+¤
+¦¥
+
+³
+µ´
+
+
+	
+
+P
+P
+2
+2
+2
+2
+2
+1
+x
+n
+x .
+Table 6 
+Tests for Proportions
+Test
+Noncentrality
+Test
+ 
+Family  
+Hypothesis  
+Effect Size
+ 
+Other Parameters
+ 
+Parameter
+Contingency
+tables and
+goodness of fit
+O2 tests
+®1i  ®0i
+i  1, . . ., k
+P0
+1
+1
+i
+i
+k
+
+£
+w
+i
+i
+i
+i
+k
+
+
+
+	
+£
+P
+P
+P
+1
+0
+2
+0
+1
+  w2N
+Difference from 
+constant (one-
+sample case) 
+exact
+tests
+®  c
+g  ®  c
+constant proportion c
+Inequality of two 
+dependent 
+proportions 
+(McNemar)
+exact
+tests
+®12/®21  1
+odds ratio  ®12/®21
+proportion of discordant 
+pairs  ®12  ®21
+Sign test 
+exact
+tests
+®  1/2
+g  ®  1/2
+Inequality of two 
+independent 
+proportions
+z tests
+®1  ®2
+(A) alternate proportion: ®2
+(B) h  ¬1  ¬2
+(A) ¬i  2 arcsin  ·Å
+__ 
+®i 
+(A) null proportion: ®1
+Inequality of two 
+independent 
+proportions 
+(Fisher’s exact 
+test)
+exact
+tests
+®1  ®2
+alternate proportion: ®1
+null proportion: ®2
+Inequality of
+two independent
+proportions
+(unconditional)
+exact
+tests
+®1  ®2
+(A) alternate proportion: ®1
+(B) difference: ®2  ®1
+(C) risk ratio: ®2/®1
+(D) odds ratio: P
+P
+P
+P
+1
+1
+2
+2
+1
+1
+/
+/
+
+
+	
+
+
+	
+null proportion: ®2
+Inequality with 
+offset of two 
+independent 
+proportions
+(unconditional)
+exact
+tests
+®1  ®2  c
+(A) alternate proportion: ®1|H1
+(B) difference: ®2  ®1|H1
+(C) risk ratio: ®2/®1|H1
+(D) odds ratio: 
+P
+P
+P
+P
+1
+1
+2
+2
+1
+1
+1
+1
+|
+|
+/
+/
+H
+H
+
+
+	
+
+
+	
+(A) proportion: ®1|H0
+(B) difference: ®2  ®1|H0
+(C) risk ratio: ®2/®1|H0
+(D) odds ratio: 
+P
+P
+P
+P
+1
+1
+2
+2
+0
+0
+1
+1
+|
+|
+/
+/
+H
+H
+
+
+	
+
+
+	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(A) null proportion: ®2
+ 
+ 
+Note—(A)–(D) indicate alternative effect size measures.
+
+----- Page 13 (native) -----
+G*POWER 3    187
+To calculate power and the actual Type I error (*, the 
+test statistic T is computed for each table and compared 
+with the critical value T(. If A denotes the set of all ta-
+bles X rejected by this criterion—that is, those with T  
+T(—then the power and the ( level are given by
+1
+1
+2
+
+
+
+	
+
+£
+B
+P P
+P X
+X
+A
+|
+,
+and
+A
+P P
+*
+|
+,
+,
+
+
+	
+
+£
+P X
+X
+A
+2
+2
+where ®2 denotes the success probability in both groups 
+as assumed in the null hypothesis. Note that the actual ( 
+level can be larger than the nominal level! The preferred 
+input method (proportions, difference, risk ratio, or odds 
+ratio; see Table 6) and the test statistic to use (see Table 7) 
+can be changed in the Options dialog. Note that the test 
+statistic actually used to analyze the data must be chosen. 
+For large sample sizes, the exact computation may take 
+too much time. Therefore, a limiting N can be specified in 
+the Options dialog that determines at which sample size 
+G*Power switches to large sample approximations.
+G*Power 3 also provides a group of procedures to test 
+the hypothesis that the difference, risk ratio, or odds ratio 
+of a proportion with respect to a specified reference pro-
+portion ® is different under H1 from a difference, risk ratio, 
+or odds ratio of the same reference proportion assumed 
+in H0. These procedures are available in the “Exact” test 
+family as “Proportions: Inequality (offset), two indepen-
+dent groups (unconditional).” The enumeration proce-
+dure described above for the tests on differences between 
+proportions without offset is also used in this case. In the 
+tests without offset, the different input parameters (e.g., 
+differences, risk ratio) are equivalent ways of specifying 
+two proportions. The specific choice has no influence on 
+the results. In the case of tests with offset, however, each 
+input method has a different set of available test statistics. 
+The preferred input method (see Table 6) and the test sta-
+tistic to use (see Table 8) can be changed in the Options 
+dialog. As in the other exact procedures, the computation 
+may be time-consuming, and a limiting N can be specified 
+in the Options dialog that determines at which sample size 
+G*Power switches to large sample approximations.
+Also new in G*Power 3 is an exact procedure to calcu-
+late the power for the McNemar test. The null hypothesis of 
+this test states that the proportions of successes are identi-
+cal in two dependent samples. Figure 5 shows the structure 
+of the underlying design: A binary response is sampled 
+from the same subject or a matched pair in a standard con-
+dition and in a treatment condition. The null hypothesis, 
+®s  ®t, is formally equivalent to the hypothesis for the 
+odd ratio: OR  ®12/®21  1. To fully specify H1, we need 
+to specify not only the odds ratio but also the proportion 
+of discordant pairs (®D)—that is, the expected proportion 
+of responses that differ in the standard and the treatment 
+conditions. The exact procedure used in G*Power 3 calcu-
+lates the unconditional power for the exact conditional test, 
+which calculates the power conditional on the number of 
+discordant pairs (nD). Let p(nD  i) be the probability that 
+the number of discordant pairs is i. Then, the unconditional 
+power is the sum over all i  {0, . . ., N} of the conditional 
+power for nD  i weighted with p(nD  i). This procedure 
+is very efficient, but for very large sample sizes the exact 
+computation may take too much time. Again, a limiting N 
+that determines at which sample size G*Power switches to 
+a large sample approximation can be specified in the Op-
+tions dialog. The large sample approximation calculates 
+Table 7 
+Test Statistics Used in Tests of the Difference Between Two Independent Proportions
+No.  
+Name
+ 
+Statistic
+1
+z test pooled variance
+z
+n
+n
+n
+
+
+
+
+
+	
+
+¤
+¦¥
+³
+µ´
+
+ˆ
+ˆ
+ˆ
+; ˆ
+ˆ
+ˆ
+; ˆ
+ˆ
+P
+P
+S
+S
+P
+P
+P
+1
+2
+1
+2
+1
+1
+1
+1
+P
+P
+1
+2
+2
+1
+2
+
+
+n
+n
+n
+ˆ
+2
+z test pooled variance
+with continuity
+correction
+z
+k
+n
+n
+k
+
+
+
+
+¤
+¦¥
+³
+µ´
+
+
+ˆ
+ˆ
+ˆ
+; ˆ(
+P
+P
+S
+S
+1
+2
+1
+2
+2
+1
+1
+see No.1);
+1
+1
+lower tail
+upper tail
+
+ª
+«
+¬
+3
+z test unpooled variance
+z
+n
+n
+
+
+
+
+
+	 
+
+
+	
+ˆ
+ˆ
+ˆ
+; ˆ
+ˆ
+ˆ
+ˆ
+ˆ
+P
+P
+S
+S
+P
+P
+P
+P
+1
+2
+1
+1
+1
+2
+2
+2
+1
+1
+4
+z test unpooled variance
+with continuity
+correction
+z
+k
+n
+n
+k
+
+
+
+
+¤
+¦¥
+³
+µ´
+
+
+ˆ
+ˆ
+ˆ
+; ˆ(
+P
+P
+S
+S
+1
+2
+1
+2
+2
+1
+1
+see No. 3);
+1
+1
+lower tail
+upper tail
+
+ª
+«
+¬
+5
+Mantel–Haenszel test
+z
+x
+E x
+V x
+E x
+n x
+x
+N
+V x
+n n
+
+
+
+	
+
+	
+
+	 
+
+
+	
+
+	 
+1
+1
+1
+1
+1
+1
+2
+1
+1 2
+;
+;
+x
+x
+N
+x
+x
+N
+N
+1
+2
+1
+2
+2
+1
+
+
+	
+
+
+
+	
+
+(
+)
+6
+Likelihood ratio
+(Upton, 1982)
+lr
+t x
+t x
+t
+x
+t
+x
+t N
+
+
+	  
+	 
+
+
+	 
+
+
+	 
+
+2
+1
+1
+1
+2
+1
+2
+(
+) ...
+...
+t n
+t n
+t x
+x
+t N
+x
+x
+t x
+1
+2
+1
+2
+1
+2
+ 	  
+	 
+
+
+	 
+
+
+
+	
+§
+©
+¨
+¶
+¸
+·; ( ) :
+ln( )
+ x
+x
+7
+t test with df  N  2 
+(D’Agostino et al., 1988)
+t
+x
+x
+x
+x
+N
+N n x
+x
+n
+N 
+
+
+
+	 
+
+
+	
+§©
+¶¸
+
+
+
+	 
+2
+1
+2
+2
+1
+2 1
+1
+1
+1
+1
+2
+1
+x
+x
+2
+2
+1
+
+	
+§©
+¶¸
+Note—xi, success frequency in group i; ni, sample size in group i; N  n1  n2, total sample size; ˆ®i  xi/ni. The 
+z tests in the table are more commonly known as O2 tests (the equivalent z test is used to provide two-sided tests).
+
+----- Page 14 (native) -----
+188    FAUL, ERDFELDER, LANG, AND BUCHNER
+the power on the basis of an ordinary one-sample binomial 
+test with Bin(N®D, 0.5) as the distribution under H0 and 
+Bin[N®D, OR/(1  OR)] as the H1 distribution.
+Tests for Variances
+Table 9 summarizes important properties of the two 
+procedures for testing hypotheses on variances that are 
+currently supported by G*Power 3. In the one-group case, 
+the null hypothesis that the population variance À2 has a 
+specified value c is tested. The variance ratio À2/c is used 
+as the effect size. The central and noncentral distributions, 
+corresponding to H0 and H1, respectively, are central O2 
+distributions with N  1 dfs (because H0 and H1 are based 
+on the same mean). To compare the variance distributions 
+under both hypotheses, the H1 distribution is scaled with 
+the value r postulated for the ratio À2/c in the alternate 
+ 
+Standard
+Treatment
+Yes
+No
+Yes
+®11
+®12
+®t
+No
+®21
+®22
+1  ®t
+®s
+1  ®s
+1
+Proportion of discordant pairs: ®D  ®12  ®21
+Hypothesis: ®s  ®t or, equivalently, ®12  ®21
+Figure 5. Matched binary response design (McNemar test).
+Table 8 
+Test Statistics Used in Tests of the Difference With Offset Between Two Independent Proportions
+No.  
+Name
+ 
+Statistic
+1
+z test pooled variance
+z
+n
+n
+n
+
+
+
+
+
+
+	
+
+
+	
+
+ˆ
+ˆ
+ˆ
+; ˆ
+ˆ
+ˆ
+/
+/
+; ˆ
+ˆ
+P
+P
+D
+S
+S
+P
+P
+P
+1
+2
+1
+2
+1
+1
+1
+1
+P
+P
+1
+2
+2
+1
+2
+
+
+n
+n
+n
+ˆ
+2
+z test pooled variance with
+continuity correction
+z
+k
+n
+n
+k
+
+
+
+
+
+
+	
+
+ˆ
+ˆ
+/
+/
+/
+ˆ
+; ˆ(
+P
+P
+D
+S
+S
+1
+2
+1
+2
+2 1
+1
+see No.1);
+
+
+ª
+«
+¬
+1
+1
+lower tail
+upper tail
+3
+z test unpooled variance
+z
+n
+n
+
+
+
+
+
+
+	
+
+
+
+	
+ˆ
+ˆ
+ˆ
+; ˆ
+ˆ
+ˆ
+/
+ˆ
+ˆ
+/
+P
+P
+D
+S
+S
+P
+P
+P
+P
+1
+2
+1
+1
+1
+2
+2
+1
+1
+2
+4
+z test unpooled variance with
+continuity correction
+z
+k
+n
+n
+k
+
+
+
+
+
+
+	
+
+ˆ
+ˆ
+/
+/
+/
+ˆ
+; ˆ(
+P
+P
+D
+S
+S
+1
+2
+1
+2
+2 1
+1
+see No. 3);
+
+
+ª
+«
+¬
+1
+1
+lower tail
+upper tail
+5
+t test with df  N  2
+(D’Agostino et al., 1988)
+t
+x
+n
+x
+x
+x
+n
+K
+K
+N
+N 
+
+
+
+	
+
+
+	 
+
+
+
+	
+§©
+¶¸
+
+
+2
+1
+1
+2
+2
+1
+1
+1
+1
+D
+D
+;
+(
+2
+1
+1
+2 1
+1
+1 2
+2
+) / N n x
+x
+n x
+x
+
+
+	 
+
+
+	
+§©
+¶¸
+[
+]
+6
+Likelihood score ratio (difference)
+Miettinen & Nurminen (1985)
+Farrington & Manning (1990)
+Gart & Nam (1990)
+z
+n
+n
+
+
+
+
+
+
+	
+
+
+
+	
+§©
+¶
+ˆ
+ˆ
+ˆ
+; ˆ
+/
+/
+P
+P
+D
+S
+S
+P
+P
+P
+P
+1
+2
+1
+1
+1
+2
+2
+2
+1
+1
+¸ K
+~
+~
+~
+~
+Miettinen & Nurminen: K  N/(N  1); Farrington & Manning: K  1 
+ ~®1  2u cos(w)  b/(3a);  ~®2   ~®1  Y
+Ë  n2/n1; a  1  Ë; b  [1  Ë  ˆ®1  Ë ˆ®2  Y(Ë  2)]
+c  Y2  Y(2 ˆ®1  Ë  1)   ˆ®1  Ë ˆ®2; d   ˆ®1Y(1  Y)
+v  b3/(3a)3  bc/(6a2)  d/(2a); w  [3.14159  cos1(v/u3)]/3
+u  sgn(v)  ·Å
+______________ 
+ 
+b2/(3a)2  c/(3a) 
+Skewness corrected z (Gart & Nam, 1990); z according to Farrington & Manning:
+z  [ ·Å
+_____________ 
+ 
+1  4­(­  z)  1]/2­; V  [ ~®1(1   ~®1)/n1   ~®2(1   ~®2)/n2]1
+­  V2/3/6[ ~®1(1   ~®1)(1  2 ~®1)/n1   ~®2(1   ~®2)(1  2 ~®2)/n2]
+7
+Likelihood score ratio (risk ratio) 
+Miettinen & Nurminen (1985)
+Farrington & Manning (1990)
+Gart & Nam (1988)
+z
+n
+n
+
+
+
+
+
+	
+
+
+
+	
+§©
+ˆ
+ˆ
+ˆ
+; ˆ
+/
+/
+P
+P F
+S
+S
+P
+P
+F P
+P
+1
+2
+1
+1
+1
+2
+2
+2
+2
+1
+1
+¶¸ K
+~
+~
+~
+~
+Miettinen & Nurminen: K  N/(N  1); Farrington & Manning: K  1 
+P
+FP
+P
+F
+F
+1
+2
+2
+2
+1
+2
+1
+4
+2
+
+
+ 
+
+
+
+	
+¤
+¦
+¥
+¥
+³
+µ
+´
+´
+ 
+;
+;
+b
+b
+N
+x
+x
+N
+b
+n 
+
+	
+
+
+x
+x
+n
+2
+1
+2
+F
+~
+~
+~
+Skewness corrected z (Gart & Nam, 1988); z according to Farrington & Manning: 
+z  [ ·Å
+_____________ 
+ 
+1  4­(­  z)  1]/2­; V  (1   ~®1)/( ~®1n1)  (1   ~®2)/( ~®2n2)
+­  1/(6V2/3)[(1   ~®1)(1  2 ~®1)/(n1 ~®1)2  (1   ~®2)(1  2 ~®2)/(n2 ~®2)2]
+8
+Likelihood score ratio (odds ratio) 
+Miettinen & Nurminen (1985)
+z 
+
+
+	
+
+
+	
+§©
+¶¸ 
+
+
+	
+
+
+	
+§©
+ˆ
+/
+ˆ
+/
+P
+P
+P
+P
+P
+P
+P
+P
+1
+1
+1
+1
+2
+2
+2
+2
+1
+1
+¶¸
+
+
+	
+§©
+¶¸ 
+
+
+	
+§©
+¶¸
+1
+1
+1
+1
+1 1
+1
+2
+2
+2
+/
+/
+n
+n
+K
+P
+P
+P
+P
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+Miettinen & Nurminen: K  N/(N  1); Farrington & Manning: K  1
+ ~®1   ~®2/[1   ~®2(  1)];  ~®2  [b   ·Å
+______________ 
+ 
+b2  4a(x1  x2) ]/(2a)
+a  n2(  1); b  n1  n2  (x1  x2)(  1)
+Note—xi, success frequency in group i; ni, sample size in group i; N  n1  n2, total sample size; ˆ®i  xi/ni; Y, difference between 
+proportions postulated in H0; ¬, risk ratio postulated in H0; , odds ratio postulated in H0.
+
+----- Page 15 (native) -----
+G*POWER 3    189
+hypothesis—that is, the noncentral distribution is rO2
+N1 
+(Ostle & Malone, 1988). In the two-groups case, H0 states 
+that the variances in two populations are identical (À2/
+À1  1). As in the one-sample case, two central F distri-
+butions are compared, the H1 distribution being scaled by 
+the value of the variance ratio À2/À1 postulated in H1.
+Generic Tests
+Besides the specific routines described in Tables 2–9 
+that cover a considerable part of the tests commonly used, 
+G*Power 3 provides “generic” power analysis routines 
+that may be used for any test based on the t, F, O2, z, or 
+binomial distribution. In generic routines, the parameters 
+of the central and noncentral distributions are specified 
+directly.
+To demonstrate the uses and limitations of these generic 
+routines, we will show how to do a two-tailed power analy-
+sis for the one-sample t test using the generic routine. The 
+results can be compared with those of the specific rou-
+tine available in G*Power for that test. First, we select the 
+“t tests” family and then “Generic t test” (the generic test 
+option is always located at the end of the list of tests). Next, 
+we select “Post hoc” as the type of power analysis. We 
+choose a two-tailed test and .05 as ( error probability. We 
+now need to specify the noncentrality parameter Y and the 
+degrees of freedom for our test. We look up the definitions 
+for the one-sample test in Table 3 and find that Y  d ·Å
+__
+ 
+N 
+and df  N  1. Assuming a medium effect of d  0.5 
+and N  25, we arrive at Y  0.5 · 5  2.5 and df  24. 
+After inserting these values and clicking on “Calculate,” 
+we obtain a power of 1  ;  .6697. The critical value 
+t  2.0639 corresponds to the specified (. In this post hoc 
+power analysis, the generic routine is almost as simple as 
+the specific routine. The main disadvantage of the generic 
+routines is, however, that the dependence of the noncen-
+trality parameter on the sample size is implicit. As a con-
+sequence, we cannot perform a priori analyses automati-
+cally. Rather, we need to iterate N by hand until we find an 
+appropriate power value.
+STATISTICAL METHODS AND  
+NUMERICAL ALGORITHMS
+The subroutines used to compute the distribution func-
+tions (and the inverse) of the noncentral t, F, O2, z, and 
+binomial distributions are based on the C version of the 
+DCDFLIB (available from www.netlib.org/random/), 
+which was slightly modified for our purposes. G*Power 3 
+does not provide the approximate power analyses that 
+were available in the speed mode of G*Power 2. Two ar-
+guments guided us in supporting exact power calculations 
+only. First, four-digit precision of power calculations may 
+be mandatory in many applications. For example, both 
+compromise power analyses for very large samples, and 
+error probability adjustments in case of multiple tests of 
+significance may result in very small values of ( or ; 
+(Westermann & Hager, 1986). Second, as a consequence 
+of improved computer technology, exact calculations have 
+become so fast that the speed gain associated with ap-
+proximate power calculations is not even noticeable. Thus, 
+from a computational standpoint, there is little advantage 
+to using approximate rather than exact methods (cf. Brad-
+ley, Russell, & Reeve, 1998).
+PROGRAM AVAILABILITY  
+AND INTERNET SUPPORT
+To summarize, G*Power 3 is a major extension of, and 
+improvement over, G*Power 2 in that it offers easy-to-
+apply power analyses for a much larger variety of common 
+statistical tests. Program handling is more flexible, easier 
+to understand, and more intuitive than in G*Power 2, 
+reducing the risk of erroneous applications. The added 
+graphical features should be useful for both research and 
+teaching purposes. Thus, G*Power 3 is likely to become 
+a useful tool for empirical researchers and students of ap-
+plied statistics.
+Like its predecessor, G*Power 3 is a noncommercial 
+program that can be downloaded free of charge. Copies of 
+the Mac and Windows versions are available only at www 
+.psycho.uni-duesseldorf.de/abteilungen/aap/gpower3. 
+Users interested in distributing the program in another 
+way must ask for permission from the authors. Commer-
+cial distribution is strictly forbidden.
+The G*Power 3 Web page offers an expanding Web-
+based tutorial describing how to use the program, along 
+with examples. Users who let us know their e-mail ad-
+dresses will be informed of updates. Although considerable 
+effort has been put into program development and evalu-
+ation, there is no warranty whatsoever. Users are asked to 
+kindly report possible bugs and difficulties in program 
+handling to gpower-feedback@uni-duesseldorf.de.
+Table 9 
+Tests for Variances
+Test
+Null
+Other
+Test
+ 
+Family  Hypothesis  
+Effect Size
+ Parameters  
+Noncentrality Parameter
+Difference from
+constant (one
+sample case)
+O2 tests
+S 2
+1
+c
+
+Variance ratio
+r
+c
+ S 2
+  0
+(H1: central O2 distribution, 
+scaled with r)
+df  N  1
+Inequality of two 
+variances
+F tests
+S
+S
+2
+2
+1
+2
+1
+
+Variance ratio
+r  S
+S
+2
+2
+1
+2
+  0
+(H1: central F distribution, 
+scaled with r)
+df1  n1  1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ df2  n2  1
+
+----- Page 16 (native) -----
+190    FAUL, ERDFELDER, LANG, AND BUCHNER
+AUTHOR NOTE
+Manuscript preparation was supported by Grant SFB 504 (Project 
+A12) from the Deutsche Forschungsgemeinschaft and a grant from the 
+state of Baden-Württemberg, Germany (Landesforschungsprogramm 
+“Evidenzbasierte Stressprävention”). Correspondence concerning this 
+article should be addressed to F. Faul, Institut für Psychologie, Christian-
+ Albrechts-Universität, Olshausenstr. 40, D-24098 Kiel, Germany, or 
+to E. Erdfelder, Lehrstuhl für Psychologie III, Universität Mannheim, 
+Schloss Ehrenhof Ost 255, D-68131 Mannheim, Germany (e-mail: ffaul@
+psychologie.uni-kiel.de or erdfelder@psychologie.uni-mannheim.de).
+REFERENCES
+Akkad, D. A., Jagiello, P., Szyld, P., Goedde, R., Wieczorek, S., 
+Gross, W. L., & Epplen, J. T. (2006). Promoter polymorphism 
+rs3087456 in the MHC class II transactivator gene is not associated 
+with susceptibility for selected autoimmune diseases in German pa-
+tient groups. International Journal of Immunogenetics, 33, 59-61.
+Back, M. D., Schmukle, S. C., & Egloff, B. (2005). Measuring task-
+switching ability in the Implicit Association Test. Experimental Psy-
+chology, 52, 167-179.
+Baeza, J. A., & Stotz, W. (2003). Host-use and selection of differ-
+ently colored sea anemones by the symbiotic crab Allopetrolisthes 
+spinifrons. Journal of Experimental Marine Biology & Ecology, 284, 
+25-39.
+Barabesi, L., & Greco, L. (2002). A note on the exact computation 
+of the Student t, Snedecor F, and sample correlation coefficient dis-
+tribution functions. Journal of the Royal Statistical Society, 51D, 
+105-110.
+Berti, S., Münzer, S., Schröger, E., & Pechmann, T. (2006). Differ-
+ent interference effects in musicians and a control group. Experimen-
+tal Psychology, 53, 111-116.
+Bradley, D. R., Russell, R. L., & Reeve, C. P. (1998). The accuracy 
+of four approximations to noncentral F. Behavior Research Methods, 
+Instruments, & Computers, 30, 478-500.
+Bredenkamp, J. (1969). Über die Anwendung von Signifikanztests bei 
+Theorie-testenden Experimenten [The application of significance tests 
+in theory-testing experiments]. Psychologische Beiträge, 11, 275-285.
+Bredenkamp, J., & Erdfelder, E. (1985). Multivariate Varianzanalyse 
+nach dem V-Kriterium [Multivariate analysis of variance based on the 
+V-criterion]. Psychologische Beiträge, 27, 127-154.
+Buchner, A., Erdfelder, E., & Faul, F. (1996). Teststärkeanalysen 
+[Power analyses]. In E. Erdfelder, R. Mausfeld, T. Meiser, & 
+G. Rudinger (Eds.), Handbuch Quantitative Methoden [Handbook of 
+quantitative methods] (pp. 123-136). Weinheim, Germany: Psycholo-
+gie Verlags Union.
+Buchner, A., Erdfelder, E., & Faul, F. (1997). How to use G*Power 
+[Computer manual]. Available at www.psycho.uni-duesseldorf.de/
+aap/projects/gpower/how_to_use_gpower.html.
+Busbey, A. B. I. (1999). Macintosh shareware/freeware earthscience 
+software. Computers & Geosciences, 25, 335-340.
+Cohen, J. (1988). Statistical power analysis for the behavioral sciences 
+(2nd ed.). Hillsdale, NJ: Erlbaum.
+D’Agostino, R. B., Chase, W., & Belanger, A. (1988). The appropri-
+ateness of some common procedures for testing the equality of two in-
+dependent binomial populations. American Statistician, 42, 198-202.
+Erdfelder, E. (1984). Zur Bedeutung und Kontrolle des ;-Fehlers bei 
+der inferenzstatistischen Prüfung log-linearer Modelle [Significance 
+and control of the ; error in statistical tests of log-linear models]. 
+Zeitschrift für Sozialpsychologie, 15, 18-32.
+Erdfelder, E., Buchner, A., Faul, F., & Brandt, M. (2004). GPOWER: 
+Teststärkeanalysen leicht gemacht [Power analyses made easy]. In 
+E. Erdfelder & J. Funke (Eds.), Allgemeine Psychologie und deduktivis-
+tische Methodologie [Experimental psychology and deductive method-
+ology] (pp. 148-166). Göttingen: Vandenhoeck & Ruprecht.
+Erdfelder, E., Faul, F., & Buchner, A. (1996). GPOWER: A general 
+power analysis program. Behavior Research Methods, Instruments, & 
+Computers, 28, 1-11.
+Erdfelder, E., Faul, F., & Buchner, A. (2005). Power analysis for 
+categorical methods. In B. S. Everitt & D. C. Howell (Eds.), Encyclo-
+pedia of statistics in behavioral science (pp. 1565-1570). Chichester, 
+U.K.: Wiley.
+Farrington, C. P., & Manning, G. (1990). Test statistics and sample 
+size formulae for comparative binomial trials with null hypothesis of 
+non-zero risk difference or non-unity relative risk. Statistics in Medi-
+cine, 9, 1447-1454.
+Field, A. P. (2005). Discovering statistics with SPSS (2nd ed.). London: 
+Sage.
+Fleiss, J. L. (1981). Statistical methods for rates and proportions (2nd 
+ed.). New York: Wiley.
+Frings, C., & Wentura, D. (2005). Negative priming with masked 
+distractor-only prime trials: Awareness moderates negative priming. 
+Experimental Psychology, 52, 131-139.
+Gart, J. J., & Nam, J. (1988). Approximate interval estimation of the 
+ratio in binomial parameters: A review and correction for skewness. 
+Biometrics, 44, 323-338.
+Gart, J. J., & Nam, J. (1990). Approximate interval estimation of the 
+difference in binomial parameters: Correction for skewness and ex-
+tension to multiple tables. Biometrics, 46, 637-643.
+Geisser, S., & Greenhouse, S. W. (1958). An extension of Box’s re-
+sults on the use of the F distribution in multivariate analysis. Annals 
+of Mathematical Statistics, 29, 885-891.
+Gerard, P. D., Smith, D. R., & Weerakkody, G. (1998). Limits of 
+retrospective power analysis. Journal of Wildlife Management, 62, 
+801-807.
+Gigerenzer, G., Krauss, S., & Vitouch, O. (2004). The null ritual: 
+What you always wanted to know about significance testing but were 
+afraid to ask. In D. Kaplan (Ed.), The SAGE handbook of quantitative 
+methodology for the social sciences (pp. 391-408). Thousand Oaks, 
+CA: Sage.
+Gleissner, U., Clusmann, H., Sassen, R., Elger, C. E., & Helm-
+staedter, C. (2006). Postsurgical outcome in pediatric patients with 
+epilepsy: A comparison of patients with intellectual disabilities, sub-
+average intelligence, and average-range intelligence. Epilepsia, 47, 
+406-414.
+Goldstein, R. (1989). Power and sample size via MS/PC-DOS comput-
+ers. American Statistician, 43, 253-262.
+Hager, W. (2006). Die Fallibilität empirischer Daten und die Notwen-
+digkeit der Kontrolle von falschen Entscheidungen [The fallibility 
+of empirical data and the need for controlling for false decisions]. 
+Zeitschrift für Psychologie, 214, 10-23.
+Haseman, J. K. (1978). Exact sample sizes for use with the Fisher–Irwin 
+test for 2  2 tables. Biometrics, 34, 106-109.
+Hoenig, J. N., & Heisey, D. M. (2001). The abuse of power: The perva-
+sive fallacy of power calculations for data analysis. American Statisti-
+cian, 55, 19-24.
+Hoffmann, J., & Sebald, A. (2005). Local contextual cuing in visual 
+search. Experimental Psychology, 52, 31-38.
+Huynh, H., & Feldt, L. S. (1970). Conditions under which mean square 
+ratios in repeated measurements designs have exact F-distribution. 
+Journal of the American Statistical Association, 65, 1582-1589.
+Keppel, G., & Wickens, T. D. (2004). Design and analysis. A research-
+er’s handbook (4th ed.). Upper Saddle River, NJ: Pearson Education 
+International.
+Kornbrot, D. E. (1997). Review of statistical shareware G*Power. Brit-
+ish Journal of Mathematical & Statistical Psychology, 50, 369-370.
+Kromrey, J., & Hogarty, K. Y. (2000). Problems with probabilistic 
+hindsight: A comparison of methods for retrospective statistical power 
+analysis. Multiple Linear Regression Viewpoints, 26, 7-14.
+Lenth, R. V. (2001). Some practical guidelines for effective sample size 
+determination. American Statistician, 55, 187-193.
+Levin, J. R. (1997). Overcoming feelings of powerlessness in “aging” 
+researches: A primer on statistical power in analysis of variance de-
+signs. Psychology & Aging, 12, 84-106.
+McKeon, J. J. (1974). F approximations to the distribution of Hotel-
+ling’s T0
+2. Biometrika, 61, 381-383.
+Mellina, E., Hinch, S. G., Donaldson, E. M., & Pearson, G. (2005). 
+Stream habitat and rainbow trout (Oncorhynchus mykiss) physiologi-
+cal stress responses to streamside clear-cut logging in British Colum-
+bia. Canadian Journal of Forest Research, 35, 541-556.
+Miettinen, O., & Nurminen, M. (1985). Comparative analysis of two 
+rates. Statistics in Medicine, 4, 213-226.
+Müller, J., Manz, R., & Hoyer, J. (2002). Was tun, wenn die Test-
+stärke zu gering ist? Eine praktikable Strategie für Prä–Post-Designs 
+[What to do if statistical power is low? A practical strategy for pre–
+
+----- Page 17 (native) -----
+G*POWER 3    191
+post-designs]. Psychotherapie, Psychosomatik, Medizinische Psy-
+chologie, 52, 408-416.
+Muller, K. E., & Barton, C. N. (1989). Approximate power for repeated-
+measures ANOVA lacking sphericity. Journal of the American Statistical 
+Association, 84, 549-555.
+Muller, K. E., LaVange, L. M., Landesman-Ramey, S., & Ramey, 
+C. T. (1992). Power calculations for general linear multivariate models 
+including repeated measures applications. Journal of the American 
+Statistical Association, 87, 1209-1226.
+Muller, K. E., & Peterson, B. L. (1984). Practical methods for com-
+puting power in testing the multivariate general linear hypothesis. 
+Computational Statistics & Data Analysis, 2, 143-158.
+Myers, J. L., & Well, A. D. (2003). Research design and statistical 
+analysis (2nd ed.). Mahwah, NJ: Erlbaum.
+O’Brien, R. G., & Kaiser, M. K. (1985). MANOVA method for analyz-
+ing repeated measures designs: An extensive primer. Psychological 
+Bulletin, 97, 316-333.
+O’Brien, R. G., & Muller, K. E. (1993). Unified power analysis for 
+t-tests through multivariate hypotheses. In L. K. Edwards (Ed.), Ap-
+plied analysis of variance in behavioral science (pp. 297-344). New 
+York: Dekker.
+O’Brien, R. G., & Shieh, G. (1999). Pragmatic, unifying algorithm 
+gives power probabilities for common F tests of the multivariate gen-
+eral linear hypothesis. Available at www.bio.ri.ccf.org/UnifyPow.
+Ortseifen, C., Bruckner, T., Burke, M., & Kieser, M. (1997). An 
+overview of software tools for sample size determination. Informatik, 
+Biometrie & Epidemiologie in Medizin & Biologie, 28, 91-118.
+Ostle, B., & Malone, L. C. (1988). Statistics in research: Basic con-
+cepts and techniques for research workers (4th ed.). Ames: Iowa State 
+Press.
+Pillai, K. C. S., & Mijares, T. A. (1959). On the moments of the trace 
+of a matrix and approximations to its distribution. Annals of Math-
+ematical Statistics, 30, 1135-1140.
+Pillai, K. C. S., & Samson, P., Jr. (1959). On Hotelling’s generaliza-
+tion of T2. Biometrika, 46, 160-168.
+Quednow, B. B., Kühn, K.-U., Stelzenmueller, R., Hoenig, K., 
+Maier, W., & Wagner, M. (2004). Effects of serotonergic and norad-
+renergic antidepressants on auditory startle response in patients with 
+major depression. Psychopharmacology, 175, 399-406.
+Rao, C. R. (1951). An asymptotic expansion of the distribution of 
+Wilks’s criterion. Bulletin of the International Statistical Institute, 
+33, 177-180.
+Rasch, B., Friese, M., Hofmann, W. J., & Naumann, E. (2006a). 
+Quantitative Methoden 1: Einführung in die Statistik (2. Auflage) 
+[Quantitative methods 1: Introduction to statistics (2nd ed.)]. Heidel-
+berg, Germany: Springer.
+Rasch, B., Friese, M., Hofmann, W. J., & Naumann, E. (2006b). 
+Quantitative Methoden 2: Einführung in die Statistik (2. Auflage) 
+[Quantitative methods 2: Introduction to statistics (2nd ed.)]. Heidel-
+berg, Germany: Springer.
+Rencher, A. C. (1998). Multivariate statistical inference and applica-
+tions. New York: Wiley.
+Richardson, J. T. E. (1996). Measures of effect size. Behavior Research 
+Methods, Instruments, & Computers, 28, 12-22.
+Scheffé, H. (1959). The analysis of variance. New York: Wiley.
+Schwarz, W., & Müller, D. (2006). Spatial associations in number-
+related tasks: A comparison of manual and pedal responses. Experi-
+mental Psychology, 53, 4-15.
+Sheppard, C. (1999). How large should my sample be? Some quick 
+guides to sample size and the power of tests. Marine Pollution Bul-
+letin, 38, 439-447.
+Shieh, G. (2003). A comparative study of power and sample size cal-
+culations for multivariate general linear models. Multivariate Behav-
+ioral Research, 38, 285-307.
+Smith, R. E., & Bayen, U. J. (2005). The effects of working memory 
+resource availability on prospective memory: A formal modeling ap-
+proach. Experimental Psychology, 52, 243-256.
+Steidl, R. J., Hayes, J. P., & Schauber, E. (1997). Statistical power 
+analysis in wildlife research. Journal of Wildlife Management, 61, 
+270-279.
+Suissa, S., & Shuster, J. J. (1985). Exact unconditional sample sizes 
+for 2  2 binomial trial. Journal of the Royal Statistical Society A, 
+148, 317-327.
+Thomas, L., & Krebs, C. J. (1997). A review of statistical power analysis 
+software. Bulletin of the Ecological Society of America, 78, 126-139.
+Upton, G. J. G. (1982). A comparison of alternative tests for the 2  2 
+comparative trial. Journal of the Royal Statistical Society A, 145, 
+86-105.
+Westermann, R., & Hager, W. (1986). Error probabilities in educa-
+tional and psychological research. Journal of Educational Statistics, 
+11, 117-146.
+Zumbo, B. D., & Hubley, A. M. (1998). A note on misconceptions 
+concerning prospective and retrospective power. The Statistician, 47, 
+385-388.
+NOTES
+1. The observed power is reported in many frequently used computer 
+programs (e.g., the MANOVA procedure of SPSS).
+2. We recommend checking the degrees of freedom reported by 
+G*Power by comparing them, for example, with those reported by the 
+program used to analyze the sample data. If the degrees of freedom do 
+not match, the input provided to G*Power is incorrect and the power 
+calculations do not apply.
+3. Plots of the central and noncentral distributions are shown only 
+for tests based on the t, F, z, O2, or binomial distribution. No plots are 
+shown for tests that involve an enumeration procedure (e.g., the McNe-
+mar test).
+4. We thank Dave Kenny for making us aware of the fact that the 
+t test (correlation) power analyses of G*Power 2 are correct only in the 
+point–biserial case (i.e., for correlations between a binary variable and 
+a continuous variable, the latter being normally distributed for each 
+value of the binary variable). For correlations between two continu-
+ous variables following a bivariate normal distribution, the t test (cor-
+relation) procedure of G*Power 2 overestimates power. For this reason, 
+G*Power 3 offers separate power analyses for point–biserial correlations 
+(in the t family of distributions) and correlations between two normally 
+distributed variables (in the exact distribution family). However, power 
+values usually differ only slightly between procedures. To illustrate, as-
+sume we are interested in the power of a two-tailed test of H0: ¼  .00 for 
+continuously distributed measures derived from two Implicit Association 
+Tests (IATs) differing in content. Assume further that, due to method-
+specific variance in both versions of the IAT, the true Pearson correlation 
+is actually ¼  .30 (effect size). Given (  .05 and N  57 (see Back, 
+Schmukle, & Egloff, 2005, p. 173), an exact post hoc power analysis for 
+“Correlations: Differences from constant (one sample case)” reveals the 
+correct power value of 1  ;  .63. Choosing the incorrect “Correla-
+tion: point biserial model” procedure from the t test family would result 
+in 1  ;  .65.
+(Manuscript received December 8, 2006; 
+accepted for publication January 23, 2007.)

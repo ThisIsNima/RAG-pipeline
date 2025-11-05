@@ -1,0 +1,2266 @@
+
+
+----- Page 1 (native) -----
+A survey of transfer learning
+Karl Weiss*, Taghi M. Khoshgoftaar and DingDing Wang
+Background
+The field of data mining and machine learning has been widely and successfully used in 
+many applications where patterns from past information (training data) can be extracted 
+in order to predict future outcomes [129]. Traditional machine learning is characterized 
+by training data and testing data having the same input feature space and the same data 
+distribution. When there is a difference in data distribution between the training data 
+and test data, the results of a predictive learner can be degraded [107]. In certain sce-
+narios, obtaining training data that matches the feature space and predicted data distri-
+bution characteristics of the test data can be difficult and expensive. Therefore, there is 
+a need to create a high-performance learner for a target domain trained from a related 
+source domain. This is the motivation for transfer learning.
+Transfer learning is used to improve a learner from one domain by transferring infor-
+mation from a related domain. We can draw from real-world non-technical experiences 
+to understand why transfer learning is possible. Consider an example of two people who 
+want to learn to play the piano. One person has no previous experience playing music, 
+and the other person has extensive music knowledge through playing the guitar. The 
+person with an extensive music background will be able to learn the piano in a more effi-
+cient manner by transferring previously learned music knowledge to the task of learning 
+Abstract 
+Machine learning and data mining techniques have been used in numerous real-world 
+applications. An assumption of traditional machine learning methodologies is the 
+training data and testing data are taken from the same domain, such that the input 
+feature space and data distribution characteristics are the same. However, in some 
+real-world machine learning scenarios, this assumption does not hold. There are cases 
+where training data is expensive or difficult to collect. Therefore, there is a need to cre-
+ate high-performance learners trained with more easily obtained data from different 
+domains. This methodology is referred to as transfer learning. This survey paper for-
+mally defines transfer learning, presents information on current solutions, and reviews 
+applications applied to transfer learning. Lastly, there is information listed on software 
+downloads for various transfer learning solutions and a discussion of possible future 
+research work. The transfer learning solutions surveyed are independent of data size 
+and can be applied to big data environments.
+Keywords:  Transfer learning, Survey, Domain adaptation, Machine learning,  
+Data mining
+Open Access
+© 2016 The Author(s). This article is distributed under the terms of the Creative Commons Attribution 4.0 International License 
+(http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, 
+provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and 
+indicate if changes were made.
+SURVEY PAPER
+Weiss et al. J Big Data  (2016) 3:9 
+DOI 10.1186/s40537-016-0043-6
+*Correspondence:   
+kweiss6@fau.edu 
+Florida Atlantic University, 
+777 Glades Road, Boca Raton, 
+FL 33431, USA
+
+----- Page 2 (native) -----
+Page 2 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+to play the piano [84]. One person is able to take information from a previously learned 
+task and use it in a beneficial way to learn a related task.
+Looking at a concrete example from the domain of machine learning, consider the 
+task of predicting text sentiment of product reviews where there exists an abundance 
+of labeled data from digital camera reviews. If the training data and the target data are 
+both derived from digital camera reviews, then traditional machine learning techniques 
+are used to achieve good prediction results. However, in the case where the training data 
+is from digital camera reviews and the target data is from food reviews, then the predic-
+tion results are likely to degrade due to the differences in domain data. Digital camera 
+reviews and food reviews still have a number of characteristics in common, if not exactly 
+the same. They both are written in textual form using the same language, and they both 
+express views about a purchased product. Because these two domains are related, trans-
+fer learning can be used to potentially improve the results of a target learner [84]. An 
+alternative way to view the data domains in a transfer learning environment is that the 
+training data and the target data exist in different sub-domains linked by a high-level 
+common domain. For example, a piano player and a guitar player are subdomains of a 
+musician domain. Further, a digital camera review and a food review are subdomains of 
+a review domain. The high-level common domain determines how the subdomains are 
+related.
+As previously mentioned, the need for transfer learning occurs when there is a limited 
+supply of target training data. This could be due to the data being rare, the data being 
+expensive to collect and label, or the data being inaccessible. With big data repositories 
+becoming more prevalent, using existing datasets that are related to, but not exactly 
+the same as, a target domain of interest makes transfer learning solutions an attractive 
+approach. There are many machine learning applications that transfer learning has been 
+successfully applied to including text sentiment classification [121], image classification 
+[30, 58, 146], human activity classification [46], software defect classification [77], and 
+multi-language text classification [145, 91, 144].
+This survey paper aims to provide a researcher interested in transfer learning with an 
+overview of related works, examples of applications that are addressed by transfer learn-
+ing, and issues and solutions that are relevant to the field of transfer learning. This sur-
+vey paper provides an overview of current methods being used in the field of transfer 
+learning as it pertains to data mining tasks for classification, regression, and clustering 
+problems; however, it does not focus on transfer learning for reinforcement learning (for 
+more information on reinforcement learning see Taylor [112]). Information pertaining 
+to the history and taxonomy of transfer learning is not provided in this survey paper, 
+but can be found in the paper by Pan [84]. Since the publication of the transfer learn-
+ing survey paper by Pan [84] in 2010, there have been over 700 academic papers writ-
+ten addressing advancements and innovations on the subject of transfer learning. These 
+works broadly cover the areas of new algorithm development, improvements to exist-
+ing transfer learning algorithms, and algorithm deployment in new application domains. 
+The selected surveyed works in this paper are meant to be diverse and representative 
+of transfer learning solutions in the past 5 years. Most of the surveyed papers provide 
+a generic transfer learning solution; however, some surveyed papers provide solutions 
+that are specific to individual applications. This paper is written with the assumption the
+
+----- Page 3 (native) -----
+Page 3 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+reader has a working knowledge of machine learning. For more information on machine 
+learning see Witten [129]. The surveyed works in this paper are intended to present a 
+high-level description of proposed solutions with unique and salient points being high-
+lighted. Experiments from the surveyed papers are described with respect to applied 
+applications, other competing solutions tested, and overall relative results of the experi-
+ments. This survey paper provides a section on heterogeneous transfer learning which, 
+to the best of our knowledge, is unique. Additionally, a list of software downloads for 
+various surveyed papers is provided, which is unique to this paper.
+The remainder of this paper is organized as follows. “Definitions of transfer learning” 
+section provides definitions and notations of transfer learning. “Homogeneous transfer 
+learning” and “Heterogeneous transfer learning” sections provide solutions on homo-
+geneous and heterogeneous transfer learning, “Negative transfer” section provides 
+information on negative transfer as it pertains to transfer learning. “Transfer learn-
+ing application” section provides examples of transfer learning applications. “Conclu-
+sion and discussion” section summarizes and discusses potential future research work. 
+Appendix provides information on software downloads for transfer learning.
+Definitions of transfer learning
+The following section lists the notation and definitions used for the remainder of this 
+paper. The notation and definitions in this section match those from the survey paper 
+by Pan [84], if present in both papers, to maintain consistency across both surveys. To 
+provide illustrative examples of the definitions listed below, a machine learning applica-
+tion of software module defect classification is used where a learner is trained to predict 
+whether a software module is defect prone or not.
+A domain D is defined by two parts, a feature space X and a marginal probability 
+distribution P(X), where X = {x1 , . . . , xn} ∈X. For example, if the machine learning 
+application is software module defect classification and each software metric is taken 
+as a feature, then xi is the i-th feature vector (instance) corresponding to the i-th soft-
+ware module, n is the number of feature vectors in X, X is the space of all possible fea-
+ture vectors, and X is a particular learning sample. For a given domain D, a task T  is 
+defined by two parts, a label space Y, and a predictive function f(·), which is learned 
+from the feature vector and label pairs {xi, yi} where xi ∈X and yi ∈Y. Referring to the 
+software module defect classification application, Y is the set of labels and in this case 
+contains true and false, yi takes on a value of true or false, and f(x) is the learner that 
+predicts the label value for the software module x. From the definitions above, a domain 
+D = {X, P(X)} and a task T =
+Y, f (·)
+
+. Now, DS is defined as the source domain data 
+where DS =
+
+xS1, yS1
+
+. . . ,
+
+xSn, ySn
+
+, where xSi ∈XS is the ith data instance of DS and 
+ySi ∈YS is the corresponding class label for xSi. In the same way, DT is defined as the tar-
+get domain data where DT =
+
+xT1, yT1
+
+. . . ,
+
+xTn, yTn
+
+, where xTi ∈XT  is the ith data 
+instance of DT and yTi, ∈YT  is the corresponding class label for xTi. Further, the source 
+task is notated as TS, the target task as TT , the source predictive function as fS(·), and the 
+target predictive function as fT(·).
+Transfer learning is now formally defined. Given a source domain DS with a corre-
+sponding source task TS and a target domain DT with a corresponding task TT , trans-
+fer learning is the process of improving the target predictive function fT(∙) by using the
+
+----- Page 4 (native) -----
+Page 4 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+related information from DS and TS, where DS = DT or TS = TT . The single source 
+domain defined here can be extended to multiple source domains. Given the definition of 
+transfer learning, since DS = {XS, P(XS)} and DT = {XT , P(XT)}, the condition where 
+DS = DT means that XS = XT  and/or P(XS) = P(XT). The case where XS = XT  with 
+respect to transfer learning is defined as heterogeneous transfer learning. The case where 
+XS = XT  with respect to transfer learning is defined as homogeneous transfer learn-
+ing. Going back to the example of software module defect classification, heterogeneous 
+transfer learning is the case where the source software project has different metrics (fea-
+tures) than the target software project. Alternatively, homogeneous transfer learning is 
+when the software metrics are the same for both the source and the target software pro-
+jects. Continuing with the definition of transfer learning, the case where P(XS) = P(XT) 
+means the marginal distributions in the input spaces are different between the source 
+and the target domains. Shimodaira [107] demonstrated that a learner trained with 
+a given source domain will not perform optimally on a target domain when the mar-
+ginal distributions of the input domains are different. Referring to the software mod-
+ule defect classification application, an example of marginal distribution differences is 
+when the source software program is written for a user interface system and the tar-
+get software program is written for DSP signaling decoder algorithm. Another possible 
+condition of transfer learning (from the definition above) is TS = TT , and it was stated 
+that T =
+Y, f (·)
+
+ or to rewrite this, T = {Y, P(Y|X)}. Therefore, in a transfer learn-
+ing environment, it is possible that YS = YT  and/or P(YS|XS) = P(YT|XT ). The case 
+where P(YS|XS) = P(YT|XT ) means the conditional probability distributions between 
+the source and target domains are different. An example of a conditional distribution 
+mismatch is when a particular software module yields different fault prone results in the 
+source and target domains. The case of YS = YT  refers to a mismatch in the class space. 
+An example of this case is when the source software project has a binary label space of 
+true for defect prone and false for not defect prone, and the target domain has a label 
+space that defines five levels of fault prone modules. Another case that can cause dis-
+criminative classifier degradation is when P(Ys) = P(YT), which is caused by an unbal-
+anced labeled data set between the source and target domains. The case of traditional 
+machine learning is DS = DT and TS = TT . The common notation used in this paper is 
+summarized in Table 1.
+To elaborate on the distribution issues that can occur between the source and target 
+domains, the application of natural language processing is used to illustrate. In natu-
+ral language processing, text instances are often modeled as a bag-of-words where a 
+unique word represents a feature. Consider the example of review text where the source 
+Table 1  Summary of commonly used notation
+Notation
+Description
+Notation
+Description
+X
+Input feature space
+P (X)
+Marginal distribution
+Y
+Label space
+P (Y|X)
+Conditional distribution
+T
+Predictive learning task
+P (Y)
+Label distribution
+Subscript S
+Denotes source
+DS
+Source domain data
+Subscript T
+Denotes target
+DT
+Target domain data
+
+----- Page 5 (native) -----
+Page 5 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+covers movie reviews and the target covers book reviews. Words that are generic and 
+domain independent should occur at a similar rate in both domains. However, words 
+that are domain specific are used more frequently in one domain because of the strong 
+relationship with that domain topic. This is referred to as frequency feature bias and 
+will cause the marginal distribution between the source and target domains to be dif-
+ferent (P(XS) = P(XT)). Another form of bias is referred to as context feature bias and 
+this will cause the conditional distributions to be different between the source and tar-
+get domains P(YS|XS) = P(YT|XT ). An example of context feature bias is when a word 
+can have different meanings in two domains. A specific example is the word “monitor” 
+where in one domain it is used as a noun and in another domain it is used as a verb. 
+Another example of context feature bias is with sentiment classification when a word 
+has a positive meaning in one domain and a negative meaning in another domain. The 
+word “small” can have a good meaning if describing a cell phone but a bad meaning if 
+describing a hotel room. A further example of context feature bias is demonstrated in 
+the case of document sentiment classification of reviews where the source domain con-
+tains reviews of one product written in German and the target domain contains reviews 
+of a different product written in English. The translated words from the source docu-
+ment may not accurately represent the actual words used in the target documents. An 
+example is the case of the German word “betonen”, which translates to the English word 
+“emphasize” by Google translator. However, in the target documents the corresponding 
+English word used is “highlight” (Zhou [144]).
+Negative transfer, with regards to transfer learning, occurs when the information 
+learned from a source domain has a detrimental effect on a target learner. More for-
+mally, given a source domain DS, a source task TS, a target domain DT , a target task TT  , 
+a predictive learner fT1(·) trained only with DT , and a predictive learner fT2(·) trained 
+with a transfer learning process combining DT  and DS, negative transfer occurs when 
+the performance of fT1(·) is greater than the performance of fT2(·). The topic of negative 
+transfer addresses the need to quantify the amount of relatedness between the source 
+domain and the target domain and whether an attempt to transfer knowledge from the 
+source domain should be made. Extending the definition above, positive transfer occurs 
+when the performance of fT2(·) is greater than the performance of fT1(·).
+Throughout the literature on transfer learning, there are a number of terminology 
+inconsistencies. Phrases such as transfer learning and domain adaptation are used to 
+refer to similar processes. The following definitions will be used in this paper. Domain 
+adaptation, as it pertains to transfer learning, is the process of adapting one or more 
+source domains for the means of transferring information to improve the performance 
+of a target learner. The domain adaptation process attempts to alter a source domain in 
+an attempt to bring the distribution of the source closer to that of the target. Another 
+area of literature inconsistencies is in characterizing the transfer learning process with 
+respect to the availability of labeled and unlabeled data. For example, Daumé [22] and 
+Chattopadhyay [14] define supervised transfer learning as the case of having abundant 
+labeled source data and limited labeled target data, and semi-supervised transfer learn-
+ing as the case of abundant labeled source data and no labeled target data. In Gong [42] 
+and Blitzer [5], semi-supervised transfer learning is the case of having abundant labeled 
+source data and limited labeled target data, and unsupervised transfer learning is the
+
+----- Page 6 (native) -----
+Page 6 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+case of abundant labeled source data and no labeled target data. Cook [19] and Feuz [36] 
+provide a different variation where the definition of supervised or unsupervised refers 
+to the presence or absence of labeled data in the source domain and informed or unin-
+formed refers to the presence or absence of labeled data in the target domain. With this 
+definition, a labeled source and limited labeled target domain is referred to as informed 
+supervised transfer learning. Pan [84] refers to inductive transfer learning as the case of 
+having available labeled target domain data, transductive transfer learning as the case 
+of having labeled source and no labeled target domain data, and unsupervised transfer 
+learning as the case of having no labeled source and no labeled target domain data. This 
+paper will explicitly state when labeled and unlabeled data are being used in the source 
+and target domains.
+There are different strategies and implementations for solving a transfer learning prob-
+lem. The majority of the homogeneous transfer learning solutions employ one of three 
+general strategies which include trying to correct for the marginal distribution differ-
+ence in the source, trying to correct for the conditional distribution difference in the 
+source, or trying to correct both the marginal and conditional distribution differences in 
+the source. The majority of the heterogeneous transfer learning solutions are focused on 
+aligning the input spaces of the source and target domains with the assumption that the 
+domain distributions are the same. If the domain distributions are not equal, then fur-
+ther domain adaptation steps are needed. Another important aspect of a transfer learn-
+ing solution is the form of information transfer (or what is being transferred). The form 
+of information transfer is categorized into four general Transfer Categories [84]. The first 
+Transfer Category is transfer learning through instances. A common method used in this 
+case is for instances from the source domain to be reweighted in an attempt to correct 
+for marginal distribution differences. These reweighted instances are then directly used 
+in the target domain for training (examples in Huang [51], Jiang [53]). These reweighting 
+algorithms work best when the conditional distribution is the same in both domains. 
+The second Transfer Category is transfer learning through features. Feature-based trans-
+fer learning approaches are categorized in two ways. The first approach transforms the 
+features of the source through reweighting to more closely match the target domain (e.g. 
+Pan [82]). This is referred to as asymmetric feature transformation and is depicted in 
+Fig. 1b. The second approach discovers underlying meaningful structures between the 
+domains to find a common latent feature space that has predictive qualities while reduc-
+ing the marginal distribution between the domains (e.g. Blitzer [5]). This is referred to 
+Fig. 1  a The symmetric transformation mapping (TS and TT) of the source (XS) and target (XT) domains into a 
+common latent feature space. b The asymmetric transformation (TT) of the source domain (XS) to the target 
+domain (XT)
+
+----- Page 7 (native) -----
+Page 7 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+as symmetric feature transformation and is depicted in Fig. 1a. The third transfer cat-
+egory is to transfer knowledge through shared parameters of source and target domain 
+learner models or by creating multiple source learner models and optimally combining 
+the reweighted learners (ensemble learners) to form an improved target learner (exam-
+ples in Gao [37], Bonilla [8], and Evgeniou [33]). The last transfer category (and the least 
+used approach) is to transfer knowledge based on some defined relationship between the 
+source and target domains (examples in Mihalkova [74] and Li [62]).
+Detailed information on specific transfer learning solutions are presented in 
+“Homogeneous transfer learning” “Heterogeneous transfer learning” and “Negative 
+transfer” sections. These sections represent the majority of the works surveyed in 
+this paper. “Homogeneous transfer learning” “Heterogeneous transfer learning” and 
+“Negative transfer” sections cover homogeneous transfer learning solutions, het-
+erogeneous transfer learning solutions, and solutions addressing negative transfer, 
+respectively. The section covering transfer learning applications focuses on the gen-
+eral applications that transfer learning is applied to, but does not describe the solu-
+tion details.
+Homogeneous transfer learning
+This section presents surveyed papers covering homogeneous transfer learning solutions 
+and is divided into subsections that correspond to the transfer categories of instance-
+based, feature-based (both asymmetric and symmetric), parameter-based, and rela-
+tional-based. Recall that homogeneous transfer learning is the case where XS = XT . The 
+algorithms surveyed are summarized in Table 2.
+The methodology of homogeneous transfer learning is directly applicable to a big data 
+environment. As repositories of big data become more available, there is a desire to use 
+this abundant resource for machine learning tasks, avoiding the timely and potentially 
+costly collection of new data. If there is an available dataset that is drawn from a domain 
+that is related to, but does not an exactly match a target domain of interest, then homo-
+geneous transfer learning can be used to build a predictive model for the target domain 
+as long as the input feature space is the same.
+Instance‑based transfer learning
+The paper by Chattopadhyay [14] proposes two separate solutions both using multiple 
+labeled source domains. The first solution is the conditional probability based multi-
+source domain adaptation (CP-MDA) approach, which is a domain adaptation process 
+based on correcting the conditional distribution differences between the source and tar-
+get domains. The CP-MDA approach assumes a limited amount of labeled target data is 
+available. The main idea is to use a combination of source domain classifiers to label the 
+unlabeled target data. This is accomplished by first building a classifier for each sepa-
+rate source domain. Then a weight value is found for each classifier as a function of the 
+closeness in conditional distribution between each source and the target domain. The 
+weighted source classifiers are summed together to create a learning task that will find 
+the pseudo labels (estimated labels later used for training) for the unlabeled target data. 
+Finally, the target learner is built from the labeled and pseudo labeled target data. The 
+second proposed solution is the two stage weighting framework for multi-source domain
+
+----- Page 8 (native) -----
+Page 8 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+adaptation (2SW-MDA) which addresses both marginal and conditional distribution 
+differences between the source and target domains. Labeled target data is not required 
+for the 2SW-MDA approach; however, it can be used if available. In this approach, a 
+weight for each source domain is computed based on the marginal distribution differ-
+ences between the source and target domains. In the second step, the source domain 
+weights are modified as a function of the difference in the conditional distribution as 
+performed in the CP-MDA approach previously described. Finally, a target classifier is 
+learned based on the reweighted source instances and any labeled target instances that 
+are available. The work presented in Chattopadhyay [14] is an extension of Duan [29] 
+where the novelty is in calculating the source weights as a function of conditional prob-
+ability. Note, the 2SW-MDA approach is an example of an instance-based Transfer Cat-
+egory, but the CP-MDA approach is more appropriately classified as a parameter-based 
+Transfer Category (see “Parameter-based transfer learning” section). Experiments are 
+performed for muscle fatigue classification using surface electromyography data where 
+classification accuracy is measured as the performance metric. Each source domain 
+Table 2  Homogeneous transfer learning approaches surveyed in “Homogeneous transfer 
+learning” section listing different characteristics of each approach
+Approach
+Transfer  
+category
+Source data
+Target data
+Multiple 
+sources
+Generic  
+solution
+Negative 
+transfer
+CP-MDA [14]
+Parameter
+Labeled
+Limited labels
+✓
+✓
+2SW-MDA [14]
+Instance
+Labeled
+Unlabeled
+✓
+✓
+FAM [22]
+Asymmetric 
+feature
+Labeled
+Limited labels
+✓
+✓
+DTMKL [27]
+Asymmetric 
+feature
+Labeled
+Unlabeled
+✓
+JDA [69]
+Asymmetric 
+feature
+Labeled
+Unlabeled
+✓
+ARTL [68]
+Asymmetric 
+feature
+Labeled
+Unlabeled
+✓
+TCA [87]
+Symmetric 
+feature
+Labeled
+Unlabeled
+✓
+SFA [83]
+Symmetric 
+feature
+Labeled
+Limited labels
+✓
+✓
+SDA [41]
+Symmetric 
+feature
+Labeled
+Unlabeled
+✓
+GFK [42]
+Symmetric 
+feature
+Labeled
+Unlabeled
+✓
+✓
+DCP [106]
+Symmetric 
+feature
+Labeled
+Unlabeled
+✓
+TCNN [81]
+Symmetric 
+feature
+Labeled
+Limited labels
+✓
+MMKT [114]
+Parameter
+Labeled
+Limited labels
+✓
+✓
+✓
+DSM [28]
+Parameter
+Labeled
+Unlabeled
+✓
+✓
+MsTrAdaBoost  
+[138]
+Instance
+Labeled
+Limited labels
+✓
+✓
+✓
+TaskTrAdaBoost 
+[138]
+Parameter
+Labeled
+Limited labels
+✓
+✓
+✓
+RAP [62]
+Relational
+Labeled
+Unlabeled
+SSFE [132]
+Hybrid  
+(instance and 
+feature)
+Labeled
+Limited labels
+
+----- Page 9 (native) -----
+Page 9 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+represents one person’s surface electromyography measurements. A baseline approach 
+is constructed using a support vector machine (SVM) classifier trained on the combina-
+tion of seven sources used for this test. The transfer learning approaches that are tested 
+against include an approach proposed by Huang [51], Pan [87], Zhong [143], Gao [37], 
+and Duan [29]. The order of performance from best to worst is 2SW-MDA, CP-MDA, 
+Duan [29], Zhong [143], Gao [37], Pan [87], Huang [51], and the baseline approach. All 
+the transfer learning approaches performed better than the baseline approach.
+Asymmetric feature‑based transfer learning
+In an early and often cited work, Daumé [22] proposes a simple domain adaptation algo-
+rithm, referred to as the feature augmentation method (FAM), requiring only ten lines 
+of Perl script that uses labeled source data and limited labeled target data. In a trans-
+fer learning environment, there are scenarios where a feature in the source domain may 
+have a different meaning in the target domain. The issue is referred to as context feature 
+bias, which causes the conditional distributions between the source and target domains 
+to be different. To resolve context feature bias, a method to augment the source and 
+target feature space with three duplicate copies of the original feature set is proposed. 
+More specifically, the three duplicate copies of the original feature set in the augmented 
+source feature space represent a common feature set, a source specific feature set, and 
+a target specific feature set which is always set to zero. In a similar way, the three dupli-
+cate copies of the original feature set in the augmented target feature space represent 
+a common feature set, a source specific feature set which is always set to zero, and a 
+target specific feature set. By performing this feature augmentation, the feature space is 
+duplicated three times. From the feature augmentation structure, a classifier learns the 
+individual feature weights for the augmented feature set, which will help correct for any 
+feature bias issues. Using a text document example where features are modeled as a bag-
+of-words, a common word like “the” would be assigned (through the learning process) a 
+high weight for the common feature set, and a word that is different between the source 
+and target like “monitor” would be assigned a high weight for the corresponding domain 
+feature set. The duplication of features creates feature separation between the source 
+and target domains, and allows the final classifier to learn the optimal feature weights. 
+For the experiments, a number of different natural language processing applications are 
+tested and in each case the classification error rate is measured as the performance met-
+ric. An SVM learner is used to implement the Daumé [22] approach. A number of base-
+line approaches with no transfer learning techniques are measured along with a method 
+by Chelba [15]. The test results show the Daumé [22] method is able to outperform the 
+other methods tested. However, when the source and target domains are very similar, 
+the Daumé [22] approach tends to underperform. The reason for the underperformance 
+is the duplication of feature sets represents irrelevant and noisy information when the 
+source and target domains are very similar.
+Multiple kernel learning is a technique used in traditional machine learning algorithms 
+as demonstrated in the works of Wu [130] and Vedaldi [118]. Multiple kernel learning 
+allows for an optimal kernel function to be learned in a computationally efficient manner. 
+The paper by Duan [27] proposes to implement a multiple kernel learning framework 
+for a transfer learning environment called the domain transfer multiple kernel learning
+
+----- Page 10 (native) -----
+Page 10 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+(DTMKL). Instead of learning one kernel, multiple kernel learning assumes the kernel is 
+comprised of a linear combination of multiple predefined base kernels. The final classi-
+fier and the kernel function are learned simultaneously which has the advantage of using 
+labeled data during the kernel learning process. This is an improvement over Pan [82] 
+and Huang [51] where a two-stage approach is used. The final classifier learning process 
+minimizes the structural risk functional [117] and the marginal distribution between 
+domains using the maximum mean discrepancy measure [10]. Pseudo labels are found 
+for the unlabeled target data to take advantage of this information during the learning 
+process. The pseudo labels are found as a weighted combination of base classifiers (one 
+for each feature) trained from the labeled source data. A regularization term is added 
+to the optimization problem to ensure the predicted values from the final target clas-
+sifier and the base classifiers are similar for the unlabeled target data. Experiments are 
+performed on the applications of video concept detection, text classification, and email 
+spam detection. The methods tested against include a baseline approach using an SVM 
+classifier trained on the labeled source data, the feature replication method from Daumé 
+[22], an adaptive SVM method from Yang [135], a cross-domain SVM method pro-
+posed by Jiang [55], and a kernel mean matching method by Huang [51]. The DTMKL 
+approach uses an SVM learner for the experiments. Average precision and classification 
+accuracy are measured as the performance metrics. The DTMKL method performed the 
+best for all applications, and the baseline approach is consistently the worst performing. 
+The other methods showed better performance over the baseline which demonstrated a 
+positive transfer learning effect.
+The work by Long [69] is a joint domain adaptation (JDA) solution that aims to simul-
+taneously correct for the marginal and conditional distribution differences between the 
+labeled source domain and the unlabeled target domain. Principal component analysis 
+(PCA) is used for optimization and dimensionality reduction. To address the difference 
+in marginal distribution between the domains, the maximum mean discrepancy distance 
+measure [10] is used to compute the marginal distribution differences and is integrated 
+into the PCA optimization algorithm. The next part of the solution requires a process to 
+correct the conditional distribution differences, which requires labeled target data. Since 
+the target data is unlabeled, pseudo labels (estimated target labels) are found by learn-
+ing a classifier from the labeled source data. The maximum mean discrepancy distance 
+measure is modified to measure the distance between the conditional distributions and 
+is integrated into the PCA optimization algorithm to minimize the conditional distribu-
+tions. Finally, the features identified by the modified PCA algorithm are used to train the 
+final target classifier. Experiments are performed for the application of image recogni-
+tion and classification accuracy is measured as the performance metric. Two baseline 
+approaches of a 1-nearest neighbor classifier and a PCA approach trained on the source 
+data are tested. Transfer learning approaches tested for this experiment include the 
+approach by Pan [87], Gong [42], and Si [109]. These transfer learning approaches only 
+attempt to correct for marginal distribution differences between domains. The Long [69] 
+approach is the best performing, followed by the Pan [87] and Si [109] approaches (a tie), 
+then the Gong [42] approach, and finally the baseline approaches. All transfer learning 
+approaches perform better than the baseline approaches. The possible reason behind the
+
+----- Page 11 (native) -----
+Page 11 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+underperformance of the Gong [42] approach is the data smoothness assumption that is 
+made for the Gong [42] solution may not be intact for the data sets tested.
+The paper by Long [68] proposes an Adaptation Regularization based transfer learn-
+ing (ARTL) framework for scenarios of labeled source data and unlabeled target data. 
+This transfer learning framework proposes to correct the difference in marginal dis-
+tribution between the source and target domains, correct the difference in conditional 
+distribution between the domains, and improve classification performance through a 
+manifold regularization [4] process (which optimally shifts the hyperplane of an SVM 
+learner). This complete framework process is depicted in Fig. 2. The proposed ARTL 
+framework will learn a classifier by simultaneously performing structural risk minimi-
+zation [117], reducing the marginal and conditional distributions between the domains, 
+and optimizing the manifold consistency of the marginal distribution. To resolve the 
+conditional distribution differences, pseudo labels are found for the target data in 
+the same way as proposed by Long [69]. A difference between the ARTL approach 
+and Long [69] is ARTL learns the final classifier simultaneously while minimizing the 
+domain distribution differences, which is claimed by Long [68] to be a more optimal 
+solution. Unfortunately, the solution by Long [69] is not included in the experiments. 
+Experiments are performed on the applications of text classification and image clas-
+sification where classification accuracy is measured as the performance metric. There 
+are three baseline methods tested where different classifiers are trained with the labeled 
+source data. There are five transfer learning methods tested against, which include 
+methods by Ling [66], Pan [83], Pan [87], Quanz [94], and Xiao [133]. The order of per-
+formance from best to worst is ARTL, Xiao [133], Pan [87], Pan [83], Quanz [94] and 
+Ling [66] (tie), and the baseline approaches. The baseline methods underperformed all 
+other transfer learning approaches tested.
+Symmetric feature‑based transfer learning
+The paper by Pan [87] proposes a feature transformation approach for domain adapta-
+tion called transfer component analysis (TCA), which does not require labeled target 
+data. The goal is to discover common latent features that have the same marginal dis-
+tribution across the source and target domains while maintaining the intrinsic struc-
+ture of the original domain data. The latent features are learned between the source and 
+target domains in a reproducing kernel hilbert space [111] using the maximum mean 
+discrepancy [10] as a marginal distribution measurement criteria. Once the latent fea-
+tures are found, traditional machine learning is used to train the final target classifier. 
+The TCA approach extends the work of Pan [82] by improving computational efficiency. 
+Experiments are conducted for the application of WiFi localization where the location 
+Fig. 2  ARTL overview showing MDA marginal distribution adaptation, CDA conditional distribution adapta-
+tion, and MR manifold regularization Diagram adapted from Long [68]
+
+----- Page 12 (native) -----
+Page 12 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+of a particular device is being predicted. The source domain is comprised of data meas-
+ured from different room and building topologies. The performance metric measured 
+is the average error distance of the position of a device. The transfer learning methods 
+tested against are from Blitzer [5] and Huang [51]. The TCA method performed the best 
+followed by the Huang [51] approach and the Blitzer [5] approach. For the Blitzer [5] 
+approach, the manual definition of the pivot functions (functions that define the corre-
+spondence) is important to performance and specific to the end application. There is no 
+mention as to how the pivot functions are defined for WiFi localization.
+The work by Pan [83] proposes a spectral feature alignment (SFA) transfer learning 
+algorithm that discovers a new feature representation for the source and target domain 
+to resolve the marginal distribution differences. The SFA method assumes an abundance 
+of labeled source data and a limited amount of labeled target data. The SFA approach 
+identifies domain-specific and domain-independent features and uses the domain-inde-
+pendent features as a bridge to build a bipartite graph modeling the co-occurrence rela-
+tionship between the domain-independent and domain-specific features. If the graph 
+shows two domain-specific features having connections to common domain-independ-
+ent feature, then there is a higher chance the domain-specific features are aligned. A 
+spectral clustering algorithm based on graph spectral theory [17] is used on the bipar-
+tite graph to align domain-specific features and domain-independent features into a set 
+of clusters representing new features. These clusters are used to reduce the difference 
+between domain-specific features in the source and the target domains. All the data 
+instances are projected into this new feature space and a final target classifier is trained 
+using the new feature representation. The SFA algorithm is a type of correspondence 
+learning where the domain-independent features act as pivot features (see Blitzer [5] and 
+Prettenhofer [91] for further information on correspondence learning). The SFA method 
+is well-suited for the application of text document classification where a bag-of-words 
+model is used to define features. For this application there are domain-independent 
+words that will appear often in both domains and domain-specific words that will appear 
+often only in a specific domain. This is referred to as frequency feature bias, which causes 
+marginal distribution differences between the domains. An example of domain-specific 
+features being combined is the word “sharp” appearing often in the source domain but 
+not in the target domain, and the word “hooked” appearing often in the target but not in 
+the source domain. These words are both connected to the same domain-independent 
+words (for example “good” and “exciting”). Further, when the words “sharp” or “hooked” 
+appear in text instances, the labels are the same. The idea is to combine (or align) these 
+two features (in this case “sharp” and “hooked”) to form a new single invariant feature. 
+The experiments are performed on sentiment classification where classification accuracy 
+is measured as the performance metric. A baseline approach is tested where a classifier 
+is trained only on source data. An upper limit approach is also tested where a classi-
+fier is trained on a large amount of labeled target data. The competing transfer learning 
+approach tested against is by Blitzer [5]. The order of performance for the tests from 
+best to worst is the upper limit approach, SFA, Blitzer [5], and baseline approach. Not 
+only does the SFA approach demonstrate better performance than Blitzer [5], the SFA 
+approach does not need to manually define pivot functions as in the Blitzer [5] approach. 
+The SFA approach only addresses the issue of marginal distribution differences and does
+
+----- Page 13 (native) -----
+Page 13 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+not address any context feature bias issues, which would represent conditional distribu-
+tion differences.
+The work by Glorot [41] proposes a deep learning algorithm for transfer learning 
+called a stacked denoising autoencoder (SDA) to resolve the marginal distribution dif-
+ferences between a labeled source domain and an unlabeled target domain. Deep learn-
+ing algorithms learn intermediate invariant concepts between two data sources, which 
+are used to find a common latent feature set. The first step in this process is to train the 
+stacked denoising autoencoders [119] with unlabeled data from the source and target 
+domains. This transforms the input space to discover the common invariant latent fea-
+ture space. The next step is to train a classifier using the transformed latent features with 
+the labeled source data. Experiments are performed on text review sentiment classifica-
+tion where transfer loss is measured as the performance metric. Transfer loss is defined 
+as the classification error rate using a learner only trained on the source domain and 
+tested on the target minus the classification error rate using a learner only trained on the 
+target domain and tested on the target. There are 12 different source and target domain 
+pairs that are created from four unique review topics. A baseline method is tested where 
+an SVM classifier is trained on the source domain. The transfer learning approaches 
+that are tested include an approach by Blitzer [5], Li [63], and Pan [83]. The Glorot [41] 
+approach performed the best with the Blitzer [5], Li [63], and Pan [83] methods all hav-
+ing similar performance and all outperforming the baseline approach.
+In the paper by Gong [42], a domain adaptation technique called the geodesic flow 
+kernel (GFK) is proposed that finds a low-dimensional feature space, which reduces 
+the marginal distribution differences between the labeled source and unlabeled target 
+domains. To accomplish this, a geodesic flow kernel is constructed using the source and 
+target input feature data, which projects a large number of subspaces that lie on the geo-
+desic flow curve. The geodesic flow curve represents incremental differences in geomet-
+ric and statistical properties between the source and target domain spaces. A classifier 
+is then learned from the geodesic flow kernel by selecting the features from the geo-
+desic flow curve that are domain invariant. The work of Gong [42] directly enhances the 
+work of Gopalan [43] by eliminating tuning parameters and improving computational 
+efficiency. In addition, a rank of domain (ROD) metric is developed to evaluate which 
+of many source domains is the best match for the target domain. The ROD metric is 
+a function of the geometric alignment between the domains and the Kullback–Leibler 
+divergence in data distributions between the projected source and target subspaces. 
+Experiments are performed for the application of image classification where classifica-
+tion accuracy is measured as the performance metric. The tests use pairs of source and 
+target data sets from four available data sets. A baseline approach is defined that does 
+not use transfer learning, along with the approach defined by Gopalan [43]. Additionally, 
+the Gong [42] approach uses a 1-nearest neighbor classifier. The results in order from 
+best to worst performance are Gong [42], Gopalan [43], and the baseline approach. The 
+ROD measurements between the different source and target domain pairs tested have 
+a high correlation to the actual test results, meaning the domains that are found to be 
+more related with respect to the ROD measurement had higher classification accuracies.
+The solution by Shi [106], referred to as the discriminative clustering process (DCP), 
+proposes to equalize the marginal distribution of the labeled source and unlabeled target
+
+----- Page 14 (native) -----
+Page 14 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+domains. A discriminative clustering process is used to discover a common latent fea-
+ture space that is domain invariant while simultaneously learning the final target clas-
+sifier. The motivating assumptions for this solution are the data in both domains form 
+well-defined clusters which correspond to unique class labels, and the clusters from the 
+source domain are geometrically close to the target clusters if they share the same label. 
+Through clustering, the source domain labels can be used to estimate the target labels. 
+A one-stage solution is formulated that minimizes the marginal distribution differences 
+while minimizing the predicted classification error in the target domain using a near-
+est neighbor classifier. Experiments are performed for object recognition and sentiment 
+classification where classification accuracy is measured as the performance metric. The 
+approach described above is tested against a baseline approach taken from Weinberger 
+[126] with no transfer learning. Other transfer learning approaches tested include an 
+approach from Pan [87], Blitzer [5], and Gopalan [43]. The Blitzer [5] approach is not 
+tested for the object recognition application because the pivot functions are not eas-
+ily defined for this application. For the object recognition tests, the Shi [106] method 
+is best in five out of six comparison tests. For the text classification tests, the Shi [106] 
+approach is the best performing overall, with the Blitzer [5] approach a close second. An 
+important point to note is the baseline method outperformed the Pan [87] and Gopalan 
+[43] methods in both tests. Both the Pan [87] and Gopalan [43] methods are two-stage 
+domain adaptation processes where the first stage reduces the marginal distributions 
+between the domains and the second stage trains a classifier with the adapted domain 
+data. This paper offers a hypothesis that two-stage processes are actually detrimental 
+to transfer learning (causes negative transfer). The one-stage learning process is a novel 
+idea presented by this paper. The hypothesis that the two-stage transfer learning process 
+creates low performing learners does not agree with the results presented in the indi-
+vidual papers by Gopalan [43] and Pan [87] and other previously surveyed works.
+Convolutional neural networks (CNN) have been successfully used in traditional data 
+mining environments [59]. However, a CNN requires a large amount of labeled training 
+data to be effective, which may not be available. The paper by Oquab [81] proposes a 
+transfer learning method of training a CNN with available labeled source data (a source 
+learner) and then extracting the CNN internal layers (which represent a generic mid-
+level feature representation) to a target CNN learner. This method is referred to as the 
+transfer convolutional neural network (TCNN). To correct for any further distribution 
+differences between the source and the target domains, an adaptation layer is added 
+to the target CNN learner, which is trained from the limited labeled target data. The 
+experiments are run on the application of object image classification where average pre-
+cision is measured as the performance metric. The Oquab [81] method is tested against 
+a method proposed by Marszalek [73] and a method proposed by Song [110]. Both the 
+Marszalek [73] and Song [110] approaches are not transfer learning approaches and are 
+trained on the limited labeled target data. The first experiment is performed using the 
+Pascal VOC 2007 data set as the target and ImageNet 2012 as the source. The Oquab 
+[81] method outperformed both Song [110] and Marszalek [73] approaches for this test. 
+The second experiment is performed using the Pascal VOC 2012 data set as the target 
+and ImageNet 2012 as the source. In the second test, the Oquab [81] method marginally 
+outperformed the Song [110] method (the Marszalek [73] method was not tested for the
+
+----- Page 15 (native) -----
+Page 15 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+second test). The tests successfully demonstrated the ability to transfer information from 
+one CNN learner to another.
+Parameter‑based transfer learning
+The paper by Tommasi [114] addresses the transfer learning environment characterized 
+by limited labeled target data and multiple labeled source domains where each source 
+corresponds to a particular class. In this case, each source is able to build a binary learner 
+to predict that class. The objective is to build a target binary learner for a new class using 
+minimal labeled target data and knowledge transferred from the multiple source learn-
+ers. An algorithm is proposed to transfer the SVM hyperplane information of each of the 
+source learners to the new target learner. To minimize the effects of negative transfer, 
+the information transferred from each source to the target will be weighted such that the 
+most related source domains receive the highest weighting. The weights are determined 
+through a leave out one process as defined by Cawley [13]. The Tommasi [114] approach, 
+called the multi-model knowledge transfer (MMKT) method, extends the method pro-
+posed by Tommasi [113] that only transfers a single source domain. Experiments are 
+performed on the application of image recognition where classification accuracy is 
+measured as the performance metric. Transfer learning methods tested include an aver-
+age weight approach (same as Tommasi [114] but all source weights are equal), and the 
+Tommasi [113] approach. A baseline approach is tested, which is trained on the limited 
+labeled target data. The best performing method is Tommasi [114], followed by the aver-
+age weight, Tommasi [113], and the baseline approach. As the number of labeled target 
+instances goes up, the Tommasi [114] and average weight methods converge to the same 
+performance. This is because the adverse effects of negative transfer are lessened as the 
+labeled target data increases. This result demonstrates the Tommasi [114] approach is 
+able to lessen the effects of negative transfer from unrelated sources.
+The transfer learning approach presented in the paper by Duan [28], referred to as the 
+Domain Selection Machine (DSM), is tightly coupled to the application of event recog-
+nition in consumer videos. Event recognition in videos is the process of predicting the 
+occurrence of a particular event or topic (e.g. “show” or “performance”) in a given video. 
+In this scenario, the target domain is unlabeled and the source information is obtained 
+from annotated images found via web searches. For example, a text query of the event 
+“show” for images on Photosig.com represents one source and the same query on Flickr.
+com represents another separate source. The domain selection machine proposed in 
+this paper is realized as follows. For each individual source, an SVM classifier is cre-
+ated using SIFT (Lowe [70]) image features. The final target classifier is made up of two 
+parts. The first part is a weighted sum of the source classifier outputs whose input is the 
+SIFT features from key frames of the input video. The second part is a learning function 
+whose inputs are space–time features [123] from the input video and is trained from tar-
+get data where the target labels are estimated (pseudo labels) from the weighted sum of 
+the source classifiers. To combat the effects of negative transfer from unrelated sources, 
+the most relevant source domains are selected by using an alternating optimization algo-
+rithm that iteratively solves the target decision function and the domain selection vector. 
+Experiments are performed in the application of event recognition in videos as described 
+above where the mean average precision is measured as the performance metric. A
+
+----- Page 16 (native) -----
+Page 16 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+baseline method is created by training a separate SVM classifier on each source domain 
+and then equally combining the classifiers. The other transfer learning approaches tested 
+include the approach by Bruzzone [11], Schweikert [101], Duan [29], and Chattopad-
+hyay [14]. The Duan [29] approach outperforms all the other approaches tested. The 
+other approaches all have similar results, meaning the transfer learning methods did not 
+outperform the baseline approach. The possible reason for this result is the existence of 
+unrelated sources in the experiment. The other transfer learning approaches tested had 
+no mechanism to guard against negative transfer from unrelated sources.
+The paper by Yao [138] first presents an instance-based transfer learning approach fol-
+lowed by a separate parameter-based transfer learning approach. In the transfer learning 
+process, if the source and target domains are not related enough, negative transfer can 
+occur. Since it is difficult to measure the relatedness between any particular source and 
+target domain, Yao [138] proposes to transfer knowledge from multiple source domains 
+using a boosting method in an attempt to minimize the effects of negative transfer from 
+a single unrelated source domain. The boosting process requires some amount of labeled 
+target data. Yao [138] effectively extends the work of Dai [21] (TrAdaBoost) by expand-
+ing the transfer boosting algorithm to multiple source domains. In the TrAdaBoost algo-
+rithm, during every boosting iteration, a so-called weak classifier is built using weighted 
+instance data from the previous iteration. Then, the misclassified source instances are 
+lowered in importance and the misclassified target instances are raised in importance. In 
+the multi-source TrAdaBoost algorithm (called MsTrAdaBoost), each iteration step first 
+finds a weak classifier for each source and target combination, and then the final weak 
+classifier is selected for that iteration by finding the one that minimizes the target classi-
+fication error. The instance reweighting step remains the same as in the TrAdaBoost. An 
+alternative multi-source boosting method (TaskTrAdaBoost) is proposed that transfers 
+internal learner parameter information from the source to the target. The TaskTrAda-
+Boost algorithm first finds candidate weak classifiers from each individual source by 
+performing an AdaBoost process on each source domain. Then an AdaBoost process is 
+performed on the labeled target data, and at every boosting iteration, the weak classifier 
+used is selected from the candidate weak source classifiers (found in the previous step) 
+that has the lowest classification error using the labeled target data. Experiments are 
+performed for the application of object category recognition where the area under the 
+curve (AUC) is measured as the performance metric. An AdaBoost baseline approach 
+using only the limited labeled target data is measured along with a TrAdaBoost approach 
+using a single source (the multiple sources are combined to one) and the limited labeled 
+target data. Linear SVM learners are used as the base classifiers in all approaches. Both 
+the MsTrAdaBoost and TaskTrAdaBoost approaches outperform the baseline approach 
+and TrAdaBoost approach. The MsTrAdaBoost and TaskTrAdaBoost demonstrated sim-
+ilar performance.
+Relational‑based transfer learning
+The specific application addressed in the paper by Li [62] is to classify words from a text 
+document into one of three classes (e.g. sentiments, topics, or neither). In this scenario, 
+there exists a labeled text source domain on one particular subject matter and an unla-
+beled text target domain on a different subject matter. The main idea is that sentiment
+
+----- Page 17 (native) -----
+Page 17 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+words remain constant between the source and target domains. By learning the gram-
+matical and sentence structure patterns of the source, a relational pattern is found 
+between the source and target domains, which is used to predict the topic words in 
+the target. The sentiment words act as a common linkage or bridge between the source 
+and target domains. A bipartite word graph is used to represent and score the sentence 
+structure patterns. A bootstrapping algorithm is used to iteratively build a target classi-
+fier from the two domains. The bootstrapping process starts with defining seeds which 
+are instances from the source that match frequent patterns in the target. A cross domain 
+classifier is then trained with the seed information and extracted target information 
+(there is no target information in the first iteration). The classifier is used to predict the 
+target labels and the top confidence rated target instances are selected to reconstruct 
+the bipartite word graph. The bipartite word graph is now used to select new target 
+instances that are added to the seed list. This bootstrapping process continues over a 
+selected number of iterations, and the cross domain classifier learned in the bootstrap-
+ping process is now available to predict target samples. This method is referred to as the 
+Relational Adaptive bootstraPping (RAP) approach. The experiments tested the Li [62] 
+approach against an upper bound method where a standard classifier is trained with a 
+large amount of target data. Other transfer learning methods tested include an approach 
+by Hu [50], Qiu [93], Jakob [52], and Dai [21]. The application tested is word classifi-
+cation as described above where the F1 score is measured as the performance metric. 
+The two domains tested are related to movie reviews and product reviews. The Li [62] 
+method performed better than the other transfer learning methods, but fell short of the 
+upper bound method as expected. In its current form, this algorithm is tightly coupled 
+with its underlying text application, which makes it difficult to use for other non-text 
+applications.
+Hybrid‑based (instance and parameter) transfer learning
+The paper by Xia [132] proposes a two step approach to address marginal distribu-
+tion differences and conditional distribution differences between the source and target 
+domains called the sample selection and feature ensemble (SSFE) method. A sample 
+selection process, using a modified version of principal component analysis, is employed 
+to select labeled source domain samples such that the source and target marginal distri-
+butions are equalized. Next, a feature ensemble step attempts to resolve the conditional 
+distribution differences between the source and target domains. Four individual classi-
+fiers are defined corresponding to parts of speech of noun, verb, adverb/adjective, and 
+other. The four classifiers are trained using only the features that correspond to that part 
+of speech. The training data is the limited labeled target and the labeled source selected 
+in the previous sample selection step. The four classifiers are weighted as a function of 
+minimizing the classification error using the limited labeled target data. The weighted 
+output of the four classifiers is used as the final target classifier. This work by Xia [132] 
+extends the earlier work of Xia [131]. The experiments are performed for the applica-
+tion of review sentiment classification using four different review categories, where each 
+category is combined to create 12 different source and target pairs. Classification accu-
+racy is measured as the performance metric. A baseline approach using all the train-
+ing data from the source is constructed, along with a sample selection approach (only
+
+----- Page 18 (native) -----
+Page 18 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+using the first step defined above), a feature ensemble approach (only using the second 
+step defined above) and the complete approach outlined above. The complete approach 
+is the best performing, followed by sample selection and feature ensemble approaches, 
+and the baseline approach. The sample selection and feature ensemble approaches per-
+form equally as well in head-to-head tests. The weighting of the four classifiers (defined 
+by the corresponding parts of speech) in the procedure above gives limited resolution in 
+attempting to adjust for context feature bias issues. A method of having more classifiers 
+in the ensemble step could yield better performance at the expense of higher complexity.
+Discussion of homogeneous transfer learning
+The previous surveyed homogeneous transfer learning works (summarized in Table 2) 
+demonstrate many different characteristics and attributes. Which homogeneous trans-
+fer learning solution is best for a particular application? An important characteristic to 
+evaluate in the selection process is what type of differences exist between a given source 
+and target domain. The previous solutions surveyed address domain adaptation by cor-
+recting for marginal distribution differences, correcting for conditional distribution 
+differences, or correcting for both marginal and conditional distribution differences. 
+The surveyed works of Duan [27], Gong [42], Pan [87], Li [62], Shi [106], Oquab [81], 
+Glorot [41], and Pan [83] are focused on solving the differences in marginal distribu-
+tion between the source and target domains. The surveyed works of Daumé [22], Yao 
+[138], Tommasi [114] are focused on solving the differences in conditional distribution 
+between the source and target domains. Lastly, the surveyed works of Long [68], Xia 
+[132], Chattopadhyay [14], Duan [28], and Long [69] correct the differences in both the 
+marginal and conditional distributions. Correcting for the conditional distribution dif-
+ferences between the source and target domain can be problematic as the nature of a 
+transfer learning environment is to have minimal labeled target data. To compensate 
+for the limited labeled target data, many of the recent transfer learning solutions cre-
+ate pseudo labels for the unlabeled target data to facilitate the conditional distribution 
+correction process between the source and target domains. To further help determine 
+which solution is best for a given transfer learning application, the information in 
+Table 2 should be used to match the characteristics of the solution to that of the desired 
+application environment. If the application domain contains multiple sources where the 
+sources are not mutually uniformly distributed, a solution that guards against negative 
+transfer may be of greater benefit. A recent trend in the development of transfer learning 
+solutions is for solutions to address both marginal and conditional distribution differ-
+ences between the source and target domains. Another emerging solution trend is the 
+implementation of a one-stage process as compared to a two-stage process. In the recent 
+works of Long [68], Duan [27], Shi [106], and Xia [132], a one-stage process is employed 
+that simultaneously performs the domain adaptation process while learning the final 
+classifier. A two-stage solution first performs the domain adaptation process and then 
+independently learns the final classifier. The claim by Long [68] is a one-stage solution 
+achieves enhanced performance because the simultaneous solving of domain adaptation 
+and the classifier establishes mutual reinforcement. The surveyed homogeneous transfer 
+learning works are not specifically applied to big data solutions; however, there is noth-
+ing to preclude their use in a big data environment.
+
+----- Page 19 (native) -----
+Page 19 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+Heterogeneous transfer learning
+Heterogeneous transfer learning is the scenario where the source and target domains 
+are represented in different feature spaces. There are many applications where heteroge-
+neous transfer learning is beneficial. Heterogeneous transfer learning applications that 
+are covered in this section include image recognition [30, 58, 146, 105, 92, 64], multi-
+language text classification [145, 30, 91, 144, 64, 124], single language text classification 
+[121], drug efficacy classification [105], human activity classification [46], and software 
+defect classification [77]. Heterogeneous transfer learning is also directly applicable to 
+a big data environment. As repositories of big data become more available, there is a 
+desire to use this abundant resource for machine learning tasks, avoiding the timely and 
+potentially costly collection of new data. If there is an available dataset drawn from a 
+target domain of interest that has a different feature space from another target dataset 
+(also drawn from the same target domain), then heterogeneous transfer learning can be 
+used to bridge the difference in the feature spaces and build a predictive model for that 
+target domain. Heterogeneous transfer learning is still a relatively new area of study as 
+the majority of the works covering this topic have been published in the last 5 years. 
+From a high-level view, there are two main approaches to solving the heterogeneous 
+feature space difference. The first approach, referred to as symmetric transformation 
+shown in Fig. 1a, separately transforms the source and target domains into a common 
+latent feature space in an attempt to unify the input spaces of the domains. The second 
+approach, referred to as asymmetric transformation as shown in Fig. 1b, transforms the 
+source feature space to the target feature space to align the input feature spaces. The 
+asymmetrical transformation approach is best used when the same class instances in the 
+source and target can be transformed without context feature bias. Many of the hetero-
+geneous transfer learning solutions surveyed make the implicit or explicit assumption 
+that the source and the target domain instances are drawn from the same domain space. 
+With this assumption there should be no significant distribution differences between the 
+domains. Therefore, once the differences in input feature spaces are resolved, no further 
+domain adaptation needs to be performed.
+As is the case with homogeneous transfer learning solutions, whether the source and 
+target domains contain labeled data drives the solution formulation for heterogene-
+ous approaches. Data label availability is a function of the underlying application. The 
+solutions surveyed in this paper have different labeled data requirements. For transfer 
+learning to be feasible, the source and the target domains must be related in some way. 
+Some heterogeneous solutions require an explicit mapping of the relationship or cor-
+respondence between the source and target domains. For example, the solutions defined 
+for Prettenhofer [91] and Wei [125] require manual definitions of source and target 
+correspondence.
+Symmetric feature‑based transfer learning
+The transfer learning approach proposed by Prettenhofer [91] addresses the heteroge-
+neous scenario of a source domain containing labeled and unlabeled data, and a target 
+domain containing unlabeled data. The structural correspondence learning technique 
+from Blitzer [5] is applied to this problem. Structural correspondence learning depends 
+on the manual definition of pivot functions that capture correspondence between the
+
+----- Page 20 (native) -----
+Page 20 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+source and target domains. Effective pivot functions should use features that occur 
+frequently in both domains and have good predictive qualities. Each pivot function is 
+turned into a linear classifier using data from the source and target domains. From these 
+pivot classifiers, correspondences between features are discovered and a latent feature 
+space is learned. The latent feature space is used to train the final target classifier. The 
+paper by Prettenhofer [91] uses this solution to solve the problem of text classifica-
+tion where the source is written in one language and the target is written in a different 
+language. In this specific implementation referred to as cross-language structural cor-
+respondence learning (CLSCL), the pivot functions are defined by pairs of words, one 
+from the target and one from the source, that represent direct word translations from 
+one language to the other. The experiments are performed on the applications of docu-
+ment sentiment classification and document topic classification. English documents are 
+used in the source and other language documents are used in the target. The baseline 
+method used in this test trains a learner on the labeled source documents, then trans-
+lates the target documents to the source language and tests the translated version. An 
+upper bound method is established by training a learner with the labeled target docu-
+ments and testing with the target documents. Average classification accuracy is meas-
+ured as the performance metric. The average results show the upper bound method 
+performing the best and the Prettenhofer [91] method performing better than the base-
+line method. An issue with using structural correspondence learning is the difficulty in 
+generalizing the pivot functions. For this solution, the pivot functions need to be manu-
+ally and uniquely defined for a specific application, which makes it very difficult to port 
+to other applications.
+The paper by Shi [105], referred to as Heterogeneous Spectral Mapping (HeMap), 
+addresses the specific transfer learning scenario where the input feature space is dif-
+ferent between the source and target XS = XT , the marginal distribution is different 
+between the source and the target (P(XS) = P(XT)), and the output space is different 
+between the source and the target (YS = YT ). This solution uses labeled source data 
+that is related to the target domain and limited labeled target data. The first step is to 
+find a common latent input space between the source and target domains using a spec-
+tral mapping technique. The spectral mapping technique is modeled as an optimization 
+objective that maintains the original structure of the data while minimizing the differ-
+ence between the two domains. The next step is to apply a clustering based sample selec-
+tion method to select related instances as new training data, which resolves the marginal 
+distribution differences in the latent input space. Finally, a Bayesian based method is 
+used to find the relationship and resolve the differences in the output space. Experi-
+ments are performed for the applications of image classification and drug efficacy pre-
+diction. Classification error rate is measured as the performance metric. This solution 
+demonstrated better performance as compared to a baseline approach; however, details 
+on the baseline approach are not documented in the paper and no other transfer learn-
+ing solutions are tested.
+The algorithm by Wang [121], referred to as the domain adaptation manifold align-
+ment (DAMA) algorithm, proposes using a manifold alignment [45] process to perform 
+a symmetric transformation of the domain input spaces. In this solution, there are mul-
+tiple labeled source domains and a limited labeled target domain for a total of K domains
+
+----- Page 21 (native) -----
+Page 21 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+where all K domains share the same output label space. The approach is to create a sepa-
+rate mapping function for each domain to transform the heterogeneous input space to a 
+common latent input space while preserving the underlying structure of each domain. 
+Each domain is modeled as a manifold. To create the latent input space, a larger matrix 
+model is created that represents and captures the joint manifold union of all input 
+domains. In this manifold model, each domain is represented by a Laplacian matrix 
+that captures the closeness to other instances sharing the same label. The instances with 
+the same labels are forced to be neighbors while separating the instances with different 
+labels. A dimensionality reduction step is performed through a generalized eigenvalue 
+decomposition process to eliminate feature redundancy. The final learner is built in two 
+stages. The first stage is a linear regression model trained on the source data using the 
+latent feature space. The second stage is also a linear regression model that is summed 
+with the first stage. The second stage uses a manifold regularization [4] process to ensure 
+the prediction error is minimized when using the labeled target data. The first stage is 
+trained only using the source data and the second stage compensates for the domain 
+differences caused by the first stage to achieve enhanced target predictions. The experi-
+ments are focused on the application of document text classification where classification 
+accuracy is measured as the performance metric. The methods tested against include a 
+canonical correlation analysis approach and a manifold regularization approach, which 
+is considered the baseline method. The baseline method uses the limited labeled tar-
+get domain data and does not use source domain information. The approach presented 
+in this paper substantially outperforms the canonical correlation analysis and base-
+line approach; however, these approaches are not directly referenced so it is difficult to 
+understand the significance of the test results. A unique aspect of this paper is the mod-
+eling of multiple source domains in a heterogeneous solution.
+There are scenarios where a large amount of unlabeled heterogeneous source data is 
+readily available that could be used to improve the predictive performance of a particu-
+lar target learner. The paper by Zhu [146], which presents the method called the Het-
+erogeneous transfer learning image classification (HTLIC), addresses this scenario with 
+the assumption of having access to a sufficiently large amount of labeled target data. The 
+objective is to use the large supply of available unlabeled source data to create a common 
+latent feature input space that will improve prediction performance in the target classi-
+fier. The solution proposed by Zhu [146] is tightly coupled to the application of image 
+classification and is described as follows. Images with labeled categories (e.g. dog, cake, 
+starfish, etc.) are available in the target domain. To obtain the source data, a web search 
+is performed from Flickr for images that “relate” to the labeled categories. For example, 
+for the category of dog, the words dog, doggy, and greyhound may be used in the Flickr 
+search. As a reference point, the idea of using annotated images from Flickr as unlabeled 
+source data was first proposed by Yang [137]. The retrieved images from Flickr have one 
+or more word tags associated with each image. These tagged image words are then used 
+to search for text documents using Google search. Next, a two-layer bipartite graph is 
+constructed where the first layer represents linkages between the source images and the 
+image tags. The second layer represents linkages between the image tags and the text 
+documents. If an image tag appears in a text document, then a link is created, otherwise 
+there is no link. Images in both the source and the target are initially represented by an
+
+----- Page 22 (native) -----
+Page 22 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+input feature set that is derived from the pixel information using SIFT descriptors [70]. 
+Using the initial source image features and the bipartite graph representation derived 
+only from the source image tags and text data, a common latent semantic feature set 
+is learned by employing Latent Semantic Analysis [24]. A learner is now trained with 
+the transformed labeled target instances. Experiments are performed on the proposed 
+approach where 19 different image categories are selected. Binary classification is per-
+formed testing different image category pairs. A baseline method is tested using an SVM 
+classifier trained only with the labeled target data. Methods by Raina [95] and by Wang 
+[122] are also tested. The approach proposed by Zhu [146] performed the best overall 
+followed by Raina [95], Wang [122], and baseline approach. The idea of using an abun-
+dant source of unlabeled data available through an internet search to improve prediction 
+performance is a very alluring premise. However, this method is very specific to image 
+classification and is enabled by having a web site like Flickr, which essentially provides 
+unlimited labeled image data. This method is difficult to port to other applications.
+The transfer learning solution proposed by Qi [92] is another example of an approach 
+that specifically addresses the application of image classification. In the paper by Qi 
+[92], the author claims the application of image classification is inherently more diffi-
+cult than text classification because image features are not directly related to semantic 
+concepts inherent in class labels. Image features are derived from pixel information, 
+which is not semantically related to class labels, as opposed to word features that have 
+semantic interpretability to class labels. Further, labeled image data is more scarce as 
+compared to labeled text data. Therefore, a transfer learning environment for image clas-
+sification is desired where an abundance of labeled text data (source) is used to enhance 
+a learner trained on limited labeled image data (target). In this solution, text documents 
+are identified by performing a web search (from Wikipedia for example) on class labels. 
+In order to perform the knowledge transfer from the text documents (source) to the 
+image (target) domain, a bridge in the form of a co-occurrence matrix is used that relates 
+the text and image information. The co-occurrence matrix contains text instances with 
+the corresponding image instances that are found in that particular text document. The 
+co-occurrence matrix can be programmatically built by crawling web pages and extract-
+ing the relevant text and image feature information. Using the co-occurrence matrix, a 
+common latent feature space is found between the text and image feature, which is used 
+to learn the final target classifier. This approach, called the Text to Image (TTI) method, 
+is similar to Zhu [146]. However, Zhu [146] does not use labeled source data to enhance 
+the knowledge transfer, which will result in degraded performance when there is limited 
+labeled target data. Experiments are performed with the methods proposed by Qi [92], 
+Dai [20], Zhu [146], and a baseline approach using a standard SVM classifier trained on 
+the limited labeled target data. The text documents are collected from wikipedia, and 
+classification error rate is measured as the performance metric. The results show the 
+Zhu [146] method performing the best in 15 % of the trials, the Dai [20] method being 
+the best in 10 % of the trials, and the Qi [92] method leading in 75 % of the trials. As with 
+the case of Zhu [146], this method is very specific to the application of image classifica-
+tion and is difficult to port to other applications.
+The scenario addressed in the paper by Duan [30] is focused on heterogeneous domain 
+adaptation with a single labeled source domain and a target domain with limited labeled
+
+----- Page 23 (native) -----
+Page 23 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+samples. The solution proposed is called heterogeneous feature augmentation (HFA). 
+A transformation matrix P is defined for the source and a transformation matrix Q is 
+defined for the target to project the feature spaces to a common latent space. The latent 
+feature space is augmented with the original source and target feature set and zeros where 
+appropriate. This means the source input data projection has the common latent features, 
+the original source features, and zeros for the original target features. The target input 
+data projection has the common latent features, zeros for the original source features, 
+and the original target features. This feature augmentation method was first introduced 
+by Daumé [22] and is used to correct for conditional distribution differences between the 
+domains. For computational simplification, the P and Q matrices are not directly found 
+but combined and represented by an H matrix. An optimization problem is defined by 
+minimizing the structural risk functional [117] of SVM as a function of the H matrix. The 
+final target prediction function is found using an alternating optimization algorithm to 
+simultaneously solve the dual problem of SVM and the optimal transformation H matrix. 
+The experiments are performed for the applications of image classification and text clas-
+sification. The source contains labeled image data and the target contains limited labeled 
+image data. For the image features, SURF [3] features are extracted from the pixel infor-
+mation and then clustered into different dimension feature spaces creating the heteroge-
+neous source and target environment. For the text classification experiments, the target 
+contains Spanish language documents and the source contains documents in four differ-
+ent languages. The experiments test against a baseline method, which is constructed by 
+training an SVM learner on the limited labeled target data. Other heterogeneous adapta-
+tion methods that are tested include the method by Wang [121], Shi [105], and Kulis [58]. 
+For the image classification test, the HFA method outperforms all the methods tested by 
+an average of one standard deviation with respect to classification accuracy. The Kulis [58] 
+method has comparable results to the baseline method (possibly due to some uniqueness 
+in the data set) and the Wang [121] method slightly outperforms the baseline method 
+(possibly due to a weak manifold structure in the data set). For the text classification test, 
+the HFA method outperforms all methods tested by an average of 1.5 standard deviation. 
+For this test, the Kulis [58] method is second in performance, followed by Wang [121], 
+and then the baseline method. The Shi [105] method performed worse than the baseline 
+method in both tests. A possible reason for this result is the Shi [105] method does not 
+specifically use the labeled information from the target when performing the symmetric 
+transformation, which will result in degraded classification performance [64].
+The work of Li [64], called the Semi-supervised heterogeneous feature augmentation 
+(SHFA) approach, addresses the heterogeneous scenario of an abundance of labeled 
+source data and limited target data, and directly extends the work of Duan [30]. In this 
+work, the H transformation matrix, which is described above by Duan [30], is decom-
+posed into a linear combination of a set of rank-one positive semi-definite matrices that 
+allow for Multiple Kernel Learning solvers (defined by Kloft [57]) to be used to find a 
+solution. In the process of learning the H transformation matrix, the labels for the unla-
+beled target data are estimated (pseudo labels created) and used while learning the final 
+target classifier. The pseudo labels for the unlabeled target data are found from an SVM 
+classifier trained on the limited labeled target data. The high-level domain adaptation is 
+shown in Fig. 3. Experiments are performed for three applications which include image
+
+----- Page 24 (native) -----
+Page 24 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+classification (where 31 unique classes are defined), multi-language text document clas-
+sification (where six unique classes are defined), and multi-language text sentiment clas-
+sification. Classification accuracy is measured as the performance metric. The method 
+by Li [64] is tested against a baseline method using an SVM learner and trained on the 
+limited labeled target data. Further, other heterogeneous methods tested include Duan 
+[30], Shi [105], Wang [121], and Kulis [58]. By averaging the three different application 
+test results, the order of performance from best to worst is Li [64], Duan [30], Wang 
+[121], baseline and Kulis [58] (tie), and Shi [105].
+Asymmetric feature‑based transfer learning
+The work of Kulis [58], referred to as the asymmetric regularized cross-domain Trans-
+formation (ARC-t), proposes an asymmetric transformation algorithm to resolve the 
+heterogeneous feature space between domains. For this scenario, there is an abun-
+dance of labeled source data and limited labeled target data. An objective function is 
+first defined for learning the transformation matrix. The objective function contains a 
+regularizer term and a cost function term that is applied to each pair of cross-domain 
+instances and the learned transformation matrix. The construction of the objective func-
+tion is responsible for the domain invariant transformation process. The optimization 
+of the objective function aims to minimize the regularizer and the cost function terms. 
+The transformation matrix is learned in a non-linear Gaussian RBF kernel space. The 
+method presented is referred to as the asymmetric regularized cross-domain transfor-
+mation. Two experiments using this approach are performed for image classification 
+where classification accuracy is measured as the performance metric. There are 31 image 
+classes defined for these experiments. The first experiment (test 1) is where instances 
+of all 31 image classes are included in the source and target training data. In the second 
+experiment (test 2), only 16 image classes are represented in the target training data (all 
+31 are represented in the source). To test against other baseline approaches, a method 
+is needed to bring the source and target input domains together. A preprocessing step 
+called Kernel Canonical Correlation Analysis (proposed by Shawe-Taylor [104]) is used 
+to project the source and target domains into a common domain space using symmetric 
+transformation. Baseline approaches tested include k-nearest neighbors, SVM, metric 
+learning proposed by Davis [23], feature augmentation proposed by Daumé [22], and 
+a cross domain metric learning method proposed by Saenko [100]. For test 1, the Kulis 
+[58] approach performs marginally better than the other methods tested. For test 2, the 
+Fig. 3  Depicts algorithm approach by Li [64] where the heterogeneous source and target features are trans-
+formed to an augmented latent feature space. TS and TT are transformation functions. P and Q are projection 
+matrices as described in Duan [30] Diagram adapted from Li [64]
+
+----- Page 25 (native) -----
+Page 25 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+Kulis [58] approach performs significantly better compared to the k-nearest neighbors 
+approach (note the other methods cannot be tested against as they require all 31 classes 
+to be represented in the target training data). The Kulis [58] approach is best suited for 
+scenarios where all of the classes are not represented in the target training data as dem-
+onstrated in test 2.
+The problem domain defined by Harel [46] is of limited labeled target data and multi-
+ple labeled data sources where an asymmetric transformation is desired for each source 
+to resolve the mismatch in feature space. The first step in the process is to normalize 
+the features in the source and target domains, then group the instances by class in the 
+source and target domains. For each class grouping, the features are mean adjusted to 
+zero. Next, each individual source class group is paired with the corresponding target 
+class group, and a singular value decomposition process is performed to find the specific 
+transformation matrix for that class grouping. Once the transformation is performed, 
+the features are mean shifted back reversing the previous step, and the final target clas-
+sifier is trained using the transformed data. Finding the transformation matrix using the 
+singular value decomposition process allows for the marginal distributions within the 
+class groupings to be aligned while maintaining the structure of the data. This approach 
+is referred to as the Multiple Outlook MAPping algorithm (MOMAP). The experiments 
+use data taken from wearable sensors for the application of activity classification. There 
+are five different activities defined for the experiment which include walking, running, 
+going upstairs, going downstairs, and lingering. The source domain contains similar (but 
+different) sensor readings as compared to the target. The method proposed by Harel [46] 
+is compared against a baseline method that trains a classifier with the limited labeled 
+target data and an upper bound method that uses a significantly larger set of labeled tar-
+get data to train a classifier. An SVM learner is used as the base classifier and a balanced 
+error rate (due to an imbalance in the test data) is measured as the performance metric. 
+The Harel [46] approach outperforms the baseline method in every test and falls short of 
+the upper bound method in every test with respect to the balanced error rate.
+The heterogeneous transfer learning scenario addressed by Zhou [145] requires 
+an abundance of labeled source data and limited labeled target data. An asymmetric 
+transformation function is proposed to map the source features to the target features. 
+To learn the transformation matrix, a multi-task learning method based on Ando [2] 
+is adopted. The solution, referred to as the sparse heterogeneous feature representation 
+(SHFR), is implemented by creating a binary classifier for each class in the source and 
+the target domains separately. Each binary classifier is assigned a weight term where the 
+weight terms are learned by combining the weighted classifier outputs, while minimiz-
+ing the classification error of each domain. The weight terms are now used to find the 
+transformation matrix by minimizing the difference between the target weights and the 
+transformed source weights. The final target classifier is trained using the transformed 
+source data and original target data. Experiments are performed for text document clas-
+sification where the target domain contains documents written in one language and the 
+source domain contains documents written in different languages. A baseline method 
+using a linear SVM classifier trained on the labeled target is established along with test-
+ing against the methods proposed by Wang [121], Kulis [58], and Duan [30]. The method 
+proposed by Zhou [145] performed the best for all tests with respect to classification
+
+----- Page 26 (native) -----
+Page 26 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+accuracy. The results of the other approaches are mixed as a function of the data sets 
+used where the Duan [30] method performed either second or third best.
+The application of software module defect prediction is usually addressed by train-
+ing a classifier with labeled data taken from the software project of interest. The envi-
+ronment described in Nam [77] for software module defect prediction attempts to use 
+labeled source data from one software project to train a classifier to predict unlabeled 
+target data from another project. The source and target software projects collect differ-
+ent metrics making the source and target feature spaces heterogeneous. The proposed 
+solution, referred to as the heterogeneous defect prediction (HDP) approach, is to first 
+select the important features from the source domain using a feature selection method 
+to eliminate redundant and irrelevant features. Feature selection methods used include 
+gain ratio, Chi square, relief-F, and significance attribute evaluation (see Gao [39] and 
+Shivaji [108]). The next step is to statistically match the selected source domain features 
+to ones in the target using a Kolmogorov–Smirnov test that measures the closeness of 
+the empirical distribution between the two sources. A learner is trained with the source 
+features that exhibit a close statistical match to the corresponding target features. The 
+target data is tested with the trained classifier using the corresponding matched features 
+of the target. Even though the approach by Nam [77] is applied directly to the application 
+of software module defect prediction, this method can be used for other applications. 
+Experiments are performed using five different software defect data sets with heteroge-
+neous features. The proposed method by Nam [77] uses logistic regression as the base 
+learner. The other approaches tested include a within project defect prediction (WPDP) 
+approach where the learner is trained on labeled target data, a cross project defect pre-
+diction (CPDP-CM) approach where the source and target represent different software 
+projects but have homogeneous features, and a cross project defect prediction approach 
+with heterogeneous features (CPDP-IFS) as proposed by He [47]. The results of the 
+experiment show the Nam [77] method significantly outperformed all other approaches 
+with respect to area under the curve measurement. The WPDP approach is next best 
+followed by the CPDP-CM approach and the CPDP-IFS approach. These results can be 
+misleading as the Nam [77] approach could only match at least one or more input fea-
+tures between the source and target domains in 37 % of the tests. Therefore, in 63 % of 
+the cases, the Nam [77] method could not be used and these cases are not counted. The 
+WPDP method represents an upper bound and it is an unexpected result that the Nam 
+[77] approach would outperform the WPDP method.
+The paper by Zhou [144] claims that previous heterogeneous solutions assume the 
+instance correspondence between the source and target domains are statistically rep-
+resentative (distributions are equal), which may not always be the case. An example 
+of this claim is in the application of text sentiment classification where the word bias 
+problem previously discussed causes distribution differences between the source and 
+target domains. The paper by Zhou [144] proposes a solution called the hybrid hetero-
+geneous transfer learning (HHTL) method for a heterogeneous environment with abun-
+dant labeled source data and abundant unlabeled target data. The idea is to first learn 
+an asymmetric transformation from the target to the source domain, which reduces 
+the problem to a homogeneous domain adaptation issue. The next step is to discover
+
+----- Page 27 (native) -----
+Page 27 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+a common latent feature space using the transformed data (from the previous step) 
+to reduce the distribution bias between the transformed unlabeled target domain and 
+the labeled source domain. Finally, a classifier is trained using the common latent fea-
+ture space from the labeled source data. This solution is realized using a deep learning 
+method employing a marginalized stacked denoised autoencoder as proposed by Chen 
+[16] to learn the asymmetric transformation and the mapping to a common latent fea-
+ture space. The previous surveyed paper by Glorot [41] demonstrated a deep learning 
+approach finding a common latent feature space for homogeneous source and target 
+feature set. The experiments focused on multiple language text sentiment classification 
+where English is used in the source and three other languages are separately used in the 
+target. Classification accuracy is measured as the performance metric. Other methods 
+tested include a heterogeneous spectral mapping approach proposed by Shi [105], a 
+method proposed by Vinokourov [120], and a multimodal deep learning approach pro-
+posed by Ngiam [79]. An SVM learner is used as the base classifier for all methods. The 
+results of the experiment from best to worst performance are Zhou [144], Ngiam [79], 
+Vinokourov [120], and Shi [105].
+Improvements to heterogeneous solutions
+The paper by Yang [136] proposes to quantify the amount of knowledge that can be 
+transferred between domains in a heterogeneous transfer learning environment. In other 
+words, it attempts to measure the “relatedness” of the domains. This is accomplished 
+by first building a co-occurrence matrix for each domain. The co-occurrence matrix 
+contains the set of instances represented in every domain. For example, if one particu-
+lar text document is an instance in the co-occurrence matrix, that text document is 
+required to be represented in every domain. Next, principal component analysis is used 
+to select the most important features in each domain and assign the principal compo-
+nent coefficient to those features. The principal component coefficients are used to form 
+a directed cyclic network (DCN) where each node represents a domain (either source 
+or target) and each node connection (edge weight) is the conditional dependence from 
+one domain to another. The DCN is built using a Markov Chain Monte Carlo method. 
+The edge weights represent the potential amount of knowledge that can be transferred 
+between domains where a higher value means higher knowledge transfer. These edge 
+weights are then used as tuning parameters in different heterogeneous transfer learning 
+solutions, which include works from Yang [137], Ng [78], and Zhu [146] (the weights 
+are calculated first using Yang [136] and then applied as tuning values in the other solu-
+tions). Note, that integrating the edge weight values into a particular approach is specific 
+to the implementation of the solution and cannot be generically applied. The experi-
+ments are run on the three different learning solutions comparing the original solution 
+against the solution using the weighted edges of the DCN as the tuned parameters. In 
+all three solutions, the classification accuracy is improved using the DCN tuned param-
+eters. One potential issue with this approach is the construction of the co-occurrence 
+matrix. The co-occurrence matrix contains many instances; however, each instance must 
+be represented in each domain. This may be an unrealistic constraint in many real-world 
+applications.
+
+----- Page 28 (native) -----
+Page 28 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+Experiment results
+In reviewing the experiment results of the previous surveyed papers, there are instances 
+where one solution can show varying results over a range of different experiments. There 
+are many reasons why this can happen which include varying test environments, dif-
+ferent test implementations, different applications being tested, and different data sets 
+being used. An interesting area of future work is to evaluate the solutions presented to 
+determine the best performing solutions as a function of specific datasets. To facilitate 
+that goal, a repository of open-source software containing the software implementations 
+for solutions used in each paper would be extremely beneficial.
+Table 3 lists a compilation of head-to-head results for the most commonly tested solu-
+tions contained in the “Heterogeneous transfer learning” section. The results listed in 
+Table 3 represent a win, loss, and tie performance record of the head-to-head solution 
+comparisons. Note, these results are compiled directly from the surveyed papers. It is 
+difficult to draw exact conclusions from this information because of the reasons just out-
+lined; however, it provides some interesting insight into the comparative performances 
+of the solutions.
+Discussion of heterogeneous solutions
+The previous surveyed heterogeneous transfer learning works demonstrate many dif-
+ferent characteristics and attributes. Which heterogeneous transfer learning solu-
+tion is best for a particular application? The heterogeneous transfer learning solutions 
+use either a symmetric transformation or an asymmetric transformation process in an 
+attempt to resolve the differences between the input feature space (as shown in Fig. 1). 
+The asymmetrical transformation approach is best used when the same class instances 
+in the source and target domains can be transformed without context feature bias. Many 
+of the surveyed heterogeneous transfer learning solutions only address the issue of the 
+input feature space being different between the source and target domains and do not 
+address other domain adaptation steps needed for marginal and/or conditional distri-
+bution differences. If further domain adaptation needs to be performed after the input 
+feature spaces are aligned, then an appropriate homogeneous solution should be used. 
+To further help determine which solution is best for a given transfer learning applica-
+tion, the information in Table 4 should be used to match the characteristics of the solu-
+tion to that of the desired application environment. None of the surveyed heterogeneous 
+Table 3  Lists the head-to-head results of  experiments performed in  the heterogeneous 
+transfer learning works surveyed
+The numbers (x–y–z) in the table indicate the far left column method outperforms the top row method x times, underperforms 
+y times, and has similar performance z times
+Methods
+HeMap
+ARC-t
+DAMA
+HFA
+SHFR
+SHFA
+HeMap [105]
+–
+0–5–0
+0–5–0
+0–5–0
+0–0–0
+0–3–0
+ARC-t [58]
+5–0–0
+–
+4–2–0
+1–7–0
+0–3–0
+0–3–0
+DAMA [121]
+5–0–0
+2–4–0
+–
+0–8–0
+0–3–0
+0–3–0
+HFA [30]
+5–0–0
+7–1–0
+8–0–0
+–
+0–3–0
+0–3–0
+SHFR [145]
+0–0–0
+3–0–0
+3–0–0
+3–0–0
+–
+0–0–0
+SHFA [64]
+3–0–0
+3–0–0
+3–0–0
+3–0–0
+0–0–0
+–
+
+----- Page 29 (native) -----
+Page 29 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+transfer learning solutions have a means to guard against negative transfer effects. How-
+ever, the paper by Yang [136] demonstrates that negative transfer guards can benefit het-
+erogeneous transfer learning solutions. It seems likely that future heterogeneous transfer 
+learning works will integrate means for negative transfer protection. Many of the same 
+heterogeneous transfer learning solutions are tested in the surveyed solution experi-
+ments. These head-to-head comparisons are summarized in Table 3 and can be used 
+as a starting point to understand the relative performance between the solutions. As 
+observed as a trend in the previous homogeneous solutions, the recent heterogeneous 
+solution by Duan [30] employs a one-stage solution that simultaneously performs the 
+feature input space alignment process while learning the final classifier. As is the case for 
+the surveyed homogeneous transfer learning works, the surveyed heterogeneous trans-
+fer learning works are not specifically applied to big data solutions; however, there is 
+nothing to preclude their use in a big data environment.
+Negative transfer
+The high-level concept of transfer learning is to improve a target learner by using data 
+from a related source domain. But what happens if the source domain is not well-related 
+to the target? In this case, the target learner can be negatively impacted by this weak 
+relation, which is referred to as negative transfer. In a big data environment, there may 
+be a large dataset where only a portion of the data is related to a target domain of inter-
+est. For this case, there is a need to divide the dataset into multiple sources and employ 
+negative transfer methods when using transfer learning algorithm. In the scenario where 
+multiple datasets are available that initially appear to be related to the target domain 
+of interest, it is desired to select the datasets that provide the best information transfer 
+and avoid the datasets that cause negative transfer. This allows for the best use of the 
+available large datasets. How related do the source and target domains need to be for 
+transfer learning to be advantageous? The area of negative transfer has not been widely 
+researched, but the following papers begin to address this issue.
+Table 4  Heterogeneous transfer learning approaches surveyed in “Heterogeneous trans-
+fer learning” section listing various characteristics of each approach
+Approach
+Transfer category
+Source
+data
+Target data
+Multiple 
+sources
+Generic  
+solution
+Negative 
+transfer
+CLSCL [91]
+Symmetric feature
+Labeled
+Unlabeled
+HeMap [105]
+Symmetric feature
+Labeled
+Limited labels
+✓
+DAMA [121]
+Symmetric feature
+Labeled
+Limited labels
+✓
+✓
+HTLIC [146]
+Symmetric feature
+Unlabeled
+Abundant labels
+TTI [92]
+Symmetric feature
+Labeled
+Limited labels
+HFA [30]
+Symmetric feature
+Labeled
+Limited labels
+✓
+SHFA [64]
+Symmetric feature
+Labeled
+Limited labels
+✓
+ARC-t [58]
+Asymmetric feature
+Labeled
+Limited labels
+✓
+MOMAP [46]
+Asymmetric feature
+Labeled
+Limited labels
+✓
+SHFR [145]
+Asymmetric feature
+Labeled
+Limited labels
+✓
+HDP [77]
+Asymmetric feature
+Labeled
+Unlabeled
+✓
+HHTL [144]
+Asymmetric feature
+Labeled
+Unlabeled
+✓
+
+----- Page 30 (native) -----
+Page 30 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+An early paper by Rosenstein [98] discusses the concept of negative transfer in trans-
+fer learning and claims that the source domain needs to be sufficiently related to the 
+target domain; otherwise, the attempt to transfer knowledge from the source can have 
+a negative impact on the target learner. Cases of negative transfer are demonstrated by 
+Rosenstein [98] in experiments using a hierarchical Naive Bayes classifier. The author 
+also demonstrates the chance of negative transfer goes down as the number of labeled 
+target training samples goes up.
+The paper by Eaton [31] proposes to build a target learner based on a transferabil-
+ity measure from multiple related source domains. The approach first builds a logistic 
+regression learner for each source domain. Next, a model transfer graph is constructed 
+to represent the transferability between each source learner. In this case, transferabil-
+ity from a first learner to a second learner is defined as the performance of the second 
+learner with learning from the first learner minus the performance of the second learner 
+without learning from the first learner. Next, the model transfer graph is modified by 
+adding the transferability measures between the target learner and all the source learn-
+ers. Using spectral graph theory [17] on the model transfer graph, a transfer function 
+is derived that maintains the geometry of the model transfer graph and is used in the 
+final target learner to determine the level of transfer from each source. Experiments are 
+performed in the applications of document classification and alphabet classification. 
+Source domains are identified that are either related or unrelated to the target domain. 
+The method by Eaton [31] is tested along with a handpicked method where the source 
+domains are manually selected to be related to the target, an average method that uses 
+all sources available, and a baseline method that does not use transfer learning. Clas-
+sification accuracy is the performance metric measured in the experiments. The source 
+and target domains are represented by a homogeneous feature input space. The results 
+of the experiments are mixed. Overall, the Eaton [31] approach performs the best; how-
+ever, there are certain instances where Eaton [31] performed worse than the handpicked, 
+average, and baseline methods. In the implementation of the algorithm, the transferabil-
+ity measure between two sources is required to be the same; however, the transferabil-
+ity from source 1 to source 2 is not always equal to the transferability from source 2 to 
+source 1. A suggestion for future improvement is to use directed graphs to specify the 
+bidirectional nature of the transferability measure between two sources.
+The paper by Ge [40] claims that knowledge transfer can be inhibited due to the exist-
+ence of unrelated or irrelevant source domains. Further, current transfer learning solu-
+tions are focused on transferring knowledge from source domains to a target domain, 
+but are not concerned about different source domains that could potentially be irrel-
+evant and cause negative transfer. In the model presented by Ge [40], there is a single 
+target domain with limited labeled data and multiple labeled source domains for knowl-
+edge transfer. To reduce negative transfer effects from unrelated source domains, each 
+source is assigned a weight (called the Supervised Local Weight) corresponding to how 
+related the source is with the target (the higher the weight the more it is related). The 
+supervised local weight is found by first using a spectral clustering algorithm (Chung 
+[17]) on the unlabeled target information and propagating labels to the clusters from the 
+labeled target information. Next, each source is separately clustered and labels assigned 
+to the clusters from the labeled source. The supervised local weight of each source
+
+----- Page 31 (native) -----
+Page 31 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+cluster is computed by comparing the source and target clusters. This solution further 
+addresses the issue of imbalanced class distribution in source domains by preventing 
+a high-weight class assignment in the case of high-accuracy predictions in a minority 
+target class. The final target learner uses the supervised local weights to attenuate the 
+effects of negative transfer. Experiments are performed in three application areas includ-
+ing cardiac arrhythmia detection, spam email filtering, and intrusion detection. Area 
+under the curve is measured as the performance metric. The source and target domains 
+are represented by a homogeneous feature input space. The method presented in this 
+paper is compared against methods by Luo [71], by Gao [38], by Chattopadhyay [14], and 
+by Gao [37]. The Luo [71] and Gao [38] methods are the worst performing, most likely 
+due to the fact that these solutions do not attempt to combat negative transfer effects. 
+The Chattopadhyay [14] and Gao [37] methods are the next best performing, which have 
+means in place to reduce the effects of negative transfer from the source domains. The 
+Chattopadhyay [14] and Gao [37] methods do address the negative transfer problem but 
+do not address the imbalanced distribution issue. The Ge [40] method does exhibit the 
+best overall performance due to the handling of negative transfer and imbalanced class 
+distribution.
+The paper by Seah [102] claims the root cause of negative transfer is mainly due to 
+conditional distribution differences between source domains 
+
+PS1(y|x) = PS2
+
+y|x
+
+ 
+and a difference in class distribution (class imbalance) between the source and target 
+
+PS(y) = PT
+
+y
+
+. Because the target domain usually contains a small number of labeled 
+instances, it is difficult to find the true class distribution of the target domain. A predic-
+tive distribution matching (PDM) framework is proposed to align the conditional dis-
+tributions of the source domains and target domain in an attempt to minimize negative 
+transfer effects. A positive transferability measure is defined that measures the transfer-
+ability of instance pairs with the same label from the source and target domains. The first 
+step in the PDM framework is to assign pseudo labels to the unlabeled target data. This 
+is accomplished by an iterative process that forces source and target instances which are 
+similar (as defined by the positive transferability measure) to have the same label. Next, 
+irrelevant source data are removed by identifying data that does not align with the con-
+ditional distribution of the pseudo labeled target data for each class. Both logistic regres-
+sion and SVM classifiers are implemented using the PDM framework. Experiments are 
+performed on document classification using the PDM method described in this paper, 
+the approach from Daumé [22], the approach from Huang [51], and the approach from 
+Bruzzone [11]. Classification accuracy is measured as the performance metric. The 
+source and target domains are represented by a homogeneous feature input space. The 
+PDM approach demonstrates better performance as compared to the other approaches 
+tested as these solutions do not attempt to account for negative transfer effects.
+A select number of previously surveyed papers contain solutions addressing negative 
+transfer. The paper by Yang [136] addresses the negative transfer issue, which is pre-
+sented in the “Heterogeneous transfer learning” section. The homogeneous solution by 
+Gong [42] defines an ROD value that measures the relatedness between a source and 
+target domain. The work presented in Chattopadhyay [14] is a multiple source transfer 
+learning approach that calculates the source weights as a function of conditional prob-
+ability differences between the source and target domains attempting to give the most
+
+----- Page 32 (native) -----
+Page 32 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+related sources the highest weights. Duan [28] proposes a transfer learning approach 
+that only uses source domains that are deemed relevant and test data demonstrates bet-
+ter performance compared to methods with no negative transfer protection.
+The previous papers attempt to measure how related source data is to the target data 
+in a transfer learning environment and then selectively transfer the information that is 
+highly related. The experiments in the above papers demonstrate that accounting for 
+negative transfer effects from source domain data can improve target learner perfor-
+mance. However, most transfer learning solutions do not attempt to account for negative 
+transfer effects. Robust negative transfer measurements are difficult to define. Since the 
+target domain typically has limited labeled data, it is inherently difficult to find a true 
+measure of the relatedness between the source and target domains. Further, by selec-
+tively transferring information that seems related to the limited labeled target domain, 
+a risk of overfitting in the target learner is a concern. The topic of negative transfer is a 
+fertile area for further research.
+Transfer learning applications
+The surveyed works in this paper demonstrate that transfer learning has been applied 
+to many real-world applications. There are a number of application examples pertain-
+ing to natural language processing, more specifically in the areas of sentiment classifica-
+tion, text classification, spam email detection, and multiple language text classification. 
+Other well-represented transfer learning applications include image classification and 
+video concept classification. Applications that are more selectively addressed in the pre-
+vious papers include WiFi localization classification, muscle fatigue classification, drug 
+efficacy classification, human activity classification, software defect classification, and 
+cardiac arrhythmia classification.
+The majority of the solutions surveyed are generic, meaning the solution can be eas-
+ily applied to applications other than the ones implemented and tested in the papers. 
+The application-specific solutions tend to be related to the field of natural language pro-
+cessing and image processing. In the literature, there are a number of transfer learning 
+solutions that are specific to the application of recommendation systems. Recommen-
+dation systems provide users with recommendations or ratings for a particular domain 
+(e.g. movies, books, etc.), which are based on historical information. However, when the 
+system does not have sufficient historical information (referred to as the data sparsity 
+issue presented in Moreno [76]), then the recommendations are not reliable. In the cases 
+where the system does not have sufficient domain data to make reliable predictions (for 
+example when a movie is just released), there is a need to use previously collected infor-
+mation from a different domain (using books for example). The aforementioned prob-
+lem has been directly addressed using transfer learning methodologies and captured in 
+papers by Moreno [76], Cao [12], Li [60], Li [61], Pan [86], Zhang [140], Pan [85], Roy 
+[99], Jiang [54], and Zhao [142].
+Transfer learning solutions continue to be applied to a diverse number of real-world 
+applications, and in some cases the applications are quite obscure. The application 
+of head pose classification finds a learner trained with previously captured labeled 
+head positions to predict a new head position. Head pose classification is used for
+
+----- Page 33 (native) -----
+Page 33 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+determining the attentiveness of drivers, analyzing social behavior, and human inter-
+action with robots. Head positions captured in source training data will have different 
+head tilt ranges and angles than that of the predicted target. The paper by Rajagopal [96] 
+addresses the head pose classification issues using transfer learning solutions.
+Other transfer learning applications include the paper by Ma [72] that uses transfer 
+learning for atmospheric dust aerosol particle classification to enhance global climate 
+models. Here the TrAdaBoost algorithm proposed by Dai [21] is used in conjunction 
+with an SVM classifier to improve on classification results. Being able to identify areas 
+of low income in developing countries is important for disaster relief efforts, food secu-
+rity, and achieving sustainable growth. To better predict poverty mapping, Xie [134] pro-
+poses an approach similar to Oquab [81] that uses a convolution neural network model. 
+The first prediction model is trained to predict night time light intensity from source 
+image data. The final target prediction model predicts the poverty mapping from source 
+night time light intensity data. In the paper by Ogoe [80], transfer learning in used to 
+enhance disease prediction. In this solution, a rule-based learning approach is formu-
+lated to use abstract source domain data to perform modeling of multiple types of gene 
+expression data. Online display web advertising is a growing industry where transfer 
+learning is used to optimally predict targeted ads. In the paper by Perlich [90], a transfer 
+learning approach is employed that uses the weighted outputs of multiple source classi-
+fiers to enhance a target classifier trained to predict targeted online display advertising 
+results. The paper by Kan [56] addresses the field of facial recognition and is able to use 
+face image information from one ethnic group to improve the learning of a classifier for 
+a different ethnic group. The paper by Farhadi [35] is focused on the application of sign 
+language recognition where the model is able to learn from different people signing at 
+various angles. Transfer learning is applied to the field of biology in the paper by Widmer 
+[127]. Specifically, a multi-task learning approach is used in the prediction of splice sites 
+in genome biology. Predicting if patients will contract particular bacteria when admitted 
+to a hospital is addressed in the paper by Wiens [128]. Information taken from differ-
+ent hospitals is used to predict the infection rate for a different hospital. In the paper 
+by Romera-Paredes [97], a multi-task transfer learning approach is used to predict pain 
+levels from an individual’s facial expression by using labeled source facial images from 
+other individuals. The paper by Deng [25] applies transfer learning to the application 
+of speech emotion recognition where information is transferred from multiple labeled 
+speech sources. The application of wine quality classification is implemented in Zhang 
+[141] using a multi-task transfer learning approach. As a reference, the survey paper by 
+Cook [19] covers transfer learning for the application of activity recognition and the sur-
+vey papers by Patel [89] and Shao [103] address transfer learning in the domain of image 
+recognition.
+Conclusion and discussion
+The subject of transfer learning is a well-researched area as evidenced with more than 
+700 academic papers addressing the topic in the last 5  years. This survey paper pre-
+sents solutions from the literature representing current trends in transfer learning. 
+Homogeneous transfer learning papers are surveyed that demonstrate instance-based,
+
+----- Page 34 (native) -----
+Page 34 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+feature-based, parameter-based, and relational-based information transfer techniques. 
+Solutions having various requirements for labeled and unlabeled data are also pre-
+sented as a key attribute. The relatively new area of heterogeneous transfer learning is 
+surveyed showing the two dominant approaches for domain adaptation being asymmet-
+ric and symmetric transformations. Many real-world applications that transfer learning 
+is applied to are listed and discussed in this survey paper. In some cases, the proposed 
+transfer learning solutions are very specific to the underlying application and cannot 
+be generically used for other applications. A list of software downloads implementing 
+a portion of the solutions surveyed is presented in the appendix of this paper. A great 
+benefit to researchers is to have software available from previous solutions so experi-
+ments can be performed more efficiently and more reliably. A single open-source soft-
+ware repository for published transfer learning solutions would be a great asset to the 
+research community.
+In many transfer learning solutions, the domain adaptation process performed is 
+focused either on correcting the marginal distribution differences or the conditional 
+distribution differences between the source and target domains. Correcting the condi-
+tional distribution differences is a challenging problem due to the lack of labeled target 
+data. To address the lack of labeled target data, some solutions estimate the labels for the 
+target data (called pseudo labels), which are then used to correct the conditional distri-
+bution differences. This method is problematic because the conditional distribution cor-
+rections are being made with the aid of pseudo labels. Improved methods for correcting 
+the conditional distribution differences is a potential area of future research. A number 
+of more recent works attempt to correct both the marginal distribution differences and 
+the conditional distribution differences during the domain adaptation process. An area 
+of future work is to quantify the advantage of correcting both distributions and in what 
+scenarios it is most effective. Further, Long [68] states that the simultaneous solving of 
+marginal and conditional distribution differences is preferred over serial alignment as 
+it reduces the risk of overfitting. Another area of future work is to quantify any perfor-
+mance gains for simultaneously solving both distribution differences. In addition to solv-
+ing for distribution differences in the domain adaptation process, exploring possible data 
+preprocessing steps using heuristic knowledge of the domain features can be used as 
+a method to improve the target learner performance. The heuristic knowledge would 
+represent a set of complex rules or relations that standard transfer learning techniques 
+cannot account for. In most cases, this heuristic knowledge would be specific to each 
+domain, which would not lead to a generic solution. However, if such a preprocessing 
+step leads to improved target learner performance, it is likely worth the effort.
+A trend observed in the formulation of transfer learning solutions is in the implemen-
+tation of a one-stage process as opposed to a two-stage process. A two-stage solution 
+first performs the domain adaptation process and then independently learns the final 
+classifier. A one-stage process simultaneously performs the domain adaptation pro-
+cess while learning the final classifier. Recent solutions employing a one-stage solution 
+include Long [68], Duan [27], Shi [106], Xia [132], and Duan [30]. With respect to the 
+one-stage solution, Long [68] claims the simultaneous solving of domain adaptation and
+
+----- Page 35 (native) -----
+Page 35 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+the classifier establishes mutual reinforcement for enhanced performance. An area of 
+future work is to better quantify the effects of a one-stage approach over a two-stage 
+approach.
+This paper surveys a number of works addressing the topic of negative transfer. The 
+subject of negative transfer is still a lightly researched area. The expanded integration 
+of negative transfer techniques into transfer learning solutions is a natural extension for 
+future research. Solutions supporting multiple source domains enabling the splitting of 
+larger source domains into smaller domains to more easily discriminate against unre-
+lated source data are a logical area for continued research. Additionally, optimal transfer 
+is another fertile area for future research. Negative transfer is defined as a source domain 
+having a negative impact on a target learner. The concept of optimal transfer is when 
+select information from a source domain is transferred to achieve the highest possible 
+performance in a target learner. There is overlap between the concepts of negative trans-
+fer and optimal transfer; however, optimal transfer attempts to find the best performing 
+target learner, which goes well beyond the negative transfer concept.
+With the recent proliferation of sensors being deployed in cell phones, vehicles, build-
+ings, roadways, and computers, larger and more diverse information is being collected. 
+The diversity in data collection makes heterogeneous transfer learning solutions more 
+important moving forward. Larger data collection sizes highlight the potential for big 
+data solutions being deployed concurrent with current transfer learning solutions. How 
+the diversity and large size of sensor data integrates into transfer learning solutions is 
+an interesting topic of future research. Another area of future work pertains to the sce-
+nario where the output label space is different between domains. With new data sets 
+being captured and being made available, this topic could be a needed area of focus for 
+the future. Lastly, the literature has very few transfer learning solutions addressing the 
+scenario of unlabeled source and unlabeled target data, which is certainly an area for 
+expanded research.
+Authors’ contributions
+TMK introduced this topic to KW and provided technical guidance throughout the research and writing phases of the 
+manuscript. KW performed the literature review, analysis, and writing of the manuscript. DDW provided a full review of 
+the final manuscript. All authors read and approved the final manuscript.
+Competing interests
+The authors declare that they have no competing interests.
+Appendix
+The majority of transfer learning solutions surveyed are complex and implemented with 
+non-trivial software. It is a great advantage for a researcher to have access to software 
+implementations of transfer learning solutions so comparisons with competing solutions 
+are facilitated more quickly and fairly. Table 5 provides a list of available software down-
+loads for a number of the solutions surveyed in this paper. Table 6 provides a resource 
+for useful links that point to transfer learning tutorials and other interesting articles on 
+the topic of transfer learning.
+
+----- Page 36 (native) -----
+Page 36 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+Received: 4 March 2016   Accepted: 17 May 2016
+References
+	
+1.	 A literature survey on domain adaptation of statistical classifiers. http://sifaka.cs.uiuc.edu/jiang4/domain_adapta-
+tion/survey/da_survey.html. Accessed 4 Mar 2016.
+	
+2.	 Ando RK, Zhang T. A framework for learning predictive structures from multiple tasks and unlabeled data. J Mach 
+Learn Res. 2005;6:1817–53.
+	
+3.	 Bay H, Tuytelaars T, Gool LV. Surf: speeded up robust features. Comput Vis Image Underst. 2006;110(3):346–59.
+	
+4.	 Belkin M, Niyogi P, Sindhwani V. Manifold regularization: a geometric framework for learning from examples. J 
+Mach Learn Res Arch. 2006;7:2399–434.
+	
+5.	 Blitzer, J, McDonald R, Pereira F. Domain adaptation with structural correspondence learning. In: Proceedings of 
+the 2006 conference on empirical methods in natural language processing. 2006;120–8.
+	
+6.	 BoChen90 Update TrAdaBoost.m. https://github.com/BoChen90/machine-learning-matlab/blob/master/
+TrAdaBoost.m. Accessed 4 Mar 2016.
+	
+7.	 Bolt online learning toolbox. http://pprett.github.com/bolt/. Accessed 4 Mar 2016.
+	
+8.	 Bonilla E, Chai KM, Williams C. Multi-task Gaussian process prediction. In: Proceedings of the 20th annual confer-
+ence of neural information processing systems. 2008. 153–60.
+	
+9.	 Gong B. http://www-scf.usc.edu/~boqinggo/. Accessed 4 Mar 2016.
+	 10.	 Borgwardt KM, Gretton A, Rasch MJ, Kriegel HP, Schölkopf B, Smola AJ. Integrating structured biological data by 
+kernel maximum mean discrepancy. Bioinformatics. 2006;22(4):49–57.
+	 11.	 Bruzzone L, Marconcini M. Domain adaptation problems: a DASVM classification technique and a circular valida-
+tion strategy. IEEE Trans Pattern Anal Mach Intell. 2010;32(5):770–87.
+	 12.	 Cao B, Liu N, Yang Q. Transfer learning for collective link prediction in multiple heterogeneous domains. In: Pro-
+ceedings of the 27th international conference on machine learning. 2010. p. 159–66.
+	 13.	 Cawley G. Leave-one-out cross-validation based model selection criteria for weighted LS-SVMs. In: IEEE 2006 
+international joint conference on neural network proceedings 2006. p. 1661–68.
+Table 5  Software downloads for various transfer learning solutions
+Approach
+Location
+Prettenhofer [91]
+https://github.com/pprett/bolt [7]
+Zhu [146]
+http://www.cse.ust.hk/~yinz/ [139]
+Dai [21]
+https://github.com/BoChen90/machine-learning-matlab/blob/master/
+TrAdaBoost.m [6]
+Daumé [22]
+http://hal3.name/easyadapt.pl.gz [32]
+Duan [30]
+https://sites.google.com/site/xyzliwen/publications/HFA_release_0315.rar [49]
+Kulis [58]
+http://vision.cs.uml.edu/adaptation.html [18]
+Qi [92]
+http://www.eecs.ucf.edu/~gqi/publications.html [44]
+Li [64]
+http://www.lxduan.info/#sourcecode_hfa [67]
+Gong [42]
+http://www-scf.usc.edu/~boqinggo/ [9]
+Long [68]
+http://ise.thss.tsinghua.edu.cn/~mlong/ [75]
+Oquab [81]
+http://leon.bottou.org/papers/oquab-2014 [88]
+Long [69]
+http://ise.thss.tsinghua.edu.cn/~mlong/ [75]
+Other transfer learning code
+http://www.cse.ust.hk/TL/ [115]
+Table 6  Useful links for transfer learning information
+Item
+Location
+Slides for Nam [77]
+http://www.slideshare.net/hunkim/heterogeneous-defect-prediction-esecfse-2015 
+[48]
+Code for SVMLIB
+http://www.csie.ntu.edu.tw/~cjlin/libsvm [65]
+Slide for Kulis [58]
+https://www.eecs.berkeley.edu/~jhoffman/domainadapt/ [26]
+Tutorial on transfer learning
+http://tommasit.wix.com/datl14tutorial [116]
+Tutorial on transfer learning
+http://sifaka.cs.uiuc.edu/jiang4/domain_adaptation/survey/da_survey.html [1]
+Overview of Duan [28]
+http://lxduan.info/papers/DuanCVPR2012_poster.pdf [34]
+
+----- Page 37 (native) -----
+Page 37 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+	 14.	 Chattopadhyay R, Ye J, Panchanathan S, Fan W, Davidson I. Multi-source domain adaptation and its application to 
+early detection of fatigue. ACM Trans Knowl Dis Data (Best of SIGKDD 2011 TKDD Homepage archive) 2011; 6(4) 
+(Article 18).
+	 15.	 Chelba C, Acero A. Adaptation of maximum entropy classifier: little data can help a lot. Comput Speech Lang. 
+2004;20(4):382–99.
+	 16.	 Chen M, Xu ZE, Weinberger KQ, Sha F (2012) Marginalized denoising autoencoders for domain adaptation. ICML. 
+arXiv preprintarXiv:1206.4683.
+	 17.	 Chung FRK. Spectral graph theory. In: CBMS regional conference series in mathematics, no. 92. Providence: Ameri-
+can Mathematical Society; 1994.
+	 18.	 Computer Vision and Learning Group. http://vision.cs.uml.edu/adaptation.html. Accessed 4 Mar 2016.
+	 19.	 Cook DJ, Feuz KD, Krishnan NC. Transfer learning for activity recognition: a survey. Knowl Inf Syst. 
+2012;36(3):537–56.
+	 20.	 Dai W, Chen Y, Xue GR, Yang Q, Yu Y. Translated learning: transfer learning across different feature spaces. Adv 
+Neural Inform Process Syst. 2008;21:353–60.
+	 21.	 Dai W, Yang Q, Xue GR, Yu Y (2007) Boosting for transfer learning. In: Proceedings of the 24th international confer-
+ence on machine learning. p. 193–200.
+	 22.	 Daumé H III. Frustratingly easy domain adaptation. In: Proceedings of ACL. 2007. p. 256–63.
+	 23.	 Davis J, Kulis B, Jain P, Sra S, Dhillon I. Information theoretic metric learning. In: Proceedings of the 24th interna-
+tional conference on machine learning. 2007. p. 209–16.
+	 24.	 Deerwester S, Dumais ST, Furnas GW, Landauer TK, Harshman R. Indexing by latent semantic analysis. J Am Soc Inf 
+Sci. 1990;41:391–407.
+	 25.	 Deng J, Zhang Z, Marchi E, Schuller B. Sparse autoencoder based feature transfer learning for speech emotion rec-
+ognition. In: Humaine association conference on affective computing and intelligent interaction. 2013. p. 511–6.
+	 26.	 Domain adaptation project. https://www.eecs.berkeley.edu/~jhoffman/domainadapt/. Accessed 4 Mar 2016.
+	 27.	 Duan L, Tsang IW, Xu D. Domain transfer multiple kernel learning. IEEE Trans Pattern Anal Mach Intell. 
+2012;34(3):465–79.
+	 28.	 Duan L, Xu D, Chang SF. Exploiting web images for event recognition in consumer videos: a multiple source 
+domain adaptation approach. In: IEEE 2012 conference on computer vision and pattern recognition. 2012. p. 
+1338–45.
+	 29.	 Duan L, Xu D, Tsang IW. Domain adaptation from multiple sources: a domain-dependent regularization approach. 
+IEEE Trans Neural Netw Learn Syst. 2012;23(3):504–18.
+	 30.	 Duan L, Xu D, Tsang IW. Learning with augmented features for heterogeneous domain adaptation. IEEE Trans Pat-
+tern Anal Mach Intell. 2012;36(6):1134–48.
+	 31.	 Eaton E, des Jardins M, Lane T. Modeling transfer relationships between learning tasks for improved inductive 
+transfer. Proc Mach Learn Knowl Disc Database. 2008;5211:317–32.
+	 32.	 EasyAdapt.pl.gz (Download). http://hal3.name/easyadapt.pl.gz Accessed 4 Mar 2016.
+	 33.	 Evgeniou T, Pontil M (2004) Regularized multi-task learning. In: Proceedings of the 10th ACM SIGKDD international 
+conference on knowledge discovery and data mining. p. 109–17.
+	 34.	 Exploiting web images for event recognition in consumer videos: a multiple source domain adaptation approach. 
+http://lxduan.info/papers/DuanCVPR2012_poster.pdf. Accessed 4 Mar 2016.
+	 35.	 Farhadi A, Forsyth D, White R. Transfer learning in sign language. In: IEEE 2007 conference on computer vision and 
+pattern recognition. 2007. p. 1–8.
+	 36.	 Feuz KD, Cook DJ. Transfer learning across feature-rich heterogeneous feature spaces via feature-space remapping 
+(FSR). J ACM Trans Intell Syst Technol. 2014;6(1):1–27 (Article 3).
+	 37.	 Gao J, Fan W, Jiang J, Han J (2008) Knowledge transfer via multiple model local structure mapping. In: Proceedings 
+of the 14th ACM SIGKDD international conference on knowledge discovery and data mining. p. 283–91.
+	 38.	 Gao J, Liang F, Fan W, Sun Y, Han J. Graph based consensus maximization among multiple supervised and unsu-
+pervised models. Adv Neural Inf Process Syst. 2009;22:1–9.
+	 39.	 Gao K, Khoshgoftaar TM, Wang H, Seliya N. Choosing software metrics for defect prediction: an investigation on 
+feature selection techniques. J Softw Pract Exp. 2011;41(5):579–606.
+	 40.	 Ge L, Gao J, Ngo H, Li K, Zhang A. On handling negative transfer and imbalanced distributions in multiple source 
+transfer learning. In: Proceedings of the 2013 SIAM international conference on data mining. 2013. p. 254–71.
+	 41.	 Glorot X, Bordes A, Bengio Y. Domain adaptation for large-scale sentiment classification: A deep learning 
+approach. In: Proceedings of the twenty-eight international conference on machine learning, vol. 27. 2011. p. 
+97–110.
+	 42.	 Gong B, Shi Y, Sha F, Grauman K. Geodesic flow kernel for unsupervised domain adaptation. In: Proceedings of the 
+2012 IEEE conference on computer vision and pattern recognition. 2012. p. 2066–73.
+	 43.	 Gopalan R, Li R, Chellappa R. Domain adaptation for object recognition: an unsupervised approach. In: 2011 
+international conference on computer vision. 2011. p. 999–1006.
+	 44.	 Guo-Jun Qi’s publication list. http://www.eecs.ucf.edu/~gqi/publications.html. Accessed 4 Mar 2016.
+	 45.	 Ham JH, Lee DD, Saul LK. Learning high dimensional correspondences from low dimensional manifolds. In: Pro-
+ceedings of the twentieth international conference on machine learning. 2003. p. 1–8.
+	 46.	 Harel M, Mannor S. Learning from multiple outlooks. In: Proceedings of the 28th international conference on 
+machine learning. 2011. p. 401–8.
+	 47.	 He P, Li B, Ma Y (2014) Towards cross-project defect prediction with imbalanced feature sets. http://arxiv.org/
+abs/1411.4228.
+	 48.	 Heterogeneous defect prediction. http://www.slideshare.net/hunkim/heterogeneous-defect-prediction-
+esecfse-2015. Accessed 4 Mar 2016.
+	 49.	 HFA_release_0315.rar (Download). https://sites.google.com/site/xyzliwen/publications/HFA_release_0315.rar. 
+Accessed 4 Mar 2016.
+
+----- Page 38 (native) -----
+Page 38 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+	 50.	 Hu M, Liu B. Mining and summarizing customer reviews. In: Proceedings of the 10th ACM SIGKDD international 
+conference on Knowledge discovery and data mining. 2004. p. 168–77.
+	 51.	 Huang J, Smola A, Gretton A, Borgwardt KM, Schölkopf B. Correcting sample selection bias by unlabeled data. In: 
+Proceedings of the 2006 conference. Adv Neural Inf Process Syst. 2006. p. 601–8.
+	 52.	 Jakob N, Gurevych I. Extracting opinion targets in a single and cross-domain setting with conditional random 
+fields. In: Proceedings of the 2010 conference on empirical methods in NLP. 2010. p. 1035–45.
+	 53.	 Jiang J, Zhai C. Instance weighting for domain adaptation in NLP. In: Proceedings of the 45th annual meeting of 
+the association of computational linguistics. 2007. p. 264–71.
+	 54.	 Jiang M, Cui P, Wang F, Yang Q, Zhu W, Yang S. Social recommendation across multiple relational domains. In: 
+Proceedings of the 21st ACM international conference on information and knowledge management. 2012. p. 
+1422–31.
+	 55.	 Jiang W, Zavesky E, Chang SF, Loui A. Cross-domain learning methods for high-level visual concept classification. 
+In: IEEE 2008 15th international conference on image processing. 2008. p. 161–4.
+	 56.	 Kan M, Wu J, Shan S, Chen X. Domain adaptation for face recognition: targetize source domain bridged by com-
+mon subspace. Int J Comput Vis. 2014;109(1–2):94–109.
+	 57.	 Kloft M, Brefeld U, Sonnenburg S, Zien A. Lp-norm multiple kernel learning. J Mach Learn Res. 2011;12:953–97.
+	 58.	 Kulis B, Saenko K, Darrell T. What you saw is not what you get: domain adaptation using asymmetric kernel trans-
+forms. In: IEEE 2011 conference on computer vision and pattern recognition. 2011. p. 1785–92.
+	 59.	 LeCun Y, Bottou L, HuangFu J. Learning methods for generic object recognition with invariance to pose and light-
+ing. In: Proceedings of the 2004 IEEE computer society conference on computer vision and pattern recognition, 
+vol. 2. 2004. p. 97–104.
+	 60.	 Li B, Yang Q, Xue X. Can movies and books collaborate? Cross-domain collaborative filtering for sparsity reduction. 
+In: Proceedings of the 21st international joint conference on artificial intelligence. 2009. p. 2052–57.
+	 61.	 Li B, Yang Q, Xue X. Transfer learning for collaborative filtering via a rating-matrix generative model. In: Proceed-
+ings of the 26th annual international conference on machine learning. 2009. p. 617–24.
+	 62.	 Li F, Pan SJ, Jin O, Yang Q, Zhu X. Cross-domain co-extraction of sentiment and topic lexicons. In: Proceedings of 
+the 50th annual meeting of the association for computational linguistics long papers, vol. 1. 2012. p. 410–19.
+	 63.	 Li S, Zong C. Multi-domain adaptation for sentiment classification: Using multiple classifier combining methods. 
+In: Proceedings of the conference on natural language processing and knowledge engineering. 2008. p. 1–8.
+	 64.	 Li W, Duan L, Xu D, Tsang IW. Learning with augmented features for supervised and semi-supervised heterogene-
+ous domain adaptation. IEEE Trans Pattern Anal Mach Intell. 2014;36(6):1134–48.
+	 65.	 LIBSVM (2016) A library for support vector machines. http://www.csie.ntu.edu.tw/~cjlin/libsvm. Accessed 4 Mar 
+2016.
+	 66.	 Ling X, Dai W, Xue GR, Yang Q, Yu Y. Spectral domain-transfer learning. In: Proceedings of the 14th ACM SIGKDD 
+international conference on Knowledge discovery and data mining. 2008. p. 488–96.
+	 67.	 Lixin Duan. http://www.lxduan.info/#sourcecode_hfa. Accessed 4 Mar 2016.
+	 68.	 Long M, Wang J, Ding G, Pan SJ, Yu PS. Adaptation regularization: a general framework for transfer learning. IEEE 
+Trans Knowl Data Eng. 2014;26(5):1076–89.
+	 69.	 Long M, Wang J, Ding G, Sun J, Yu PS. Transfer feature learning with joint distribution adaptation. In: Proceedings 
+of the 2013 IEEE international conference on computer vision. 2013. p. 2200–07.
+	 70.	 Lowe DG. Distinctive image features from scale-invariant keypoints. Int Comput Vis. 2004;60(2):91–110.
+	 71.	 Luo P, Zhuang F, Xiong H, Xiong Y, He Q. Transfer learning from multiple source domains via consensus regulariza-
+tion. In: Proceedings of the 17th ACM conference on information and knowledge management. 2008. p. 103–12.
+	 72.	 Ma Y, Gong W, Mao F. Transfer learning used to analyze the dynamic evolution of the dust aerosol. J Quant Spec-
+trosc Radiat Transf. 2015;153:119–30.
+	 73.	 Marszalek M, Schmid C, Harzallah H, Van de Weijer J. Learning object representations for visual object class recog-
+nition. In: Visual recognition challenge workshop ICCV. 2007. p. 1–10.
+	 74.	 Mihalkova L, Mooney RJ. Transfer learning by mapping with minimal target data. In: Proc. assoc. for the advance-
+ment of artificial intelligence workshop transfer learning for complex tasks. 2008. p. 31–6.
+	 75.	 Long M. http://ise.thss.tsinghua.edu.cn/~mlong/. Accessed 4 Mar 2016.
+	 76.	 Moreno O, Shapira B, Rokach L, Shani G (2012) TALMUD—transfer learning for multiple domains. In: Proceedings 
+of the 21st ACM international conference on information and knowledge management. 2012. p. 425–34.
+	 77.	 Nam J, Kim S (2015) Heterogeneous defect prediction. In: Proceedings of the 2015 10th joint meeting on founda-
+tions of software engineering. 2015. p. 508–19.
+	 78.	 Ng MK, Wu Q, Ye Y. Co-transfer learning via joint transition probability graph based method. In: Proceedings of the 
+1st international workshop on cross domain knowledge discovery in web and social network mining. 2012. p. 1–9.
+	 79.	 Ngiam J, Khosla A, Kim M, Nam J, Lee H, Ng AY. Multimodal deep learning. In: The 28th international conference on 
+machine learning. 2011. p. 689–96.
+	 80.	 Ogoe HA, Visweswaran S, Lu X, Gopalakrishnan V. Knowledge transfer via classification rules using functional map-
+ping for integrative modeling of gene expression data. BMC Bioinform. 2015. p. 1–15.
+	 81.	 Oquab M, Bottou L, Laptev I, Sivic J. Learning and transferring mid-level image representations using convolu-
+tional neural networks. In: Proceedings of the 2014 IEEE conference on computer vision and pattern recognition. 
+2013. p. 1717–24.
+	 82.	 Pan SJ, Kwok JT, Yang Q. Transfer learning via dimensionality reduction. In: Proceedings of the 23rd national confer-
+ence on artificial intelligence, vol. 2. 2008. p. 677–82.
+	 83.	 Pan SJ, Ni X, Sun JT, Yang Q, Chen Z. Cross-domain sentiment classification via spectral feature alignment. In: 
+Proceedings of the 19th international conference on world wide web. 2010. p. 751–60.
+	 84.	 Pan SJ, Yang Q. A survey on transfer learning. IEEE Trans Knowl Data Eng. 2010;22(10):1345–59.
+	 85.	 Pan W, Liu NN, Xiang EW, Yang Q. Transfer learning to predict missing ratings via heterogeneous user feedbacks. In: 
+Proceedings of the 22nd international joint conference on artificial intelligence. 2011. p. 2318–23.
+
+----- Page 39 (native) -----
+Page 39 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+	 86.	 Pan W. Xiang EW, Liu NN, Yang Q. Transfer learning in collaborative filtering for sparsity reduction. In: Twenty-fourth 
+AAAI conference on artificial intelligence, vol. 1. 2010. p. 230–235.
+	 87.	 Pan SJ, Tsang IW, Kwok JT, Yang Q. Domain adaptation via transfer component analysis. IEEE Trans Neural Netw. 
+2009;22(2):199–210.
+	 88.	 Papers:oquab-2014. http://leon.bottou.org/papers/oquab-2014. Accessed 4 Mar 2016.
+	 89.	 Patel VM, Gopalan R, Li R, Chellappa R. Visual domain adaptation: a survey of recent advances. IEEE Signal Process 
+Mag. 2014;32(3):53–69.
+	 90.	 Perlich C, Dalessandro B, Raeder T, Stitelman O, Provost F. Machine learning for targeted display advertising: trans-
+fer learning in action. Mach Learn. 2014;95:103–27.
+	 91.	 Prettenhofer P, Stein B. (2010) Cross-language text classification using structural correspondence learning. In: 
+Proceedings of the 48th annual meeting of the association for computational linguistics. 2010. p. 1118–27.
+	 92.	 Qi GJ, Aggarwal C, Huang T. Towards semantic knowledge propagation from text corpus to Web images. In: 
+Proceedings of the 20th international conference on world wide web. p. 297–306.
+	 93.	 Qiu G, Liu B, Bu J, Chen C. Expanding domain sentiment lexicon through double propagation. In: Proceedings of 
+the 21st international joint conference on artificial intelligence. p. 1199–204.
+	 94.	 Quanz B, Huan J. Large margin transductive transfer learning. In: Proceedings of the 18th ACM conference on 
+information and knowledge management. 2009. p. 1327–36.
+	 95.	 Raina R, Battle A, Lee H, Packer B, Ng AY. Self-taught learning: transfer learning from unlabeled data. In: Proceed-
+ings of the 24th international conference on machine learning. 2007. p. 759–66.
+	 96.	 Rajagopal AN, Subramanian R, Ricci E, Vieriu RL, Lanz O, Ramakrishnan KR, Sebe N. Exploring transfer 
+learning approaches for head pose classification from multi-view surveillance images. Int J Comput Vis. 
+2014;109(1–2):146–67.
+	 97.	 Romera-Paredes B, Aung MSH, Pontil M, Bianchi-Berthouze N, Williams AC de C, Watson P. Transfer learning to 
+account for idiosyncrasy in face and body expressions. In: Proceedings of the 10th international conference on 
+automatic face and gesture recognition (FG). 2013. p. 1–6.
+	 98.	 Rosenstein MT, Marx Z, Kaelbling LP, Dietterich TG. To transfer or not to transfer. In: Proceedings NIPS’05 workshop, 
+inductive transfer. 10 years later. 2005. p. 1–4.
+	 99.	 Roy S.D., Mei T., Zeng W., Li S. Social transfer: cross-domain transfer learning from social streams for media applica-
+tions. In: Proceedings of the 20th ACM international conference on multimedia. p. 649–58.
+	100.	 Saenko K, Kulis B, Fritz M, Darrell T. Adapting visual category models to new domains. Comput Vision ECCV. 
+2010;6314:213–26.
+	101.	 Schweikert G, Widmer C, Schölkopf B, Rätsch G. An empirical analysis of domain adaptation algorithms for 
+genomic sequence analysis. Adv Neural Inf Process Syst. 2009;21:1433–40.
+	102.	 Seah CW, Ong YS, Tsang IW. Combating negative transfer from predictive distribution differences. IEEE Trans 
+Cybern. 2013;43(4):1153–65.
+	103.	 Shao L, Zhu F, Li X. Transfer learning for visual categorization: a survey. IEEE Trans Neural Netw Learn Syst. 
+2014;26(5):1019–34.
+	104.	 Shawe-Taylor J, Cristianini N. Kernel methods for pattern analysis. Cambridge: Cambridge University Press; 2004.
+	105.	 Shi X, Liu Q, Fan W, Yu PS, Zhu R. Transfer learning on heterogeneous feature spaces via spectral transformation. In: 
+2010 IEEE international conference on data mining. 2010. p. 1049–1054.
+	106.	 Shi Y, Sha F. Information-theoretical learning of discriminative clusters for unsupervised domain adaptation. In: 
+Proceedings of the 29th international conference on machine learning. 2012. p. 1–8.
+	107.	 Shimodaira H. Improving predictive inference under covariate shift by weighting the log-likelihood function. J Stat 
+Plan Inf. 2000;90(2):227–44.
+	108.	 Shivaji S, Whitehead EJ, Akella R, Kim S. Reducing features to improve code change-based bug prediction. IEEE 
+Trans Softw Eng. 2013;39(4):552–69.
+	109.	 Si S, Tao D, Geng B. Bregman divergence-based regularization for transfer subspace learning. IEEE Trans Knowl 
+Data Eng. 2010;22(7):929–42.
+	110.	 Song Z, Chen Q, Huang Z, Hua Y, Yan S. Contextualizing object detection and classification. IEEE Trans Pattern Anal 
+Mach Intell. 2011;37(1):13–27.
+	111.	 Steinwart I. On the influence of the kernel on the consistency of support vector machines. JMLR. 2001;2:67–93.
+	112.	 Taylor ME, Stone P. Transfer learning for reinforcement learning domains: a survey. JMLR. 2009;10:1633–85.
+	113.	 Tommasi T, Caputo B. The more you know, the less you learn: from knowledge transfer to one-shot learning of 
+object categories. BMVC. 2009;1–11.
+	114.	 Tommasi T, Orabona F, Caputo B. Safety in numbers: learning categories from few examples with multi model 
+knowledge transfer. IEEE Conf Comput Vision Pattern Recog. 2010;2010:3081–8.
+	115.	 Transfer learning resources. http://www.cse.ust.hk/TL/. Accessed 4 Mar 2016.
+	116.	 Tutorial on domain adaptation and transfer learning. http://tommasit.wix.com/datl14tutorial. Accessed 4 Mar 
+2016.
+	117.	 Vapnik V. Principles of risk minimization for learning theory. Adv Neural Inf Process Syst. 1992;4:831–8.
+	118.	 Vedaldi A, Gulshan V, Varma M, Zisserman A. Multiple kernels for object detection. In: 2009 IEEE 12th international 
+conference on computer vision. 2009. p. 606–13.
+	119.	 Vincent P, Larochelle H, Bengio Y, Manzagol PA. Extracting and composing robust features with denoising autoen-
+coders. In: Proceedings of the 25th international conference on machine learning. 2008. p. 1096–103.
+	120.	 Vinokourov A, Shawe-Taylor J, Cristianini N. Inferring a semantic representation of text via crosslanguage correla-
+tion analysis. Adv Neural Inf Proces Syst. 2002;15:1473–80.
+	121.	 Wang C, Mahadevan S. Heterogeneous domain adaptation using manifold alignment. In: Proceedings of the 22nd 
+international joint conference on artificial intelligence, vol. 2. 2011. p. 541–46.
+	122.	 Wang G, Hoiem D, Forsyth DA. Building text Features for object image classification. In: 2009 IEEE conference on 
+computer vision and pattern recognition. 2009. p. 1367–74.
+
+----- Page 40 (native) -----
+Page 40 of 40
+Weiss et al. J Big Data  (2016) 3:9 
+	123.	 Wang H, Klaser A, Schmid C, Liu CL (2011) Action recognition by dense trajectories. In: IEEE 2011 conference on 
+computer vision and pattern recognition. 2011. p. 3169–76.
+	124.	 Wei B, Pal C (2010) Cross-lingual adaptation: an experiment on sentiment classifications. In: Proceedings of the 
+ACL 2010 conference short papers. 2010. p. 258–62.
+	125.	 Wei B, Pal C (2011) Heterogeneous transfer learning with RBMs. In: Proceedings of the twenty-fifth AAAI confer-
+ence on artificial intelligence. 2011. p. 531–36.
+	126.	 Weinberger KQ, Saul LK. Distance metric learning for large margin nearest neighbor classification. JMLR. 
+2009;10:207–44.
+	127.	 Widmer C, Ratsch G. Multitask learning in computational biology. JMLR. 2012;27:207–16.
+	128.	 Wiens J, Guttag J, Horvitz EJ. A study in transfer learning: leveraging data from multiple hospitals to enhance 
+hospital-specific predictions. J Am Med Inform Assoc. 2013;21(4):699–706.
+	129.	 Witten IH, Frank E. Data mining, practical machine learning tools and techniques. 3rd ed. San Francisco: Morgan 
+Kaufmann Publishers; 2011.
+	130.	 Wu X, Xu D, Duan L, Luo J (2011) Action recognition using context and appearance distribution features. In: IEEE 
+2011 conference on computer vision and pattern recognition. 2011. p. 489–96.
+	131.	 Xia R, Zong C. A POS-based ensemble model for cross-domain sentiment classification. In: Proceedings of the 5th 
+international joint conference on natural language processing. 2011. p. 614–22.
+	132.	 Xia R, Zong C, Hu X, Cambria E. Feature ensemble plus sample selection: domain adaptation for sentiment clas-
+sification. IEEE Intell Syst. 2013;28(3):10–8.
+	133.	 Xiao M, Guo Y. Semi-supervised kernel matching for domain adaptation. In: Proceedings of the twenty-sixth AAAI 
+conference on artificial intelligence. 2012. p. 1183–89.
+	134.	 Xie M, Jean N, Burke M, Lobell D, Ermon S. Transfer learning from deep features for remote sensing and poverty 
+mapping. In: Proceedings 30th AAAI conference on artificial intelligence. 2015. p. 1–10.
+	135.	 Yang J, Yan R, Hauptmann AG. Cross-domain video concept detection using adaptive SVMs. In: Proceedings of the 
+15th ACM international conference on multimedia. 2007. p. 188–97.
+	136.	 Yang L, Jing L, Yu J, Ng MK. Learning transferred weights from co-occurrence data for heterogeneous transfer 
+learning. IEEE Trans Neural Netw Learn Syst. 2015;PP(99):1–14.
+	137.	 Yang Q, Chen Y, Xue GR, Dai W, Yu Y. Heterogeneous transfer learning for image clustering via the social web. In: 
+Proceedings of the joint conference of the 47th annual meeting of the ACL, vol. 1. 2009. p. 1–9.
+	138.	 Yao Y, Doretto G. Boosting for transfer learning with multiple sources. In: Proceedings of the IEEE computer society 
+conference on computer vision and pattern recognition. 2010. p. 1855–62.
+	139.	 Yin Z. http://www.cse.ust.hk/~yinz/. Accessed 4 Mar 2016.
+	140.	 Zhang Y, Cao B, Yeung D. Multi-domain collaborative filtering. In: Proceedings of the 26th conference on uncer-
+tainty in artificial intelligence. 2010. p. 725–32.
+	141.	 Zhang Y, Yeung DY. Transfer metric learning by learning task relationships. In: Proceedings of the 16th ACM SIG-
+KDD international conference on knowledge discovery and data mining. 2010. p. 1199–208.
+	142.	 Zhao L, Pan SJ, Xiang EW, Zhong E, Lu Z, Yang Q. Active transfer learning for cross-system recommendation. In: 
+Proceedings of the 27th AAAI conference on artificial intelligence. 2013. p. 1205–11.
+	143.	 Zhong E, Fan W, Peng J, Zhang K, Ren J, Turaga D, Verscheure O. Cross domain distribution adaptation via kernel 
+mapping. In: Proceedings of the 15th ACM SIGKDD. 2009. p. 1027–36.
+	144.	 Zhou JT, Pan S, Tsang IW, Yan Y. Hybrid heterogeneous transfer learning through deep learning. In: Proceedings of 
+the national conference on artificial intelligence, vol. 3. 2014. p. 2213–20.
+	145.	 Zhou JT, Tsang IW, Pan SJ Tan M. Heterogeneous domain adaptation for multiple classes. In: International confer-
+ence on artificial intelligence and statistics. 2014. p. 1095–103.
+	146.	 Zhu Y, Chen Y, Lu Z, Pan S, Xue G, Yu Y, Yang Q. Heterogeneous transfer learning for image classification. In: Pro-
+ceedings of the national conference on artificial intelligence, vol. 2. 2011. p. 1304–9.

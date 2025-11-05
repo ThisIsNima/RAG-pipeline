@@ -1,0 +1,709 @@
+
+
+----- Page 1 (native) -----
+Proc. NatL Acad. Sci. USA
+Vol. 79, pp. 2554-2558, April 1982
+Biophysics
+Neural networks and physical systems with emergent collective
+computational abilities
+(associative memory/parallel processing/categorization/content-addressable memory/fail-soft devices)
+J. J. HOPFIELD
+Division of Chemistry and Biology, California Institute of Technology, Pasadena, California 91125; and Bell Laboratories, Murray Hill, New Jersey 07974
+Contributed by John J. Hopfweld, January 15, 1982
+ABSTRACT
+Computational properties of use to biological or-
+ganisms or to the construction of computers can emerge as col-
+lective properties of systems -having a large number of simple
+equivalent components (or neurons). The physical meaning ofcon-
+tent-addressable memory is described by an appropriate phase
+space flow of the state of a system. A model of such a system is
+given, based on aspects ofneurobiology but readily adapted to in-
+tegrated circuits. The collective properties of this model produce
+a content-addressable memory which correctly yields an entire
+memory from any subpart of sufficient size. The algorithm for the
+time evolution of the state ofthe system is based on asynchronous
+parallel processing. Additional emergent collective properties in-
+clude some capacity for generalization, familiarity recognition,
+categorization, error correction, and time sequence retention.
+The collective properties are only weakly sensitive to details ofthe
+modeling or the failure of individual devices.
+Given the dynamical electrochemical properties ofneurons and
+their interconnections (synapses), we readily understand schemes
+that use a few neurons to obtain elementary useful biological
+behavior (1-3). Our understanding of such simple circuits in
+electronics allows us to plan larger and more complex circuits
+which are essential to large computers. Because evolution has
+no such plan, it becomes relevant to ask whether the ability of
+large collections of neurons to perform "computational" tasks
+may in part be a spontaneous collective consequence of having
+a large number of interacting simple neurons.
+In physical systems made from a large number of simple ele-
+ments, interactions among large numbers of elementary com-
+ponents yield collective phenomena such as the stable magnetic
+orientations and domains in a magnetic system or the vortex
+patterns in fluid flow. Do analogous collective phenomena in
+a system of simple interacting neurons have useful "computa-
+tional" correlates? For example, are the stability of memories,
+the construction of categories of generalization, or time-se-
+quential memory also emergent properties and collective in
+origin? This paper examines a new modeling ofthis old and fun-
+damental question (4-8) and shows that important computa-
+tional properties spontaneously arise.
+All modeling is based on details, and the details of neuro-
+anatomy and neural function are both myriad and incompletely
+known (9). In many physical systems, the nature of the emer-
+gent collective properties is insensitive to the details inserted
+in the model (e.g., collisions are essential to generate sound
+waves, but any reasonable interatomic force law will yield ap-
+propriate collisions). In the same spirit, I will seek collective
+properties that are robust against change in the model details.
+The model could be readily implemented by integrated cir-
+cuit hardware. The conclusions suggest the design of a delo-
+calized content-addressable memory or categorizer using ex-
+tensive asynchronous parallel processing.
+The general content-addressable memory of a physical
+system
+Suppose that an item stored in memory is "H. A. Kramers &
+G. H. Wannier Phys. Rev. 60, 252 (1941)." A general content-
+addressable memory would be capable of retrieving this entire
+memory item on the basis of sufficient partial information. The
+input "& Wannier, (1941)" might suffice. An ideal memory
+could deal with errors and retrieve this reference even from the
+input "Vannier, (1941)". In computers, only relatively simple
+forms ofcontent-addressable memory have been made in hard-
+ware (10, 11). Sophisticated ideas like error correction in ac-
+cessing information are usually introduced as software (10).
+There are classes of physical systems whose spontaneous be-
+havior can be used as a form of general (and error-correcting)
+content-addressable memory. Consider the time evolution of
+a physical system that can be described by a set of general co-
+ordinates. A point in state space then represents the instanta-
+neous condition of the system. This state space may be either
+continuous or discrete (as in the case of N Ising spins).
+The equations ofmotion ofthe system describe a flow in state
+space. Various classes offlow patterns are possible, but the sys-
+tems of use for memory particularly include those that flow to-
+ward locally stable points from anywhere within regions around
+those points. A particle with frictional damping moving in a
+potential well with two minima exemplifies such a dynamics.
+If the flow is not completely deterministic, the description
+is more complicated. In the two-well problems above, if the
+frictional force is characterized by atemperature, it must also
+produce a random driving force. The limit points become small
+limiting regions, and the stability becomes not absolute. But
+as long as the stochastic effects are small, the essence of local
+stable points remains.
+Consider a physical system described by many coordinates
+X1
+XN, the components of a state vector X. Let the system
+have locally stable limit points Xa, Xb,
+**. Then, if the system
+is started sufficiently near any Xa, as at X = Xa + A, it will
+proceed in time until X
+Xa. We can regard the information
+stored in the system as the vectors Xa, Xb,
+. The starting
+point X = Xa + A represents a partial knowledge of the item
+Xa, and the system then generates the total information Xa.
+Any physical system whose dynamics in phase space is dom-
+inated by a substantial number of locally stable states to which
+it is attracted can therefore be regarded as a general content-
+addressable memory. The physical system will be a potentially
+useful memory if, in addition, any prescribed set of states can
+readily be made the stable states of the system.
+The model system
+The processing devices will be called neurons. Each neuron i
+has two states like those of McCullough and Pitts (12): Vi = 0
+2554
+The publication costs ofthis article were defrayed in part by page charge
+payment. This article must therefore be hereby marked "advertise-
+ment" in accordance with 18 U. S. C. §1734 solely to indicate this fact.
+
+----- Page 2 (native) -----
+Proc. Natl. Acad. Sci. USA 79 (1982)
+2555
+("not firing") and Vi = 1 ("firing at maximum rate"). When neu-
+ron i has a connection made to it from neuron j, the strength
+of connection is defined as Tij. (Nonconnected neurons have Tij
+0.) The instantaneous state ofthe system is specified by listing
+the N values of Vi, so it is represented by a binary word of N
+bits.
+The state changes in time according to the following algo-
+rithm. For each neuron i there is a fixed threshold U,. Each
+neuron i readjusts its state randomly in time but with a mean
+attempt rate W, setting
+Vi
+°1
+< Ui
+]
+Vi0if IT.,V.
+joi
+Thus, each neuron randomly and asynchronously evaluates
+whether it is above or below threshold and readjusts accord-
+ingly. (Unless otherwise stated, we choose Ui = 0.)
+Although this model has superficial similarities to the Per-
+ceptron (13, 14) the essential differences are responsible for the
+new results. First, Perceptrons were modeled chiefly with
+neural connections in a "forward" direction A -> B -* C -- D.
+The analysis of networks with strong backward coupling
+proved intractable. All our interesting results arise
+as consequences of the strong back-coupling. Second, Percep-
+tron studies usually made a random net ofneurons deal directly
+with a real physical world and did not ask the questions essential
+to finding the more abstract emergent computational proper-
+ties. Finally, Perceptron modeling required synchronous neu-
+rons like a conventional digital computer. There is no evidence
+for such global synchrony and, given the delays of nerve signal
+propagation, there would be no way to use global synchrony
+effectively. Chiefly computational properties which can exist
+in spite of asynchrony have interesting implications in biology.
+The information storage algorithm
+Suppose we wish to store the set of states V8, s = 1
+n. We
+use the storage prescription (15, 16)
+Tij=
+(2V - 1)(2Vj - 1)
+[2]
+S
+but with Tii = 0. From this definition
+Tijjs =E (2V,- 1)
+I VJ(2Vj-1)
+Hjs.
+[3]
+The mean value of the bracketed term in Eq. 3 is 0 unless s
+- s', for which the mean is N/2. This pseudoorthogonality
+yields
+> TiVs
+(Hs')
+(2Vs' - 1) N/2
+i
+[4]
+and is positive if VW' = 1 and negative if Vf' = 0. Except for the
+noise coming from the s # s' terms, the stored state would al-
+ways be stable under our processing algorithm.
+Such matrices T,. have been used in theories of linear asso-
+ciative nets (15-19) to produce an output pattern from a paired
+input stimulus, S1 -* 01. A second association S2 -° 02 can be
+simultaneously stored in the same network. But the confusing
+simulus 0.6 Si + 0.4 S2 will produce a generally meaningless
+mixed output 0.6 01 + 0.4 02 Our model, in contrast, will use
+its strong nonlinearity to make choices, produce categories, and
+regenerate information and, with high probability, will generate
+the output 01 from such a confusing mixed stimulus.
+A linear associative net must be connected in a complex way
+with an external nonlinear logic processor in order to yield true
+computation (20, 21). Complex circuitry is easy to plan but more
+difficult to discuss in evolutionary terms. In contrast, our model
+obtains its emergent computational properties from simple
+properties of many cells rather than circuitry.
+The biological interpretation of the model
+Most neurons are capable of generating a train of action poten-
+tials-propagating pulses ofelectrochemical activity-when the
+average potential across their membrane is held well above its
+normal resting value. The mean rate at which action potentials
+are generated is a smooth function of the mean membrane po-
+tential, having the general form shown in Fig. 1.
+The biological information sent to other neurons often lies
+in a short-time average of the firing rate (22). When this is so,
+one can neglect the details of individual action potentials and
+regard Fig. 1 as a smooth input-output relationship. [Parallel
+pathways carrying the same information would enhance the
+ability of the system to extract a short-term average firing rate
+(23, 24).]
+A study ofemergent collective effects and spontaneous com-
+putation must necessarily focus on the nonlinearity of the in-
+put-output relationship. The essence ofcomputation is nonlin-
+ear logical operations. The particle interactions that produce
+true collective effects in particle dynamics come from a nonlin-
+ear dependence offorces on positions of the particles. Whereas
+linear associative networks have emphasized the linear central
+region (14-19) of Fig. 1, we will replace the input-output re-
+lationship by the dot-dash step. Those neurons whose operation
+is dominantly linear merely provide a pathway of communica-
+tion between nonlinear neurons. Thus, we consider a network
+of "on or off" neurons, granting that some of the interconnec-
+tions may be by way of neurons operating in the linear regime.
+Delays in synaptic transmission (of partially stochastic char-
+acter) and in the transmission ofimpulses along axons and den-
+drites produce a delay between the input of a neuron and the
+generation of an effective output. All such delays have been
+modeled by a single parameter, the stochastic mean processing
+time 1/W.
+The input to a particular neuron arises from the current leaks
+of the synapses to that neuron, which influence the cell mean
+potential. The synapses are activated by arriving action poten-
+tials. The input signal to a cell i can be taken to be
+[5]
+I Tijvj
+where Tij represents the effectiveness of a synapse. Fig. 1 thus
+/
+Q
+~~~~~~~~~/
+0
+,
+P°
+I
+I'
+0 a)-jaz-Present Model
+W
+t
+--Linear Modeling
+w
+.'C
+E
+-0.1 /
+0
+Membrane
+Potential (Volts) or "Input"
+FIG. 1.
+Firing rate versus membrane voltage for a typical neuron
+(solid line), dropping to 0 for large negative potentials and saturating
+for positive potentials. The broken lines show approximations used in
+modeling.
+Biophysics: Hopfield
+
+----- Page 3 (native) -----
+Proc. NatL Acad. Sci. USA 79 (1982)
+becomes an input-output relationship for a neuron.
+Little, Shaw, and Roney (8, 25, 26) have developed ideas on
+the collective functioning ofneural nets based on "on/off" neu-
+rons and synchronous processing. However, in their model the
+relative timing of action potential spikes was central and re-
+sulted in reverberating action potential trains. Our model and
+theirs have limited formal similarity, although there may be
+connections at a deeper level.
+Most modeling of neural learning networks has been based
+on synapses ofa general type described by Hebb (27) and Eccles
+(28). The essential ingredient is the modification of T; by cor-
+relations like
+AT41 = [Vi(t)Vj(t)]average
+[6]
+where the average is some appropriate calculation over past
+history. Decay in time and effects of[Vi(t)]avg or [Vj(t)]avg are also
+allowed. Model networks with such synapses (16, 20, 21) can
+construct the associative T., of Eq. 2. We will therefore initially
+assume that such a Ty1 has been produced by previous experi-
+ence (or inheritance). The Hebbian property need not reside
+in single synapses; small groups of cells which produce such a
+net effect would suffice.
+The network of cells we describe performs an abstract cal-
+culation and, for applications, the inputs should be appropri-
+ately coded. In visual processing, for example, feature extrac-
+tion should previously have been done. The present modeling
+might then be related to how an entity or Gestalt is remembered
+or categorized on the basis of inputs representing a collection
+of its features.
+Studies of the collective behaviors of the model
+The model has stable limit points. Consider the special case T
+= Tji, and define
+E =-2
+TijVjVj
+[7]
+ioj
+AE due to AV1 is given by
+AE = -AVi
+Tij Vj
+[8]
+joi'
+Thus, the algorithm for altering Vi causes E to be a monotoni-
+cally decreasing function. State changes will continue until a
+least (local) E is reached. This case is isomorphic with an Ising
+model. Tij provides the role ofthe exchange coupling, and there
+is also an external local field at each site. When T.j is symmetric
+but has a random character (the spin glass) there are known to
+be many (locally) stable states (29).
+Monte Carlo calculations were made on systems of N = 30
+and N = 100, to examine the effect of removing the T.1 = T.
+restriction. Each element ofT., was chosen as a random number
+between -1 and 1. The neural architecture of typical cortical
+regions (30, 31) and also of simple ganglia of invertebrates (32)
+suggests the importance of 100-10,000 cells with intense mu-
+tual interconnections in elementary processing, so our scale of
+N is slightly small.
+The dynamics algorithm was initiated from randomly chosen
+initial starting configurations. For N = 30 the system never
+displayed an ergodic wandering through state space. Within a
+time of about 4/W it settled into limiting behaviors, the com-
+monest being a stable state. When 50 trials were examined for
+a particular such random matrix, all would result in one of two
+or three end states. A few stable states thus collect the flow from
+most of the initial state space. A simple cycle also occurred oc-
+casionally-for example, .
+A -* B -- A --
+B
+The third behavior seen was chaotic wandering in a small
+region of state space. The Hamming distance between two bi-
+nary states A and B is defined as the number ofplaces in which
+the digits are different. The chaotic wandering occurred within
+a short Hamming distance ofone particular state. Statistics were
+done on the probability pi ofthe occurrence ofa state in a time
+of wandering around this minimum, and an entropic measure
+of the available states M was taken
+[9]
+A value ofM = 25 was found forN = 30. Theflow in phase space
+produced by this model algorithm has the properties necessary
+for a physical content-addressable memory whether or not T
+is symmetric.
+Simulations with N = 100 were much slower and not quan-
+titatively pursued. They showed qualitative similarity to N =
+30.
+Why should stable limit points or regions persist when Tij
+# Tjj? If the algorithm at some time changes Vi from 0 to 1 or
+vice versa, the change of the energy defined in Eq. 7 can be
+split into two terms, one ofwhich is always negative. The second
+is identical if Ty1 is symmetric and is "stochastic" with mean 0
+if Tij and Tji are randomly chosen. The algorithm for Tij # Tj,
+therefore changes E in a fashion similar to the way E would
+change in time for a symmetric Tij but with an algorithm cor-
+responding to a finite temperature.
+About 0.15 N states can be simultaneously remembered be-
+fore error in recall is severe. Computer modeling of memory
+storage according to Eq. 2 was carried out for N = 30 and N
+= 100. n random memory states were chosen and the corre-
+sponding T.9 was generated. If a nervous system preprocessed
+signals for efficient storage, the preprocessed information
+would appear random (e.g., the coding sequences ofDNA have
+a random character). The random memory vectors thus simulate
+efficiently encoded real information, as well as representing our
+ignorance. The system was started at each assigned nominal
+memory state, and the state was allowed to evolve until
+stationary.
+Typical results are shown in Fig. 2. The statistics are averages
+over both the states in a given matrix and different matrices.
+With n = 5, the assigned memory states are almost always stable
+(and exactly recallable). For n = 15, about halfofthe nominally
+remembered states evolved to stable states with less than 5 er-
+rors, but the rest evolved to states quite different from the start-
+ing points.
+These results can be understood from an analysis ofthe effect
+ofthe noise terms. In Eq. 3, H' is the "effective field" on neuron
+i when the state ofthe system is s', one of the nominal memory
+states. The expectation value of this sum, Eq. 4, is ±N/2 as
+appropriate. The s # s' summation in Eq. 2 contributes no
+mean, but has a rms noise of [(n - 1)N/2]'2- a. For nN large,
+this noise is approximately Gaussian and the probability of an
+error in a single particular bit of a particular memory will be
+P =
+1
+e-x2/2a2 dx.
+2 N/2
+[10]
+For the case n = 10, N = 100, P = 0.0091, the probability that
+a state had no errors in its 100 bits should be about eC0O9'
+0.40.
+In the simulation of Fig. 2, the experimental number was 0.6.
+The theoretical scaling of n with N at fixed P was demon-
+strated in the simulations going between N = 30 and N = 100.
+The experimental results of half the memories being well re-
+tained at n = 0.15 N and the rest badly retained is expected to
+2556
+Biophysics: Hopfield
+In M= -2 pi In pi.
+
+----- Page 4 (native) -----
+Proc. Natl. Acad. Sci. USA 79 (1982)
+2557
+1.0
+0.5
+N- 100
+0.5
+n= 10
+N= 100
+2&
+0.2
+0.2
+n=1
+0.2
+N= 100
+3
+6
+9
+10-
+20- 30-
+40- >49
+19
+29
+39
+49
+Nerr = Number of Errors
+in State
+FIG. 2.
+The probability distribution of the occurrence of errors in
+the location of the stable states obtained from nominally assigned
+memories.
+be true for all large N. The information storage at a given level
+ofaccuracy can be increased by a factor of 2 by ajudicious choice
+of individual neuron thresholds. This choice is equivalent to
+using variables
+ip =
+±1, Tij =
+1,,u4,4j, and a threshold level
+of 0.
+Given some arbitrary starting state, what is the resulting final
+state (or statistically, states)? To study this, evolutions from ran-
+domly chosen initial states were tabulated for N = 30 and n
+= 5. From the (inessential) symmetry of the algorithm, if
+(101110
+) is an assigned stable state, (010001 .) is also stable.
+Therefore, the matrices had 10 nominal stable states. Approx-
+imately 85% of the trials ended in assigned memories, and 10%
+ended in stable states ofno obvious meaning. An ambiguous 5%
+landed in stable states very near assigned memories. There was
+a range of a factor of 20 of the likelihood of finding these 10
+states.
+The algorithm leads to memories near the starting state. For
+N = 30, n = 5, partially random starting states were generated
+by random modification of known memories. The probability
+that the final state was that closest to the initial state was studied
+as a function of the distance between the initial state and the
+nearest memory state. For distance c 5, the nearest state was
+reached more than 90% of the time. Beyond that distance, the
+probability fell off smoothly, dropping to a level of 0.2 (2 times
+random chance) for a distance of 12.
+The phase space flow is apparently dominated by attractors
+which are the nominally assigned memories, each ofwhich dom-
+inates a substantial region around it. The flow is not entirely
+deterministic, and the system responds to an ambiguous start-
+ing state by a statistical choice between the memory states it
+most resembles.
+Were it desired to use such a system in an Si-based content-
+addressable memory, the algorithm should be used and modi-
+fied to hold the known bits of information while letting the oth-
+ers adjust.
+The model was studied by using a "clipped" Tij, replacing T4,
+in Eq. 3 by ± 1, the algebraic sign of Tij. The purposes were to
+examine the necessity ofa linear synapse supposition (by making
+a highly nonlinear one) and to examine the efficiency ofstorage.
+Only N(N/2) bits of information can possibly be stored in this
+symmetric matrix. Experimentally, forN = 100, n = 9, the level
+of errors was similar to that for the ordinary algorithm at n =
+12. The signal-to-noise ratio can be evaluated analytically for
+this clipped algorithm and is reduced by a factor of (2/r)1"2 com-
+pared with the unclipped case. For a fixed error probability, the
+number of memories must be reduced by 2/ir.
+With the 4 algorithm and the clipped Tij, both analysis and
+modeling showed that the maximal information stored for N
+= 100 occurred at about n = 13. Some errors were present, and
+the Shannon information stored corresponded to about N(N/
+8) bits.
+New memories can be continually added to Ti.. The addition
+ofnew memories beyond the capacity overloads the system and
+makes all memory states irretrievable unless there is a provision
+for forgetting old memories (16, 27, 28).
+The saturation of the possible size of Tij will itself cause for-
+getting. Let the possible values of TY be 0, ± 1, ±2, ±3, and
+Tt, be freely incremented within this range. If Tij = 3, a next
+increment of +1 would be ignored and a next increment of
+-1 would reduce Tij to 2. When Ty, is so constructed, only the
+recent memory states are retained, with a slightly increased
+noise level. Memories from the distant past are no longer stable.
+How far into the past are states remembered depends on the
+digitizing depth of T., and 0,
+, ±3 is an appropriate level for
+N = 100. Other schemes can be used to keep too many mem-
+ories from being simultaneously written, but this particular one
+is attractive because it requires no delicate balances and is a
+consequence of natural hardware.
+Real neurons need not make synapses both of i --
+j and j
+i. Particular synapses are restricted to one sign ofoutput. We
+therefore asked whether Tij = Tjj is important. Simulations were
+carried out with only one ij connection: if T- $0, T.i = 0. The
+probability of making errors increased, but the algorithm con-
+tinued to generate stable minima. A Gaussian noise description
+of the error rate shows that the signal-to-noise ratio for given
+n and N should be decreased by the factor 1/F2, and the sim-
+ulations were consistent with such a factor. This same analysis
+shows that the system generally fails in a "soft" fashion, with
+signal-to-noise ratio and error rate increasing slowly as more
+synapses fail.
+Memories too close to each other are confused and tend to
+merge. For N = 100, a pair ofrandom memories should be sep-
+arated by 50 ± 5 Hamming units. The case N = 100, n = 8,
+was studied with seven random memories and the eighth made
+up a Hamming distance of only 30, 20, or 10 from one of the
+other seven memories. At a distance of 30, both similar mem-
+ories were usually stable. At a distance of 20, the minima were
+usually distinct but displaced. At a distance of 10, the minima
+were often fused.
+The algorithm categorizes initial states according to the sim-
+ilarity to memory states. With a threshold of 0, the system be-
+haves as a forced categorizer.
+The state 00000 ... is always stable. For a threshold of0, this
+stable state is much higher in energy than the stored memory
+states and very seldom occurs. Adding a uniform threshold in
+the algorithm is equivalent to raising the effective energy ofthe
+stored memories compared to the 0000 state, and 0000 also
+becomes a likely stable state. The 0000 state is then generated
+by any initial state that does not resemble adequately closely
+one of the assigned memories and represents positive recog-
+nition that the starting state is not familiar.
+Biophysics: Hopfield
+
+----- Page 5 (native) -----
+Proc. Natl. Acad. Sci. USA 79 (1982)
+Familiarity can be recognized by other means when the
+memory is drastically overloaded. We examined the case N
+= 100, n = 500, in which there is a memory overload ofa factor
+of25. None ofthe memory states assigned were stable. The ini-
+tial rate ofprocessing ofa starting state is defined as the number
+of neuron state readjustments that occur in a time 1/2W. Fa-
+miliar and unfamiliar states were distinguishable most of the
+time at this level ofoverload on the basis ofthe initial processing
+rate, which was faster for unfamiliar states. This kind of famil-
+iarity can only be read out of the system by a class of neurons
+or devices abstracting average properties of the processing
+group.
+For the cases so far considered, the expectation value of Tij
+was 0 for i # j. A set of memories can be stored with average
+correlations, and Ty = Cij # 0 because there is a consistent in-
+ternal correlation in the memories. If now a partial new state
+X is stored
+ATUj = (2Xi -1)(2Xj -1) Q~
+-- k < N
+[ill
+using only k of the neurons rather than N, an attempt to re-
+construct it will generate a stable point for all N neurons. The
+values of Xk+l- *.XN that result will be determined primarily
+from the sign of
+k
+E Cij Xj
+[12]
+j=1
+and X is completed according to the mean correlations of the
+other memories. The most effective implementation of this ca-
+pacity stores a large number of correlated matrices weakly fol-
+lowed by a normal storage ofX.
+A nonsymmetric T.. can lead to the possibility that a minimum
+will be only metastable and will be replaced in time by another
+minimum. Additional nonsymmetric terms which could be eas-
+ily generated by a minor modification of Hebb synapses
+ATU = A > (2Vs+1 - 1)(2Vj- 1)
+[13]
+S
+were added to T . WhenA was judiciously adjusted, the system
+would spend a while near V. and then leave and go to a point
+near V,+,. But sequences longer than four states proved im-
+possible to generate, and even these were not faithfully
+followed.
+Discussion
+In the model network each "neuron" has elementary properties,
+and the network has little structure. Nonetheless, collective
+computational properties spontaneously arose. Memories are
+retained as stable entities or Gestalts and can be correctly re-
+called from any reasonably sized subpart. Ambiguities are re-
+solved on a statistical basis. Some capacity for generalization is
+present, and time ordering of memories can also be encoded.
+These properties follow from the nature of the flow in phase
+space produced by the processing algorithm, which does not
+appear to be strongly dependent on precise details ofthe mod-
+eling. This robustness suggests that similar effects will obtain
+even when more neurobiological details are added.
+Much of the architecture of regions of the brains of higher
+animals must be made from a proliferation of simple local cir-
+cuits with well-defined functions. The bridge between simple
+circuits and the complex computational properties of higher
+nervous systems may be the spontaneous emergence of new
+computational capabilities from the collective behavior oflarge
+numbers of simple processing elements.
+Implementation of a similar model by using integrated cir-
+cuits would lead to chips which are much less sensitive to ele-
+ment failure and soft-failure than are normal circuits. Such chips
+would be wasteful ofgates but could be made many times larger
+than standard designs at a given yield. Their asynchronous par-
+allel processing capability would provide rapid solutions to some
+special classes of computational problems.
+The work at California Institute of Technology was supported in part
+by National Science Foundation Grant DMR-8107494. This is contri-
+bution no. 6580 from the Division of Chemistry and Chemical
+Engineering.
+1.
+Willows, A. 0. D., Dorsett, D. A. & Hoyle, G. (1973) J. Neu-
+robiol 4, 207-237, 255-285.
+2.
+Kristan, W. B. (1980) in Information Processing in the Nervous
+System, eds. Pinsker, H. M. & Willis, W. D. (Raven, New York),
+241-261.
+3.
+Knight, B. W. (1975) Lect. Math. Life Sci. 5, 111-144.
+4.
+Smith, D. R. & Davidson, C. H. (1962)J. Assoc. Comput. Mach.
+9, 268-279.
+5.
+Harmon, L. D. (1964) in Neural Theory and Modeling, ed. Reiss,
+R. F. (Stanford Univ. Press, Stanford, CA), pp. 23-24.
+6.
+Amari, S.-I. (1977) Bio. Cybern. 26, 175-185.
+7.
+Amari, S.-I. & Akikazu, T. (1978) Biol Cybern. 29, 127-136.
+8.
+Little, W. A. (1974) Math. Biosci. 19, 101-120.
+9.
+Marr, J. (1969) J. Physiol 202, 437-470.
+10.
+Kohonen, T. (1980) Content Addressable Memories (Springer,
+New York).
+11.
+Palm, G. (1980) Biol Cybern. 36, 19-31.
+12.
+McCulloch, W. S. & Pitts, W. (1943) BulL Math Biophys. 5,
+115-133.
+13.
+Minsky, M. & Papert, S. (1969) Perceptrons: An Introduction to
+Computational Geometry (MIT Press, Cambridge, MA).
+14.
+Rosenblatt, F. (1962) Principles of Perceptrons (Spartan, Wash-
+ington, DC).
+15.
+Cooper, L. N. (1973) in Proceedings of the Nobel Symposium on
+Collective Properties of Physical Systems, eds. Lundqvist, B. &
+Lundqvist, S. (Academic, New York), 252-264.
+16.
+Cooper, L. N., Liberman, F. & Oja, E. (1979) Biol Cybern. 33,
+9-28.
+17.
+Longuet-Higgins, J. C. (1968) Proc. Roy. Soc. London Ser. B 171,
+327-334.
+18.
+Longuet-Higgins, J. C. (1968) Nature (London) 217, 104-105.
+19.
+Kohonen, T. (1977) Associative Memory-A System-Theoretic
+Approach (Springer, New York).
+20.
+Willwacher, G. (1976) Biol Cybern. 24, 181-198.
+21.
+Anderson, J. A. (1977) Psych. Rev. 84, 413-451.
+22.
+Perkel, D. H. & Bullock, T. H. (1969) Neurosci. Res. Symp.
+Summ. 3, 405-527.
+23.
+John, E. R. (1972) Science 177, 850-864.
+24.
+Roney, K. J., Scheibel, A. B. & Shaw, G. L. (1979) Brain Res.
+Rev. 1, 225-271.
+25.
+Little, W. A. & Shaw, G. L. (1978) Math. Biosci. 39, 281-289.
+26.
+Shaw, G. L. & Roney, K. J. (1979) Phys. Rev. Lett. 74, 146-150.
+27.
+Hebb, D. 0. (1949) The Organization of Behavior (Wiley, New
+York).
+28.
+Eccles, J. G. (1953) The Neurophysiological Basis ofMind (Clar-
+endon, Oxford).
+29.
+Kirkpatrick, S. & Sherrington, D. (1978) Phys. Rev. 17, 4384-4403.
+30.
+Mountcastle, V. B. (1978) in The Mindful Brain, eds. Edelman,
+G. M. & Mountcastle, V. B. (MIT Press, Cambridge, MA), pp.
+36-41.
+31.
+Goldman,
+P.
+S. & Nauta, W. J. H. (1977) Brain Res. 122,
+393-413.
+32.
+Kandel, E. R. (1979) Sci. Am. 241, 61-70.
+0 rl
+,2558
+Biophysics: Hopfield

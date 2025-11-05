@@ -1,0 +1,788 @@
+
+
+----- Page 1 (native) -----
+IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 7, NO. 3, AUGUST 2011
+381
+Demand Side Management: Demand Response,
+Intelligent Energy Systems, and Smart Loads
+Peter Palensky, Senior Member, IEEE, and Dietmar Dietrich, Senior Member, IEEE
+Abstract—Energy management means to optimize one of the
+most complex and important technical creations that we know: the
+energy system. While there is plenty of experience in optimizing
+energy generation and distribution, it is the demand side that
+receives increasing attention by research and industry. Demand
+Side Management (DSM) is a portfolio of measures to improve
+the energy system at the side of consumption. It ranges from
+improving energy efﬁciency by using better materials, over smart
+energy tariffs with incentives for certain consumption patterns, up
+to sophisticated real-time control of distributed energy resources.
+This paper gives an overview and a taxonomy for DSM, analyzes
+the various types of DSM, and gives an outlook on the latest
+demonstration projects in this domain.
+Index Terms—Building automation, demand response, demand
+side management (DSM), energy efﬁciency, energy management,
+IEC 61850, load management, peak shaving, smart grids.
+I. INTRODUCTION
+T
+HE CLASSICAL modus operandi of electric energy sys-
+tems is unidirectional and top-down oriented. A limited
+number of large power plants feed into the grid and try to keep
+demand and supply balanced at all times. This balance is a very
+crucial aspect in operating an electric energy system. Volatile
+renewable energy sources [1] and electro-mobility are new
+challenges to this balance and call for sophisticated control
+methods [2].
+Using the load as an additional degree of freedom is not en-
+tirely new but affordable global communication infrastructure
+and embedded systems make it now relatively easy to add a cer-
+tain portion of “smart” to the loads. The development is driven
+by the fact that—despite increased efﬁciency of electric de-
+vices—consumption is steadily rising some percent every year.
+While generation might not be much of a problem, it is the grid
+capacity that makes many involved people worry.
+Especially new and ambitious projects, like DeserTec (exten-
+sive solar power stations in Northern Africa to supply Europe),
+and large offshore wind parks in the Northern Sea, raise ques-
+tions about the transport of energy. The grids might soon face
+their limits, and intelligent Demand Side Management (DSM) is
+one way to stretch these limits a bit further. DSM also promotes
+Manuscript received February 27, 2011; revised May 05, 2011; accepted May
+18, 2011. Date of publication June 27, 2011; date of current version August 10,
+2011. Paper no. TII-11-080.
+P. Palensky is with the Austrian Institute of Technology, Energy Department,
+1210 Vienna, Austria (e-mail: palensky@ieee.org).
+D. Dietrich is with the Vienna University of Technology, 1040 Vienna,
+Austria (e-mail: dietrich@ict.tuwien.ac.at).
+Color versions of one or more of the ﬁgures in this paper are available online
+at http://ieeexplore.ieee.org.
+Digital Object Identiﬁer 10.1109/TII.2011.2158841
+Fig. 1. Categories of DSM.
+distributed generation: In order to avoid long-distance transport,
+locally generated energy could be consumed by local loads, im-
+mediately when it is available. DSM’s main advantage is that it
+is less expensive to intelligently inﬂuence a load, than to build
+a new power plant or install some electric storage device.
+DSM includes everything that is done on the demand side of
+an energy system, ranging from exchanging old incandescent
+light bulbs to compact ﬂuorescent lights (CFLs) up to installing
+a sophisticated dynamic load management system. While DSM
+was “utility driven” in the past, it might move a bit towards a
+“customer driven” activity in the near future.
+Reference [3] shows the utility point-of-view. The authors
+perform a sequential Monte Carlo simulation to assess the im-
+pact of stochastic grid component outages and how far DSM can
+help in these cases. The correlation and sensitivity of the com-
+ponent capacity variation to the expected shortage of available
+transmission capacity is identiﬁed as well as the contribution of
+DSM to transmission capacity. Such centralized structures are
+sometimes complemented (if not replaced) by ﬂat and freely or-
+ganized market-driven mechanisms [4].
+Depending on the timing and the impact of the applied mea-
+sures on the customer process, DSM can be categorized into the
+following (see Fig. 1).
+a) Energy Efﬁciency (EE).
+b) Time of Use (TOU).
+c) Demand Response (DR).
+d) Spinning Reserve (SR).
+The “quicker” changes are processed and done, the more un-
+wanted impact they potentially have onto the customers’ pro-
+cesses. The “processes” can be manufacturing output, pump
+power or even optimizing human comfort or health in a building.
+1551-3203/$26.00 © 2011 IEEE
+
+----- Page 2 (native) -----
+382
+IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 7, NO. 3, AUGUST 2011
+Fig. 2. Impact of improved energy efﬁciency versus demand response.
+The lower edge of the DSM spectrum is energy efﬁciency mea-
+sures. They include all permanent changes on equipment (e.g.,
+exchanging an inefﬁcient ventilation system with a better one)
+or improvements on the physical properties of the system (e.g.,
+investing in the building shell by adding additional insulation).
+Such measures result in immediate and permanent energy and
+emissions savings and are therefore the most welcome method.
+Sometimes seen as a separate category of DSM, Energy Conser-
+vation (EC, [5]) shall be seen as part of Energy Efﬁciency in this
+paper. EC focuses on users and behavioral changes to achieve
+more efﬁcient energy usage.
+Time of use tariffs penalize certain periods of time (e.g.,
+17:00–19:00) with a higher price, so customers (re)arrange
+their processes to minimize costs. A change in the TOU
+price-schedule means a change in a supply contract/tariff and,
+therefore, does not happen on a frequent basis. [6] shows
+that combining DSM and TOU tariffs signiﬁcantly increases
+security and lowers costs and emissions of energy systems with
+a high share of wind power.
+Dynamic DSM does not necessarily reduce energy consump-
+tion, only consumption patterns are inﬂuenced. If a process is in-
+terrupted for some reason, it might have to “catch up” once it has
+green lights again. An example is a water pumping system that
+can—because of its storage tanks—easily be shed for 30 min.
+After the shed it has to ﬁll up its tanks again, since they were
+drained during the shed period. A so-called “rebound effect” (or
+payback) takes place, energy is typically not saved and maybe
+even a new peak is generated (see Fig. 2).
+Sometimes this effect can be avoided, but it might result in a
+reduced process quality. Such an ideal “peak shaving” applied
+to a ventilation system would mean that if it normally ran at 50%
+and were shed for half an hour, it is prohibited to compensate
+that downtime with half an hour of 100%.
+Reference [7] distinguish between the following.
+a) Incentive-Based DR.
+• Direct load control (DLC): utility or grid operator gets
+free access to customer processes.
+• Interruptible/curtailable rates: customers get special
+contract with limited sheds.
+• Emergency demand response programs: voluntary
+response to emergency signals.
+• Capacity market programs: customers guarantee to
+pitch in when the grid is in need.
+• Demand bidding programs: customers can bid for
+curtailing at attractive prices
+b) Time-Based Rates DR.
+• Time-of-use rates: a static price schedule is applied.
+• Critical peak pricing: a less predetermined variant of
+TOU.
+• Real-time pricing (RTP): wholesale market prices are
+forwarded to end customers.
+Reference [8] distinguishes the following.
+• Level I: Load shape objective.
+• Level II: End use, technology alternatives, and market im-
+plementation methods.
+An alternative way to look at the various ﬂavors of demand
+response is to distinguish between the following.
+• Market DR: real-time pricing, price signals and incen-
+tives, and
+• Physical DR: grid management and emergency signals.
+Market DR relies on certain market places where prices are
+formed and products are traded. Such market places are not ar-
+bitrarily quick, which is why most transactions are done a day
+ahead. An exception is real-time pricing (RTP), where the ﬁg-
+ures of an energy spot market (e.g., EEX—European Energy
+Exchange in Leipzig) are forwarded to end users without delay.
+A typical way to analyze and optimize market mechanisms is
+System Dynamics (SDs). Reference [9] shows an SD approach
+for designing energy prices for DSM. The price is split into
+a capacity and a quantity part, a government-driven policy is
+derived.
+Reﬂecting grid congestion or an excess supply of wind power
+onto the price can provoke stabilizing customer behavior. This
+misleads some people to believe that monetary incentives like
+RTP could solve all existing problems of the energy grid. How-
+ever, limited customer elasticity and physical situations that are
+not mapped onto prices lead to the fact that real load shedding
+for grid relief cannot be done via prices alone.
+This is where physical DR comes into play. It sends out
+binding requests for demand management if the grid or parts of
+its infrastructure (power lines, transformers, substations, etc.)
+are in a reduced performance due to maintenance or failure.
+A good mixture of both market and physical DR is usually
+necessary to run a grid optimal.
+Spinning Reserves (SR), implemented by loads, represent the
+upper (i.e., quick) end of the DSM spectrum. Unfortunately, the
+term itself is used in a loose way across the power community.
+In this paper, spinning reserve is seen as primary (active power
+output directly depends on frequency) and secondary control
+(restoring frequency and grid state with additional active power)
+[10]. This is typically the task of regulation power plants. Loads
+can act as “virtual” (or negative) spinning reserve if they corre-
+late their power consumption to the grid state in a “droop con-
+trol” or some other smart manner. In its easiest way, devices use
+less power if frequency drops (Fig. 3).
+This can happen in an autonomous way (similar to primary
+control) or in a coordinated way (similar to secondary control).
+Depending on the type of DSM, different means of technology
+and especially communication are necessary.
+Comparing the various ﬂavors of DSM, it is clear that EE is
+most wanted. It saves energy and emissions, while most of the
+
+----- Page 3 (native) -----
+PALENSKY AND DIETRICH: DEMAND SIDE MANAGEMENT: DEMAND RESPONSE, INTELLIGENT ENERGY SYSTEMS, AND SMART LOADS
+383
+Fig. 3. A cooperative consumer backs off when grid frequency decreases.
+Fig. 4. A web-based energy information system, based on [11].
+other types just shift it in time. So, the ﬁrst goal must always
+be to improve efﬁciency. After that, the dynamics can be op-
+timized. Depending on the boundary conditions (electro-tech-
+nical setting, market setting, capabilities of the system) of the
+system, one or the other dynamic DSM method might be chosen.
+Naturally, the break-even point of automation investments and
+ﬁnancial incentives determines how far one can go.
+II. DEMAND SIDE MANAGEMENT
+A. Energy Efﬁciency
+Improving energy efﬁciency of buildings or industrial sites
+starts with information and insight into the processes involved.
+Practically, every customer site has hidden problems that waste
+energy: compressed air leakages, misconﬁgured controls, dirty
+ﬁlters, broken equipment, etc. Actually, such trivial problems
+are often overlooked, unless a tool for analyzing energy efﬁ-
+ciency like [11] is used. The typical parts of such an Energy
+Information System (EIS, Fig. 4) are as follows.
+• Data acquisition infrastructure (sensor networks, data log-
+gers, gateways, modems, etc.).
+• An application server with database, calculation and anal-
+ysis algorithms, alarming and reporting.
+• User interfaces for visualization and conﬁguration.
+The classical calculations are as follows.
+• Baseline versus peak load comparison: a high baseline
+might stem from standby power or old equipment (e.g., bad
+insulation).
+• Weekly comparison of time series: often lighting or venti-
+lation accidentally runs through the night and the weekend.
+Fig. 5. An energy controller switches (off) devices.
+• Benchmarks: compare your performance to others, es-
+pecially useful for multisite customers (e.g., supermarket
+chains).
+• Process correlations: does your energy consumption
+strongly correlate with, for instance, the outside tempera-
+ture or solar gains?
+Beside such static efﬁciency ﬁgures, it is also the dynamics
+that gets evident with such systems. An experienced facility
+manager or a smart algorithm can interpret consumption pat-
+terns and ﬁnd ways to reduce peak loads. If the energy supply
+contract penalized peaks, this would be a valuable result. If
+changes to the logistics cannot help, automation equipment
+might be necessary.
+B. Energy Controllers
+If the operations of equipment needs consumption-driven ad-
+justment, an energy controller could be used. Such a device is
+typically located at the energy meter and monitors the consump-
+tion trend. If the trend points to unwanted levels, the controller
+switches off equipment, based on certain priorities and other
+rules (Fig. 5).
+Conﬁguring such an energy controller can be a very complex
+task. Especially if consumers are added or removed, the stability
+depends on a wise choice of rules. One simple example of how
+to determine the priority level depending on the consumption
+trend is shown in Fig. 6. The graphic shows one “measurement
+period” (country-dependent time of usually 15 or 30 min that
+represents the smallest time period for billing purposes). Each
+period, the trend starts from zero and moves monotonously up-
+wards. The more power is consumed (bottom curve), the steeper
+the energy consumption curve.
+Once the consumption trajectory crosses one of the upper
+threshold lines, certain classes (or groups, priorities) of con-
+
+----- Page 4 (native) -----
+384
+IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 7, NO. 3, AUGUST 2011
+Fig. 6. Selection of priorities in a maximum demand monitor.
+sumers are switched off (or duty-cycled, etc.). Fig. 6 assumes
+three device classes, c1 the most important ones, c3 the least
+important ones. The trajectory starts steep since all devices are
+allowed on initially. It is steeper than the ideal (dashed) curve
+so it necessarily crosses “c3 off” which turns off the least
+important ones as a ﬁrst measure to ﬂatten the curve. In this
+example, this is not sufﬁcient so it crosses “c2 off” after some
+time and also class 2 devices are switched off: only category
+1 devices are allowed on now. The resulting (too) ﬂat curve
+crosses “c1 on” which has no effect since c1 devices were al-
+lowed on anyway. Crossing “c2 on” allows class 2 devices on
+again and so forth. “all off” would result in
+and a hori-
+zontal energy trajectory. With such a system, the consumption
+trajectory will (if physically possible) reach the goal at the end
+of the period.
+Note that the power consumption during
+and
+is different
+although both intervals say “allowed devices classes are 1 and
+2.” This demonstrates the fact that devices in one category may
+be switched on but do not have to, since they have their own,
+independent controls and schedules.
+The goal can also change from period to period. With this,
+a given load chart can be followed, always assuming that the
+process physically allows that.
+Fig. 7. OpenADR clients and the system operator connect to the DRAS.
+C. Demand Response
+A much quicker response is provided by the many ﬂavors of
+Demand Response (DR). Typically, a signal is broadcast, e.g.,
+by the distribution or transmission system operator (DSO/TSO).
+This signal might contain a price or a command for load shed-
+ding/shifting. The deadline is not necessarily instantaneous: the
+signal might refer to a situation next day at 12:00 noon since
+often grid emergencies can be anticipated.
+Classical Direct Load Control (DLC) assumes that loads are
+fully under control, i.e., they do what they are told to do. All
+intelligence is expected in the controller, who ideally uses load
+models to make reasonable decisions. Reference [12] used a sto-
+chastic state-space model for loads and simulate an urban power
+system. The results show savings both in costs and transport
+losses.
+One modern system for automated demand response,
+OpenADR [13], [14], is developed by the leading research
+group on DR, the Demand Response Research Center (DRRC)
+at the Lawrence Berkeley National Laboratory. OpenADR is
+an open speciﬁcation and an open-source reference implemen-
+tation of a distributed, client-server oriented DR infrastructure
+with a publisher-subscriber model. Its main components are the
+following (Fig. 7).
+• Demand Response Automation Server (DRAS).
+• DRAS Clients at the customers’ sites.
+• The Internet as communication infrastructure.
+The client side is often just a communication library, used
+by controls manufacturers to make their product OpenADR-ca-
+pable. Clients can subscribe to DR “programs,” like critical peak
+pricing or demand bidding, and the DRAS serves as simple
+market platform and subscription manager. It keeps a database
+of the participating clients and the program that they are sub-
+scribed to.
+If, for instance, a utility or system operator issues an emer-
+gency message to the DRAS, the server forwards the message
+to all clients that participate in the “emergency program.” Trans-
+actions need to be recorded by the DRAS since ﬁnancial incen-
+tives are connected with reacting to such events.
+The above system is almost open-loop control, since nei-
+ther load models nor online feedback is used. Reference [15]
+combines ripple control1 with a wide area phasor measurement
+system, based on global positioning system (GPS) timestamps
+used by distributed voltage/current measurement equipment.
+The result of adding this feedback loop is wide area control
+for energy systems. Assuming 10% of the loads as controllable
+1Broadcasting powerline signals at nighttime for electric storage stoves.
+
+----- Page 5 (native) -----
+PALENSKY AND DIETRICH: DEMAND SIDE MANAGEMENT: DEMAND RESPONSE, INTELLIGENT ENERGY SYSTEMS, AND SMART LOADS
+385
+via ripple control, the authors estimate approximately 30%
+savings in transmission corridor losses and approximately 40%
+in control power savings.
+Reference [16] analyzes the business impacts of DSM. Four
+business models are analyzed and a district of 300 households
+with three different types of electric devices are simulated: loads
+with storage (e.g., boiler), shiftable loads (e.g., dishwasher), and
+real electric storages (e.g., batteries). The focus is on the district
+level, i.e., making a district more self-sustainable with regards
+to power consumption, and is entirely market based. It is shown
+that ﬂexible loads can be very attractive for DSOs when used
+for substation-level peak shaving.
+D. Distributed Spinning Reserve
+Distributed spinning reserve tries to support the traditional
+providers of ancillary services by imitating their behavior. On
+the demand side, this means that load can be reduced or in-
+creased when the grid frequency drops or rises.
+Two implementations of this scheme are the Integral
+Resource Optimization Network (IRON) [17] and the “grid-
+friendly controller” [18]. Both measure the frequency and react
+on it. The difference is that the IRON box has an additional
+communication interface (a GSM/3G modem) that allows
+cooperative algorithms.
+A simple example for such an add-on feature due to its com-
+munication capabilities is fairness. If, for example, a number of
+devices can shed their load, and already one of them shedding
+is sufﬁcient, it might always be the quickest that wins the mon-
+etary incentive. With communication, it can be arranged that all
+of them have their turn. Such coordination also contributes to
+stability. Imagine a community of autonomous, distributed con-
+trollers without communication. All of them reacting on grid
+problems in the same manner is the perfect recipe for instabili-
+ties. They will have do it one after another to avoid a too strong
+reaction.
+All this is distributed, but still classical control: The frequency
+needs to drop so that controllers react, and it needs to be restored
+so that they stop ﬁxing it. A slightly more sophisticated version
+goes into model-predictive controls. A device that has a load
+model of itself might predict how much/long it can shed load
+until it has to stop shedding for process reasons. Load models
+are the second step towards stability. They give the answer to the
+question of how strong the reaction to an (anticipated) problem
+needs to be and who can provide it.
+E. Demand Shifting
+Load models are also used when demand needs to be shifted
+to other times. If the weather and other forecasts predict a grid
+emergency at 17:30 the next day, intelligent consumers can plan
+ahead and—if their process allows it—do their tasks earlier or
+later. Examples are precooling, producing for the stock, etc. Pro-
+cesses that can be shifted typically belong to one of the fol-
+lowing categories.
+• Inert thermal processes (heating, cooling).
+• Inert diffusion processes (ventilation, irrigation, etc.).
+• Mass transport (pumps with tanks, conveyor belts, etc.).
+• Logistics (schedules, dependencies, lunch-breaks, etc.).
+Shifting load to a later point in time (i.e., postponing) is easy.
+The load is shed at the critical time and the process has to catch
+up later. Unfortunately, the process quality is not guaranteed: If
+there are not enough products on stock or if the tank is almost
+empty, the process might run into troubles during the shed time.
+It is therefore better to move the peak before the shed time and
+be prepared. For this, load models are needed. They predict how
+long things can be turned off, how much it takes to ﬁll the “vir-
+tual storage,” and what it costs [19].
+The “virtual storage” of Demand Shifting can of course be
+enhanced by special means. [20] for instance add phase change
+material to buildings with electric heating to increase the low
+thermal inertia of the structure.
+F. Loads as Virtual Storage Power Plants
+Virtual Power Plants (VPPs) are a community of typically
+smaller generation units (often renewable energy sources) that
+appear as one power plant to the grid management [21]. The
+(typically distributed) equipment needs to be controlled from a
+central dispatch and management node, and modern SCADA
+standards like IEC 61850 [22] are used to integrate the indi-
+vidual parts.
+A special case arises if these parts are loads. Loads cannot
+generate, they can only act as virtual storage via load shifting.
+Aggregating many of such loads leads to sizes that can par-
+ticipate on power markets and compete with traditional elec-
+tric storage [23]. Typically, aggregators use proprietary tech-
+nology to do this, but IEC 61850 is a good candidate to enable
+interoperability.
+The most crucial point of VPPs is even more crucial with
+load-based virtual storage power plants: guaranteed availability.
+If the grid operator requests a certain amount of regulation
+power it must be delivered. Unfortunately, many loads behave
+in a stochastic manner. A customer process might just at that
+time not be interruptible or its virtual storage might be empty.
+For this, again, reliable load models are necessary so that the
+VPP operator can keep its promises available.
+G. Communication Protocols for Load Management
+IEC 61850 is a standards series for substation automation.
+It contains an addressing scheme for “Intelligent Electronic De-
+vices” (IEDs) or Distributed Energy Resources (DERs) and their
+properties and functions, an XML-based substation conﬁgura-
+tion language, communication protocols for best-effort and real-
+time transport, and much more. Modern manufacturers imple-
+ment this technology in their latest power engineering prod-
+ucts like distribution automation nodes or grid measurement and
+diagnostics devices. It is popular for implementing VPPs and
+gradually makes its way down to the distribution level.
+Coming from the other edge of the system, home and building
+automation systems move towards the energy business. Smart
+domestic controls can cause signiﬁcant energy savings, [24] re-
+port 40% energy savings via enhanced lighting controls. The
+current question is how to unify the various devices from a con-
+trols perspective?
+Several technology groups have published standards for en-
+ergy services in the home. One of them is the Zigbee Smart En-
+ergy Proﬁle [25], an extensive document that describes a large
+
+----- Page 6 (native) -----
+386
+IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 7, NO. 3, AUGUST 2011
+Fig. 8. The states of the BACnet load control object (simpliﬁed).
+number of services like meter reading, online pricing, informa-
+tion security, or load control. A shorter but nevertheless inter-
+esting proposal comes from the American Society of Heating,
+Refrigerating and Air Conditioning Engineers (ASHRAE), the
+BACnet ([26]) load control object (speciﬁed in an addendum
+to the ISO BACnet standard [27]). It deﬁnes an abstract state
+machine that represents a load with (or without) load shedding
+capabilities (Fig. 8).
+A device can be queried for its state. “Not active” means it is
+capable of shedding and might receive a shed command which
+would put it into state “pending” until the shed is fully done. If
+the device enters the “not possible” state, it cannot shed (any-
+more). This simple ﬁnite-state machine (FSM) is an abstract
+way of representing electric consumers. With this, very different
+devices can be addressed by a (central) decision unit in a uniﬁed
+way.
+Another project in the home-domain is KNIVES, a tree-
+topology demand management system, developed at Keio Uni-
+versity, Japan. It reacts on energy prices and inﬂuences loads,
+based on priorities. For integration with home automation infra-
+structure, a wireless interface is used [28]. KNIVES uses em-
+bedded systems with dry contacts and relays, installed at the
+customer’s premises to take inﬂuence on electric loads. A utility
+company or system operator can then dispatch messages via the
+tree-like, Internet-based network of servers.
+There is no uniﬁed DSM communication protocol (yet), dif-
+ferent domains like utilities, research or automation companies
+have introduced their solutions and ﬁght for dominance. Ope-
+nADR and IEC 61850 receive broad acceptance so we might
+see the ﬁrst aspects of established standards soon.
+III. RECENT DEMONSTRATIONS
+Two interesting demonstration projects are done within the
+“SmartGrids Model-Region Salzburg”: Building-to-Grid (B2G)
+and Consumer-to-Grid (C2G). The two projects aim at two dif-
+ferent aspects with regards to an intelligent demand-side: the au-
+tomated processes in a building and the customer him/herself.
+B2G integrates building automation systems into an intelli-
+gent community of cooperating software agents. The smart grid
+(operator) can interact with this community to negotiate con-
+sumption patterns or ask for support in the case of an emergency.
+Fig. 9. Software agents represent and manage buildings in the building-to-grid
+project.
+Fig. 10. The consumer-to-grid project puts the human back into “the loop.”
+The important aspect of B2G is, that the agent has a local “world
+model.” It is equipped with a learning model of the building’s
+processes. With this model, the agent can plan ahead since it
+knows typical usage patterns, time constants of the equipment
+and the building itself, and it can even test alternative behavior
+in advance (Fig. 9). It is important that this model can be learned
+during runtime, since it is impossible to manually conﬁgure all
+buildings in the ﬁeld trial.
+The target application for B2G is physical and marked-ori-
+ented demand response. An example for physical DR in this
+project is supporting the DSO in keeping the voltage levels on
+the grid, an example for market-oriented DR is real-time pricing.
+The Consumer-to-Grid project enables a part in this system
+that was long forgotten: the human factor. Control engineers cat-
+egorize humans and human behavior typically as “disturbance”
+or stochastic variable. In the case of the energy system, humans
+can provide remarkable local intelligence if they are included in
+the right way. On the other side, any technology is doomed to
+fail if the involved users do not like or understand it: Two rea-
+sons for C2G to analyze the potential and the mechanisms of
+human involvement in the energy demand.
+A large number of utility customers are clustered in groups
+according to certain statistical rules: categories like “double in-
+come no kids” are used to isolate demographic differences, con-
+trol groups are created, geographic and social spread is consid-
+ered, etc. All probands are equipped with a smart meter to get
+ﬁne-grained energy consumption data (Fig. 10).
+The probands are then exposed to different types of commu-
+nication, ranging from personal conversations, letters, smart-
+phone applications, and displays that are installed beside the el-
+evator. All these communication channels supply the customers
+
+----- Page 7 (native) -----
+PALENSKY AND DIETRICH: DEMAND SIDE MANAGEMENT: DEMAND RESPONSE, INTELLIGENT ENERGY SYSTEMS, AND SMART LOADS
+387
+with information about their energy consumption, sometimes in
+comparison to others. The project analyzes the impact of dif-
+ferent types of information, different channels of communica-
+tion and how long the impact (energy efﬁciency increase and a
+load shifting) lasts. Such “soft” DSM is proven to work [29],
+the question is what works best and what is the right medium,
+since the way in how we communicate changes constantly.
+Both projects are embedded in a larger project bundle that
+also covers ICT synergies and market/application platforms.
+First, results of B2G and C2G are expected for 2012.
+A related project on the European level is EcoGrid EU,2 a
+large-scale demonstration project for smart grids and modern
+ICT-based energy systems. An entire island (Danish Bornholm)
+will be equipped with intelligent buildings, electric storages,
+electric vehicles, and distributed generation, all connected with
+and cooperating via a new type of real-time market platform.
+For the ﬁrst time, real-time control issues and market-based
+price formation have a common ground. Usually, marked-driven
+DSM relies on the elasticity of the customer with regards to en-
+ergy prices. The more ﬂexible the demand side, the quicker and
+stronger a response [30]. EcoGrid EU explicitly combines DLC
+and marked-based settlement. This accounts for solving multi-
+objective problems that a DER faces when entering a new en-
+ergy market. A grid segment might signalize overload, the prices
+might be attractive and local schedules might add a third voice
+in the mind of the local DER controller. EcoGrid EU’s real-time
+market might be able to solve parts of these dilemmas. Results
+are expected in 2013.
+Further exciting insights are expected from the German E-En-
+ergy project initiative,3 where six large projects deal with “pro-
+sumers” (grid participants that are sometimes producers or con-
+sumers), new service providers, ICT gateways, and renewable
+energy. Loads and load management play important roles in
+these projects.
+IV. OUTLOOK
+DSM is experiencing a renaissance, driven by the ap-
+proaching smart power grids, microgrids [31] and supergrids
+[32]. While microgrids obviously (because of their scarce re-
+sources) need a ﬂexible demand side to ease system operation,
+supergrids import this need from offshore wind farms.
+One of the main challenges for DSM is on the ICT side [30].
+Surely, DSM potential and operations of the physical parts are
+important but they are relatively well researched. It is ICT in-
+teroperability, algorithm stability, information security, and (in-
+formation) network management that shows the highest levels
+of activities. Several international committees are working on
+smart grid interoperability, smart metering standards, and infor-
+mation security for energy management ([33], [34]).
+Out of the classical information security needs, it is the most
+popular one—conﬁdentiality—which seams to be the least crit-
+ical one for energy systems.
+• Conﬁdentiality: keep my shed-actions private.
+• Integrity: be sure to get the correct shed signals.
+• Authenticity: be sure of the origin of shed information.
+2www.eu-ecogrid.net.
+3www.e-energy.de.
+• Availability: be sure that your DR resources are there when
+you need them.
+• Access-control: give your DSO access to the ventilation
+system but not to the lighting.
+• Nonrepudiation: prove your DR participant that he did not
+shed when he should have.
+Clearly, all security requirements are important and need to
+be taken into consideration when designing an ICT-based DSM
+system. These requirement stretch up to the required market
+platforms, in the case of freely tradable energy resource. Pro-
+sumers and other DERs need a solid “digital identity” to act as
+business partner on such platforms. Digital signatures, which
+address the needs “Integrity” and “Authenticity,” are the min-
+imum measures that such a system must implement: DERs must
+be sure whom they are cooperating with (other DERs, energy
+markets, etc.) and that data is not manipulated. Otherwise, it is
+easy to join such a DER community and manipulate entire mar-
+kets. The only comparable case for such scenarios can be found
+in mobile telecommunication: mobile devices like cell phones
+use their tamper-proof subscriber identiﬁcation modules (SIM,
+deﬁned as secure platform for this application) to implement
+authentication and other security services. DERs clearly need
+something comparable.
+This is even more evident when the latest trends in electric
+mobility is taken into the picture. The storage capabilities of
+electric vehicles can—supposing charging stations are equipped
+with feedback inverters—offer similar (and even better) services
+like intelligent loads. Their roaming nature and dispersed own-
+ership, however, makes management and billing a special chal-
+lenge. Digital identity of each vehicle and changing station is
+one step towards a ﬂexible usage of this enormous potential.
+Generally, DSM moves from isolated usage (large industrial
+customers that are called via phone for shedding), and old-fash-
+ioned ripple control towards a broad, selective, and intelligent
+usage of demand resources. Market platforms, a regulatory envi-
+ronment that rewards smart consumer behavior, and automation
+infrastructure are successfully presented in ﬁeld trials [14], but
+still need improvement and a broader application in other coun-
+tries. Several demonstration projects that are currently starting
+show that there is an active research community in this ﬁeld, and
+that industry is already implementing their results.
+REFERENCES
+[1] Eurelectric, “The role of electricity,” The Union of the Electricity In-
+dustry, Bruxelles, Belgium, 2007, Tech. Rep..
+[2] M. Prodanovic and T. Green, “High-quality power generation through
+distributed control of a power park microgrid,” IEEE Trans. Ind. Elec-
+tron. , vol. 53, no. 5, pp. 1471–1482, Oct. 2006.
+[3] M. Zhou, Y. Gao, and G. Li, “Study on improvement of available
+transfer capability by demand side management,” in Proc. 3rd Int.
+Conf. Electric Utility Deregulation and Restructuring and Power
+Technologies, DRPT’08, 2008, pp. 545–550.
+[4] A. Mohsenian-Rad, V. Wong, J. Jatskevich, R. Schober, and A. Leon-
+Garcia, “Autonomous demand-side management based on game-theo-
+retic energy consumption scheduling for the future smart grid,” IEEE
+Trans. Smart Grid, vol. 1, no. 3, pp. 320–331, Dec. 2010.
+[5] F. Boshell and O. Veloza, “Review of developed demand side man-
+agement programs including different concepts and their results,” in
+Proc. IEEE Transmission and Distrib. Conf. Expo.: Latin America,
+PES, 2008, pp. 1–7.
+[6] V. Hamidi, F. Li, L. Yao, and M. Bazargan, “Domestic demand side
+management for increasing the value of wind,” in Proc. Int. Conf.
+Electr. Distrib., CICED, China , 2008, pp. 1–10.
+
+----- Page 8 (native) -----
+388
+IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 7, NO. 3, AUGUST 2011
+[7] J. Han and M. Piette, “Solutions for summer electric power shortages:
+Demand response and its applications in air conditioning and refrig-
+erating systems,” Refrigeration, Air Conditioning, and Electric Power
+Machinery, vol. 29, no. 1, pp. 1–4, Jan. 2008.
+[8] S. Rahman and . Rinaldy, “An efﬁcient load model for analyzing de-
+mand side management impacts,” IEEE Trans. Power Syst., vol. 8, no.
+3, pp. 1219–1226, Aug. 1993.
+[9] H. Yang, Y. Zhang, and X. Tong, “System dynamics model for demand
+side management,” in Proc. erd Inf. Conf. Electr. Electron. Eng., 2006,
+pp. 1–4.
+[10] J. Vasquez, J. Guerrero, J. Miret, M. Castilla, and L. de Vicuñanda,
+“Hierarchical control of intelligent microgrids,” IEEE Ind. Electron.
+Mag., vol. 4, no. 4, pp. 23–29, Dec. 2010.
+[11] P. Palensky, The JEVis Service Platform—Distributed Energy Data Ac-
+quisition and Management.
+Boca Raton, FL: CRC Press, 2005, pp.
+111-1–111-11, no. 0849319854.
+[12] A. Gabaldon, A. Molina, C. Roldan, J. Fuentes, E. Gomez, I. Ramirez-
+Rosado, P. Lara, J. Dominguez, E. Garcia-Garrido, and E. Tarancon,
+“Assessment and simulation of demand-side management potential in
+urban power distribution networks,” in IEEE Proc. Tech. Conf. Power
+Tech Conf., Bologna, 2003, vol. 4, p. 5.
+[13] E. Koch, P. Palensky, M. A. Piette, S. Kiliccote, and G. Ghatikar, “Ar-
+chitecture for supporting the automation of demand response,” pre-
+sented at the 1st IEEE Ind. Electron. Soc. Industry Forum, Santa Clara,
+CA, 2008.
+[14] R. Yin, P. Xu, M. Piette, and S. Kiliccote, “Study on auto-DR and
+pre-cooling of commercial buildings with thermal mass in California,”
+Energy and Buildings, vol. 42, no. 7, pp. 967–975, Jan. 2010.
+[15] D. Westermann and A. John, “Demand matching wind power gen-
+eration with wide-area measurement and demand-side management,”
+IEEE Trans. Energy Conversion, vol. 22, no. 1, pp. 145–149, 2007.
+[16] F. De Ridder, M. Hommelberg, and E. Peeters, “Four potential business
+cases for demand side integration,” in Proc. 6th Eur. Int. Conf. Energy
+Market, EEM’09, May 2009, pp. 1–6.
+[17] M. Stadler, P. Palensky, B. Lorenz, M. Weihs, and C. Roesener, “In-
+tegral resource optimization networks and their techno-economic con-
+straints,” Int. J. Distrib. Energy Syst., vol. 1, no. 4, pp. 299–320, Oct.
+2005.
+[18] L. Cantin, M. Deschenes, B. Comeau, and M. D. Amours, “Controller
+for controlling operation of at least one electrical load operating on an
+ac supply, and a method thereof,” U.S. Patent 5 442 335, 1995.
+[19] F. Kupzog and P. Palensky, “Wide-area control systems for bal-
+ance-energy provision by energy consumers,” in Proc. IFAC, FET’07,
+Toulouse, France, 2007, pp. 337–345.
+[20] W. Qureshi, N.-K. Nair, and M. Farid, “Demand side management
+through efﬁcient thermal energy storage using phase change material,”
+in Proc. Power Eng. Conf., AUPEC’08, Australasian Universities,
+2008, pp. 1–6.
+[21] C. Webb, “Virtual power plants: Making the most of distributed gener-
+ation,” Power Eng. Int., vol. 18, no. 7, pp. 28–31, 2010.
+[22] IEC 61850 Series, IEC Standard 61 850, IEC, 2010.
+[23] I. Gyuk, P. Kulkarni, J. Sayer, J. Boyes, G. Corey, and G. Peek, “The
+united states of storage [electric energy storage],” IEEE Power and En-
+ergy Mag., vol. 3, no. 2, pp. 31–39, Mar. 2005.
+[24] T.-J. Park and S.-H. Hong, “Experimental case study of a bacnet-based
+lighting control system,” IEEE Trans. Autom. Sci. Eng., vol. 6, no. 2,
+pp. 322–333, Apr. 2009.
+[25] ZigBee Smart Energy Proﬁle, ZigBee Alliance Std., 2008, R. Simpson.
+[26] S. T. Bushby, “Bacnet: A standard communication infrastructure for in-
+telligent buildings,” Autom. Construction, vol. 6, no. 5/6, pp. 529–540,
+Sep. 1997.
+[27] BACnet Load Control Object, ISO Sttandard ISO 16 484-5 Add-135-
+2004e, ISO, 2004.
+[28] T. Handa, A. Oda, T. Tachikawa, J. Ichimura, Y. Watanabe, and H.
+Nishi, “Knives: A distributed demand side management system—Inte-
+gration with zigbee wireless sensor network and application,” in Proc.
+6th IEEE Conf. Ind. Informat, INDIN’08, 2008, pp. 324–329.
+[29] S. Darby, The effectiveness of feedback on energy consumption. A re-
+view for Defra of the literature on metering, billing and direct displays
+Environmental Change Inst., Univ. Oxford, Oxford, U.K., 2006, Tech.
+Rep..
+[30] F. Saffre and R. Gedge, “Demand-side management for the smart grid,”
+in Proc. IEEE/IFIP Network Oper. Manage. Symp. Workshops (NOMS
+Wksps), Apr. 2010, pp. 300–303.
+[31] R. Lasseter, J. Eto, B. Schenkman, J. Stevens, H. Vollkommer, D.
+Klapp, E. Linton, H. Hurtado, and J. Roy, “Certs microgrid laboratory
+test bed,” IEEE Trans. Power Delivery, vol. 26, no. 1, pp. 325–332,
+Jan. 2011.
+[32] S. Gordon, “Supergrid to the rescue,” Power Eng., vol. 20, no. 5, pp.
+30–33, October 2006.
+[33] W. Granzer, F. Praus, and W. Kastner, “Security in building automation
+systems,” IEEE Trans. Ind. Electron., vol. 57, no. 11, pp. 3622–3630,
+Nov. 2010.
+[34] A. Treytl, P. Palensky, and T. Sauter, “Security considerations for
+energy automation networks,” presented at the 6th IFAC Int. Conf.
+Fieldbus Systems and their Applications (FeT 2005), Puebla, Mexico,
+2005, no. 9076019096.
+Peter Palensky (M’03–SM’05) is Head of the Busi-
+ness Unit for Sustainable Building Technologies at
+the Austrian Institute of Technology (AIT), Vienna,
+Austria. Prior to this, he was CTO of Envidatec
+Corporation, Hamburg, Germany, Associate Pro-
+fessor at the Department of Electrical, Electronic
+and Computer Engineering, University of Pretoria,
+South Africa, University Assistant at the Vienna
+University of Technology, Austria, and Researcher
+at the Lawrence Berkeley National Laboratory, CA.
+His main research ﬁelds are automation networks,
+distributed embedded systems, home and building automation and energy
+management.
+Dr. Palensky is an elected AdCom Member of the Industrial Electronics So-
+ciety of the IEEE. He is active in international committees like ISO, IEEE, and
+CEN.
+Dietmar Dietrich (SM’04) became Professor of
+Computer Technology at the Vienna University
+of Technology, Vienna, Austria, in 1992. He had
+been Head of the Institute of Computer Technology
+since 1999. Prior to this, he worked in the aviation
+and space industry, and later in the communication
+industry. He is a member (member of the advisory
+board, chair, convenor, etc.) of various national and
+international organizations and also a delegate of
+the OVE and ON in CEN and CENELEC. He is and
+was Associated Editor for the IEEE TRANSACTIONS
+ON INDUSTRIAL INFORMATICS (TII) and for the IEEE TRANSACTIONS ON
+INDUSTRIAL ELECTRONICS (TIE).
+Dr. Dietrich is an IEEE IES AdCom member, initiator as well as past TC
+Chair of BACM (Building Automation, Control and Management) in IES/IEEE.
+Furthermore, he is Associate Editor for EURASIP and co-organizer of various
+tracks and conferences for the IEEE. He also became a member of the board
+of the OVE in 2002 and was Vice President until Spring 2008. He was Chair
+of Section Austria in IEEE R8 from 2006 to 2008. In 1994, he founded the
+Center of Excellence for Fieldbus Systems, and in 1995, the International Bi-
+ennial Fieldbus Conference FeT. He organized national and international work-
+shops and conferences for IEEE and IFAC.

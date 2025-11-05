@@ -1,0 +1,2132 @@
+
+
+----- Page 1 (native) -----
+1062
+Information Hiding—A Survey
+Fabien A. P. Petitcolas, Ross J. Anderson and Markus G. Kuhn
+Proceedings of the IEEE, special issue on protection of multimedia content, 87(7):1062–1078, July 1999.
+Abstract—Information hiding techniques have recently be-
+come important in a number of application areas.
+Digital
+audio, video, and pictures are increasingly furnished with
+distinguishing but imperceptible marks, which may contain
+a hidden copyright notice or serial number or even help to
+prevent unauthorised copying directly. Military communi-
+cations systems make increasing use of traﬃc security tech-
+niques which, rather than merely concealing the content of
+a message using encryption, seek to conceal its sender, its
+receiver or its very existence. Similar techniques are used
+in some mobile phone systems and schemes proposed for
+digital elections.
+Criminals try to use whatever traﬃc se-
+curity properties are provided intentionally or otherwise in
+the available communications systems, and police forces try
+to restrict their use. However, many of the techniques pro-
+posed in this young and rapidly evolving ﬁeld can trace their
+history back to antiquity; and many of them are surpris-
+ingly easy to circumvent. In this article, we try to give an
+overview of the ﬁeld; of what we know, what works, what
+does not, and what are the interesting topics for research.
+Keywords— Information hiding, steganography, copyright
+marking.
+I. Introduction
+It is often thought that communications may be secured
+by encrypting the traﬃc, but this has rarely been adequate
+in practice. Æneas the Tactician, and other classical writ-
+ers, concentrated on methods for hiding messages rather
+than for enciphering them [1]; and although modern cryp-
+tographic techniques started to develop during the Renais-
+sance, we ﬁnd in 1641 that John Wilkins still preferred
+hiding over ciphering [2, IX pp.
+67] because it arouses
+less suspicion. This preference persists in many operational
+contexts to this day. For example, an encrypted email mes-
+sage between a known drug dealer and somebody not yet
+under suspicion, or between an employee of a defence con-
+tractor and the embassy of a hostile power, has obvious
+implications.
+So the study of communications security includes not
+just encryption but also traﬃc security, whose essence lies
+in hiding information. This discipline includes such tech-
+nologies as spread spectrum radio, which is widely used
+in tactical military systems to prevent transmitters being
+located; temporary mobile subscriber identiﬁers, used in
+digital phones to provide users with some measure of loca-
+tion privacy; and anonymous remailers, which conceal the
+identity of the sender of an email message [3].
+An important subdiscipline of information hiding is ste-
+ganography. While cryptography is about protecting the
+content of messages, steganography is about concealing
+their very existence. It comes from Greek roots (στεγαν´o-
+ς, γραφ-ειν), literally means ‘covered writing’ [?], and is
+The authors are with the University of Cambridge Computer Labo-
+ratory, Security Group, Pembroke Street, Cambridge CB2 3QG, UK.
+E-mail {fapp2, rja14, mgk25}@cl.cam.ac.uk.
+Part of this work was supported by the Intel Corporation under the
+grant ‘Robustness of Information Hiding Systems’.
+usually interpreted to mean hiding information in other in-
+formation. Examples include sending a message to a spy
+by marking certain letters in a newspaper using invisible
+ink, and adding sub-perceptible echo at certain places in
+an audio recording.
+Until recently, information hiding techniques received
+much less attention from the research community and from
+industry than cryptography, but this is changing rapidly
+(table I), and the ﬁrst academic conference on the sub-
+ject was organised in 1996 [4]. The main driving force is
+concern over copyright; as audio, video and other works be-
+come available in digital form, the ease with which perfect
+copies can be made may lead to large-scale unauthorised
+copying, and this is of great concern to the music, ﬁlm,
+book, and software publishing industries. There has been
+signiﬁcant recent research into digital ‘watermarks’ (hid-
+den copyright messages) and ‘ﬁngerprints’ (hidden serial
+numbers); the idea is that the latter can help to identify
+copyright violators, and the former to prosecute them.
+In another development, the DVD consortium has called
+for proposals for a copyright marking scheme to enforce
+serial copy management.
+The idea is that DVD players
+available to consumers would allow unlimited copying of
+home videos and time-shifted viewing of TV programmes,
+but could not easily be abused for commercial piracy. The
+proposal is that home videos would be unmarked, TV
+broadcasts marked ‘copy once only’, and commercial videos
+marked ‘never copy’; compliant consumer equipment would
+act on these marks in the obvious way [6], [7].
+There are a number of other applications driving interest
+in the subject of information hiding (ﬁgure 1).
+• Military and intelligence agencies require unobtrusive
+communications. Even if the content is encrypted, the de-
+tection of a signal on a modern battleﬁeld may lead rapidly
+to an attack on the signaller. For this reason, military com-
+munications use techniques such as spread spectrum mod-
+ulation or meteor scatter transmission to make signals hard
+for the enemy to detect or jam.
+• Criminals also place great value on unobtrusive com-
+munications. Their preferred technologies include prepaid
+mobile phones, mobile phones which have been modiﬁed
+to change their identity frequently, and hacked corporate
+switchboards through which calls can be rerouted.
+• Law enforcement and counter intelligence agencies are
+interested in understanding these technologies and their
+weaknesses, so as to detect and trace hidden messages.
+• Recent attempts by some governments to limit online free
+speech and the civilian use of cryptography have spurred
+people concerned about liberties to develop techniques for
+anonymous communications on the net, including anony-
+mous remailers and Web proxies.
+• Schemes for digital elections and digital cash make use
+
+----- Page 2 (native) -----
+Year
+1992
+1993
+1994
+1995
+1996
+1997
+1998
+Publications
+2
+2
+4
+13
+29
+64
+103
+TABLE I
+Number of publications on digital watermarking during the past few years according to INSPEC, January 99. Courtesy of
+J.-L. Dugelay [5].
+of anonymous communication techniques.
+• Marketeers use email forgery techniques to send out huge
+numbers of unsolicited messages while avoiding responses
+from angry users.
+We will mention some more applications later. For the
+time being, we should note that while the ethical positions
+of the players in the cryptographic game are often thought
+to be clear cut (the ‘good’ guys wish to keep their com-
+munications private while the ‘bad’ eavesdropper wants to
+listen in), the situation is much less clear when it comes to
+hiding information. Legitimate users of the net may need
+anonymous communications to contact abuse helplines or
+vote privately in online elections [8]; but one may not want
+to provide general anonymous communication mechanisms
+that facilitate attacks by people who maliciously overload
+the communication facilities. Industry may need tools to
+hide copyright marks invisibly in media objects, yet these
+tools can be abused by spies to pass on secrets hidden in in-
+conspicuous data over public networks. Finally, there are a
+number of non-competitive uses of the technology, such as
+marking audio tracks with purchasing information so that
+someone listening to a piece of music on his car radio could
+simply press a button to order the CD.
+The rest of this paper is organised as follows. Firstly, we
+will clarify the terminology used for information hiding,
+including steganography, digital watermarking and ﬁnger-
+printing. Secondly we will describe a wide range of tech-
+niques that have been used in a number of applications,
+both ancient and modern, which we will try to juxtapose
+in such a way that the common features become evident.
+Then, we will describe a number of attacks against these
+techniques; and ﬁnally, we will try to formulate general def-
+initions and principles. Moving through the subject from
+practice to theory may be the reverse of the usual order
+of presentation, but appears appropriate to a discipline in
+which rapid strides are being made constantly, and where
+general theories are still very tentative.
+II. Terminology
+As we have noted previously, there has been a growing
+interest, by diﬀerent research communities, in the ﬁelds
+of steganography, digital watermarking and ﬁngerprinting.
+This led to some confusion in the terminology. We shall
+now brieﬂy introduce the terminology which will be used
+in the rest of the paper and which was agreed at the ﬁrst
+international workshop on the subject [4], [9] (ﬁgure 1).
+The general model of hiding data in other data can be
+described as follows. The embedded data is the message
+that one wishes to send secretly. It is usually hidden in
+Information
+hiding
+Steganography
+Covert channels
+Anonymity
+Copyright marking
+Fingerprinting
+Imperceptible
+watermarking
+Robust
+copyright marking
+Watermarking
+Visible
+watermarking
+Fragile
+watermarking
+Technical
+steganography
+Linguistic
+steganography
+Fig. 1
+A classification of information hiding techniques based on
+[10]. Many of the ancient systems presented in Sections III-A
+and III-B are a form of ‘technical steganography’ (in the
+sense that messages are hidden physically) and most of the
+recent examples given in this paper address ‘linguistic
+steganography’ and ‘copyright marking’.
+an innocuous message referred to as a cover-text, or cover-
+image or cover-audio as appropriate, producing the stego-
+text or other stego-object. A stego-key is used to control the
+hiding process so as to restrict detection and/or recovery
+of the embedded data to parties who know it (or who know
+some derived key value).
+As the purpose of steganography is having a covert com-
+munication between two parties whose existence is un-
+known to a possible attacker, a successful attack consists
+in detecting the existence of this communication. Copy-
+right marking, as opposed to steganography, has the addi-
+tional requirement of robustness against possible attacks.
+In this context, the term ‘robustness’ is still not very clear;
+it mainly depends on the application. Copyright marks do
+not always need to be hidden, as some systems use visi-
+ble digital watermarks [11], but most of the literature has
+focussed on invisible (or transparent) digital watermarks
+which have wider applications. Visible digital watermarks
+are strongly linked to the original paper watermarks which
+appeared at the end of the XIII century to diﬀerentiate
+paper makers of that time [12] (ﬁgure 6). Modern visible
+watermarks may be visual patterns (e.g., a company logo
+or copyright sign) overlaid on digital images.
+In the literature on digital marking, the stego-object is
+usually referred to as the marked object rather than stego-
+object. We may also qualify marks depending on the ap-
+plication. Fragile watermarks1 are destroyed as soon as the
+1Fragile watermarks have also wrongly been referred to as ‘signa-
+ture’, leading to confusion with digital signatures used in cryptogra-
+1063
+
+----- Page 3 (native) -----
+object is modiﬁed too much. This can be used to prove that
+an object has not been ‘doctored’ and might be useful if
+digital images are used as evidence in court. Robust marks
+have the property that it is infeasible to remove them or
+make them useless without destroying the object at the
+same time. This usually means that the mark should be
+embedded in the most perceptually signiﬁcant components
+of the object [13].
+Authors also make the distinction between various types
+of robust marks. Fingerprints (also called labels by some
+authors) are like hidden serial numbers which enable the in-
+tellectual property owner to identify which customer broke
+his license agreement by supplying the property to third
+parties. Watermarks tell us who is the owner of the ob-
+ject.
+Figure 2 illustrates the generic embedding process.
+Given an image I, a mark M and a key K (usually the seed
+of a random number generator) the embedding process can
+be deﬁned as a mapping of the form: I × K × M →˜I and
+is common to all watermarking methods.
+The generic detection process is depicted in ﬁgure 3. Its
+output is either the recovered mark M or some kind of
+conﬁdence measure indicating how likely it is for a given
+mark at the input to be present in the image ˜I′ under
+inspection.
+There are several types of robust copyright marking sys-
+tems. They are deﬁned by their inputs and outputs:
+• Private marking systems require at least the original im-
+age. Type I systems, extract the mark M from the pos-
+sibly distorted image ˜I′ and use the original image as a
+hint to ﬁnd where the mark could be in ˜I′. Type II sys-
+tems (e.g., [14], [15], [16]) also require a copy of the em-
+bedded mark for extraction and just yield a ‘yes’ or ‘no’
+answer to the question:
+does ˜I′ contain the mark M?
+(˜I′ × I × K × M →{0, 1}). One might expect that this
+kind of scheme will be more robust than the others since
+it conveys very little information and requires access to se-
+cret material [13]. Semi-private marking does not use the
+original image for detection (˜I′ × K × M →{0, 1}) but
+answers the same question.
+The main uses of private and semi-private marking seem to
+be evidence in court to prove ownership and copy control in
+applications such as DVD where the reader needs to know
+whether it is allowed to play the content or not. Many of
+the currently proposed schemes fall in this category [17],
+[18], [19], [20], [21], [22], [23].
+• Public marking (also referred to as blind marking) re-
+mains the most challenging problem since it requires nei-
+ther the secret original I nor the embedded mark M. In-
+deed such systems really extract n bits of information (the
+mark) from the marked image:
+˜I′ × K →M [24], [25],
+[26], [27], [28]. Public marks have much more applications
+than the others and we will focus our benchmark on these
+systems. Indeed the embedding algorithms used in pub-
+lic systems can usually be used in private ones, improving
+robustness at the same time.
+phy.
+Mark (M)
+Stego-image (I)
+Secret/public key (K)
+Marking
+algorithm
+Marked
+image (I~)
+Fig. 2
+Generic digital watermark embedding scheme. The mark M
+can be either a fingerprint or a watermark.
+Mark (M)
+and/or
+original image (I)
+Test-image (I~¶)
+Secret/public key (K)
+Detection
+algorithm
+Mark
+or
+confidence measure
+Fig. 3
+Generic digital watermark recovery scheme.
+• There is also asymmetric marking (or public key marking)
+which should have the property that any user can read the
+mark, without being able to remove it.
+In the rest of the paper, ‘watermark’ will refer to ‘digital
+watermark’ unless said otherwise.
+III. Steganographic techniques
+We will now look at some of the techniques used to hide
+information. Many of these go back to antiquity, but unfor-
+tunately many modern system designers fail to learn from
+the mistakes of their predecessors.
+A. Security through obscurity
+By the 16–17th centuries, there had arisen a large lit-
+erature on steganography and many of the methods de-
+pended on novel means of encoding information.
+In his
+four hundred page book Schola Steganographica [29], Gas-
+par Schott (1608–1666) explains how to hide messages in
+music scores: each note corresponds to a letter (ﬁgure 4).
+Another method, based on the number of occurrences of
+notes and used by J. S. Bach, is mentioned in [10]. Schott
+also expands the ‘Ave Maria’ code proposed by Johannes
+Trithemius (1462–1516) in Steganographiæ, one of the ﬁrst
+known books in the ﬁeld. The expanded code uses forty
+tables, each of which contains 24 entries (one for each let-
+ter of the alphabet of that time) in four languages: Latin,
+German, Italian and French. Each letter of the plain-text
+is replaced by the word or phrase that appears in the corre-
+sponding table entry and the stego-text ends up looking like
+a prayer or a magic spell. It has been shown recently that
+these tables can be deciphered by reducing them modulo
+25 and applying them to a reversed alphabet [30]. In [2],
+John Wilkins (1614–1672), Master of Trinity College, Cam-
+bridge, shows how ‘two Musicians may discourse with one
+another by playing upon their instruments of musick as well
+1064
+
+----- Page 4 (native) -----
+Fig. 4
+Hiding information into music scores: Gaspar Schott simply
+maps the letters of the alphabet to the notes. Clearly, one
+should not try to play the music [29, p. 322].
+as by talking with their instruments of speech’ [2, XVIII,
+pp. 143–150]. He also explains how one can hide secretly
+a message into a geometric drawing using points, lines or
+triangles. ‘The point, the ends of the lines and the angles
+of the ﬁgures do each of them by their diﬀerent situation
+express a several letter’ [2, XI, pp. 88–96].
+A very widely used method is the acrostic. In his book,
+The Codebreakers [31], David Kahn explains how a monk
+wrote a book and put his lover’s name in the ﬁrst letters of
+successive chapters. He also tells of prisoners of war who
+hid messages in letters home using the dots and dashes
+on i, j, t and f to spell out a hidden text in Morse code.
+These ‘semagrams’ concealed messages but have an inher-
+ent problem, that the cover-text tends to be laborious to
+construct and often sounds odd enough to alert the censor.
+During both World Wars, censors intercepted many such
+messages. A famous one, from World War I, was a cable-
+gram saying ‘Father is dead’ which the censor modiﬁed into
+‘Father is deceased’. The reply was a giveaway: ‘Is Father
+dead or deceased?’ [31, pp. 515–516].
+Although steganography is diﬀerent from cryptography,
+we can borrow many of the techniques and much practical
+wisdom from the latter, more thoroughly researched dis-
+cipline. In 1883, Auguste Kerckhoﬀs enunciated the ﬁrst
+principles of cryptographic engineering, in which he ad-
+vises that we assume the method used to encipher data is
+known to the opponent, so security must lie only in the
+choice of key2 [32]. The history of cryptology since then
+has repeatedly shown the folly of ‘security-by-obscurity’ –
+the assumption that the enemy will remain ignorant of the
+system in use.
+Applying this wisdom, we obtain a tentative deﬁnition
+of a secure stego-system: one where an opponent who un-
+derstands the system, but does not know the key, can ob-
+tain no evidence (or even grounds for suspicion) that a
+2Il faut qu’il n’exige pas le secret, et qu’il puisse sans inconv´enient
+tomber entre les mains de l’ennemi. [32, p. 12]
+communication has taken place.
+In other words, no in-
+formation about the embedded text can be obtained from
+knowledge of the stego (and perhaps also cover) texts. We
+will revisit this deﬁnition later, to take account of robust-
+ness and other issues; but it will remain a central prin-
+ciple that steganographic processes intended for wide use
+should be published, just like commercial cryptographic al-
+gorithms and protocols. This teaching of Kerckhoﬀs holds
+with particular force for marking techniques intended for
+use in evidence, which implies their disclosure in court [33].
+That any of the above ‘security-by-obscurity’ systems
+ever worked was a matter of luck. Yet many steganographic
+systems available today just embed the ‘hidden’ data in
+the least signiﬁcant bits of an audio or video ﬁle – which is
+trivial for a capable opponent to detect and remove.
+B. Camouﬂage
+The situation may be improved by intelligent use of ca-
+mouﬂage. Even if the method is known in principle, mak-
+ing the hidden data expensive to look for can be beneﬁcial,
+especially where there is a large amount of cover traﬃc.
+Since the early days of architecture, artists have under-
+stood that works of sculpture or painting appear diﬀer-
+ent from certain angles, and established rules for perspec-
+tive and anamorphosis [34]. Through the 16th and 17th
+centuries anamorphic images supplied an ideal means of
+camouﬂaging dangerous political statements and heretical
+ideas [35]. A masterpiece of hidden anamorphic imagery
+– the Vexierbild – was created in the 1530s by Sh¨o, a
+N¨urnberg engraver, pupil of Albrecht D¨urer (1471–1528):
+when one looks at it normally one sees a strange landscape,
+but looking from the side reveals portraits of famous kings.
+In his Histories [36], Herodotus (c.486–425 B.C.) tells
+how around 440 B.C. Histiæus shaved the head of his most
+trusted slave and tattooed it with a message which disap-
+peared after the hair had regrown. The purpose was to
+instigate a revolt against the Persians. Astonishingly the
+method was still used by some German spies at the be-
+ginning of the 20th century [37]. Herodotus also tells how
+Demeratus, a Greek at the Persian court, warned Sparta of
+an imminent invasion by Xerxes: he removed the wax from
+a writing tablet, wrote his message on the wood underneath
+and then covered the message with wax. The tablet looked
+exactly like a blank one (it almost fooled the recipient as
+well as the customs men).
+A large number of techniques were invented or reported
+by Æneas the Tactician [1], including letters hidden in mes-
+sengers’ soles or women’s ear-rings, text written on wood
+tablets and then whitewashed, and notes carried by pi-
+geons.
+The centerpiece is a scheme for winding thread
+through 24 holes bored in an astragal: each hole represents
+a letter and a word is represented by passing the thread
+through the corresponding letters. He also proposed hid-
+ing text by making very small holes above or below letters
+or by changing the heights of letter-strokes in a cover text.
+These dots were masked by the contrast between the black
+letters and the white paper.
+This technique was still in
+use during the 17th century, but was improved by Wilkins
+1065
+
+----- Page 5 (native) -----
+who used invisible ink to print very small dots instead of
+making holes [2] and was reused by German spies during
+both World Wars [31, p. 83]. A modern adaptation of this
+technique is still in use for document security [38].
+Invisible inks were used extensively. They were originally
+made of available organic substances (such as milk or urine)
+or ‘salt armoniack dissolved in water’ [2, V, pp. 37–47] and
+developed with heat; progress in chemistry helped to create
+more sophisticated combinations of ink and developer by
+the ﬁrst World War, but the technology fell into disuse with
+the invention of ‘universal developers’ which could deter-
+mine which parts of a piece of paper had been wetted from
+the eﬀects on the surfaces of the ﬁbres [31, pp. 523–525].
+Nowadays, in the ﬁeld of currency security, special inks
+or materials with particular structure (such as ﬂuorescent
+dyes or DNA) are used to write a hidden message on bank
+notes or other secure documents. These materials provide
+a unique response to some particular excitation such as a
+reagent or laser light at a particular frequency [39].
+By 1860 the basic problems of making tiny images had
+been solved [40]. In 1857, Brewster suggested hiding secret
+messages ‘in spaces not larger than a full stop or small dot
+of ink’ [41]. During the Franco-Prussian War of 1870–1871,
+while Paris was besieged, messages on microﬁlm were sent
+out by pigeon post [42], [43]. During the Russo-Japanese
+war of 1905, microscopic images were hidden in ears, nos-
+trils, and under ﬁnger nails [40]. By World War I messages
+to and from spies were reduced to microdots by several
+stages of photographic reduction and then stuck on top
+of printed periods or commas in innocuous cover material
+such as magazines [37], [44].
+The digital equivalent of these camouﬂage techniques is
+the use of masking algorithms [16], [26], [45], [73], [47].
+Like most source-coding techniques (e.g., [48]), these rely
+on the properties of the human perceptual system.
+Au-
+dio masking, for instance, is a phenomenon in which one
+sound interferes with our perception of another sound [49].
+Frequency masking occurs when two tones which are close
+in frequency are played at the same time: the louder tone
+will mask the quieter one. Temporal masking occurs when
+a low-level signal is played immediately before or after a
+stronger one; after a loud sound stops, it takes a little while
+before we can hear a weak tone at a nearby frequency.
+Because these eﬀects are used in compression standards
+such as MPEG [50], many systems shape the embedded
+data to emphasise it in the perceptually most signiﬁcant
+components of the data so it will survive compression [26],
+[73] (ﬁgure 5).
+This idea is also applied in buried data
+channels where the regular channels of an audio CD contain
+other embedded sound channels [51]; here, an optimised
+noise shaper is used to reduce to minimise the eﬀect of the
+embedded signal on the quality of the cover music.
+For more details about the use of perceptual models in
+digital watermarking, the reader is referred to [52].
+C. Hiding the location of the embedded information
+In a security protocol developed in ancient China, the
+sender and the receiver had copies of a paper mask with a
+Signal
+Key
+Mark
+Transform
+space
+Perceptual
+analysis
+Transform
+space
+Inverse
+transform
+space
+Å
+Ä
+Marked
+signal
+Fig. 5
+A typical use of masking and transform space for digital
+watermarking and fingerprinting. The signal can be an
+image or an audio signal. The perceptual analysis is based
+on the properties of the human visual or auditory systems
+respectively. ⊕corresponds to the embedding algorithm
+and ⊗to the weighting of the mark by the information
+provided by the perceptual model.
+number of holes cut at random locations. The sender would
+place his mask over a sheet of paper, write the secret mes-
+sage into the holes, remove the mask and then compose a
+cover message incorporating the code ideograms. The re-
+ceiver could read the secret message at once by placing his
+mask over the resulting letter. In the early 16th century
+Cardan (1501–1576), an Italian mathematician, reinvented
+this method which is now known as the Cardan grille. It
+appears to have been reinvented again in 1992 by a British
+bank, which recommended that its customers conceal the
+personal information number used with their cash machine
+card using a similar system. In this case, a poor implemen-
+tation made the system weak [54].
+A variant on this theme is to mark an object by the pres-
+ence of errors or stylistic features at predetermined points
+in the cover material. An early example was a technique
+used by Francis Bacon (1561–1626) in his biliterarie alpha-
+bet [55, pp. 266], which seems to be linked to the con-
+troversy whether he wrote the works attributed to Shake-
+speare [56]. In this method each letter is encoded in a ﬁve
+bit binary code and embedded in the cover-text by printing
+the letters in either normal or italic fonts. The variability
+of sixteenth century typography acted as camouﬂage.
+Further examples come from the world of mathematical
+tables.
+Publishers of logarithm tables and astronomical
+ephemerides in the 17th and 18th century used to introduce
+errors deliberately in the least signiﬁcant digits (e.g., [57]).
+To this day, database and mailing list vendors insert bogus
+entries in order to identify customers who try to resell their
+products.
+In an electronic publishing pilot project copyright mes-
+sages and serial numbers have been hidden in the line spac-
+ing and other format features of documents (e.g., [58]). It
+was found that shifting text lines up or down by one-three-
+1066
+
+----- Page 6 (native) -----
+hundredth of an inch to encode zeros and ones was robust
+against multi-generation photocopying and could not be
+noticed by most people.
+However, the main application area of current copyright
+marking proposals, lies in digital representations of ana-
+logue objects such as audio, still pictures, video and mul-
+timedia generally. Here there is considerable scope for em-
+bedding data by introducing various kinds of error.
+As
+we noted above, many writers have proposed embedding
+the data in the least signiﬁcant bits [22], [59]. An obvi-
+ously better technique, which has occurred independently
+to many writers, is to embed the data into the least signif-
+icant bits of pseudo-randomly chosen pixels or sound sam-
+ples [60], [61]. In this way, the key for the pseudo-random
+sequence generator becomes the stego-key for the system
+and Kerckhoﬀs’ principle is observed.
+Many implementation details need some care. For exam-
+ple, one might not wish to disturb a pixel in a large expanse
+of ﬂat colour, or lying on a sharp edge; for this reason, a
+prototype digital camera designed to enable spies to hide
+encrypted reports in snapshots used a pseudo-random se-
+quence generator to select candidate pixels for embedding
+bits of cipher-text and then rejected those candidates where
+the local variance of luminosity was either too high or too
+low.
+One scheme that uses bit-tweaking in a novel way is
+Chameleon. Ideally, all distributed copies of a copyright
+work should be ﬁngerprinted, but in applications such as
+pay-TV or CD, the broadcast or mass production nature
+of the medium appears to preclude this.
+Chameleon al-
+lows a single ciphertext to be broadcast while subscribers
+are given slightly diﬀerent deciphering keys, which produce
+slightly diﬀerent plaintexts. The system can be tuned so
+that the deciphered signal is only marked in a sparse sub-
+set of its least signiﬁcant bits, and this may produce an
+acceptably low level of distortion for digital audio.
+The
+precise mechanism involves modifying a stream cipher to
+reduce the diﬀusion of part of its key material [62].
+Systems that involve bit-twiddling have a common vul-
+nerability, that even very simple digital ﬁltering operations
+will disturb the value of many of the least signiﬁcant bits
+of a digital object. This leads us to consider ways in which
+bit tweaking can be made robust against ﬁltering.
+D. Spreading the hidden information
+The obvious solution is to consider ﬁltering operations
+as the introduction of noise in the embedded data chan-
+nel [63], and to use suitable coding techniques to exploit
+the residual bandwidth. The simplest is the repetition code
+– one simply embeds a bit enough times in the cover object
+that evidence of it will survive the ﬁlter. This is ineﬃcient
+in coding theoretic terms but can be simple and robust in
+some applications.
+Another way to spread the information is to embed it
+into the statistics of the luminance of the pixels, such
+as [64], [65].
+Patchwork [64], for instance, uses a pseu-
+dorandom generator to select n pairs of pixels and slightly
+increases or decrease their luminosity contrast. Thus the
+contrast of this set is increased without any change in the
+average luminosity of the image.
+With suitable param-
+eters, Patchwork even survives compression using JPEG.
+However, it embeds only one bit of information. To embed
+more, one can ﬁrst split the image into pieces and then
+apply the embedding to each of them [27], [66].
+These statistical methods give a kind of primitive spread
+spectrum modulation. General spread spectrum systems
+encode data in the choice of a binary sequence that appears
+like noise to an outsider but which a legitimate receiver,
+furnished with an appropriate key, can recognise. Spread
+spectrum radio techniques have been developed for mili-
+tary applications since the mid-1940’s because of their anti-
+jamming and low-probability-of-intercept properties [67],
+[68], [69]; they allow the reception of radio signals that are
+over 100 times weaker than the atmospheric background
+noise.
+Tirkel et al. were the ﬁrst to note that spread spectrum
+techniques could be applied to digital watermarking [70]
+and later a number of researchers have developed stegano-
+graphic techniques based on spread spectrum ideas which
+take advantage of the large bandwidth of the cover medium
+by matching the narrow bandwidth of the embedded data
+to it (e.g., [63], [71], [72], [73]).
+In [15], Cox et al. present an image watermarking
+method in which the mark is embedded in the n most per-
+ceptually signiﬁcant frequency components V = {vi}n
+i=1
+of an image’s discrete cosine transform to provide greater
+robustness to JPEG compression.
+The watermark is a
+sequence of real numbers W = {wi}n
+i=1 drawn from a
+Gaussian distribution, and is inserted using the formula
+˜vi = vi(1+αwi). If I is the original image and ˜I the water-
+marked image, that is the image whose main components
+have been modiﬁed, the presence of the watermark is veri-
+ﬁed by extracting the main components of I and those with
+same index from ˜I and inverting the embedding formula to
+give a possibly modiﬁed watermark W ′. The watermark
+is said to be present in ˜I if the ratio W · W ′/
+√
+W ′ · W ′ is
+greater than a given threshold.
+The authors claim that O(
+p
+n/ ln n) similar watermarks
+must be added before they destroy the original mark. This
+method is very robust against rescaling, JPEG compres-
+sion, dithering, clipping, printing/scanning, and collusion
+attacks. However it has some drawbacks. Most seriously,
+the original image is needed to check for the presence of a
+watermark.
+The second problem is the low information rate. Like
+Patchwork, this scheme hides a single bit and is thus
+suitable for watermarking rather than ﬁngerprinting or
+steganographic communication.
+The information rate of
+such schemes can again be improved by placing separate
+marks in the image, but at a cost of reduced robustness.
+Information hiding schemes that operate in a transform
+space are increasingly common, as this can aid robustness
+against compression, other common ﬁltering operations,
+and noise. Actually one can observe that the use of a par-
+ticular transform gives good results against compression
+algorithms based on the same transform.
+1067
+
+----- Page 7 (native) -----
+Some schemes operate directly on compressed objects
+(e.g., [72]). Some, steganographic tools, for example, hide
+information in gif [74] ﬁles by swapping the colours of se-
+lected pixels for colours that are adjacent in the current
+palette [?]. Another example is MP3Stego [76] which hides
+information in MPEG Audio Layer III bitstreams [50] dur-
+ing the compression process. However, most schemes op-
+erate directly on the components of some transform of the
+cover object like discrete cosine transform [15], [16], [17],
+[77], [78], [79], wavelet transforms [16], [80], and the dis-
+crete Fourier transform [73], [81].
+A novel transform coding technique is echo hiding [82],
+which relies on the fact that we cannot perceive short
+echoes (of the order of a millisecond). It embeds data into
+a cover audio signal by introducing two types of short echo
+with diﬀerent delays to encode zeros and ones. These bits
+are encoded at locations separated by spaces of pseudo-
+random length. The cepstral transform [83] is used to ma-
+nipulate the echo signals.
+E. Techniques speciﬁc to the environment
+Echo hiding leads naturally to the broader topic of in-
+formation hiding techniques that exploit features of a par-
+ticular application environment.
+One technology that is
+emerging from the military world is meteor burst commu-
+nication, which uses the transient radio paths provided by
+ionised trails of meteors entering the atmosphere to send
+data packets between a mobile station and a base [84]. The
+transient nature of these paths makes it hard for an enemy
+to locate mobiles using radio direction ﬁnding, and so me-
+teor burst is used in some military networks.
+More familiar application-speciﬁc information hiding
+and marking technologies are found in the world of secu-
+rity printing.
+Watermarks in paper are a very old anti-
+counterfeiting technique (ﬁgure 6); more recent innovations
+include special ultra-violet ﬂuorescent inks used in printing
+travellers’ cheques. As the lamps used in photocopiers have
+a high UV content, it can be arranged that photocopies
+come out overprinted with ‘void’ in large letters. Inks may
+also be reactive; one of the authors has experience of trav-
+ellers’ cheques coming out ‘void’ after exposure to perspi-
+ration in a money belt. Recent developments address the
+problem of counterfeiting with scanners and printers whose
+capabilities have improved dramatically over the last few
+years [85].
+Many other techniques are used.
+For a survey of op-
+tically variable devices, such as diﬀraction products and
+thin ﬁlm interference coatings, see [86]; the design of the
+US currency is described in [88], [89]; and the security fea-
+tures of the Dutch passport in [90]. Such products tend to
+combine overt marks that are expensive to reproduce (holo-
+grams, kinegrams, intaglios and optically variable inks)
+with tamper-evidence features (such as laminates and reac-
+tive inks) and secondary features whose presence may not
+be obvious (such as micro-printing, diﬀraction eﬀects visi-
+ble only under special illumination, and alias band struc-
+tures – dithering eﬀects that normal scanners cannot cap-
+ture), [91], [92]. In a more recent application called sub-
+Fig. 6
+Monograms figuring TGE RG (Thomas Goodrich Eliensis –
+Bishop of Ely, England – and Remy/Remigius Guedon, the
+paper-maker). One of the oldest watermarks found in the
+Cambridge area (c.1550). At that time, watermarks were
+mainly used to identify the mill producing the paper; a
+means of guaranteeing quality. Courtesy of Dr E.
+Leedham-Green, Cambridge University Archives.
+Reproduction technique: beta radiography.
+graving, variable information (such as a serial number) is
+printed on top of a uniform oﬀset background. The printed
+area is then exposed to an excimer laser: this removes the
+oﬀset ink everywhere but underneath the toner. Fraudu-
+lent removal of the toner by a solvent reveals the hidden
+ink [93].
+Increasingly, features are incorporated that are designed
+to be veriﬁed by machines rather than humans. Marks can
+be embedded in the magnetic strips of bank cards, giving
+each card a unique serial number that is hard to repro-
+duce [94]; they are used in phone cards too in some coun-
+tries. Magnetic ﬁbres can be embedded randomly in paper
+or cardboard, giving each copy of a document a unique
+ﬁngerprint.
+The importance of these technologies is not limited to
+protecting currency and securities. Forgery of drugs, vehi-
+cle spares, computer software and other branded products
+is said to have cost over $24 billions in 1995, and to have
+directly caused over 100 deaths worldwide [95]. Security
+printing techniques are a signiﬁcant control measure, al-
+though many ﬁelded sealing products could be much bet-
+ter designed given basic attention to simple issues such as
+choice of pressure-sensitive adhesives and nonstandard ma-
+terials [96]. Fashion designers are also concerned that their
+product might be copied and wish to ﬁnd techniques to
+enable easy detection of counterfeit clothes or bags.
+As
+a greater percentage of the gross world product comes in
+the form of digital objects, the digital marking techniques
+described here may acquire more economic signiﬁcance.
+1068
+
+----- Page 8 (native) -----
+Also important are covert channels:
+communication
+paths that were neither designed nor intended to trans-
+fer information at all. Common examples include timing
+variations and error messages in communication protocols
+and operating system call interfaces [97], [98]. Covert chan-
+nels are of particular concern in the design and evaluation
+of mandatory access control security concepts, where the
+operating system attempts to restrict the ﬂow of informa-
+tion between processes in order to protect the user from
+computer viruses and Trojan horse software that transmits
+secrets to third parties without authorization.
+The electromagnetic radiation produced by computers
+forms another covert channel. It not only interferes with
+reception on nearby radio receivers, but can also convey in-
+formation. For instance, the video signal emitted by CRT
+or liquid-crystal displays can be reconstructed using a sim-
+ple modiﬁed TV set at several hundred meters distance [99].
+Many military organizations use especially shielded ‘Tem-
+pest’ certiﬁed equipment to process classiﬁed information,
+in order to eliminate the risk of losing secrets via compro-
+mising emanations [100].
+We have shown in [101] how software can hide informa-
+tion in video screen content in a form that is invisible to
+the user but that can easily be reconstructed with modiﬁed
+TV receivers. More sophisticated ways of broadcasting in-
+formation covertly from PC software use spread spectrum
+techniques to embed information in the video signal or CPU
+bus activity.
+It is possible to write a virus that searches a computer’s
+hard disk for crypto-key material or other secrets, and
+proceeds to radiate them covertly. The same techniques
+could also be used in software copyright protection: soft-
+ware could transmit its license serial number while in use,
+and software trade associations could send detector vans
+round business districts and other neighbourhoods where
+piracy is suspected – just like the ‘TV detector vans’ used in
+countries with a mandatory TV license fee. If multiple sig-
+nals are then received simultaneously with the same serial
+number but with spreading sequences at diﬀerent phases,
+this proves that software purchased under a single license
+is being used concurrently on diﬀerent computers, and can
+provide the evidence to obtain a search warrant.
+IV. Limitations of some information hiding
+systems
+A number of broad claims have been made about the
+‘robustness’ of various digital watermarking or ﬁngerprint-
+ing methods.
+Unfortunately the robustness criteria and
+the sample pictures used to demonstrate it vary from one
+system to the other, and recent attacks [102], [103], [104],
+[105], [106] show that the robustness criteria used so far
+are often inadequate. JPEG compression, additive Gaus-
+sian noise, low pass ﬁltering, rescaling, and cropping have
+been addressed in most of the literature but speciﬁc distor-
+tions such as rotation have often been ignored [81], [107].
+In some cases the watermark is simply said to be ‘robust
+against common signal processing algorithms and geomet-
+ric distortions when used on some standard images’. This
+motivated the introduction of a fair benchmark for digital
+image watermarking in [108].
+Similarly, various steganographic systems have shown se-
+rious limitations [109].
+Craver et al. [110] identify at least three kinds of at-
+tacks: robustness attacks which aim to diminish or remove
+the presence of a digital watermark, presentation attacks
+which modify the content such that the detector cannot
+ﬁnd the watermark anymore (e.g., the Mosaic attack, see
+section IV-C) and the interpretation attacks whereby an
+attacker can devise a situation which prevents assertion of
+ownership.
+The separation between these groups is not
+always very clear though; for instance, StirMark (see sec-
+tion IV-B.1) both diminishes the watermark and distort
+the content to fool the detector.
+As examples of these, we present in this section sev-
+eral attacks which reveal signiﬁcant limitations of various
+marking systems. We will develop a general attack based
+on simple signal processing, plus specialised techniques for
+some particular schemes, and show that even if a copyright
+marking system were robust against signal processing, bad
+engineering can provide other avenues of attacks.
+A. Basic attack
+Most simple spread spectrum based techniques and some
+simple image stego software are subject to some kind of jit-
+ter attack [104]. Indeed, although spread spectrum signals
+are very robust to amplitude distortion and to noise addi-
+tion, they do not survive timing errors: synchronisation of
+the chip signal is very important and simple systems fail to
+recover this synchronisation properly. There are more sub-
+tle distortions that can be applied. For instance, in [111],
+Hamdy et al. present a way to increase or decrease the
+length of a musical performance without changing its pitch;
+this was developed to enable radio broadcasters to slightly
+adjust the playing time of a musical track. As such tools
+become widely available, attacks involving sound manipu-
+lation will become easy.
+B. Robustness attacks
+B.1 StirMark
+After evaluating some watermarking software, it became
+clear to us that although most schemes could survive basic
+manipulations – that is, manipulations that can be done
+easily with standard tools, such as rotation, shearing, re-
+sampling, resizing and lossy compression – they would not
+cope with combinations of them or with random geometric
+distortions. This motivated the design of StirMark [104].
+StirMark is a generic tool for basic robustness testing of
+image watermarking algorithms and has been freely avail-
+able since November 1997.3 It applies a minor unnotice-
+able geometric distortion: the image is slightly stretched,
+sheared, shifted, bent and rotated by an unnoticeable ran-
+dom amount.
+A slight random low frequency deviation,
+which is greatest at the centre of the picture, is applied to
+each pixel. A higher frequency displacement of the form
+3<http://www.cl.cam.ac.uk/~fapp2/watermarking/stirmark/>
+1069
+
+----- Page 9 (native) -----
+λ sin(ωxx) sin(ωyy) + n(x, y) – where n(x, y) is a random
+number – is also added. Finally a transfer function that
+introduces a small and smoothly distributed error into all
+sample values is applied.
+This emulates the small non-
+linear analogue/digital converter imperfections typically
+found in scanners and display devices.
+Resampling uses
+the approximating quadratic B-spline algorithm [112]. An
+example of these distortions is given in ﬁgure 7.
+(a)
+(b)
+(c)
+(d)
+Fig. 7
+When applied to images, the distortions introduced by
+StirMark are almost unnoticeable: ‘Lena’ before (a) and
+after (b) StirMark with default parameters. For
+comparison, the same distortions have been applied to a grid
+(c & d).
+StirMark can also perform a default series of tests which
+serve as a benchmark for image watermarking [108]. Digi-
+tal watermarking remains a largely untested ﬁeld and very
+few authors have published extensive tests on their systems
+(e.g., [113]). A benchmark is needed to highlight promising
+areas of research by showing which techniques work better
+than others.
+One might try to increase the robustness of a watermark-
+ing system by trying to foresee the possible transforms used
+by pirates; one might then use techniques such as embed-
+ding multiple versions of the mark under suitable inverse
+transforms; for instance O’Ruanaidh et al. [81] suggest us-
+ing the Fourier-Mellin transform.
+However, the general lesson from this attack is that given
+a target marking scheme, one can invent a distortion (or
+a combination of distortions) that will prevent detection
+of the watermark while leaving the perceptual value of the
+previously watermarked object undiminished. We are not
+limited in this process to the distortions produced by com-
+mon analogue equipment, or usually applied by end users
+with common image processing software.
+Moreover, the
+quality requirements of pirates are often lower than those
+of content owners who have to decide how much quality
+degradation to tolerate in return for extra protection of-
+fered by embedding a stronger signal. It is an open ques-
+tion whether there is any digital watermarking scheme for
+which a chosen distortion attack cannot be found.
+B.2 Attack on echo hiding
+As mentioned above, echo hiding encodes zeros and ones
+by adding echo signals distinguished by two diﬀerent values
+for their delay τ and their relative amplitude α to a cover
+audio signal. The delays are chosen between 0.5 and 2 ms,
+and the relative amplitude is around 0.8 [82]. According
+to its creators, decoding involves detecting the initial delay
+and the auto-correlation of the cepstrum of the encoded
+signal is used for this purpose. However the same technique
+can be used for an attack.
+The ‘obvious’ attack on this scheme is to detect the echo
+and then remove it by simply inverting the convolution for-
+mula; the problem is to detect the echo without knowledge
+of either the original object or the echo parameters. This is
+known as ‘blind echo cancellation’ in the signal processing
+literature and is known to be a hard problem in general.
+We tried several methods to remove the echo. Frequency
+invariant ﬁltering [114], [115] was not very successful. In-
+stead we used a combination of cepstrum analysis and
+‘brute force’ search.
+The underlying idea of cepstrum analysis is presented
+in [83].
+Suppose that we are given a signal y(t)
+which contains a simple single echo, i.e. y(t) = x(t) +
+αx(t −τ). If Φxx denotes the power spectrum of x then
+Φyy(f) = Φxx(f)(1 + 2α cos(2πfτ) + α2) whose logarithm
+log Φyy(f) ≈log Φxx(f) + 2α cos(2πfτ). Taking its power
+spectrum raises its ‘quefrency’ τ, that is the frequency of
+cos(2πτf) as a function of f. The auto-covariance of this
+later function emphasises the peak that appears at ‘que-
+frency’ τ.
+We need a method to detect the echo delay τ in a signal.
+For this, we used a slightly modiﬁed version of the cep-
+strum: C ◦Φ ◦ln ◦Φ, where C is the auto-covariance func-
+tion (C(x) = E((x −x)(x −x)∗)), Φ the power spectrum
+density function and ◦the composition operator. Exper-
+iments on random signals as well as on music show that
+this method returns quite accurate estimators of the delay
+when an artiﬁcial echo has been added to the signal. In the
+detection function we only consider echo delays between 0.5
+and 3 ms (below 0.5 ms the function does not work properly
+and above 3 ms the echo becomes too audible).
+Our ﬁrst attack was to remove an echo with random rela-
+tive amplitude, expecting that this would introduce enough
+modiﬁcation in the signal to prevent watermark recovery.
+Since echo hiding gives best results for α greater than 0.7
+we could use ˆα – an estimator of α – drawn from, say a nor-
+mal distribution centred on 0.8. It was not really successful
+1070
+
+----- Page 10 (native) -----
+so our next attack was to iterate: we re-applied the detec-
+tion function and varied ˆα to minimise the residual echo.
+We could obtain successively better estimates of the echo
+parameters and then remove this echo. When the detection
+function cannot detect any more echo, we have found the
+correct value of ˆα (as this gives the lowest output value of
+the detection function).
+B.3 Other generic attacks
+Some generic attacks attempt to estimate the watermark
+and then remove it. Langelaar et al. [105], for instance,
+present an attack on white spread spectrum watermarks.
+They try diﬀerent methods to model the original image
+and apply this model to the watermarked image ˜I = I +W
+to separate it into two components: an estimated image ˆI
+and an estimated watermark ˆW such that the watermark
+W does not appear anymore in ˆI, giving ρ(ˆI, W) ≈0. The
+authors show that a 3×3 median ﬁlter gives the best results.
+However an ampliﬁed version of the estimated watermark
+needs to be substracted because the low frequency com-
+ponents of the watermark cannot be estimated accuratly,
+leading to a positive contribution of the low frequencies and
+a negative contribution of the high frequencies to the cor-
+relation. Only a choice of good ampliﬁcation parameters
+can zero the correlation.
+In some cases the image to be marked has certain fea-
+tures that help a malicious attacker to gain information
+about the mark itself. An example of such features is where
+a picture, such as a cartoon, has only a small number of dis-
+tinct colours, giving sharp peaks in the colour histogram.
+These are split by some marking algorithms.
+The twin
+peaks attack, suggested by Maes [103], takes advantage of
+this to recover and remove marks. In the case of grayscale
+images, a simple example of digital watermarking based on
+spread spectrum ideas is to add or substract randomly a
+ﬁxed value d to each pixel value. So each pixel’s value has
+a 50% chance of being increased or decreased. Let nk be
+the number of pixels with gray value k and suppose that
+for a particular gray value k0 the dth neighboring colours
+do not occur, so nk0−d = nk0+d = 0. Consequently, the
+expected numbers of occurencies after watermarking are:
+˜nk0−d = ˜nk0+d = nk0/2 and ˜nk0 = 0. Hence, using a set of
+similar equations, it is possible in certain cases, to recover
+the original distribution of the histogram and the value of
+the embedded watermark.
+C. The mosaic attack
+There is a presentation attack which is quite general and
+which possesses the initially remarkable property that we
+can remove the marks from an image and still have it ren-
+dered exactly the same, pixel for pixel, as the marked image
+by a standard browser.
+It was motivated by a ﬁelded system for copyright piracy
+detection, consisting of a watermarking scheme plus a web
+crawler that downloads pictures from the net and checks
+whether they contain a client’s watermark.
+Our mosaic attack consists of chopping an image up into
+a number of smaller subimages, which are embedded one
+after another in a web page. Common web browsers render
+juxtaposed subimages stuck together as a single image, so
+the result is identical to the original image. This attack
+appears to be quite general; all marking schemes require
+the marked image to have some minimal size (one cannot
+hide a meaningful mark in just one pixel). Thus by splitting
+an image into suﬃciently small pieces, the mark detector
+will be confused [104].
+One defence would be to ensure
+that the minimal size would be quite small and the mosaic
+attack might therefore not be very practical.
+But there are other problems with such ‘crawlers’. Mo-
+bile code such as Java applets can be used to display a pic-
+ture inside the browser; the applet could de-scramble the
+picture in real time. Defeating such techniques would entail
+rendering the whole page, detecting pictures and checking
+whether they contain a mark.
+Another problem is that
+pirated pictures are typically sold via many small web ser-
+vices, from which the crawler would have to purchase them
+using a credit card before it could examine them.
+D. Interpretation attacks
+StirMark and our attack on echo hiding are examples of
+the kind of threat that dominates the information hiding
+literature – namely, a pirate who removes the mark directly
+using technical means.
+Indeed, the deﬁnition commonly
+used for robustness includes only resistance to signal ma-
+nipulation (cropping, scaling, resampling, etc.). However,
+Craver et al. show that this is not enough by exhibiting a
+‘protocol’ level attack in [116].
+The basic idea is that as many schemes provide no intrin-
+sic way of detecting which of two watermarks was added
+ﬁrst. If the owner of the document d encodes a watermark
+w, publishes the marked version d + w and has no other
+proof of ownership, then a pirate who has registered his wa-
+termark as w′ can claim that the document is his and that
+the original unmarked version of it was d + w −w′. Their
+paper [117] extends this idea to defeat a scheme which is
+non-invertible (an inverse needs only be approximated).
+Craver et al.
+argue for the use of information-losing
+marking schemes whose inverses cannot be approximated
+closely enough. Our alternative interpretation of their at-
+tack is that watermarking and ﬁngerprinting methods must
+be used in the context of a larger system that may use
+mechanisms such as timestamping and notarisation to pre-
+vent attacks of this kind.
+Environmental constraints may also limit the amount of
+protection which technical mechanisms can provide. For
+example, there is little point in using an anonymous digital
+cash system to purchase goods over the Internet, if the pur-
+chaser’s identity is given away in the headers of his email
+message or if the goods are shipped to his home address.
+E. Implementation considerations
+The robustness of embedding and retrieving algorithms
+and their supporting protocols is not the only issue. Most
+real attacks on ﬁelded cryptographic systems have come
+from the opportunistic exploitation of loopholes that were
+1071
+
+----- Page 11 (native) -----
+found by accident; cryptanalysis was rarely used, even
+against systems that were vulnerable to it [54].
+We cannot expect copyright marking systems to be any
+diﬀerent and the pattern was followed in the ﬁrst attack
+to be made available on the Internet against one of the
+most widely used picture marking schemes. This attack
+exploited weaknesses in the implementation rather than in
+the underlying marking algorithms, even although these
+are weak (the marks can be removed with StirMark).
+Each user has an ID and a two-digit password, which
+are issued when he registers with the marking service and
+pays a subscription. The correspondence between IDs and
+passwords is checked using obscure software and, although
+the passwords are short enough to be found by trial and er-
+ror, the published attack ﬁrst uses a debugger to break into
+the software and disable the password checking mechanism.
+As IDs are public, either password search or disassembly
+enables any user to be impersonated.
+A deeper examination of the program allows a villain to
+change the ID, and thus the copyright mark, of an already
+marked image as well as the type of use (such as adult
+versus general public content). Before embedding a mark,
+the program checks whether there is already a mark in the
+picture, but this check can be bypassed fairly easily using
+the debugger with the result that it is possible to overwrite
+any existing mark and replace it with another one.
+Exhaustive search for the personal code can be prevented
+without diﬃculty, but there is no obvious solution to the
+disassembly attack. If tamper resistant software [118] can-
+not give enough protection, then one can always have an
+online system in which each user shares a secret stego-key
+with a trusted party and uses this key to embed some kind
+of digital signature. Observe that there are two separate
+keyed operations here; the authentication (such as a digital
+signature) and the embedding or hiding operation.
+Although we can do public key steganography – hiding
+information using a public key so that only someone with
+the corresponding private key can detect its existence [119]
+– we still do not know how to do the hiding equivalent of a
+digital signature; that is, to enable someone with a private
+key to embed marks in such a way that anyone with the
+corresponding public key can read them but not remove
+them. Some attempts to create such watermarks can be
+found in [120].
+But unless we have some new ideas, we
+appear compelled to use either a central ‘mark reading’
+service or a tamper-resistant implementation, just as cryp-
+tography required either central notarisation or tamper-
+evident devices to provide a non-repudiation service in the
+days before the invention of digital signatures.
+However, there is one general attack on tamper-resistant
+mark readers due to Cox et al. [121]. The idea is to ex-
+plore, pixel by pixel, an image at the boundary where the
+detector changes from ‘mark absent’ to ‘mark present’ and
+iteratively construct an acceptable image in which the mark
+is not detected. Of course, with a programmable tamper-
+proof processor, one can limit the number of variants of a
+given picture for which an answer will be given, and the
+same holds for a central mark reading service. But in the
+absence of physically protected state, it is unclear how this
+attack can be blocked.
+V. A basic theory of steganography
+This leads naturally to the question of whether we can
+develop a comprehensive theory of information hiding, in
+the sense that Shannon provided us with a theory of se-
+crecy systems [122] and Simmons of authentication sys-
+tems [123]. Quite apart from intellectual curiosity, there is
+a strong practical reason to seek constructions whose secu-
+rity is mathematically provable. This is because copyright
+protection mechanisms may be subjected to attack over an
+extraordinarily long period of time. Copyright subsists for
+typically 50–70 years after the death of the artist, depend-
+ing on the country and the medium; this means that mech-
+anisms ﬁelded today might be attacked using the resources
+available in a hundred years’ time. Where cryptographic
+systems need to provide such guarantees, as in espionage,
+it is common to use a one-time pad because we can prove
+that the secrecy of this system is independent of the com-
+putational power available to the attacker. Is it possible to
+get such a guarantee for an information hiding system?
+A. Early results
+An important step in developing a theory of a subject
+is to clarify the deﬁnitions. Intuitively, the purpose of ste-
+ganography is to set up a secret communication path be-
+tween two parties such that any person in the middle can-
+not detect its existence; the attacker should not gain any
+information about the embedded data by simply looking at
+cover-text or stego-text. This was ﬁrst formalised by Sim-
+mons in 1983 as the ‘prisoners’ problem’ [124]. Alice and
+Bob are in jail and wish to prepare an escape plan. The
+problem is that all their communications are arbitrated by
+the warden Willie. If Willie sees any ciphertext in their
+messages, he will frustrate them by putting them into soli-
+tary conﬁnement. So Alice and Bob must ﬁnd a way to
+exchange hidden messages.
+Simmons showed that such a channel exists in certain
+digital signature schemes: the random message key used in
+these schemes can be manipulated to contain short mes-
+sages.
+This exploitation of existing randomness means
+that the message cannot even in principle be detected and
+so Simmons called the technique the ‘subliminal channel’.
+The history of the subliminal channel is described in [125],
+while further results may be found in [123], [126], [127],
+[128].
+In the general case of steganography, where Willie is al-
+lowed to modify the information ﬂow between Alice and
+Bob, he is called an active warden; but if he can only
+observe it he is called a passive warden. Further studies
+showed that public key steganography is possible (in this
+model, Alice and Bob did not exchange secrets before go-
+ing to jail, but have public keys known to each other) –
+although the presence of an active warden makes public
+key steganography more diﬃcult [129].
+This diﬃculty led to the introduction, in [130], of the
+supraliminal channel, which is a very low bandwidth chan-
+1072
+
+----- Page 12 (native) -----
+nel that Willie cannot aﬀord to modify as it uses the most
+perceptually signiﬁcant components of the cover object as a
+means of transmission. For example, a prisoner might write
+a short story in which the message is encoded in the succes-
+sion of towns or other locations at which the action takes
+place. Details of these locations can be very thoroughly
+woven into the plot, so it becomes in practice impossible
+for Willie to alter the message – he must either allow the
+message through or censor it. The eﬀect of this technique
+is to turn an active warden into a passive one. The same
+eﬀect may be obtained if the communicating parties are
+allowed to use a digital signature scheme.
+B. The general role of randomness
+Raw media data rates do not necessarily represent infor-
+mation rates. Analog values are quantised to n bits giving,
+for instance, a data rate of 16 bit/sample for audio or 8
+bit/pixel for monochrome images. The average informa-
+tion rate is given by their entropy; indeed, the entropy of
+monochrome images is generally around 4–6 bits per pixel.
+This immediately suggests the use of this diﬀerence to hide
+information. So if C is the cover-text and E the embed-
+ded text, transmitted on a perfect n bit channel, one would
+have: H(E) ≤n−H(C) bit/pixel, so all the gain provided
+by compression is used for hiding. One could also take into
+account the the stego-text S and impose the constraint that
+no information is given about E, even knowing S and Ck
+(a part of C typically the natural noise of the cover-text):
+the transinformation should be zero T(E; (Ck, S)) = 0. In
+this case, it can be shown that H(E) ≤H(Ck|S) [131].
+So the rate at which one can embed ciphertext in a cover-
+object is bounded by the opponent’s uncertainty about the
+cover-text given knowledge of stego-text. But this gives an
+upper bound on the stego-capacity of a channel when for
+a provably secure system we need a lower bound. In fact
+all the theoretical bounds known to us are of this kind. In
+addition, the opponent’s uncertainty and thus the capacity
+might asymptotically be zero, as was noted in the context
+of covert channels [132].
+This also highlights the fact that steganography is much
+more dependent on our understanding of the information
+sources involved than cryptography is, which helps explain
+why we do not have any lower bounds on capacity for em-
+bedding data in general sources. It is also worth noting
+that if we had a source which we understood completely
+and so could compress perfectly, then we could simply sub-
+ject the embedded data to our decompression algorithm
+and send it as the stego-text directly. Thus steganogra-
+phy would either be trivial or impossible depending on the
+system [119].
+Another way of getting round this problem is to take
+advantage of the natural noise of the cover-text. Where
+this can be identiﬁed, it can be replaced by the embedded
+data (which we can assume has been encrypted and is thus
+indistinguishable from random noise). This is the philoso-
+phy behind some steganographic systems [133], [134], [60]
+and early image marking systems [22] (it may not work if
+the image is computer generated and thus has very smooth
+colour gradations). It can also be applied to audio [51],
+[?]; here, randomising is very important because simple
+replacement of the least signiﬁcant bit causes an audible
+modiﬁcation of the signal [51]. So a subset of modiﬁable
+bits is chosen and the embedding density depends on the
+observed statistics of the cover-signal [?] or on its psychoa-
+coustic properties [51].
+It is also possible to exploit noise elsewhere in the sys-
+tem. For example, one might add small errors by tweaking
+some bits at the physical or data link layer and hope that
+error correction mechanisms would prevent anyone reading
+the message from noticing anything. This approach would
+usually fall foul of Kerckhoﬀs’ principle that the mecha-
+nism is known to the opponent, but in some applications
+it can be eﬀective [136].
+A more interesting way of embedding information is to
+change the parameters of the source encoding. An example
+is given by a marking technique proposed for DVD. The
+encoder of the MPEG stream has many choices of how
+the image can be encoded, based on the trade-oﬀbetween
+good compression and good quality – each choice conveys
+one or more bits. Such schemes trade expensive marking
+techniques for inexpensive mark detection; they may be an
+alternative to signature marks in digital TV where the cost
+of the consumer equipment is all-important [137].
+Finally, in case the reader should think that there is any-
+thing new under the sun, consider two interpretations of a
+Beethoven symphony, one by Karajan the other one by
+Bernstein. These are very similar, but also dramatically
+diﬀerent. They might even be considered to be diﬀerent
+encodings, and musicologists hope to eventually dicrimi-
+nate between them automatically.
+C. Robust marking systems
+In the absence of a useful theory of information hiding,
+we can ask the practical question of what makes a marking
+scheme robust. This is in some ways a simpler problem
+(everyone might know that a video is watermarked, but so
+long as the mark is unobtrusive this may not matter) and
+in other ways a harder one (the warden is guaranteed to be
+active, as the pirate will try to erase marks).
+As a working deﬁnition, we mean by a robust marking
+system one with the following properties:
+• Marks should not degrade the perceived quality of the
+work. This immediately implies the need for a good quality
+metric. In the context of images, pixel based metrics are
+not satisfactory, and better measures based on perceptual
+models can be used [108], [138];
+• Detecting the presence and/or value of a mark should
+require knowledge of a secret;
+• If multiple marks are inserted in a single object, then
+they should not interfere with each other; moreover if dif-
+ferent copies of an object are distributed with diﬀerent
+marks, then diﬀerent users should not be able to process
+their copies in order to generate a new copy that identiﬁes
+none of them;
+• The mark should survive all attacks that do not de-
+grade the work’s perceived quality, including resampling,
+1073
+
+----- Page 13 (native) -----
+re-quantisation, dithering, compression and especially com-
+binations of these.
+Requirements similar to these are found, for example, in
+a recent call for proposals from the music industry [139].
+However, as we have shown with our attacks, there are
+at present few marking schemes, whether in the research
+literature or on commercial sale, that are robust against at-
+tacks involving carefully chosen distortions. Vendors when
+pressed claim that their systems will withstand most at-
+tacks but cannot reasonably be engineered to survive so-
+phisticated ones.
+However, in the experience of a num-
+ber of industries, it is ‘a wrong idea that high technology
+serves as a barrier to piracy or copyright theft; one should
+never underestimate the technical capability of copyright
+thieves’ [140].
+Our current opinion is that most applications have a
+fairly sharp trade-oﬀbetween robustness and data rate
+which may prevent any single marking scheme meeting the
+needs of all applications. However we do not see this as a
+counsel of despair. The marking problem has so far been
+over-abstracted; there is not one ‘marking problem’ but a
+whole constellation of them. Most real applications do not
+require all of the properties in the above list. For exam-
+ple, when monitoring radio transmissions to ensure that
+adverts have been played as contracted, we only require
+enough resistance to distortion to deal with naturally oc-
+curring eﬀects and prevent transfer of marks from one ad-
+vert to another [141]; and where our concern is to make
+proprietary images available to scholars, as in the ‘Vati-
+can Library Accessible Worldwide’ project, IBM came up
+with a simple solution using visible watermarks – which
+leave the the documents still perfectly suitable for research
+purposes but discourage illegal publication for proﬁt [11].
+VI. Conclusion
+In this paper we gave an overview of information hid-
+ing in general and steganography in particular. We looked
+at a range of applications and tried to place the various
+techniques in historical context in order to elucidate the
+relationships between them, as many recently proposed sys-
+tems have failed to learn from historical experience.
+We then described a number of attacks on information
+hiding systems, which between them demolish most of the
+current contenders in the copyright marking business. We
+have described a tool, StirMark, which breaks many of
+them by adding sub-perceptual distortion; and we have
+described a custom attack on echo hiding.
+This led us to a discussion of marking in general. We de-
+scribed some of the problems in constructing a general the-
+ory and the practical requirements that marking schemes
+and steganographic systems may have to meet.
+We ad-
+vanced the suggestion that it is impractical to demand
+that any one marking scheme satisfy all of these require-
+ments simultaneously; that is, that ‘the marking problem,’
+as sometimes described in the literature, is over-speciﬁed.
+That does not of course mean that particular marking
+problems are insoluble. Both historical precedent and re-
+cent innovation provide us with a wide range of tools, which
+if applied intelligently should be suﬃcient to solve most of
+the problems that we meet in practice.
+Acknowledgements
+Some of the ideas presented here were clariﬁed by discus-
+sion with Roger Needham, John Daugman, Peter Rayner,
+Martin Kutter and Scott Craver. The ﬁrst author is grate-
+ful to Intel Corporation for ﬁnancial support under the
+grant ‘Robustness of Information Hiding Systems’ while
+the third author is supported by the European Commission
+under a Marie Curie training grant. Special thanks to the
+Whipple Science Museum Library, the Rare Book Section
+of the Cambridge University Library, and the Cambridge
+University Archives, for their help.
+References
+[1]
+A. Tacticus, How to survive under siege / Aineias the Tac-
+tician, pp. 84–90, 183–193. Clarendon ancient history series,
+Oxford, England: Clarendon Press, 1990, ISBN 0-19-814744-9,
+translated with introduction and commentary by David White-
+head.
+[2]
+J. Wilkins, Mercury: or the secret and swift messenger: shew-
+ing, how a man may with privacy and speed communicate his
+thoughts to a friend at any distance. London: printed for Rich
+Baldwin, near the Oxford-Arms in Warnick-lane, 2nd edn.,
+1694, copy of Sir Geoﬀrey Keynes.
+[3]
+D. Chaum, “Untraceable electronic mail, return addresses and
+digital pseudonyms.” Communications of the ACM , vol. 24,
+no. 2, pp. 84–88, Feb. 1981.
+[4]
+R. J. Anderson, ed., Information hiding:
+ﬁrst international
+workshop, vol. 1174 of Lecture Notes in Computer Science,
+Isaac Newton Institute,
+Cambridge,
+England,
+May 1996,
+Springer-Verlag, Berlin, Germany, ISBN 3-540-61996-8.
+[5]
+S. Roche and J.-L. Dugelay, “Image watermarking based on the
+fractal transform.” In Workshop on Multimedia Signal Process-
+ing, pp. 358–363, IEEE, Los Angeles, California, USA, 7–9 Dec.
+1998.
+[6]
+J.-P. M. G. Linnartz, “The “ticket” concept for copy control
+based on embedded signalling.” In Quisquater et al. [147], pp.
+257–274, ISBN 3-540-65004-0.
+[7]
+M. L. Miller, I. J. Cox, and J. A. Bloom, “Watermarking in the
+real world: An application to DVD.” In Dittmann et al. [148],
+pp. 71–76.
+[8]
+J. C. Benaloh, Veriﬁable Secret-Ballot Elections. Ph.D. thesis,
+Yale University, New Haven, 1987, YALEU/DCS/TR-561.
+[9]
+B. Pﬁtzmann, “Information hiding terminology.” In Anderson
+[4], pp. 347–350, ISBN 3-540-61996-8, results of an informal
+plenary meeting and additional proposals.
+[10]
+F. L. Bauer, Decrypted Secrets – Methods and Maxims of Cryp-
+tology. Berlin, Heidelberg, Germany:
+Springer-Verlag, 1997,
+ISBN 3-540-60418-9.
+[11]
+G. W. Braudaway, K. A. Magerlein, and F. Mintzer, “Protect-
+ing publicly-available images with a visible image watermark.”
+In van Renesse [89], pp. 126–133, ISBN 0-8194-2033-6.
+[12]
+B. Rudin, Making paper – A look into the history of an ancient
+craft. V¨allingby, Sweden: Rudins, 1990, ISBN 91-970-8882-X,
+translated from Swedish by Roger G. Tanner.
+[13]
+I. J. Cox and M. L. Miller, “A review of watermarking and the
+importance of perceptual modeling.” In Rogowitz and Pappas
+[143], ISBN 0-8194-2427-7.
+[14]
+G. Caronni, “Assuring ownership rights for digital images.” In
+H. Br¨uggermann and W. Gerhardt-H¨ackl, eds., Reliable IT Sys-
+tems (VIS’95), pp. 251–263, Vieweg Publishing Company, Ger-
+many, 1995.
+[15]
+I. J. Cox, J. Kilian, T. Leighton, and T. Shamoon, “A secure,
+robust watermark for multimedia.” In Anderson [4], pp. 183–
+206, ISBN 3-540-61996-8.
+[16]
+C. I. Podilchuk and W. Zeng, “Digital image watermarking
+using visual models.” In Rogowitz and Pappas [143], pp. 100–
+111, ISBN 0-8194-2427-7.
+1074
+
+----- Page 14 (native) -----
+[17]
+M. Barni, F. Bartolini, V. Cappellini, and A. Piva, “A DCT-
+domain system for robust image watermarking.” Signal Pro-
+cessing, vol. 66, no. 3, pp. 357–372, May 1998, ISSN 0165-1684,
+European Association for Signal Processing (EURASIP).
+[18]
+D. Kundur and D. Hatzinakos, “Digital watermarking using
+multiresolution wavelet decomposition.” In International Con-
+ference on Acoustic, Speech and Signal Processing (ICASP),
+vol. 5, pp. 2969–2972, IEEE, Seattle, Washington, USA, May
+1998.
+[19]
+G. Nicchiotti and E. Ottaviano, “Non-invertible statistical
+wavelet watermarking.” In 9th European Signal Processing
+Conference (EUSIPCO’98), pp. 2289–2292, Island of Rhodes,
+Greece, 8–11 Sep. 1998, ISBN 960-7620-05-4.
+[20]
+N. Nikolaidis and I. Pitas, “Robust image watermarking in the
+spatial domain.” Signal Processing, vol. 66, no. 3, pp. 385–403,
+May 1998, ISSN 0165-1684, European Association for Signal
+Processing (EURASIP).
+[21]
+D. Tzovaras, N. Karagiannis, and M. G. Strintzis, “Robust im-
+age watermarking in the subband or discrete cosine transform
+domain.” In 9th European Signal Processing Conference (EU-
+SIPCO’98), pp. 2285–2288, Island of Rhodes, Greece, 8–11 Sep.
+1998, ISBN 960-7620-05-4.
+[22]
+R. G. van Schyndel, A. Z. Tirkel, and C. F. Osborne, “A digital
+watermark.” In International Conference on Image Processing,
+vol. 2, pp. 86–90, IEEE, Austin, Texas, USA, 1994.
+[23]
+R. B. Wolfgang and E. J. Delp, “A watermarking technique for
+digital imagery: further studies.” In International Conference
+on Imaging, Systems, and Technology, pp. 279–287, IEEE, Las
+Vegas, Nevada, USA, 30 Jun.–3 Jul. 1997.
+[24]
+F. Hartung and B. Girod, “Watermarking of uncompressed and
+compressed video.” Signal Processing, vol. 66, no. 3, pp. 283–
+301, May 1998, ISSN 0165-1684, European Association for Sig-
+nal Processing (EURASIP).
+[25]
+A. Herrigel, J. J. K. O’Ruanaidh, H. Petersen, S. Pereira, and
+T. Pun, “Secure copyright protection techniques for digital im-
+ages.” In Aucsmith [149], pp. 169–190, ISBN 3-540-65386-4.
+[26]
+M. D. Swanson, B. Zu, and A. H. Tewﬁk, “Robust data hiding
+for images.” In 7th Digital Signal Processing Workshop (DSP
+96), pp. 37–40, IEEE, Loen, Norway, Sep. 1996.
+[27]
+G. C. Langelaar, J. C. A. van der Lubbe, and R. L. Lagendijk,
+“Robust labeling methods for copy protection of images.” In
+Sethin and Jain [150], pp. 298–309, ISBN 0-8194-2433-1.
+[28]
+J. Zhao and E. Koch, “Embedding robust labels into images
+for copyright protection.” In International Congress on Intel-
+lectual Property Rights for Specialised Information, Knowledge
+and New Technologies, Vienna, Austria, Aug. 1995.
+[29]
+G. Schott, Schola steganographica: in classes octo distributa....
+Whipple Collection, University of Cambridge:
+Jobus Hertz,
+printer, 1680, bound with:
+Gasparis Schotti... Technica cu-
+riosa... Herbipoli, 1665.
+[30]
+J. Reeds, “Solved:
+the ciphers in book III of Trithemius’
+steganographia.” Cryptologia, vol. XXII, no. 4, pp. 291–317,
+Oct. 1998, ISSN 0161-1194.
+[31]
+D. Kahn, The Codebreakers – The Story of Secret Writing.
+New York, New York, USA: Scribner, 1996, ISBN 0-684-83130-
+9.
+[32]
+A. Kerckhoﬀs, “La Cryptographie Militaire.” Journal des Sci-
+ences Militaires, vol. 9, pp. 5–38, Jan. 1883.
+[33]
+R. J. Anderson, “Liability and computer security: Nine princi-
+ples.” In D. Gollmann, ed., Computer Security – Third Eu-
+ropean Symposium on Research in Computer Security (ES-
+ORICS’94), vol. 875 of Lecture Notes in Computer Science, pp.
+231–245, Brighton, United Kingdom: Springer-Verlag, Berlin,
+Germany, 1994, ISBN 3-540-58618-0.
+[34]
+J. Baltruˇsaitis, Anamorphoses ou thaumaturgus opticus, pp. 5
+and 15–19. Les perspectives d´eprav´ees, Paris, France: Flam-
+marion, 1984, ISBN 2-08-012604-0.
+[35]
+A. Seckel, “Your mind’s eye: illusions & paradoxes of the visual
+system.” Lecture for the National Science Week, University of
+Cambridge, England, Mar. 1998, most of the material of this
+lecture is also available at <http://www.illusionworks.com/>.
+[36]
+Herodotus, The Histories, chap. 5 – The ﬁfth book entitled
+Terpsichore, 7 – The seventh book entitled Polymnia. London,
+England: J. M. Dent & Sons, Ltd., 1992, ISBN 0-460-87170-6,
+translated by George Rawlinson, introduction by Hugh Bow-
+den.
+[37]
+B. Newman, Secrets of German Espionage. London: Robert
+Hale Ltd., 1940.
+[38]
+“Aliroo home page.” <http://www.aliroo.com/>, Apr. 1997,
+WitnesSoft and ScarLet security software.
+[39]
+J. C. Murphy, D. Dubbel, and R. Benson, “Technology ap-
+proaches to currency security.” In van Renesse [88], pp. 21–28,
+ISBN 0-8194-2556-7.
+[40]
+G. W. W. Stevens, Microphotography – Photography and photo-
+fabrication at extreme resolutions. London: Chapman & Hall,
+1968.
+[41]
+D. Brewster, “Microscope.” In Encyclopædia Britannica or the
+dictionary of arts, sciences, and general literature, vol. XIV,
+chap. IX, Application of photography to the microscope, pp.
+801–802, Edinburgh, 8th edn., 1857.
+[42]
+G. Tissandier, Les merveilles de la photographie, chap. VI –
+Les d´epˆeches microscopiques du si`ege de Paris, pp. 233–248.
+Biblioth`eque des merveilles, Boulevard Saint Germain, Paris,
+France: Librairie Hachette & Cie, 1874, ouvrage illustr´e de 65
+vignettes par Johandier, etc. et d’une planche tir´ee `a la presse
+photoglyptique.
+[43]
+J. Hayhurst, “The pigeon post into Paris 1870–1871.”, 1970,
+<http://www.windowlink.com/jdhayhurst/pigeon/pigeon.
+html>.
+[44]
+J. E. Hoover, “The enemy’s masterpiece of espionage.” The
+Reader’s Digest, vol. 48, pp. 49–53, May 1946, London edition.
+[45]
+J. F. Delaigle, C. De Vleeschouwer, and B. Macq, “Watermark-
+ing algorithm based on a human visual model.” Signal Process-
+ing, vol. 66, no. 3, pp. 319–335, May 1998, ISSN 0165-1684,
+European Association for Signal Processing (EURASIP).
+[46]
+L. Boney, A. H. Tewﬁk, and K. N. Hamdy, “Digital watermarks
+for audio signals.” In European Signal Processing Conference
+(EUSIPCO’96), Trieste, Italy, Sep. 1996.
+[47]
+F. Goﬃn, J.-F. Delaigle, C. D. Vleeschouwer, B. Macq, and
+J.-J. Quisquater, “A low cost perceptive digital picture water-
+marking method.” In Sethin and Jain [150], pp. 264–277, ISBN
+0-8194-2433-1.
+[48]
+N. Jayant, J. Johnston, and R. Safranek, “Signal compres-
+sion based on models of human perception.” Proceedings of the
+IEEE, vol. 81, no. 10, pp. 1385–1422, Oct. 1993.
+[49]
+B. C. J. Moore, An Introduction to the Psychology of Hearing.
+London, England: Academic Press, 3rd edn., 1989.
+[50]
+British Standard,
+BSI, London,
+Information technology –
+Generic coding of moving pictures and associated audio in-
+formation – Part 3:
+audio., Oct. 1995, implementation of
+ISO/IEC 13818-3:1995.
+[51]
+A. Werner, J. Oomen, M. E. Groenewegen, R. G. van der Waal,
+and R. N. Veldhuis, “A variable-bit-rate buried-data channel
+for compact disc.” Journal of the Audio Engineering Society,
+vol. 43, no. 1/2, pp. 23–28, Jan.–Feb. 1995.
+[52]
+E. J. Delp, “Perceptual watermarking of images.” Proceedings
+of the IEEE, vol. v, no. n, pp. ?–?, May 1999, ***This issue.***.
+[53]
+M. Swanson and A. Tewﬁk, “Perceptual watermarking of audio
+signals.” Proceedings of the IEEE, vol. v, no. n, pp. ?–?, May
+1999, ***This issue.***.
+[54]
+R. J. Anderson, “Why cryptosystems fail.” Communications of
+the ACM , vol. 37, no. 11, pp. 32–40, Nov. 1994.
+[55]
+F. Bacon, Of the advancement and proﬁciencie of learning or
+the partitions of sciences, vol. VI, pp. 257–271. Leon Lichﬁeld,
+Oxford, for R. Young and E. Forest, 1640, copy of Sir Geoﬀrey
+Keynes.
+[56]
+P. Leary, The second cryptographic Shakespeare: a monograph
+wherein the poems and plays attributed to William Shakespeare
+are proven to contain the enciphered name of the concealed
+author, Francis Bacon. Omaha, Nebraska, USA: Westchester
+House, 2nd edn., 1990, ISBN 0-9617917-1-3.
+[57]
+N. R. Wagner, “Fingerprinting.” In Symposium on Security and
+Privacy, pp. 18–22, Technical Commitee on Security & Privacy,
+IEEE Computer Society, Oakland, California, USA, 25–27 Apr.
+1983.
+[58]
+J. Brassil, S. Low, N. Maxemchuk, and L. O’Garman, “Elec-
+tronic marking and identiﬁcation techniques to discourage doc-
+ument copying.” In Infocom, pp. 1278–1287, IEEE, Toronto,
+Canada, Jun. 1994.
+[59]
+R. B. Wolfgang and E. J. Delp, “A watermark for digital im-
+ages.” In International Conference on Images Processing, pp.
+219–222, IEEE, Lausanne, Switzerland, Sep. 1996.
+[60]
+S. Walton, “Image authentication for a slippery new age.” Dr.
+Dobb’s journal of software tools, vol. 20, no. 4, pp. 18–26, Apr.
+1995.
+1075
+
+----- Page 15 (native) -----
+[61]
+K. Matsui and K. Tanaka, “Video-steganography: How to se-
+cretly embed a signature in a picture.” Journal of the Inter-
+active Multimedia Association Intellectual Property Project,
+vol. 1, no. 1, pp. 187–205, Jan. 1994.
+[62]
+R. J. Anderson and C. Manifavas, “Chameleon – A new kind
+of stream cipher.” In Biham [146], pp. 107–113, ISBN 3-540-
+63247-6.
+[63]
+J. R. Smith and B. O. Comiskey, “Modulation and information
+hiding in images.” In Anderson [4], pp. 207–226, ISBN 3-540-
+61996-8.
+[64]
+W. Bender, D. Gruhl, N. Morimoto, and A. Lu, “Techniques
+for data hiding.” IBM Systems Journal, vol. 35, no. 3 & 4,
+pp. 313–336, 1996.
+[65]
+I. Pitas, “A method for signature casting on digital images.”
+In International Conference on Image Processing, vol. 3, pp.
+215–218, Sep. 1996.
+[66]
+G. C. Langelaar, J. C. van der Lubbe, and J. Biemond, “Copy
+protection for multimedia data based on labeling techniques.”
+In 17th Symposium on Information Theory in the Benelux,
+Enschede, The Netherlands, May 1996.
+[67]
+R. C. Dixon, Spread spectrum systems with commercial appli-
+cations. New York, New York, USA: John Wiley & Sons, Inc.,
+3rd edn., 1994, ISBN 0-471-59342-7.
+[68]
+R. A. Scholtz, “The origins of spread spectrum communica-
+tions.” IEEE Transactions on Communications, vol. 30, no. 5,
+pp. 822–853, May 1982.
+[69]
+R. L. Pickholtz, D. L. Schilling, and L. B. Milstein, “Theory of
+spread spectrum communications – A tutorial.” IEEE Trans-
+actions on Communications, vol. 30, no. 5, pp. 855–884, May
+1982.
+[70]
+A. Z. Tirkel, G. A. Rankin, R. M. van Schyndel, W. J. Ho,
+N. R. A. Mee, and C. F. Osborne, “Electronic watermark.”
+In Digital Image Computing, Technology and Applications
+(DICTA’93), pp. 666–673, Macquarie University, Sidney, 1993.
+[71]
+I. J. Cox, J. Kilian, T. Leighton, and T. Shamoon, “Secure
+spread spectrum watermarking for images, audio and video.”
+In International Conference on Image Processing (ICIP’96),
+pp. 243–246, IEEE, Lausanne, Switzerland, 16–19 Sep. 1996.
+[72]
+F. Hartung and B. Girod, “Watermarking of MPEG-2 en-
+coded video without decoding and re-encoding.” In M. Free-
+man, P. Jardetzky, and H. M. Vin, eds., Multimedia Computing
+and Networking 1997, vol. 3020, pp. 264–273, The Society for
+Imaging Science and Technology (IS&T) and the International
+Society for Optical Engineering (SPIE), San Jose, California,
+USA: SPIE, Feb. 1997, ISBN 0-8194-2431-5.
+[73]
+L. Boney, A. H. Tewﬁk, and K. N. Hamdy, “Digital watermarks
+for audio signals.” In International Conference on Multime-
+dia Computing and Systems, pp. 473–480, IEEE, Hiroshima,
+Japan, 17–23 Jun. 1996.
+[74]
+CompuServe, Incorporated, Ohio, USA, Graphics Interchange
+Format (GIF) Speciﬁcation, Jun. 1987, <http://icib.igd.
+fhg.de/icib/it/defacto/company/compuserve/gif87a/>.
+[75]
+G. Jagpal, “Steganoraphy in digital images.” University of
+Cambridge, Selwyn College.
+[76]
+F. A. P. Petitcolas, “Mp3stego.” <http://www.cl.cam.ac.uk/
+~fapp2/steganography/mp3stego/>, August 1998.
+[77]
+E. Koch and J. Zhao, “Towards robust and hidden image copy-
+right labeling.” In Workshop on Nonlinear Signal and Image
+Processing, pp. 452–455, IEEE, Neos Marmaras, Greece, Jun.
+1995.
+[78]
+J. J. K. O’Ruanaidh, W. J. Dowling, and F. M. Boland, “Water-
+marking digital images for copyright protection.” IEE Proceed-
+ings on Vision, Signal and Image Processing, vol. 143, no. 4,
+pp. 250–256, Aug. 1996.
+[79]
+M. D. Swanson, B. Zhu, and A. H. Tewﬁk, “Transparent robust
+image watermarking.” In International Conference on Image
+Processing, vol. III, pp. 211–214, IEEE, 1996.
+[80]
+D. Kundur and D. Hatzinakos, “A robust digital image water-
+marking method using wavelet-based fusion.” In International
+Conference on Image Processing, pp. 544–547, IEEE, Santa
+Barbara, California, USA, Oct. 1997.
+[81]
+J. J. K. O’Ruanaidh and T. Pun, “Rotation, scale and transla-
+tion invariant spread spectrum digital image watermarking.”
+Signal Processing, vol. 66, no. 3, pp. 303–317, May 1998,
+ISSN 0165-1684, European Association for Signal Processing
+(EURASIP).
+[82]
+D. Gruhl, W. Bender, and A. Lu, “Echo hiding.” In Anderson
+[4], pp. 295–315, ISBN 3-540-61996-8.
+[83]
+B. P. Bogert,
+M. J. R. Healy,
+and J. W. Tukey,
+“The
+quefrency alanysis of time series for echoes:
+Cepstrum,
+pseudo-autocovariance, cross-cepstrum and saphe cracking.” In
+M. Rosenblatt, ed., Symposium on Time Series Analysis, pp.
+209–243, New York, New York, USA: John Wiley & Sons, Inc.,
+1963.
+[84]
+D. L. Schilling, ed., Meteor burst communications: theory and
+practice. Wiley series in telecommunications, New York, New
+York, USA: Wiley, 1993.
+[85]
+D. Gruhl and W. Bender, “Information hiding to foil the casual
+counterfeiter.” In Aucsmith [149], pp. 1–15, ISBN 3-540-65386-
+4.
+[86]
+R. L. van Renesse, “Security design of valuable documents
+and products.” In Optical Security and Counterfeit Deterrence
+Techniques [89], pp. 10–20, ISBN 0-8194-2033-6.
+[87]
+T. Matsumoto, “Protection of documents.” Proceedings of the
+IEEE, vol. v, no. n, pp. ?–?, May 1999, ***This issue.***.
+[88]
+R. L. van Renesse, ed., Optical Security and Counterfeit Deter-
+rence Techniques II , vol. 3314, San Jose, California, USA, Jan.
+1998, The Society for Imaging Science and Technology (IS&T)
+and the International Society for Optical Engineering (SPIE),
+SPIE, ISBN 0-8194-2556-7.
+[89]
+—, Optical Security and Counterfeit Deterrence Techniques,
+vol. 2659, San Jose, California, USA, Feb. 1996, The Society for
+Imaging Science and Technology (IS&T) and the International
+Society for Optical Engineering (SPIE), SPIE, ISBN 0-8194-
+2033-6.
+[90]
+D. van Lingen, “The new Dutch passport.” In van Renesse [89],
+pp. 67–73, ISBN 0-8194-2033-6.
+[91]
+S. Spannenburg, “Optically- and machine-detectable security
+elements.” In van Renesse [89], pp. 76–96, ISBN 0-8194-2033-6.
+[92]
+R. L. van Renesse, “Verifying versus falsifying banknotes.”
+In Optical Security and Counterfeit Deterrence Techniques II
+[88], pp. 71–85, ISBN 0-8194-2556-7.
+[93]
+J. D. Brongers, “Search for eﬀective document security by ‘in-
+ventioneering’.” In van Renesse [88], pp. 29–38, ISBN 0-8194-
+2556-7.
+[94]
+“Anti-counterfeit trials begin with watermark technology.” Fi-
+nancial Technology International Bulletin, vol. 9, no. 2, pp. 6–
+7, Oct. 1993.
+[95]
+I. M. Lancaster and L. T. Konntnik, “Progress in counterfeit
+deterrence: The contribution of information exchange.” In van
+Renesse [89], pp. 2–8, ISBN 0-8194-2033-6.
+[96]
+R. Johnson and A. Garcia, “Vulnerability assessment of secu-
+rity seals.” Journal of Security Administration, vol. 20, no. 1,
+pp. 15–27, Jun. 1997.
+[97]
+V. Gligor, “A guide to understanding covert channel analysis
+of trusted systems.” Tech. Rep. NCSC-TG-030, National Com-
+puter Security Center, Ft. George G. Meade, Maryland, USA,
+Nov. 1993.
+[98]
+B. Lampson, “A note on the conﬁnement problem.” Commu-
+nications of the ACM , vol. 16, no. 10, pp. 613–615, Oct. 1973.
+[99]
+W. van Eck, “Electromagnetic radiation from video display
+units: an eavesdropping risk?” Computers & Security, vol. 4,
+no. 4, pp. 269–286, Dec. 1985.
+[100] D. Russel and G. Gangemi, Computer Security Basics, chap.
+10: TEMPEST. Sebastopol, California, USA: O’Reilly & As-
+sociates, 1991, ISBN 0-937175-71-4.
+[101] M. G. Kuhn and R. J. Anderson, “Soft tempest: Hidden data
+transmission using electromagnetic emanations.” In Aucsmith
+[149], pp. 124–142, ISBN 3-540-65386-4.
+[102] J.-P. M. G. Linnartz and M. van Dijk, “Analysis of the sensi-
+tivity attack against electronic watermarks in images.” In Auc-
+smith [149], pp. 258–272, ISBN 3-540-65386-4.
+[103] M. Maes, “Twin peaks: The histogram attack on ﬁxed depth
+image watermarks.” In Aucsmith [149], pp. 290–305, ISBN 3-
+540-65386-4.
+[104] F. A. P. Petitcolas, R. J. Anderson, and M. G. Kuhn, “Attacks
+on copyright marking systems.” In Aucsmith [149], pp. 218–
+238, ISBN 3-540-65386-4.
+[105] G. C. Langelaar, R. L. Lagendijk, and J. Biemond, “Removing
+spatial spread spectrum watermarks by non-linear ﬁltering.”
+In 9th European Signal Processing Conference (EUSIPCO’98),
+Island of Rhodes, Greece, 8–11 Sep. 1998, ISBN 960-7620-05-4.
+[106] R. Barnett and D. E. Pearson, “Frequency mode LR attack op-
+erator for digitally watermarked images.” Electronics Letters,
+vol. 34, no. 19, pp. 1837–1839, Sep. 1998.
+[107] M. Kutter, “Watermarking resisting to translation, rotation,
+1076
+
+----- Page 16 (native) -----
+and scaling.” In Proceedings of SPIE International Symposium
+on Voice, Video, and Data Communications, Nov. 1998.
+[108] M. Kutter and F. A. P. Petitcolas, “A fair benchmark for image
+watermarking systems.” In 11th International Symposium on
+Electronic Imaging, vol. 3657, The Society for Imaging Science
+and Technology (IS&T) and the International Society for Opti-
+cal Engineering (SPIE), San Jose, California, USA, 25–27 Jan.
+1999.
+[109] N. F. Johnson and S. Jajodia, “Steganalysis of images created
+using current steganography software.” In Aucsmith [149], pp.
+273–289, ISBN 3-540-65386-4.
+[110] S. Craver, B.-L. Yeo, and M. Yeung, “Technical trials and le-
+gal tribulations.” Communications of the ACM, vol. 41, no. 7,
+pp. 44–54, Jul. 1998.
+[111] K. N. Hamdy, A. H. Tewﬁk, T. Chen, and S. Takagi, “Time-
+scale modiﬁcation of audio signals with combined harmonic
+and wavelet representations.” In International Conference on
+Acoustics, Speech and Signal Processing (ICASSP’97), vol. 1,
+pp. 439–442, IEEE, Munich, Germany: IEEE Press, Apr. 1997,
+Session on Hearing Aids and Computer Music.
+[112] N. A. Dodgson, “Quadratic interpolation for image resam-
+pling.” IEEE Transactions on Image Processing, vol. 6, no. 9,
+pp. 1322–1326, Sep. 1997, ISSN 1057-7149.
+[113] G. W. Braudaway, “Results of attacks on a claimed robust dig-
+ital image watermark.” In van Renesse [88], ISBN 0-8194-2556-
+7.
+[114] A. V. Oppenheim and R. W. Schafer, Discrete-Time Signal
+Processing, chap. 12, pp. 768–834. Englewood Cliﬀs, New Jer-
+sey, USA: Prentice-Hall International, Inc., international edn.,
+1989, ISBN 0-13-216771-9.
+[115] R. W. Schafer, “Echo removal by discrete generalized linear ﬁl-
+tering.” Tech. Rep. 466, Massachusetts Institute of Technology,
+Feb. 1969.
+[116] S. Craver, N. Memon, B.-L. Yeo, and M. M. Yeung, “Can in-
+visible watermark resolve rightful ownerships?” In Sethin and
+Jain [150], pp. 310–321, ISBN 0-8194-2433-1.
+[117] —, “Resolving rightful ownerships with invisible watermark-
+ing techniques: Limitations, attacks, and implications.” IEEE
+Journal of Selected Areas in Communications, vol. 16, no. 4,
+pp. 573–586, May 1998, ISSN 0733-8716, special issue on copy-
+right & privacy protection.
+[118] D. Aucsmith, “Tamper resistant software:
+An implementa-
+tion.” In Anderson [4], pp. 317–333, ISBN 3-540-61996-8.
+[119] R. J. Anderson, “Stretching the limits of steganography.” In
+IH96 [4], pp. 39–48, ISBN 3-540-61996-8.
+[120] F. Hartung and B. Girod, “Fast public-key watermarking of
+compressed video.” In International Conference on Image Pro-
+cessing (ICIP’97), vol. I, pp. 528–531, IEEE, Santa Barbara,
+California, USA, Oct. 1997.
+[121] I. J. Cox and J.-P. M. G. Linnartz, “Public watermarks and re-
+sistance to tampering.” In International Conference on Image
+Processing (ICIP’97), IEEE, Santa Barbara, California, USA,
+26–29 Oct. 1997.
+[122] C. E. Shannon, “Communication theory of secrecy systems.”
+Bell System Technical Journal, vol. 28, pp. 656–715, Oct. 1949.
+[123] G. J. Simmons, ed., Contemporary Cryptology – The Science
+of Information Integrity. New York, New York, USA: IEEE
+Press, 1992.
+[124] G. J. Simmons, “The prisoners’ problem and the subliminal
+channel.” In Chaum [144], pp. 51–67.
+[125] —, “The history of subliminal channels.” IEEE Journal of Se-
+lected Areas in Communications, vol. 16, no. 4, pp. 452–462,
+May 1998, ISSN 0733-8716, special issue on copyright & privacy
+protection.
+[126] R. Anderson, S. Vaudenay, B. Preneel, and K. Nyberg, “The
+Newton channel.” In Anderson [4], pp. 151–156, ISBN 3-540-
+61996-8.
+[127] G. J. Simmons, “Subliminal channels:
+Past and present.”
+European Transaction on Telecommunications, vol. 5, no. 4,
+pp. 459–473, July/August 1994.
+[128] —, “Results concerning the bandwidth of subliminal channels.”
+IEEE Journal of Selected Areas in Communications, vol. 16,
+no. 4, pp. 463–473, May 1998, ISSN 0733-8716, special issue on
+copyright & privacy protection.
+[129] R. J. Anderson and F. A. P. Petitcolas, “On the limits of ste-
+ganography.” IEEE Journal of Selected Areas in Communica-
+tions, vol. 16, no. 4, pp. 474–481, May 1998, ISSN 0733-8716,
+special issue on copyright & privacy protection.
+[130] S. Craver, “On public-key steganography in the presence of an
+active warden.” Tech. Rep. RC20931, IBM Research Division,
+T.J. Watson Research Center, Yorktown Heights, New York,
+USA, Jul. 1997.
+[131] J. Z¨ollner, H. Federrath, H. Klimant, A. Pﬁtzmann, R. Pio-
+traschke, A. Westfeld, G. Wicke, and G. Wolf, “Modeling the
+security of steganographic systems.” In Aucsmith [149], pp.
+344–354, ISBN 3-540-65386-4.
+[132] I. Moskowitz and M. Kang, “Covert channels – Here to stay?”
+In Compass’94, pp. 235–243, 1994.
+[133] C.
+Maroney,
+“Hide
+and
+seek.”
+<http://www.cypher.net/
+products/hideseek.html>, mar 1997.
+[134] “Stegodos.”
+<ftp://ftp.funet.fi/pub/crypt/
+steganography/stegodos.zip>, Mar. 1997.
+[135] E. Franz, A. Jerichow, S. M¨oller, A. Pﬁtzmann, and I. Stierand,
+“Computer based steganography: how it works and why there-
+fore any restriction on cryptography are nonsense, at best.” In
+Anderson [4], pp. 7–21, ISBN 3-540-61996-8.
+[136] P. Wayner, Disappearing Cryptography – Being and Nothing
+on the Net. Chestnut Hill, MA: AP Professional, 1996, ISBN
+0-12-738671-8.
+[137] B. M. Macq and J.-J. Quisquater, “Cryptology for digital TV
+broadcasting.” Proceedings of the IEEE, vol. 83, no. 6, pp. 944–
+956, Jun. 1995.
+[138] J. Fridrich and M. Goljan, “Comparing robustness of wa-
+termarking techniques.” In 11th International Symposium on
+Electronic Imaging, vol. 3657, The Society for Imaging Science
+and Technology (IS&T) and the International Society for Opti-
+cal Engineering (SPIE), San Jose, California, USA, 25–27 Jan.
+1999.
+[139] “Request for proposals – Embedded signalling systems.” Inter-
+national Federation of the Phonographic Industry, 54 Regent
+Street, London W1R 5PJ, Jun. 1997.
+[140] J. Gurnsey, Copyright Theft. Aldershot, England: Aslib Gower,
+1995, ISBN 0-566-07631-4.
+[141] R. Willard, “ICE (Identiﬁcation Coding, Embedded).” Preprint
+3516 (D2-3) of the Audio Engineering Society, 1993, presented
+at the 74th Convention of the AES, Berlin, 16–19 March, 1993.
+[142] W. Niblack and R. C. Jain, eds., Storage and Retrieval for Im-
+age and Video Database III , vol. 2420, San Jose, California,
+USA, Feb. 1995, The Society for Imaging Science and Technol-
+ogy (IS&T) and the International Society for Optical Engineer-
+ing (SPIE), SPIE, ISBN 0-8194-1767-X.
+[143] B. E. Rogowitz and T. N. Pappas, eds., Human Vision and
+Electronic Imaging II , vol. 3016, San Jose, California, USA,
+Feb. 1997, The Society for Imaging Science and Technology
+(IS&T) and the International Society for Optical Engineering
+(SPIE), SPIE, ISBN 0-8194-2427-7.
+[144] D.
+Chaum,
+ed.,
+Workshop
+on
+Communications
+Security
+(CRYPTO’83). IEEE, 1983.
+[145] M. Lomas, B. Crispo, B. Christianson, and M. Roe, eds., Secu-
+rity Protocols: Proceeding of the 5th International Workshop,
+vol. 1361 of Lecture Notes in Computer Science, ´Ecole Nor-
+male Sup´erieure, Paris, France, Apr. 1997, University of Cam-
+bridge, Isaac Newton Institute, Springer-Verlag, Berlin, Ger-
+many, ISBN 3-540-64040-1.
+[146] E. Biham, ed., Fast Software Encryption – 4th International
+Workshop (FSE’97), vol. 1267 of Lecture Notes in Computer
+Science, Haifa, Israel, Jan. 1997, Springer-Verlag, Germany,
+ISBN 3-540-63247-6.
+[147] J.-J. Quisquater, Y. Deswarte, C. Meadows, and D. Gollmann,
+eds., Computer Security – 5th European Symposium on Re-
+search in Computer Security, (ESORICS’98), vol. 1485 of Lec-
+ture Notes in Computer Science, Louvain-la-Neuve, Belgium,
+Sep. 1998, Springer, Berlin, Germany, ISBN 3-540-65004-0.
+[148] J. Dittmann, P. Wohlmacher, P. Horster, and R. Steinmetz,
+eds., Multimedia and Security – Workshop at ACM Multime-
+dia’98, vol. 41 of GMD Report, Bristol, United Kingdom, Sep.
+1998, ACM, GMD – Forschungszentrum Informationstechnik
+GmbH.
+[149] D. Aucsmith, ed., Information Hiding: Second International
+Workshop, vol. 1525 of Lecture Notes in Computer Science,
+Portland, Oregon, USA, 1998, Springer-Verlag, Berlin, Ger-
+many, ISBN 3-540-65386-4.
+[150] I. K. Sethin and R. C. Jain, eds., Storage and Retrieval for
+Image and Video Database V , vol. 3022, San Jose, California,
+USA, Feb. 1997, The Society for Imaging Science and Technol-
+1077
+
+----- Page 17 (native) -----
+ogy (IS&T) and the International Society for Optical Engineer-
+ing (SPIE), SPIE, ISBN 0-8194-2433-1.
+1078

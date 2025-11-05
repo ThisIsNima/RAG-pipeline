@@ -1,0 +1,1010 @@
+
+
+----- Page 1 (native) -----
+Sensor Networks: Evolution, Opportunities,
+and Challenges
+CHEE-YEE CHONG, MEMBER, IEEE AND SRIKANTA P. KUMAR, SENIOR MEMBER, IEEE
+Invited Paper
+Wireless microsensor networks have been identified as one of
+the most important technologies for the 21st century. This paper
+traces the history of research in sensor networks over the past
+three decades, including two important programs of the Defense
+Advanced Research Projects Agency (DARPA) spanning this
+period: the Distributed Sensor Networks (DSN) and the Sensor
+Information Technology (SensIT) programs. Technology trends that
+impact the development of sensor networks are reviewed, and new
+applications such as infrastructure security, habitat monitoring,
+and traffic control are presented. Technical challenges in sensor
+network development include network discovery, control and
+routing, collaborative signal and information processing, tasking
+and querying, and security. The paper concludes by presenting
+some recent research results in sensor network algorithms, in-
+cluding localized algorithms and directed diffusion, distributed
+tracking in wireless ad hoc networks, and distributed classification
+using local agents.
+Keywords—Collaborative signal processing, microsensors, net-
+work routing and control, querying and tasking, sensor networks,
+tracking and classification, wireless networks.
+I. INTRODUCTION
+Networked microsensors technology is a key technology
+for the future. In September 1999 [1], Business Week her-
+alded it as one of the 21 most important technologies for the
+21st century. Cheap, smart devices with multiple onboard
+sensors, networked through wireless links and the Internet
+and deployed in large numbers, provide unprecedented op-
+portunities for instrumenting and controlling homes, cities,
+and the environment. In addition, networked microsensors
+provide the technology for a broad spectrum of systems in
+the defense arena, generating new capabilities for reconnais-
+sance and surveillance as well as other tactical applications.
+Manuscript received January 7, 2003; revised March 17, 2003.
+C.-Y. Chong was with Booz Allen Hamilton, San Francisco, CA 94111
+USA. He is now with Alphatech, Inc. San Diego, CA 92121 USA (e-mail:
+cchong@alphatech.com, cychong@ieee.org).
+S. Kumar is with the Defense Advanced Research Projects Agency, Ar-
+lington, VA 22203 USA (e-mail: skumar@ darpa.mil).
+Digital Object Identifier 10.1109/JPROC.2003.814918
+Smart disposable microsensors can be deployed on the
+ground, in the air, under water, on bodies, in vehicles,
+and inside buildings. A system of networked sensors can
+detect and track threats (e.g., winged and wheeled vehicles,
+personnel, chemical and biological agents) and be used for
+weapon targeting and area denial. Each sensor node will
+have embedded processing capability, and will potentially
+have multiple onboard sensors, operating in the acoustic,
+seismic, infrared (IR), and magnetic modes, as well as
+imagers and microradars. Also onboard will be storage,
+wireless links to neighboring nodes, and location and po-
+sitioning knowledge through the global positioning system
+(GPS) or local positioning algorithms.
+Networked microsensors belong to the general family of
+sensor networks that use multiple distributed sensors to col-
+lect information on entities of interest. Table 1 summarizes
+the range of possible attributes in general sensor networks.
+Current and potential applications of sensor networks in-
+clude: military sensing, physical security, air traffic control,
+traffic surveillance, video surveillance, industrial and man-
+ufacturing automation, distributed robotics, environment
+monitoring, and building and structures monitoring. The
+sensors in these applications may be small or large, and the
+networks may be wired or wireless. However, ubiquitous
+wireless networks of microsensors probably offer the most
+potential in changing the world of sensing [2].
+While sensor networks for various applications may be
+quite different, they share common technical issues. This
+paper will present a history of research in sensor networks
+(Section II), technology trends (Section III), new applica-
+tions (Section IV), research issues and hard problems (Sec-
+tion V), and some examples of research results (Section VI).
+II. HISTORY OF RESEARCH IN SENSOR NETWORKS
+The development of sensor networks requires technolo-
+gies from three different research areas: sensing, commu-
+nication, and computing (including hardware, software, and
+0018-9219/03$17.00 © 2003 IEEE
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003
+1247
+
+----- Page 2 (native) -----
+Table 1
+Attributes of Sensor Networks
+algorithms). Thus, combined and separate advancements in
+each of these areas have driven research in sensor networks.
+Examples of early sensor networks include the radar net-
+works used in air traffic control. The national power grid,
+with its many sensors, can be viewed as one large sensor net-
+work. These systems were developed with specialized com-
+puters and communication capabilities, and before the term
+“sensor networks” came into vogue.
+A. Early Research on Military Sensor Networks
+As with many technologies, defense applications have
+been a driver for research and development in sensor net-
+works. During the Cold War, the Sound Surveillance System
+(SOSUS), a system of acoustic sensors (hydrophones) on the
+ocean bottom, was deployed at strategic locations to detect
+and track quiet Soviet submarines. Over the years, other
+more sophisticated acoustic networks have been developed
+for submarine surveillance. SOSUS is now used by the
+National Oceanographic and Atmospheric Administration
+(NOAA) for monitoring events in the ocean, e.g., seismic
+and animal activity [3]. Also during the Cold War, networks
+of air defense radars were developed and deployed to defend
+the continental United States and Canada. This air defense
+system has evolved over the years to include aerostats
+as sensors and Airborne Warning and Control System
+(AWACS) planes, and is also used for drug interdiction.
+These sensor networks generally adopt a hierarchical
+processing structure where processing occurs at consecutive
+levels until the information about events of interest reaches
+the user. In many cases, human operators play a key role in
+the system. Even though research was focused on satisfying
+mission needs, e.g., acoustic signal processing and interpre-
+tation, tracking, and fusion, it provided some key processing
+technologies for modern sensor networks.
+B. Distributed Sensor Networks Program at the Defense
+Advanced Research Projects Agency
+Modern research on sensor networks started around 1980
+with the Distributed Sensor Networks (DSN) program at the
+Defense Advanced Research Projects Agency (DARPA).
+By this time, the Arpanet (predecessor of the Internet) had
+been operational for a number of years, with about 200 hosts
+at universities and research institutes. R. Kahn, who was
+coinventor of the TCP/IP protocols and played a key role
+in developing the Internet, was director of the Information
+Processing Techniques Office (IPTO) at DARPA. He wanted
+to know whether the Arpanet approach for communica-
+tion could be extended to sensor networks. The network
+was assumed to have many spatially distributed low-cost
+sensing nodes that collaborate with each other but operate
+autonomously, with information being routed to whichever
+node can best use the information.
+It was an ambitious program given the state of the art.
+This was the time before personal computers and work-
+stations; processing was done mostly on minicomputers
+such as PDP-11 and VAX machines running Unix and VMS.
+Modems were operating at 300 to 9600 Bd, and Ethernet
+was just becoming popular.
+Technology components for a DSN were identified in a
+Distributed Sensor Nets workshop in 1978 [4]. These in-
+cluded sensors (acoustic), communication (high-level proto-
+cols that link processes working on a common application
+in a resource-sharing network [5]), processing techniques
+and algorithms (including self-location algorithms for sen-
+sors), and distributed software (dynamically modifiable dis-
+tributed systems and language design). Since DARPA was
+sponsoring much artificial intelligence (AI) research at the
+time, the workshop also included talks on the use of AI for
+understanding signals and assessing situations [6], as well
+as various distributed problem-solving techniques [7]–[9].
+Since very few technology components were available off
+the shelf, the resulting DSN program had to address dis-
+tributed computing support, signal processing, tracking, and
+test beds. Distributed acoustic tracking was chosen as the
+target problem for demonstration.
+Researchers at Carnegie Mellon University (CMU),
+Pittsburgh, PA, focused on providing a network operating
+system that allows flexible, transparent access to distributed
+resources needed for a fault-tolerant DSN. They developed
+1248
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003
+
+----- Page 3 (native) -----
+Fig. 1.
+Components in the DSN test bed around 1985.
+a communication-oriented operating system called Accent
+[10], whose primitives support transparent networking,
+system reconfiguration, and rebinding. Accent evolved into
+the Mach operating system [11], which found considerable
+commercial acceptance. Other efforts at CMU included
+protocols
+for
+network
+interprocess communication
+to
+support dynamic rebinding of active communicating com-
+putations, an interface specification language for building
+distributed system software, and a system for dynamic load
+balancing and fault reconfiguration of DSN software. All
+this was demonstrated in an indoor test bed with signal
+sources, acoustic sensors, and VAX computers connected
+by Ethernet.
+Researchers at the Massachusetts Institute of Technology
+(MIT), Cambridge, focused on knowledge-based signal
+processing techniques [12] for tracking helicopters using a
+distributed array of acoustic microphones by means of signal
+abstractions and matching techniques. Signal abstractions
+view signals as consisting of multiple levels, with higher
+levels of abstraction (e.g., peaks) obtained by suppressing
+detailed information in lower levels (e.g., spectrum). They
+provide a conceptual framework for thinking about signal
+processing systems that resemble what people use when
+interactively processing and interpreting real-world signals.
+By incorporating human heuristics, this approach was
+designed for high signal-to-noise ratio situations where
+models are lacking. In addition, MIT also developed the
+Signal Processing Language and Interactive Computing
+Environment (SPLICE) for DSN data analysis and algorithm
+development, and Pitch Director’s Assistant for interactively
+estimating fundamental frequency using domain knowledge.
+Moving up the processing chain, tracking multiple targets
+in a distributed environment is significantly more difficult
+than centralized tracking. The association of measurements
+to tracks and estimation of target states (position and ve-
+locity) given associations have to be distributed over the
+sensor nodes. In the 1980s, Advanced Decision Systems
+(ADS), Mountain View, CA, developed a multiple-hy-
+pothesis tracking algorithm to deal with difficult situations
+involving high target density, missing detections, and false
+alarms, and decomposed the algorithm for distributed
+implementation [13], [14]. Multiple-hypothesis tracking is
+now a standard approach for difficult tracking problems.
+For demonstration, MIT Lincoln Laboratory developed
+the real-time test bed for acoustic tracking of low-flying
+aircraft [15]. The sensors were acoustic arrays (nine micro-
+phones arranged in three concentric triangles with the largest
+being 6 m across). A PDP11/34 computer and an array pro-
+cessor processed the acoustic signals. The nodal computer
+(for target tracking) consists of three MC68000 processors
+with 256-kB memory and 512-kB shared memory, and a
+custom operating system. Communication was by Ethernet
+and microwave radio. Fig. 1 (extracted from [16]) shows the
+acoustic array (nine white microphones), the mobile vehicle
+node with an acoustically quiet generator in the back, and the
+equipment rack with the acoustic/tracking node and gateway
+node in the vehicle. Note the size of the system and that
+practically all components in the network were custom built.
+That was the state of the art in the early 1980s. The DSN test
+bed was demonstrated with low-flying aircraft, which was
+successfully tracked with acoustic sensors as well as TV
+cameras. The tracking algorithm was fairly sophisticated,
+since the acoustic propagation delay is significant relative to
+the speed of the aircraft.
+Another test bed in the DSN program was the distributed
+vehicle monitoring test bed at the University of Massachu-
+setts, Amherst. This was a research tool for empirically
+investigating distributed problem solving in networks. The
+distributed knowledge-based problem solving approach used
+a functionally accurate, cooperative architecture consisting
+of a network of Hearsay-II nodes (blackboard architecture
+with knowledge sources). Different local node control
+approaches were explored [17].
+C. Military Sensor Networks in the 1980s and 1990s
+Even though early researchers on sensor networks had
+in mind large numbers of small sensors, the technology
+for small sensors was not quite ready. However, planners
+of military systems quickly recognized the benefits of
+sensor networks, which become a crucial component of
+network-centric warfare [18]. In platform-centric warfare,
+platforms “own” specific weapons, which in turn own
+sensors in a fairly rigid architecture. In other words, sensors
+and weapons are mounted with and controlled by separate
+platforms that operate independently. In network-centric
+warfare, sensors do not necessarily belong to weapons or
+platforms. Instead, they collaborate with each other over a
+communication network, and information is sent to the ap-
+propriate “shooters.” Sensor networks can improve detection
+CHONG AND KUMAR: SENSOR NETWORKS: EVOLUTION, OPPORTUNITIES, AND CHALLENGES
+1249
+
+----- Page 4 (native) -----
+and tracking performance through multiple observations,
+geometric and phenomenological diversity, extended detec-
+tion range, and faster response time. Also, the development
+cost is lower by exploiting commercial network technology
+and common network interfaces.
+An example of network-centric warfare is the Cooperative
+Engagement Capability (CEC) [19] developed by the U.S.
+Navy. This system consists of multiple radars collecting data
+on air targets. Measurements are associated by a processing
+node “with reporting responsibility” and shared with other
+nodes that process all measurements of interest. Since all
+nodes have access to essentially the same information, a
+“common operating picture” essential for consistent military
+operations is obtained. Other military sensor networks in-
+clude acoustic sensor arrays for antisubmarine warfare such
+as the Fixed Distributed System (FDS) and the Advanced
+Deployable System (ADS), and unattended ground sensors
+(UGS) [20] such as the Remote Battlefield Sensor System
+(REMBASS) and the Tactical Remote Sensor System
+(TRSS).
+D. Sensor Network Research in the 21st Century
+Recent advances in computing and communication have
+caused a significant shift in sensor network research and
+brought it closer to achieving the original vision. Small and
+inexpensive sensors based upon microelectromechanical
+system (MEMS) [21] technology, wireless networking, and
+inexpensive low-power processors allow the deployment of
+wireless ad hoc networks for various applications. Again,
+DARPA started a research program on sensor networks to
+leverage the latest technological advances.
+The recently concluded DARPA Sensor Information
+Technology (SensIT) program [22] pursued two key re-
+search and development thrusts. First, it developed new
+networking techniques. In the battlefield context, these
+sensor devices or nodes should be ready for rapid de-
+ployment, in an ad hoc fashion, and in highly dynamic
+environments. Today’s networking techniques, developed
+for voice and data and relying on a fixed infrastructure, will
+not suffice for battlefield use. Thus, the program developed
+new networking techniques suitable for highly dynamic
+ad hoc environments. The second thrust was networked
+information processing, i.e., how to extract useful, reliable,
+and timely information from the deployed sensor network.
+This implies leveraging the distributed computing environ-
+ment created by these sensors for signal and information
+processing in the network, and for dynamic and interactive
+querying and tasking the sensor network.
+SensIT generated new capabilities relative to today’s
+sensors. Current systems such as the Tactical Automated
+Security System (TASS) [23] for perimeter security are
+dedicated rather than programmable. They use technologies
+based on transmit-only nodes and a long-range detection
+paradigm. SensIT networks have new capabilities. The
+networks are interactive and programmable with dynamic
+tasking and querying. A multitasking feature in the system
+allows multiple simultaneous users. Finally, since detection
+ranges are much shorter in a sensor system, the software and
+algorithms can exploit the proximity of devices to threats to
+drastically improve the accuracy of detection and tracking.
+The software and the overall system design supports low
+latency, energy-efficient operation, built-in autonomy and
+survivability, and low probability of detection of operation.
+As a result, a network of SensIT nodes can support detection,
+identification, and tracking of threats, as well as targeting
+and communication, both within the network and to outside
+the network, such as an overhead asset.
+III. TECHNOLOGY TRENDS
+Current sensor networks can exploit technologies not
+available 20 years ago and perform functions that were
+not even dreamed of at that time. Sensors, processors, and
+communication devices are all getting much smaller and
+cheaper. Commercial companies such as Ember, Crossbow,
+and Sensoria are now building and deploying small sensor
+nodes and systems. These companies provide a vision of
+how our daily lives will be enhanced through a network
+of small, embedded sensor nodes. In addition to products
+from these companies, commercial off-the-shelf personal
+digital assistants (PDAs) using Palm or Pocket PC operating
+systems contain significant computing power in a small
+package. These can easily be “ruggedized” to become
+processing nodes in a sensor network. Some of these devices
+even have built-in sensing capabilities, such as cameras.
+These powerful processors can be hooked to MEMS devices
+and machines along with extensive databases and communi-
+cation platforms to bring about a new era of technologically
+sophisticated sensor nets.
+Wireless networks based upon IEEE 802.11 standards
+can now provide bandwidth approaching those of wired
+networks. At the same time, the IEEE has noticed the low
+expense and high capabilities that sensor networks offer.
+The organization has defined the IEEE 802.15 standard
+for personal area networks (PANs), with “personal net-
+works” defined to have a radius of 5 to 10 m. Networks of
+short-range sensors are the ideal technology to be employed
+in PANs. The IEEE encouragement of the development of
+technologies and algorithms for such short ranges ensures
+continued development of low-cost sensor nets [24]. Further-
+more, increases in chip capacity and processor production
+capabilities have reduced the energy per bit requirement for
+both computing and communication. Sensing, computing,
+and communications can now be performed on a single chip,
+further reducing the cost and allowing deployment in ever
+larger numbers.
+Looking into the future, we predict that advances in
+MEMS technology will produce sensors that are even more
+capable and versatile. For example, Dust Inc., Berkeley,
+CA, a company that sprung from the late 1990s Smart
+Dust research project [25] at the University of California,
+Berkeley, is building MEMS sensors that can sense and
+communicate and yet are tiny enough to fit inside a cubic
+millimeter. A Smart Dust optical mote uses MEMS to aim
+submillimeter-sized mirrors for communications. Smart
+Dust sensors can be deployed using a 3
+10 mm “wavelet”
+1250
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003
+
+----- Page 5 (native) -----
+Table 2
+Three Generations of Sensor Nodes
+Fig. 2.
+Three generations of sensor nodes.
+shaped like a maple tree seed and dropped to float to the
+ground. A wireless network of these ubiquitous, low-cost,
+disposable microsensors can provide close-in sensing
+capabilities in many novel applications (as discussed in
+Section IV).
+Table 2 compares three generations of sensor nodes; Fig. 2
+shows their sizes.
+IV. NEW APPLICATIONS
+Research on sensor networks was originally motivated by
+military applications. Examples of military sensor networks
+range from large-scale acoustic surveillance systems for
+ocean surveillance to small networks of unattended ground
+sensors for ground target detection. However, the avail-
+ability of low-cost sensors and communication networks has
+resulted in the development of many other potential applica-
+tions, from infrastructure security to industrial sensing. The
+following are a few examples.
+A. Infrastructure Security
+Sensor networks can be used for infrastructure security
+and counterterrorism applications. Critical buildings and
+facilities such as power plants and communication centers
+have to be protected from potential terrorists. Networks of
+video, acoustic, and other sensors can be deployed around
+these facilities. These sensors provide early detection of
+possible threats. Improved coverage and detection and a
+reduced false alarm rate can be achieved by fusing the data
+from multiple sensors. Even though fixed sensors connected
+by a fixed communication network protect most facilities,
+wireless ad hoc networks can provide more flexibility and
+additional coverage when needed. Sensor networks can also
+be used to detect biological, chemical, and nuclear attacks.
+Examples of such networks can be found in [26], which also
+describes other uses of sensor networks.
+B. Environment and Habitat Monitoring
+Environment and habitat monitoring [27] is a natural can-
+didate for applying sensor networks, since the variables to be
+monitored, e.g., temperature, are usually distributed over a
+large region. The recently started Center for Embedded Net-
+work Sensing (CENS) [28], Los Angeles, CA, has a focus on
+environmental and habitat monitoring. Environmental sen-
+sors are used to study vegetation response to climatic trends
+and diseases, and acoustic and imaging sensors can identify,
+track, and measure the population of birds and other species.
+On a very large scale, the System for the Vigilance of the
+Amazon (SIVAM) [29] provides environmental monitoring,
+drug trafficking monitoring, and air traffic control for the
+Amazon Basin. Sponsored by the government of Brazil, this
+large sensor network consists of different types of intercon-
+nected sensors including radar, imagery, and environmental
+sensors. The imagery sensors are space based, radars are lo-
+cated on aircraft, and environmental sensors are mostly on
+the ground. The communication network connecting the sen-
+sors operates at different speeds. For example, high-speed
+networks connect sensors on satellites and aircraft, while
+low-speed networks connect the ground-based sensors.
+C. Industrial Sensing
+Commercial industry has long been interested in sensing
+as a means of lowering cost and improving machine (and
+perhaps user) performance and maintainability. Monitoring
+machine “health” through determination of vibration or
+wear and lubrication levels, and the insertion of sensors
+into regions inaccessible by humans, are just two examples
+of industrial applications of sensors. Several years ago,
+the IEEE and the National Institute for Standards and
+Technology (NIST) launched the P1451 Smart Transducer
+CHONG AND KUMAR: SENSOR NETWORKS: EVOLUTION, OPPORTUNITIES, AND CHALLENGES
+1251
+
+----- Page 6 (native) -----
+Interface Standard [30] to enable full plug-and-play of
+sensors and networks in industrial environments. Factories
+have continued to automate production and assembly lines
+with remote sensing nets, implementing sophisticated
+on-line quality control tests enabled by the sensors. Remote,
+wireless sensors in particular can enable a factory to be in-
+strumented after the fact to ensure and maintain compliance
+with federal safety and guidelines while keeping installation
+costs low.
+Spectral sensors are one example of sensing in an in-
+dustrial environment. From simple optical devices such as
+optrodes and pH probes to true spectral devices that can
+function as miniature spectrometers, optical sensors can
+replace existing instruments and perform material property
+and composition measurements. Optical sensing is also
+facilitated by miniaturization, as low-cost charge-coupled
+device (CCD) array devices and microengineering enable
+smaller, smarter sensors. The goal of this and other industrial
+sensing is to enable multipoint or matrix sensing: inputs
+from hundreds or thousands of sensors feed into databases
+that can be queried in any number of ways to show real-time
+information on a large or small scale.
+D. Traffic Control
+Sensor networks have been used for vehicle traffic mon-
+itoring and control for quite a while. Most traffic intersec-
+tions have either overhead or buried sensors to detect vehicles
+and control traffic lights. Furthermore, video cameras are fre-
+quently used to monitor road segments with heavy traffic,
+with the video sent to human operators at central locations.
+However, these sensors and the communication network that
+connect them are costly; thus, traffic monitoring is gener-
+ally limited to a few critical points. Inexpensive wireless ad
+hoc networks will completely change the landscape of traffic
+monitoring and control. Cheap sensors with embedded net-
+working capability can be deployed at every road intersection
+to detect and count vehicle traffic and estimate its speed. The
+sensors will communicate with neighboring nodes to eventu-
+ally develop a “global traffic picture” which can be queried
+by human operators or automatic controllers to generate con-
+trol signals.
+Another more radical concept [33] has the sensors attached
+to each vehicle. As the vehicles pass each other, they ex-
+change summary information on the location of traffic jams
+and the speed and density of traffic, information that may
+be generated by ground sensors. These summaries propagate
+from vehicle to vehicle and can be used by drivers to avoid
+traffic jams and plan alternative routes.
+V. HARD PROBLEMS AND TECHNICAL CHALLENGES
+Sensors networks in general pose considerable technical
+problems in data processing, communication, and sensor
+management (some of these were identified and researched
+in the first DSN program). Because of potentially harsh, un-
+certain, and dynamic environments, along with energy and
+bandwidth constraints, wireless ad hoc networks pose addi-
+tional technical challenges in network discovery, network
+control and routing, collaborative information processing,
+querying, and tasking.
+A. Ad Hoc Network Discovery
+Knowledge of the network is essential for a sensor in the
+network to operate properly. Each node needs to know the
+identity and location of its neighbors to support processing
+and collaboration. In planned networks, the topology of the
+network is usually known a priori. For ad hoc networks, the
+network topology has to be constructed in real time, and up-
+dated periodically as sensors fail or new sensors are deployed
+[31]. In the case of a mobile network, since the topology is
+always evolving, mechanisms should be provided for the dif-
+ferent fixed and mobile sensors to discover each other. Global
+knowledge generally is not needed, since each sensor node
+interacts only with its neighbors. In addition to knowledge
+of the topology, each sensor also needs to know its own lo-
+cation [32]. When self-location by GPS is not feasible or too
+expensive, other means of self-location, such as relative po-
+sitioning algorithms, have to be provided.
+B. Network Control and Routing
+The network must deal with resources—energy, band-
+width, and the processing power—that are dynamically
+changing, and the system should operate autonomously,
+changing its configuration as required. Since there is no
+planned connectivity in ad hoc networks, connectivity must
+emerge as needed from the algorithms and software. Since
+communication links are unreliable and shadow fading
+may eliminate links, the software and system design should
+generate the required reliability. This requires research into
+issues such as network size or the number of links and
+nodes needed to provide adequate redundancy. Also, for
+networks on the ground, RF transmission degrades with
+distance much faster than in free space, which means that
+communication distance and energy must be well managed.
+Protocols must be internalized in design and not require
+operator intervention.
+Alternative approaches to traditional Internet methods
+[such as Internet Protocols (IP)], including mobile IP, are
+needed. One of the benefits of not requiring IP addresses
+at each node is that one can deploy network devices in
+very large numbers. Also, in contrast to the case of IP,
+routes are built up from geoinformation, on an as-needed
+basis, and optimized for survivability and energy. This is a
+way to form connections on demand, for data-specific or
+application-specific purposes. IP is not likely to be a viable
+candidate in this context, since it needs to maintain routing
+tables for the global topology, and because updates in a
+dynamic sensor network environment incur heavy overhead
+in terms of time, memory, and energy.
+Survivability and adaptation to the environment are
+ensured through deploying an adequate number of nodes
+to provide redundancy in paths, and algorithms to find
+1252
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003
+
+----- Page 7 (native) -----
+the right paths. Diffusion routing methods, which rely
+only upon information at neighboring nodes, are a way to
+address this [33], although such methods may not achieve
+the information-theoretic capacity of a spatially distributed
+wireless network [34]. Another important design issue is
+the investigation of how system parameters such as network
+size, and density of nodes per square mile affect the tradeoffs
+between latency, reliability, and energy.
+C. Collaborative Signal and Information Processing
+The nodes in an ad hoc sensor network collaborate to
+collect and process data to generate useful information.
+Collaborative signal and information processing over a net-
+work is a new area of research and is related to distributed
+information fusion. Important technical issues include the
+degree of information sharing between nodes and how nodes
+fuse the information from other nodes. Processing data from
+more sensors generally results in better performance but also
+requires more communication resources (and, thus, energy).
+Similarly, less information is lost when communicating
+information at a lower level (e.g., raw signals), but requires
+more bandwidth. Therefore, one needs to consider the mul-
+tiple tradeoffs between performance and resource utilization
+in collaborative signal and information processing using
+microsensors.
+When a node receives information from another node,
+this information has to be combined and fused with local
+information. Fusion approaches range from simple rules
+of picking the best result to model-based techniques that
+consider how the information is generated. Again there is a
+tradeoff between performance and robustness. Simple fusion
+rules are robust but suboptimal while more sophisticated and
+higher performance fusion rules may be sensitive to the un-
+derlying models. In a networked environment, information
+may arrive at a node after traveling over multiple paths. The
+fusion algorithm should recognize the dependency in the
+information to be fused and avoid double counting. Keeping
+track of data pedigree is an approach used in networks with
+large and powerful sensor nodes, but this approach may not
+be practical for ad hoc networks with limited processing and
+communication resources.
+Sensor networks are frequently used in the detection,
+tracking, and classification of targets [13]. Data association
+is an important problem when multiple targets are present in
+a small region. Each node must associate its measurements
+of the environment with individual targets. In addition, tar-
+gets detected by one node have to be associated with targets
+detected by other nodes to avoid duplication and enable
+fusion. Optimal data association is computationally expen-
+sive and requires significant bandwidth for communication.
+Thus distributed data association is also a tradeoff between
+performance and resource utilization, requiring distributed
+data association algorithms tailored to sensor nets.
+Other processing issues include how to meet mission
+latency and reliability requirements, and how to maxi-
+mize sensor network operational life. A dense network
+of cheap sensors may allow spatial sampling without the
+need for expensive algorithms. These algorithms must be
+asynchronous, as the processor speeds and communication
+capabilities may vary or even disappear and reappear. Sensor
+nodes must determine results with progressively increasing
+accuracy, and so the processes can be terminated when
+enough precision is gained.
+D. Tasking and Querying
+A sensor field is like a database with many unique features.
+Data is dynamically acquired from the environment, as op-
+posed to being entered by an operator. The data is distributed
+across nodes, and geographically dispersed nodes are con-
+nected by unreliable links. These features render the database
+view more challenging, particularly for military applications
+given the low-latency, real-time, and high-reliability require-
+ments of the battlefield.
+It is important that users have a simple interface to inter-
+actively task and query the sensor network. An example of
+a human-network interface is a handheld unit that accepts
+speech input. The users should be able to command access
+to information, e.g., operational priority and type of target,
+while hiding details about individual sensors. One challenge
+is to develop a language for querying and tasking, as well
+as a database that can be readily queried. [35]. Other chal-
+lenges include finding efficient distributed mechanisms for
+query and task compilation and placement, data organization,
+and caching.
+Mobile platforms can carry sensors and query devices. As
+a result, seamless internetworking between mobile and fixed
+devices in the absence of any infrastructure is a critical and
+unique requirement for sensor networks. For example, an air-
+borne querying device could initiate a query, and then tell the
+ground sensor network that it will be flying over a specific lo-
+cation after a minute, where the response to the query should
+be exfiltrated.
+E. Security
+Since the sensor network may operate in a hostile
+environment, security should be built into the design and
+not as an afterthought. Network techniques are needed to
+provide low-latency, survivable, and secure networks. Low
+probability of detection communication is needed for net-
+works because sensors are being envisioned for use behind
+enemy lines. For the same reasons, the network should be
+protected again intrusion and spoofing.
+VI. SOME RECENT RESULTS
+Research sponsored by the DARPA SensIT and other
+programs has addressed the challenges described previously.
+The following are examples of some recent research results.
+A. Localized Algorithms and Directed Diffusion [33]
+As discussed previously, even though centralized al-
+gorithms that collect data from multiple sensor nodes
+CHONG AND KUMAR: SENSOR NETWORKS: EVOLUTION, OPPORTUNITIES, AND CHALLENGES
+1253
+
+----- Page 8 (native) -----
+can potentially provide the best performance, they are
+undesirable because of high communication cost and lack
+of robustness and reliability. In localized (or distributed)
+algorithms, the sensor nodes only communicate with sensors
+within a neighborhood. Localized algorithms are attractive
+because they are robust to network changes and node
+failures. The communication cost also scales well with
+increasing network size. However, localized algorithms are
+difficult to design because of the potentially complicated
+relationship between local behavior and global behavior.
+Algorithms that are locally optimal may not perform well in
+a global sense. How to optimally distribute the computation
+of a centralized algorithm in a distributed implementation
+continues to be a research problem.
+Estrin et al. [33] developed directed diffusion routing al-
+gorithms that belong to the class of localized algorithms. Dif-
+fusion is a form of broadcast routing that does not specify a
+destination node address (such as the IP address in Internet
+protocols). Packets are forwarded to neighboring nodes, and
+a direction or gradient is overlaid to control the broadcast or
+forwarding of the packet, which eventually reaches the desti-
+nation. The gradient could be based on geographic informa-
+tion or other attributes such as power, congestion, and other
+resources available in the network nodes. For example, if a
+user application based at location
+, is interested in events
+occurring at and around location
+, then the nodes around
+would forward information packets to neighboring nodes
+that are in the direction of
+; and intermediate nodes would
+also forward to their neighbors in the direction of
+. Gradi-
+ents can also be established in terms of information producers
+and consumers via publish–subscribe mechanisms, and con-
+sumer interests in specific information types propagated over
+the network. Intermediate nodes may cache or transform the
+data locally to increase efficiency, robustness and scalability.
+Research results indicate the efficiency of directed dif-
+fusion. It requires considerably less energy than standard
+routing mechanisms such as flooding and omniscient mul-
+ticast. For instance, simulation and experimental results of
+directed diffusion in representative sensor networks [36] in-
+dicate that multicast protocols (such as omniscient multicast
+[36], which is an IP-based multicast routing technique) re-
+quires less than half the energy required for flooding, and
+diffusion requires only 60% of the energy needed for even
+multicast. These savings are achieved by eliminating paths
+spent delivering redundant data, and from in-network aggre-
+gation such as through intermediate nodes suppressing du-
+plicate location estimates.
+B. Distributed Tracking in Wireless Ad Hoc Networks [37]
+Tracking mobile targets is an important application of
+sensor networks for both military and defense systems.
+Even though target tracking has been widely studied for
+sensor networks with large nodes and distributed tracking
+algorithms are available [13], tracking in ad hoc networks
+with microsensors poses different challenges due to com-
+munication, processing and energy constraints. In particular,
+the sensors should collaborate and share data to exploit
+the benefits of sensor data fusion, but this should be done
+without sending data requests to and collecting data from
+all sensors, thus overloading the network and using up the
+energy supply.
+Zhao et al. [38] addressed the dynamic sensor col-
+laboration problem in distributed tracking to determine
+dynamically which sensor is most appropriate to perform
+the sensing, what needs to be sensed, and to whom to
+communicate the information. They developed the infor-
+mation-driven sensor querying (IDSQ) approach, enabling
+collaboration based upon resource constraints and the cost
+of transmitting information. Each sensor computes the pre-
+dicted information utility of a piece of nonlocal sensor data
+and uses this measure to determine from which sensor to
+request data. Information utility functions employed include
+entropy, Mahalanobis distance, and a measure on expected
+posterior distribution. This approach was demonstrated with
+simulations as well as experimental data collected from the
+field.
+As discussed in Section V-C, data association is needed
+in tracking multiple targets that are close to each other rela-
+tive to the sensor measurement error. Again, distributed data
+association algorithms are available for networks with large
+nodes but are computationally too expensive to implement
+on ad hoc networks. An approximate approach for cheap data
+association (called identity management) was proposed and
+demonstrated in [39].
+C. Distributed Classification in Sensor Networks Using
+Mobile Agents [40]
+In a traditional sensor network, data is collected by indi-
+vidual sensors and sent to (possibly multiple) fusion nodes
+for processing. Because the bandwidth of a wireless sensor
+network is typically lower than that of a wired network, a
+sensor network’s communications requirements may exceed
+their capacities. Mobile agents have been proposed as a so-
+lution to this dilemma [40]. In a mobile-agent-based DSN,
+data stay at each local site or sensor, while the integration or
+fusion code is moved to the data. Communication bandwidth
+requirement may be reduced if the agent is smaller in size
+than the data. If this assumption holds, then the sensor net-
+work is more scalable, since the performance of the network
+is not affected by an increase in the number of sensors. The
+network can also adapt better to the network load and agents
+can be programmed to carry specific fusion processes. Dis-
+tributed target classification has been used to demonstrate the
+effectiveness of the approach.
+VII. CONCLUSION
+When the concept of DSNs was first introduced more than
+two decades ago, it was more a vision than a technology
+ready to be exploited. The early researchers in DSN were
+severely handicapped by the state of the art in sensors,
+computers, and communication networks. Even though the
+1254
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003
+
+----- Page 9 (native) -----
+benefits of sensor networks were quickly recognized, their
+application was mostly limited to large military systems.
+Technological advances in the past decade have completely
+changed the situation. MEMS technology, more reliable
+wireless communication, and low-cost manufacturing have
+resulted in small, inexpensive, and powerful sensors with
+embedded processing and wireless networking capability.
+Such wireless sensor networks can be used in many new
+applications, ranging from environmental monitoring to in-
+dustrial sensing, as well as traditional military applications.
+In fact, the applications are only limited by our imagination.
+Networks of small, possibly microscopic sensors embedded
+in the fabric of society: in buildings and machinery, and even
+on people, performing automated continual and discrete
+monitoring, could drastically enhance our understanding of
+our physical environment.
+ACKNOWLEDGMENT
+The authors would like to thank Mr. D. Shepherd, of
+Strategic Analysis, Inc., for the immense help provided in
+the preparation of this paper. C.-Y. Chong would like to
+acknowledge the support of Dr. R. Kahn of the Corporation
+for National Research Initiatives (CNRI), whose vision
+started the DSN program, and the late Dr. B. Leiner of
+the Research Institute for Advanced Computer Science
+(RIACS), who guided the program when he was at DARPA.
+REFERENCES
+[1] “21 ideas for the 21st century,” Business Week, pp. 78–167, Aug. 30,
+1999.
+[2] “10 emerging technologies that will change the world,” Technol.
+Rev., vol. 106, no. 1, pp. 33–49, Feb. 2003.
+[3] C. E. Nishimura and D. M. Conlon, “IUSS dual use: Monitoring
+whales and earthquakes using SOSUS,” Mar. Technol. Soc. J., vol.
+27, no. 4, pp. 13–21, 1994.
+[4] Proceedings of the Distributed Sensor Nets Workshop.
+Pittsburgh,
+PA: Dept. Comput. Sci., Carnegie Mellon Univ., 1978.
+[5] R. F. Sproull and D. Cohen, “High-level protocols,” Proc. IEEE, vol.
+66, pp. 1371–1386, Nov. 1978.
+[6] P. Nii, E. Feigenbaum, J. Anton, and A. Rockmore, “Signal-to-
+symbol transformation: HASP/SIAP case study,” AI Mag., vol. 3,
+pp. 23–36, Spring 1982.
+[7] R. R. Smith, “The contract net protocol: High-level communication
+and control in a distributed problem solver,” IEEE Trans. Comput.,
+vol. 29, pp. 1104–1113, Dec. 1980.
+[8] V. Lesser and D. Corkill, “Functionally accurate, cooperative dis-
+tributed systems,” IEEE Trans. Syst., Man, Cybern., vol. 11, pp.
+81–96, Jan./Feb. 1981.
+[9] R. B. Wesson, F. A. Hayes-Roth, J. W. Burge, C. Stasz, and C. A.
+Sunshine, “Network structures for distributed situation assessment,”
+IEEE Trans. Syst., Man, Cybern., vol. SMC-11, pp. 5–23, Jan./Feb.
+1981.
+[10] R. Rashid and G. Robertson, “Accent: A communication oriented
+network operating system kernel,” in Proc. 8th Symp. Operating
+System Principles, 1981, pp. 64–75.
+[11] R. Rashid, D. Julin, D. Orr, R. Sanzi, R. Baron, A. Forin, D. Golub,
+and M. Jones, “Mach: A system software kernel,” in 34th Computer
+Society Int. Conf. (COMPCON), San Francisco, CA, 1989.
+[12] C. Myers, A. Oppenheim, R. Davis, and W. Dove, “Knowledge-
+based speech analysis and enhancement,” presented at the Int. Conf.
+Acoustics, Speech and Signal Processing, San Diego, CA, 1984.
+[13] C. Y. Chong, S. Mori, and K. C. Chang, “Distributed multitarget mul-
+tisensor tracking,” in Multitarget Multisensor Tracking: Advanced
+Applications, Y. Bar-Shalom, Ed.
+Norwood, MA: Artech House,
+1990, pp. 247–295.
+[14]
+, “Distributed tracking in distributed sensor networks,” pre-
+sented at the Amer. Control Conf., Seattle, WA, 1986.
+[15] R. T. Lacoss, “Distributed mixed sensor aircraft tracking,” presented
+at the Amer. Control Conf., Minneapolis, MN, 1987.
+[16] “Distributed sensor networks,” MIT Lincoln Laboratory, Lexington,
+MA, Rep. No. ESD-TR-88-175, 1986.
+[17] V. R. Lesser and D. D. Corkill, “The distributed vehicle monitoring
+testbed: A tool for investigating distributed problem solving net-
+works,” AI Mag., vol. 4, no. 3, pp. 15–33, Fall 1983.
+[18] D. S. Alberts, J. J. Garska, and F. P. Stein. (1999) Network Centric
+Warfare: Developing and Leveraging Information Superiority [On-
+line] Available: http://www.dodccrp.org/NCW/ncw.html
+[19] (1995) The cooperative engagement capability. [Online] Available:
+http://techdigest.jhuapl.edu/td1604/APLteam.pdf
+[20] Y. Carts-Powell. (2000, Apr.) Unattended ground sensors stop and
+analyze the roses. OE Rep. [Online] Available: http://www.spie.org/
+web/oer/april/apr00/cover2.html
+[21] J. W. Gardner, V. K Varadan, and O. O. Awadelkarim, Microsensors,
+MEMS and Smart Devices.
+New York: Wiley, 2001.
+[22] S. Kumar and D. Shepherd, “SensIT: Sensor information technology
+for the warfighter,” in Proc. 4th Int. Conf. on Information Fusion,
+2001, pp. TuC1-3–TuC1-9.
+[23] J. Corella, “Tactical automated security system (TASS): Air force
+expeditionary security,” presented at the SPIE Conf. Unattended
+Ground Sensor Technologies and Applications, Orlando, FL, 2003.
+[24] IEEE 802.15 Working Group for WPAN. [Online] Available: http://
+grouper.ieee.org/groups/802/15/
+[25] J. M. Kahn, R. H. Katz, and K. S. J. Pister, “Mobile networking for
+smart dust,” in Proc. ACM/IEEE Int. Conf. Mobile Computing and
+Networking (MobiCom), 1999, pp. 271–278.
+[26] R. Hills. (2001, July/Aug.) Sensing for danger. Sci. Technol. Rep.
+[Online] Available: http://www.llnl.gov/str/JulAug01/Hills.html
+[27] D. Steere, A. Baptista, D. McNamee, C. Pu, and J. Walpole, “Re-
+search challenges in environmental observation and forecasting sys-
+tems,” in Proc. 6th Int. Conf. Mobile Computing and Networking
+(MOBICOMM), 2000, pp. 292–299.
+[28] B. Charny. (2002, Dec.) Wireless research senses the future.
+ZDNet News [Online] Available: http://zdnet.com.com/2100-1105-
+976377.html
+[29] D.
+Jensen.
+(2002,
+June)
+SIVAM:
+Communication,
+naviga-
+tion and surveillance for the Amazon. Avionics Mag. [Online]
+Available:
+http://www.aviationtoday.com/reports/avionics/pre-
+vious/0602/0602sivam.htm
+[30] K. Lee, “Wireless sensing and IEEE 1451,” presented at the Sensor
+Conf./Expo 2001, Chicago, IL.
+[31] B. Deb, S. Bhatnagar, and B. Nath, “A topology discovery algorithm
+for sensor networks with applications to network management,”
+Dept. Comput. Sci., Rutgers Univ., Tech. Rep. DCS-TR-441, 2001.
+[32] J. Hightower and G. Borriello, “Location systems for ubiquitous
+computing,” IEEE Computer, vol. 34, pp. 57–66, Aug. 2001.
+[33] D. Estrin, R. Govindan, J. Heidemann, and S. Kumar, “Next century
+challenges: Scalable coordination in sensor networks,” in Proc. Int.
+Conf. Mobile Computing and Networking (MOBICOM), 1999, pp.
+263–270.
+[34] P. Gupta and P. R. Kumar, “The capacity of wireless networks,” IEEE
+Trans. Inform. Theory, vol. 46, pp. 388–404, Mar. 2000.
+[35] Y. Yao and J. E. Gehrke, “Query processing in sensors networks,” in
+Proc. 1st Biennial Conf. Innovative Data Systems Research (CIDR
+2003), Asilomar, CA, 2003.
+[36] C. Intanagonwiwat, R. Govindan, D. Estrin, J. Heidemann, and
+F. Silva, “Directed diffusion for wireless sensor networking,”
+IEEE/ACM Trans. Networking, vol. 11, pp. 2–16, Feb. 2002.
+[37] C. Y. Chong, F. Zhao, S. Mori, and S. Kumar, “Distributed tracking in
+wireless ad hoc sensor networks,” in Proc. 6th Int. Conf. Information
+Fusion, 2003, pp. 431–438.
+[38] F. Zhao, J. Shin, and J. Reich, “Information-driven dynamic sensor
+collaboration for tracking applications,” IEEE Signal Processing
+Mag., vol. 19, pp. 61–72, Mar. 2002.
+[39] J. Shin, L. J. Guibas, and F. Zhao, “A distributed algorithm for man-
+aging multi-target identities in wireless ad-hoc sensor networks,”
+presented at the 2nd Int. Workshop Information Processing in Sensor
+Networks (IPSN’03), Palo Alto, CA, 2003.
+CHONG AND KUMAR: SENSOR NETWORKS: EVOLUTION, OPPORTUNITIES, AND CHALLENGES
+1255
+
+----- Page 10 (native) -----
+[40] H. Qi, S. S. Iyengar, and K. Chakrabarty, “Multi-resolution data in-
+tegration using mobile agents in distributed sensor networks,” IEEE
+Trans. Syst., Man, Cybern. C, vol. 31, pp. 383–391, Aug. 2001.
+Chee-Yee Chong (Member, IEEE) received
+the S.B., S.M., and Ph.D. degrees in electrical
+engineering from the Massachusetts Institute
+of Technology, Cambridge, in 1969, 1970, and
+1973, respectively.
+From 1973 to 1980, he was on the faculty of the
+School of Electrical Engineering, Georgia Insti-
+tute of Technology, Atlanta. From 1980 to 1991,
+he was with Advanced Decision Systems (ADS),
+Mountain View, CA. From 1991 to 2003, he was
+with Booz Allen Hamilton, San Francisco, CA.
+He is currently Chief Scientist at Alphatech, Inc., San Diego, CA. He par-
+ticipated in the Distributed Sensor Networks (DSN) program for the Defense
+Advanced Research Projects Agency (DARPA) in the 1980s and developed
+one of the first algorithms for distributed multiple-hypothesis tracking. He
+is the author or coauthor of over 100 research technical reports, confer-
+ence papers, journal papers, and book chapters. His research interests in-
+clude centralized and distributed tracking and fusion, resource planning and
+scheduling, reasoning with uncertainty, distributed decision making, and in-
+tegration of system theory with artificial intelligence.
+Dr. Chong is on the board of directors of the International Society of In-
+formation Fusion (ISIF) and was one of its founders. He has been on the
+organizing or program committees of the International Conferences of In-
+formation Fusion, starting with the first one in 1998, and served on the Pro-
+gram Committee for the American Automatic Control Conference. He is
+also on the board of editors of the International Journal of Infusion Fusion.
+He was an Associate Editor for the IEEE TRANSACTIONS ON AUTOMATIC
+CONTROL.
+Srikanta P. Kumar (Senior Member, IEEE)
+received the B.S. degree (Honors) in physics
+in 1971 from Bangalore University, Bangalore,
+India, the B.E. and M.E. degrees from the Indian
+Institute of Science, Bangalore, India, in 1974
+and 1976, respectively, and the Ph.D. degree
+in engineering and applied science from Yale
+University, New Haven, CT, in 1981.
+From 1981 to 1982, he served on the faculty
+of the State University of New York, Buffalo.
+From 1982 to 1985, he served on the faculty
+of the Electrical, Computer, and Systems Engineering Department of the
+Rensselaer Polytechnic Institute, Troy, NY. From 1985 to 1998, he was a
+tenured Faculty Member in electrical and computer science and engineering
+at Northwestern University, Evanston, IL. While at Northwestern, he was
+the Cofounder and Founding Director of the Executive Masters Program
+on Information Technology, an interdisciplinary program involving the
+McCormick School of Engineering, the Kellogg Business School, and
+the Communications Department. He has also held Visiting Professor
+positions at Johns Hopkins University, Baltimore, MD, and University
+of Maryland campuses at College Park and Baltimore County. He is
+currently Program Manager at the Defense Advanced Research Projects
+Agency (DARPA), Arlington, VA, and Senior Technical Advisor in the
+Information Technology Laboratory of the National Institute of Standards
+and Technology (NIST), Gaithersburg, MD. At DARPA, he formulated the
+technical framework for research and technology development for several
+programs; these include the Sensor Information Technology (SensIT)
+program, the Network Modeling and Simulation (NMS) program, and
+the Bio-Computation program. He has been also responsible for the
+management and execution of these programs. He has published over 80
+technical papers.
+1256
+PROCEEDINGS OF THE IEEE, VOL. 91, NO. 8, AUGUST 2003

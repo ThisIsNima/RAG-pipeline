@@ -1,0 +1,4359 @@
+
+
+----- Page 1 (native) -----
+JNER
+JOURNAL OF NEUROENGINEERING
+AND REHABILITATION
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+http://www.jneuroengrehab.com/content/11/1/3
+REVIEW
+Open Access
+A survey on robotic devices for upper limb
+rehabilitation
+Paweł Maciejasz1,2,3, Jörg Eschweiler4*, Kurt Gerlach-Hahn5, Arne Jansen-Troy4 and Steffen Leonhardt5
+Abstract
+The existing shortage of therapists and caregivers assisting physically disabled individuals at home is expected to
+increase and become serious problem in the near future. The patient population needing physical rehabilitation of
+the upper extremity is also constantly increasing. Robotic devices have the potential to address this problem as noted
+by the results of recent research studies. However, the availability of these devices in clinical settings is limited, leaving
+plenty of room for improvement. The purpose of this paper is to document a review of robotic devices for upper limb
+rehabilitation including those in developing phase in order to provide a comprehensive reference about existing
+solutions and facilitate the development of new and improved devices. In particular the following issues are discussed:
+application field, target group, type of assistance, mechanical design, control strategy and clinical evaluation. This
+paper also includes a comprehensive, tabulated comparison of technical solutions implemented in various systems.
+Introduction
+An individual’s capacity to move is necessary to perform
+basic activities of daily living (ADL). Movement disorders
+significantly reduce a patient’s quality of life. Disorders
+of the upper extremities specifically limit the indepen-
+dence of affected subjects. Fortunately, there are vari-
+ous approaches to restore the functionality of the upper
+extremity, e.g., orthoses, functional electrical stimulation,
+and physical therapy. Positive outcome of physical reha-
+bilitation, in the case of neurologically based disorders,
+depends heavily on: onset, duration, intensity and task-
+orientation of the training [1,2], as well as the patient’s
+health condition, attention and effort [3]. Intense repe-
+titions of coordinated motor activities constitute a sig-
+nificant burden for the therapists assisting patients. In
+addition and due to economical reasons, the duration of
+primary rehabilitation is getting shorter and shorter [4].
+These problems will probably exacerbate in the future
+as life expectancy continues to increase accompanied by
+the prevalence of both moderate and severe motor dis-
+abilities in the elderly population [5] and consequently
+increasing their need of physical assistance. To counteract
+*Correspondence: eschweiler@hia.rwth-aachen.de
+4Chair of Medical Engineering (mediTEC), Helmholtz-Institute for Biomedical
+Engineering, RWTH Aachen University, Pauwelsstraße 20, 52074 Aachen,
+Germany
+Full list of author information is available at the end of the article
+these problems, prevailing research studies present a wide
+variety of devices specifically assisting physical rehabilita-
+tion. Robotic devices with the ability to perform repetitive
+tasks on patients are among these technically advanced
+devices. In fact, robotic devices are already used in clinical
+practice as well as clinical evaluation. However, consider-
+ing the number of devices described in the literature, so
+far only a few of them have succeeded to target the subject
+group — for more details see Table 1. Furthermore, it
+seems that the outcome of the use of devices already in
+clinical practice is not as positive as expected [3]. New
+solutions are being considered. Most of the literature
+reviews on robotic devices for upper extremity rehabilita-
+tion (e.g. [6,7]) concentrate on devices that have already
+undergone clinical evaluation. Gopura and Kiguchi [8]
+compared the mechanical design of selected robotic
+devices for upper extremity rehabilitation. However, no
+other publication presents a summary of different robotic
+solutions for upper extremity rehabilitation, including
+those being in the development phase. An assessment
+of different technical solutions would provide develop-
+ers of robotic devices for upper limb rehabilitation an
+evaluation of solutions that have already been consid-
+ered, and thus learn from successes as well as shortfalls
+from other research teams. Hence, a comparison of var-
+ious robotic devices would facilitate the development of
+© 2014 Maciejasz et al.; licensee BioMed Central Ltd. This is an Open Access article distributed under the terms of the Creative
+Commons Attribution License (http://creativecommons.org/licenses/by/2.0), which permits unrestricted use, distribution, and
+reproduction in any medium, provided the original work is properly cited.
+
+----- Page 2 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 2 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation
+System
+name,references
+DOF
+Supported
+movements
+Main
+control inputs
+Actuators
+Type; field of
+application
+Stage of development;
+additional information
+Systems assisting shoulder movements
+Kiguchi [114]
+2
+Shoulder – FE, AA
+sEMG
+DC motors (x2)
+Stationary system
+(exoskeleton-based);
+power assistance
+C0 study: 1 hs
+Systems assisting elbow movements
+Cheng [9]
+1
+Elbow – FE
+sEMG
+DC motor
+Stationary system;
+physical therapy
+CI study: 5 stroke + 5 hs
+Cozens [10]
+1
+Elbow – FE
+Joint angle
+Electric servo-
+motor
+Stationary system;
+physical therapy
+CI study: 10 stroke + MS
+Kiguchi [170]
+1
+Elbow – FE
+sEMG
+DC motor
+Stationary system
+(exoskeleton-based);
+physical therapy
+C0 study: 2 hs
+MARIONET, Sulzer
+[142]
+1
+Elbow – FE
+Joint angle
+AC servomotor
+(SEA)
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 6 hs
+Mavroidis [11]
+1
+Elbow – FE
+Force/torque
+DC motor
+Portable orthosis
+(continuous passive
+motion device);
+physical therapy
+Prototype
+MEM-MRB, Oda [104]
+[1]
+[Elbow – flexion]
+Joint angular
+velocity, torque
+MRF brake
+Stationary system;
+physical therapy
+C0 study: 1 hs
+Myomo e100, Myomo,
+Inc.; Stein [172]
+1
+Elbow – FE
+sEMG
+DC motor (x1)
+Portable orthosis;
+physical therapy
+Commercial system (FDA
+clearance); CI study: 8 cS
+Ögce [171]
+1
+Elbow – FE
+sEMG
+DC step motor
+Wearable shoulder-
+elbow orthosis;
+physical therapy
+CI study: 2 traumatic
+brachial plexus injury
+Pylatiuk [153]
+1
+Elbow – FE
+sEMG
+Hydraulic
+Wearable orthosis;
+physical therapy
+First prototype
+Rosen [169]
+1
+Elbow – FE
+sEMG
+DC motor (x1)
+Stationary system
+(exoskeleton-based);
+power assistance
+C0 study: 1 hs; predecessor
+of CADEN-7
+Song [12]
+1
+Elbow – FE
+sEMG
+AC servo motor
+Stationary system
+(end-effector-based);
+physical therapy
+CI studies: 8 cS [12], 7 cS
+[13], 3 cS [14]
+Vanderniepen [143]
+1
+Elbow – FE
+Joint angle
+Electric motors (x2)
+(SEA)
+Wearable orthosis;
+orthopedic physical
+therapy
+Prototype
+Systems assisting forearm movements
+Kung [15]
+1
+Forearm – PS
+Joint angle,
+torque
+AC
+servomotor
+(1)
+Stationary system;
+physical therapy
+CI study: 7 cS + 8 hs [16]
+Systems assisting wrist movements
+ASSIST, Sasaki [146]
+1
+Wrist – flexion
+Joint angle
+Rotary-type
+pneumatic
+actuators (x2)
+Wearable orthosis;
+power assistance
+C0 study: 5 hs
+Colombo [17]
+1
+Wrist – FE
+Torque
+Not specified
+Stationary system;
+physical therapy
+CII study: 20(8) cS
+Hu [18]
+1
+Wrist – FE
+sEMG
+Electric motor
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 15 cS
+Loureiro [100]
+[1]
+[Wrist – FE]
+Hand motion
+(tremor)
+MRF brake
+Wearable orthosis;
+tremor suppression
+CI study: 1 ET
+PolyJbot, Song [175]
+1
+Wrist – FE
+sEMG, joint
+angle and
+torque
+DC servomotor (x1)
+Stationary system;
+physical therapy
+CII study: 27(15) cS [19]
+Systems assisting finger(s) movements
+Amadeo, tyromotion
+GmbH
+5
+Fingers (each) –
+FE
+End-point
+position
+and force
+Electric motors
+Stationary system
+(end-effector-based);
+physical therapy
+Commercial system; CI
+study: 7 aS [20]
+
+----- Page 3 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 3 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+Chen [21]
+5
+Independent
+linear movement
+of each finger
+Fingers
+positions and
+forces, sEMG
+DC linear motors
+(x5)
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 1 hs
+CyberGrasp,
+CyberGlove Systems
+LLC; Turner [22]
+[5]
+[Resistive force to
+each finger]
+Joint angles
+(CyberGlove)
+DC motors (x5)
+Force-feedback
+glove; interactions
+with virtual
+environment
+Commercial system for
+other applications, used in
+some clinical studies e.g.
+[191,192]
+Ertas [23]
+1
+Concurrent FE of
+3 joints of a single
+finger
+Joint angles
+DC motor (x1)
+Finger exoskeleton
+(underactuated
+mechanism); tendon
+physical therapy
+C0 study: 4 hs
+Fuxiang [24]
+4
+Index finger– FE
+(x3), AA
+Joint positions
+and toques
+Linear stepping
+motors
+Modular-finger
+exoskeleton
+(continuous passive
+motion device);
+physical therapy
+C0 study: 3 hs
+Gloreha, Idrogenet srl
+5
+Independent
+passive movement
+of each finger
+Fingers
+positions
+Electric motors (x5)
+Portable (Gloreha
+Lite)/Movable
+(Gloreha
+Professional) (end-
+effector-based,
+cable-driven);
+physical therapy
+Commercial system (CE
+mark); CII study: 10(5) sS
+[25], CI studies: 9 stroke +
+3 other diseases [26], 4 cS
+[27]
+Hand of Hope,
+Rehab-Robotics
+Comp. Ltd., Ho [28]
+5
+Each finger
+separately - FE
+sEMG
+DC linear motors
+(x5)
+Portable system
+(orthosis);
+physical therapy
+Commercial system (CE
+Mark), CI study: 8 cS
+HandCARE, Dovat
+[113]
+5
+Independent
+linear movement
+of each finger (1
+at a time)
+Fingers
+positions and
+forces
+DC motor (x1!)
+Stationary system
+(end-effector-
+based, cable-driven);
+physical therapy
+CI study: 5 cS + 8 hs
+HEXORR, Schabowsky
+[29]
+2
+Thumb – FE,
+other fingers
+together – FE
+Fingers
+positions and
+forces
+DC motor (x1), AC
+motor (x1)
+Stationary system
+(end-effector-
+based, cable-driven);
+physical therapy
+CI study: 5 cS + 9 hs
+HIFE, Mali [183]
+2
+1 finger – FE
+End-point
+position
+DC motors
+Haptic interface
+(end-effector-based);
+physical therapy
+Prototype
+InMotion HAND,
+previous name
+InMotion 5.0,
+Interactive Motion
+Tech., Inc.; Masia [165]
+1
+All fingers
+together – GR
+Not specified
+DC brushless motor
+Add-on module for
+InMotion ARM;
+physical therapy
+Commercial system
+Kline [30]
+1
+All fingers
+together –
+extension
+Joint angles,
+sEMG
+Pneumatic
+Wearable glove;
+physical therapy
+CI study: 1 stroke + hs (np)
+Lucas [147]
+1
+Index finger –
+flexion (passive
+extension)
+sEMG
+Pneumatic (x2)
+Wearable orthosis;
+grasp assistance
+CI study: 1 SCI
+MR_CHIROD v.2,
+Khanicheh [158]
+[1]
+[All fingers
+together – GR]
+Finger position
+and torque
+ERF brake
+Exercising device
+(handle-like); physical
+therapy
+C0 study: hs (np);
+fMRI compatible
+MRAGES, Winter [157]
+[5]
+[Fingers(each)--FE]
+Finger positions
+and torques
+MRF brakes (5)
+Force-feedback
+glove; physical
+therapy
+Prototype
+Mulas [31]
+2
+Thumb – FE,
+other fingers
+together – FE
+sEMG, pulleys
+position
+DC servo motors
+(x2)
+Wearable orthosis;
+physical therapy
+CI study: 1 sS
+Nathan [167]
+1
+All fingers
+together – grasp
+(passive release)
+Hand-held
+trigger,indexand
+thumb fingers
+joint angles
+FES
+Wearable orthosis
+(glove); physical
+therapy
+CI study: 2 stroke + 1 hs
+PowerGrip, Broaden
+Horizons, Inc.
+1
+Thumb, index
+and middle finger
+together – GR
+Switches
+or sEMG
+DC motor (1)
+Wearable orthosis;
+grasp assistance
+Commercial system
+
+----- Page 4 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 4 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+Reha-Digit,
+Reha-Stim;
+Hesse [32]
+1
+4 fingers (except
+the thumb)
+together – FE
+None
+DC motor
+Portable system
+(rotating handle);
+physical therapy
+Commercial
+system
+(CE
+mark); CII study: 8(4) sS,
+CI study: 1 cS
+Rosati [144]
+1
+4 fingers (except
+the thumb)
+together – FE
+Not
+selected yet
+DC motor (SEA)
+Wearable orthosis;
+physical therapy
+Design
+Rotella [33]
+4
+Index finger
+flexion (x2)
+(passive
+extension),
+thumb –
+flexion, other
+fingers together –
+flexion
+Not specified
+Electric motors
+Wearable orthosis;
+grasp assistance
+Design
+Rutgers Master II-ND,
+Bouzit [184]
+4
+Thumb, index,
+middle, and ring
+finger – FE
+Actuator
+translation and
+inclination
+Pneumatic (x4)
+Force-feedback
+glove; interactions
+with virtual
+environment
+Research device;
+often used for
+hand therapy
+(e.g. [185-187])
+Salford Hand
+Exoskeleton,
+Sarakoglou [34]
+7
+Index, middle, and
+ring finger – FE
+(x2), thumb – FE
+Joint
+angles
+and
+end-point
+force
+DC motors
+Wearable orthosis
+(exoskeleton);
+physical therapy
+C0 study: hs (np)
+Tong [35]
+10
+Each finger – FE
+(x2)
+sEMG
+Electric linear
+motors (x10)
+Portable system
+(wearable orthosis);
+physical therapy
+CI study: 2 cS
+TU Berlin Finger
+Exoskeleton, Wege [36]
+4
+1 finger – FE (x3),
+AA
+Joint angles
+DC motors (x4)
+Finger exoskeleton;
+physical therapy
+C0 study: 1 hs
+TU Berlin Hand
+Exoskeleton, Fleischer
+[117]
+20
+FE and AA of all
+major joints of
+each finger
+Joint angles,
+end-point force,
+sEMG
+DC motors
+Wearable orthosis
+(exoskeleton);
+physical therapy
+Prototype
+Worsnopp [37]
+3
+Index finger –
+FE (x3)
+Joint angles
+and torques
+DC brushless ser-
+vomotors (x6)
+Finger exoskeleton;
+physical therapy
+Prototype
+Xing [38]
+2
+Thumb – FE,
+other fingers
+together – FE
+Position, force
+Pneumatic
+(PAMs) (x2)
+Wearable orthosis;
+physical therapy
+C0 study: 3 hs
+Systems assisting shoulder and elbow movements
+ACRE, Schoone [108]
+5
+Shoulder * elbow
+Joint angles
+Electrical motors
+(x5)
+Stationary system
+(end-effector-based);
+physical
+therapy
+CI: 10 sS
+ACT3D, Ellis [39]
+3
+Shoulder * elbow
+End-point
+torque,
+position and
+velocity
+(HapticMaster)
+DC brushed
+motors
+(HapticMaster)
+Stationary system
+(end-effector-based);
+physical therapy
+and assessment of
+therapy results
+CI study: 6 stroke
+ARC-MIME, Lum [137]
+1+[2]
+Shoulder * elbow
+(longitudinal
+movements of
+the forearm)
+[forearm’s eleva-
+tion and yaw]
+Forearm
+position and
+torque
+DC motor (x1),
+magnetic particle
+brakes (x2)
+Stationary system
+(end-effector-based);
+physical
+therapy
+An attempt to
+commercialize; CI study: 4
+cS; merges concepts from
+MIME and ARM Guide
+ARM Guide,
+Reinkensmeyer [136]
+1+[2]
+Shoulder * elbow
+(longitudinal
+movements of
+the forearm)
+[forearm’s eleva-
+tion and yaw]
+Forearm
+position and
+torque
+DC motor (x1),
+magnetic particle
+brakes (x2)
+Stationary system
+(end-effector-based);
+physical
+therapy
+CII study: 19(10) cS [40]; see
+also: ARC-MIME
+BFIAMT, Chang [41]
+2
+Shoulder * elbow
+(bilateral longitu-
+dinal movements
+of the forearms)
+End point posi-
+tion and torque
+DC servomotor
+(x2), magnetic
+particle brakes
+(x2)
+Stationary system
+(end-effector-based);
+physical
+therapy
+CI study: 20 cS
+[41]
+BONES, Klein [118]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+Joint angles,
+cylinder
+pressure
+Pneumatic (x5)
+Stationary system
+(parallel robot +
+exoskeleton-based
+distal part); physical
+therapy
+Prototype; see also:
+Supinator extender (SUE)
+
+----- Page 5 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 5 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+Dampace, Stienen
+[154]
+[4]
+[Shoulder – FE,
+AA, RT, elbow –
+FE]
+Joint angles
+and torques
+Hydraulic brake
+actuators (SEA)
+Stationary system
+(exoskeleton-based);
+physical therapy
+CI study: stroke (np);
+see also Limpact
+Freeman [163]
+2
+Shoulder * elbow
+(in the plane)
+Handle torque
+and position
+DC brusheless
+servomotors (x2),
+FES
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 18 hs
+InMotion ARM,
+previous name
+InMotion 2.0,
+Interactive Motion
+Tech., Inc.; based on:
+MIT Manus, Krebs
+[107]
+2+[1]
+Shoulder *
+elbow (in the
+plane + gravity
+compensation)
+Joint positions,
+angular velocity
+and torque
+DC brushless
+motors
+Stationary system
+(end-effector-based);
+physical therapy
+Commercial system,
+CIII/CIV studies: 127(49) cS
+[203], CII studies: 56(30) aS
+[42], 30(10) aS [43] and
+others
+Ju [44]
+2
+Shoulder * elbow
+(in the plane)
+Handle torque
+and position
+AC motors (x2)
+Stationary system
+(end-effector-based;
+physical therapy
+CI study: stroke (np)
+Kiguchi [45]
+3
+Shoulder – FE, AA,
+elbow – FE
+sEMG
+DC motors
+Wheelchair mounted
+system (exoskeleton-
+based); power
+assistance
+C0 study: hs (np); see
+also: shoulder, elbow and
+shoulder-elbow-forearm
+orthoses developed by
+Kiguchi and SUEFUL-7
+Kobayashi [149]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+Joint angle
+Pneumatic (PAMs)
+(x10)
+Wearable (but not
+portable) orthosis
+(”muscle suit“); power
+assistance
+C0 study: 5 hs
+Limpact, Stienen [155]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+Joint angles
+and torques
+Rotational
+hydroelastic
+actuator (SEA)
+Stationary system
+(exoskeleton-based);
+physical therapy
+Design; based on
+Dampace
+MariBot, Rosati [46]
+5
+Shoulder * elbow
+Motor positions
+DC frameless
+brushless motors
+Stationary system
+(end-effector-based,
+cable-driven robot);
+physical therapy
+Prototype; successor of
+NeReBot
+MEMOS, Micera [132]
+2
+Shoulder * elbow
+(in the plane)
+Torque and
+handle position
+DC motors (x2)
+Stationary system
+(end-effector-based);
+physical therapy
+CII study: 20(12) cS [17],
+CI study: 18 cS [47]
+MIME, Burgar [120]
+6
+Shoulder * elbow
+Forearm
+position,
+orientation,
+torque
+DC brushed
+servomotors
+(PUMA 560 robot)
+Stationary system
+(end-effector-based);
+physical therapy
+CII studies: 27(13) cS
+[48] and 30(24) sS [49],
+CI study: 13 cS [50];
+see also ARC-MIME
+Moubarak [51]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+Joint position,
+velocity and
+torques
+DC brushless
+motors (x4)
+Wheelchair-
+mounted system
+(exoskeleton-based);
+physical therapy
+Prototype
+NeReBot, Rosati [111]
+3
+Shoulder * elbow
+Motor positions
+DC motors (x3)
+Stationary system
+(end-effector-based,
+cable-driven robot);
+physical therapy
+CII studies: 24(12) sS
+[111], 35 (17) aS [52], 21(11)
+sS [53]; predecessor of
+MariBot
+REHAROB, Toth [125]
+12
+Shoulder * elbow
+End-point
+torques
+Electrical motors
+(ABB IRB 140 and IRB
+1400H robots)
+Stationary system
+(2
+modified
+indus-
+trial robots); physical
+therapy
+CII study: 22 (13) stroke +
+8(2) TBI [54], CI study:
+6 cS + 2 sS + 4 hs [125]
+Systems assisting forearm and wrist movements
+Bi-Manu-Track,
+Reha-Stim; Hesse [55]
+1
+Forearm – PS
+* wrist – FE
+Not specified
+Not specified
+Stationary system
+(end-effector-based);
+physical therapy
+Commercial system, CII
+study: 44 (22) sA [56], CI
+study: 12 cS [55]
+CRAMER, Spencer
+[109]
+3
+Forearm – PS,
+wrist – FE, AA
+Hand accelera-
+tions (Nintendo
+Wii console)
+Digital servomotors
+(x4)
+Stationary system
+(parallel robot);
+physical therapy
+Prototype
+InMotion WRIST,
+previous name
+InMotion 3.0,
+Interactive Motion
+Tech., Inc.; Krebs [138]
+3
+Forearm – PS,
+wrist – FE * AA
+Joint angles
+DC brushless
+motors (x3)
+Stationary system,
+may be used as an
+add-on for InMotion
+ARM; physical
+therapy
+Commercial system
+
+----- Page 6 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 6 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+RiceWrist, Gupta [119]
+4
+Forearm – PS,
+wrist – FE * AA
+Joint angles
+and forces
+Frameless DC
+brushless motors
+Wearable orthosis;
+physical therapy
+Prototype; extension for
+MIME, see also: MAHI
+Supinator extender
+(SUE), Allington [57]
+2
+Forearm – PS,
+wrist – FE
+Joint angles
+and forces
+Pneumatic
+Wearable orthosis;
+physical therapy
+CI study: 8 cS; extension for
+BONES and ArmeoSpring
+Takaiwa [110]
+3
+Forearm – PS,
+wrist – FE, AA
+Torque
+Pneumatic (x6)
+Stationary system
+(parallel robot);
+physical therapy
+Prototype
+W-EXOS, Gopura [174]
+3
+Forearm – PS,
+wrist – FE, AA
+sEMG, hand
+force, forearm
+torque
+DC motors (x3)
+Stationary system
+(exoskeleton-based);
+power assistance
+C0 study: 2hs; see also:
+SUEFUL-7
+Systems assisting wrist and fingers movements
+AMES, Cordo [58]
+1
+wrist and MCP
+joints of 4 fingers
+(coupled
+together)
+Flexion/Extension
+torque, sEMG
+(optional)
+Electric motor +
+2 vibrators (for
+flexor and extensor
+tendons)
+Stationary system
+(with desktop
+mounted orthosis),
+physical therapy (at
+home)
+FDA clearance; CI study:
+20(11) cS; a modified
+version of the system
+is used for ankle
+rehabilitation
+Hand Mentor™,
+Kinematic Muscles,
+Inc.; Koeneman [59]
+1
+Wrist and 4 fin-
+gers (except the
+thumb) extension
+Wrist angle,
+flexion torque
+Pneumatic (PAM)
+(x1)
+Wearable orthosis;
+physical therapy
+Commercial system (FDA
+Class I Device); CII study:
+21(11) sS [60], CI studies:
+1 cS [61], 1 cS [62]
+HWARD, Takahashi
+[130]
+3
+Wrist – FE,
+thumb – FE,
+other fingers
+together – FE
+Joint angles
+and torques
+Pneumatic (x3)
+Stationary system
+(with desktop
+mounted orthosis);
+physical therapy
+CII study: 13(13) cS
+My Scrivener, Obslap
+Reseach, LLC; Palsbo
+[190]
+3
+Wrist * fingers
+End-point
+position and
+torque (Novint
+Falcon)
+Electric motors
+(Novint Falcon)
+Stationary system
+(end-effector-based,
+using haptic device);
+fine motor hand
+therapy
+CI study: 18 children with
+weak handwriting skills
+Systems assisting shoulder, elbow and forearm movements
+ADLER, Johnson [63]
+3+{3}
+Shoulder * elbow
+* forearm
+End-point
+torque, position
+and velocity
+(HapticMaster)
+DC brushed motors
+(HapticMaster)
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 8 hs [64]
+ARAMIS, Pignolo [65]
+6x2
+Shoulder – FE, AA,
+RT, elbow – FE,
+forearm – PS
+Joint angles
+and torques
+DC brushed
+motors (x6 per
+exoskeleton)
+Stationary system
+(2 exoskeletons);
+physical therapy
+CI study: 14 sS
+Gentle/S,
+Amirabdollahian [121]
+3+{3}
+Shoulder * elbow
+* forearm
+End-point
+torque, position
+and velocity
+(HapticMaster)
+DC brushed motors
+(HapticMaster)
+Stationary system
+(end-effector-based);
+physical therapy
+CII study: 31(31) sS + cS
+[66]; predecessor of
+Gentle/G
+iPAM, Culmer [67]
+6
+Shoulder * elbow
+* forearm
+Joint torques
+Pneumatic
+Stationary system
+(2 robotic arms);
+physical therapy
+CI study: 16 cS
+Kiguchi [68]
+4
+Shoulder – FE, AA,
+elbow – FE,
+forearm – AA
+sEMG
+DC motors
+Wheelchair mounted
+system (exoskeleton-
+based); power assis-
+tance
+C0 study: 1 hs; see also:
+shoulder, elbow and
+shoulder-elbow orthoses
+developed by Kiguchi and
+SUEFUL-7
+L-Exos, Frisoli [197]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+{forearm – PS}
+Joint angles
+Electric motors (x4)
+Stationary system
+(exoskeleton-based);
+physical therapy
+CI study: 9 cS [69]
+MGA, Carignan [70]
+5
+Shoulder – FE, AA,
+RT, VD, elbow –
+FE, {forearm – PS}
+Joint torques
+DC brushless
+motors (x5)
+Stationary system
+(exoskeleton-based);
+physical therapy
+Prototype
+MULOS, Johnson [168]
+5
+Shoulder – FE, AA,
+RT, elbow – FE,
+forearm – PS
+Joystick (4 DOF)
+Electric motors (x5)
+Wheelchair-
+mounted system
+(exoskeleton-based);
+power assistance
+and physical therapy
+C0 study: 1 hs
+
+----- Page 7 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 7 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+NJIT-RAVR, Fluet [71]
+3+{3}
+Shoulder *
+elbow * forearm
+End-point
+torque, position
+and velocity
+(HapticMaster)
+DC brushed motors
+(HapticMaster)
+Stationary system
+(end-effector-based);
+physical therapy
+of children
+CI study: 8 CP
+RehabExos, Vertechy
+[131]
+4
+Shoulder – FE, AA,
+RT, elbow – FE
+{forearm – PS}
+Joint torques
+Custom-made
+frameless brushless
+motor (x3), DC
+motor (x1)
+Stationary system
+(exoskeleton-based);
+physical therapy
+First prototype
+Systems assisting shoulder, elbow and fingers movements
+Pneu-WREX,
+Wolbrecht [145]
+4+{1}
+Shoulder – FE, AA,
+HD, elbow – FE,
+{fingers – GR}
+Joint angles,
+grasp force,
+cylinder
+pressure
+Pneumatic (x4)
+Stationary
+system
+(exoskeleton-based);
+physical therapy
+CI study: 11 cS [72];
+see also: T-WREX and
+ArmeoSpring
+T-WREX, Sanchez [106]
+{5}
+{Shoulder – FE,
+AA, RT, elbow –
+FE, fingers – GR}
+Joint angles,
+grasp force
+None
+Wheelchair mounted
+gravity balancing
+orthosis; physical
+therapy
+CII studies: 23(11) cS [73],
+28(14) cS [74], CI studies:
+9cS + 5cS (2 studies) [75];
+see also: Pneu-WREX and
+ArmeoSpring
+Systems assisting elbow, forearm and wrist movements
+Ding [179]
+4
+Elbow – FE,
+forearm – PS,
+wrist – FE, AA
+Joint angles
+(a Motion
+Capture System
+is used)
+Pneumatic (x8)
+Wearable (but not
+portable) orthosis;
+power assistance for
+explicitly specified
+muscles
+C0 study: 6 hs
+MAHI, Gupta [76]
+5
+Elbow – FE,
+forearm – PS,
+wrist – FE * AA
+Joint angles
+Frameless DC
+brushless motors
+Wearable orthosis
+(force-feedback
+exoskeleton);
+physical therapy
+Prototype; extension for
+MIME; see also: RiceWrist
+WOTAS, Rocon [99]
+[3]
+[Elbow – FE,
+forearm – PS,
+wrist – FE]
+Angular
+velocity,
+torques
+DC motors (x3)
+Wearable orthosis;
+tremor suppression
+CI study: 10 mainly ET
+Systems assisting forearm, wrist and fingers movements
+Haptic Knob,
+Lambercy [77]
+2
+Forearm –
+PS * wrist – FE,
+fingers – GR
+Position, torque
+DC brushed motors
+(x2)
+Stationary system
+(2 parallelograms);
+physical therapy
+CI study: 3 cS
+Hasegawa [98]
+11
+Forearm – PS,
+wrist – FE, AA,
+thumb – FE (x2),
+index finger –
+FE (x3), other
+fingers together –
+FE (x3)
+sEMG
+DC motors (x11)
+Wearable orthosis;
+grasp assistance
+C0 study: 1 hs
+Kawasaki [178]
+18
+Forearm – PS,
+wrist -- FE, thumb –
+FE (x3), AA,
+otherfingers –
+FE (x2), AA
+Joint angles of
+healthy hand
+Servo motors (x22)
+Stationary system
+(exoskeleton-based);
+physical therapy
+C0 study: 1 hs
+Scherer [156]
+[1]
+[Forearm and
+fingers twisting
+movements *
+wrist – FE]
+Position, torque
+Magnetic particle
+brake
+Stationary system
+(end-effector-based,
+rotating handle);
+physical therapy
+CI study: 2 stroke +
+1 MS
+Systems assisting shoulder, elbow, forearm and wrist movements
+Braccio di Ferro,
+Casadio [134]
+2
+Shoulder *
+elbow * (forearm) *
+wrist (in the
+horizonatal or
+vertical plane)
+Device joint
+angles, end-
+point force
+AC brushless
+servomotors (x2)
+Stationary system
+(end-effector-based);
+physical therapy
+CI studies: 10 cS + 4 hs [78],
+7 MS + 9 hs [79], 11 MS +
+11 hs [80], 8 MS [81]
+CADEN-7, Perry [97]
+2x7
+Shoulder – FE,
+AA, RT, elbow –
+FE, forearm – PS,
+wrist – FE, AA
+sEMG, joint
+angles, angular
+velocities and
+forces/torques
+DC brushed motors
+(2x7)
+Stationary system
+(exoskeleton-based),
+2 robotic arms;
+power assistance
+C0 study: 1 hs
+
+----- Page 8 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 8 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+Denève [82]
+3
+Shoulder * elbow
+* (forearm) * wrist
+Device joint
+angles, end-
+point force
+AC brushless
+motors (x3)
+Stationary system
+(end-effector-based);
+physical therapy
+Prototype
+EMUL, Furusho [159]
+3
+Shoulder *
+elbow*(forearm) *
+wrist
+End-point
+position
+Electric motors +
+ERF clutches
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 6 stroke;
+predecessor of PLEMO, see
+also: Robotherapist
+ESTEC exoskeleton,
+Schiele [115]
+9
+Shoulder – FE,
+AA, RT, VD, HD,
+elbow – FE,
+forearm – PS,
+wrist – FE, AA
+Joint angles
+Not selected yet
+Wearable system
+(exoskeleton-based);
+physical therapy
+First prototype
+Furuhashi [83]
+3
+Shoulder * elbow *
+(forearm) * wrist
+End-point
+torque
+DC motors (x3)
+Stationary system
+(end-effector-based);
+physical therapy
+Prototype
+Hybrid-PLEMO, Kikuchi
+[135]
+2
+Shoulder * elbow *
+(forearm) * wrist
+(in the adjustable
+plane)
+Device joint
+angles, end-
+point force
+DC servomotors
+(x2) + ERF
+clutches/brakes
+(x4)
+Stationary system
+(end-effector-based);
+physical therapy
+Prototype; based on
+PLEMO
+Lam [180]
+2
+Shoulder *elbow *
+(forearm) * wrist
+(in the plane)
+End-point
+position, abnor-
+mal trunk posi-
+tion detection
+Not specified
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 8 hs
+Li [176]
+5
+Shoulder – FE,
+AA, elbow – FE,
+forearm – PS,
+wrist – FE
+sEMG signals
+from not
+affected arm
+AC (x3) and DC (x2)
+servo motors
+Wearable system
+(exoskeleton-based);
+physical therapy
+Prototype
+MACARM, Beer [112]
+6
+Shoulder *
+elbow * forearm *
+wrist
+End-point posi-
+tion and force
+Electric motors (x8)
+Stationary system
+(end-effector-based,
+cable-driven robot);
+physical therapy
+CI study: 5 cS
+Mathai [84]
+3
+Shoulder *
+elbow * forearm *
+wrist
+End-point
+torque, position
+and velocity
+(HapticMaster)
+DC brushed motors
+(HapticMaster)
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 4 cS
+MIME-RiceWrist, Gupta
+[119]
+10
+Shoulder *
+elbow * forearm *
+wrist
+See separate
+information for
+MIME and
+RiceWrist
+system
+See separate
+information for
+MIME and RiceWrist
+system
+Stationary system
+(robotic arm +
+orthosis); physical
+therapy
+CI study: stroke (np)
+PLEMO, Kikuchi [105]
+[2]
+[Shoulder*elbow*
+(forearm) * wrist]
+(in the adjustable
+plane)
+Device joint
+angles, end-
+point force
+ERF brakes
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 6 stroke +
+27 hs [85]; successor of
+EMUL, predecessor of
+Hybrid-PLEMO
+Robotherapist,
+Furusho [160]
+6
+Shoulder *
+elbow * forearm *
+wrist
+End-point
+position
+Electric motors +
+ERF clutches
+Stationary system
+(end-effector-based);
+physical therapy
+Prototype; see also:
+EMUL
+RUPERT IV,
+Balasubrama- nian
+[151]
+5
+Shoulder – AA,
+RT, elbow – FE,
+forearm – PS,
+wrist – FE
+Joint torques
+and actuators
+pressure
+Pneumatic (PAMs)
+Wearable system
+(exoskeleton-based);
+physical therapy
+CI study: 6 cS [86]
+Salford Arm
+Rehabilitation
+Exoskeleton,
+Tsagarakis [148]
+7
+Shoulder – FE,
+AA, RT, elbow –
+FE, forearm – PS,
+wrist – FE, AA
+Joint
+positions
+and torques
+Linear pneumatic
+actuators (PAMs)
+(x14)
+Stationary system
+(exoskeleton-based);
+physical therapy
+Prototype
+Sophia-3, Rosati [87]
+2
+Shoulder *
+elbow * (forearm) *
+wrist (in the
+plane)
+End-point posi-
+tion and force
+AC motors
+Stationary system
+(end-effector-based,
+planar cable-driven
+robot); physical
+therapy
+First prototype; see also:
+Sophia-4
+Sophia-4, Rosati [87]
+2
+Shoulder *
+elbow * (forearm) *
+wrist (in the
+plane)
+End-point
+position and
+force
+DC motors
+Stationary system
+(end-effector-based,
+planar cable-driven
+robot); physical
+therapy
+Prototype; see also:
+Sophia-3
+
+----- Page 9 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 9 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+SUEFUL-7,
+Gopura
+[166]
+7
+Shoulder – FE,
+AA, RT, elbow –
+FE, forearm – PS,
+wrist – FE, AA
+sEMG/joint
+forces/torques
+DC servo motors
+(x7)
+Stationary system
+(exoskeleton-based);
+power assistance
+C0 study: 2 hs; shoulder-
+elbow orthosis integrated
+with W-EXOS system
+Takahashi [182]
+2
+Shoulder *
+elbow *
+(forearm) * wrist
+(in the plane)
+End point posi-
+tion
+Electric
+servomotors (x2)
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 5 stroke +
+2 Guillain-Bare syndrome
+Tanaka [88]
+2
+Shoulder *
+elbow* (forearm)*
+wrist (in the
+plane)
+End-point force
+and position
+AC linear motor (x2)
+Stationary system
+(end-effector-based);
+physical therapy
+C0 study: 6 hs
+UHD, Oblak [139]
+2
+3 configurations
+possible: 1)
+shoulder * elbow,
+2) forearm – PS,
+wrist – FE, 3)
+forearm – PS,
+wrist – AA
+Torque and
+handle position
+DC motors (x2),
+(SEA)
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 1 cS;
+reconfigurable robot
+Umemura [152]
+7
+Shoulder – FE,
+AA, RT, elbow –
+FE, forearm – PS,
+wrist – FE, AA
+Actuators
+pressure
+Hydraulic
+Stationary system
+(end-effector-based);
+physical therapy
+Prototype
+UMH, Morales [127]
+6
+Shoulder *
+elbow * forearm *
+wrist
+Joint torques
+Pneumatic
+Stationary system
+(two robotic arms);
+physical therapy
+C0 study: hs (np)
+Xiu-Feng [89]
+2
+Shoulder *
+elbow *
+(forearm) * wrist
+(in the plane)
+Device joint
+angles, end-
+point force
+AC servomotors
+(x2)
+Stationary system
+(end-effector-based);
+physical therapy
+CI study: 30 stroke
+Systems assisting shoulder, elbow, forearm, wrist and finger movements (whole arm)
+ArmeoPower, Hocoma
+AG; based on: ARMin
+III, Nef [90]
+6{+1}
+Shoulder – FE,
+AA, RT, elbow –
+FE, forearm –
+PS, wrist – FE,
+{fingers – GR}
+Joint angles,
+grasp force
+DC motors (x6)
+Stationary system
+(exoskeleton-based);
+physical therapy
+Commercial system; CI
+studies: 3 cS (ARMin I)
+[91], 4 cS (ARMin II) [92]
+ArmeoSpring, Hocoma
+AG; based on: T-WREX,
+Sanchez [106]
+{7}
+{Shoulder – FE,
+AA, RT, elbow –
+FE, forearm –
+PS, wrist – FE,
+fingers – GR}
+Joint angles,
+grasp force
+None
+Stationary system
+(exoskeleton-based);
+physical therapy
+Commercial system (CE
+Mark, FDA clearance);
+CI study: 10 MS [93]; see
+also: T-WREX
+ARMOR, Mayr [177]
+8
+Shoulder – FE, AA,
+RT, elbow – FE,
+forearm – PS,
+wrist – FE,
+thumb – FE,
+other fingers
+together – FE
+Joint angles
+of the master
+hand
+Electric motor
+Stationary master-
+slave system
+(exoskeleton-based);
+physical therapy
+CII study: 8(8) sS
+Gentle/G,
+Loureiro
+[123]
+6{+3}
+Shoulder *
+elbow
+(3
+DOF,
+HapticMaster),
+{forearm – PS,
+wrist – FE, AA},
+thumb – FE,
+other fingers
+together – FE (x2)
+(grasp robot)
+End-point
+torque, position
+and velocity
+(HapticMaster)
+joint angels and
+end-point force
+(grasp robot)
+DC brushed
+motors
+(HapticMaster
+and
+grasp robot)
+Stationary system
+(robotic arm +
+orthosis); physical
+therapy
+CII study: 4(4) sS [94];
+based on Gentle/S
+HEnRiE, Mihelj [124]
+4{+2}
+Shoulder * elbow
+(3 DOF, Haptic-
+Master), {wrist –
+FE, AA}, thumb,
+middle and index
+finger together –
+GR
+End-point
+torque, position
+and velocity
+(HapticMaster)
+joint angels and
+end-point force
+DC brushed
+motors
+(HapticMaster)
+electric motors
+(grasping device)
+Stationary system
+(robotic arm +
+orthosis); physical
+therapy
+Prototype (with spring
+instead of an actuator in
+the hand part); C0 study: 1
+hs; based on Gentle/S
+
+----- Page 10 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 10 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Table 1 Robotic devices for upper limb rehabilitation (Continued)
+IntelliArm, Ren [116]
+8{+2}
+Shoulder – FE, AA,
+RT, VD, {HD (x2)},
+elbow – FE, fore-
+arm – PS, wrist
+– FE, all fingers
+together – GR
+Joint angles
+and torques
+Not specified
+Stationary system
+(exoskeleton-
+based); physical
+therapy
+CI study: stroke (np)
+MUNDUS, Pedrocchi
+[101]
+[3]+{2}+1
+[Shoulder – FE,
+AA, elbow – FE],
+optional: forearm –
+PS, wrist – FE
+(shoulder-elbow-
+wrist exoskeleton),
+optional: all
+fingers together –
+GR (hand orthosis)
+sEMG, button,
+eye-movement
+orBranComputer
+Interface; object
+labels – radio
+frequency
+identification
+elastic elements
+or DC brakes
+(shoulder-
+elbow-wrist
+exoskeleton), FES
+(optional), DC
+motor (optional
+hand orthosis)
+Modular
+wheelchair-
+mounted system
+(exoskeleton-
+based);
+movement
+assistance
+CI study: 3 SCI + 2 MS
+ReoGo, Motorica
+Medical Inc.
+2+{1}
+Shoulder * elbow;
+also {* wrist} or
+{fingers - FE} if
+special handle
+used
+End-point posi-
+tion
+Electric motors
+(x4)
+Portable system
+(end-effector-
+based) with
+various handles;
+physical therapy
+Commercial system;
+CIII/CIV study: 60(np) sS
+[198], CI studies: 14 cS [95],
+10 sS [96]
+All the systems in the following table are grouped according to the joint movement they support. For the sake of convenience, we consider the shoulder complex, the
+forearm and the hand (fingers) as single joints. Thus, we distinguish the following “joints”: shoulder, elbow, forearm, wrist and fingers. Devices assisting movements of
+only one “joint” (starting from shoulder and ending with fingers) are described first followed by devices assisting movement of two, three and four joints (in that
+order). The end of the table presents systems assisting movement of the whole arm.
+For some systems it was difficult to classify them into a particular group. One of such cases includes the end-effector-based systems with a splint. A specific
+classification to particular group may depend on the joints constrained in particular case by the splint. Furthermore, some devices allow for movements in some joints
+only in a limited range.
+In some cases the same system may appear multiple times in the table on various stages of development. We have accepted such occurrences only if, in our opinion,
+the difference between two versions of the system justified considering them as two various systems. Otherwise, information included in the table includes only the
+most recent version of the system available at the time of this publication.
+System names are provided in italics. Whenever possible, the first column of the table provides the system name and reference (including the name of the first author)
+to the publication in which the system is described. We only provide the appropriate reference for systems without a name. The names of commercial systems are
+followed by their producer names. Appropriate information is provided following a semicolon for commercial systems based on systems being described in scientific
+publication before commercialization. Except one case, i.e. ArmeoSpring based on T-WREX system, the description of the predecessors is not provided elsewhere in the
+table because we found no significant differences between the predecessors and their commercial versions.
+The last column contains information about the current stage of system development, clinical trials performed using the system and some additional information are
+provided. If the system has undergone clinical evaluation, information about the category of the trial, number of participants enrolled and their condition, as well as
+reference to the paper presenting results of the study is also provided. We distinguish four categories of the studies marked as C0, CI, CII, CIII/CIV. For a description, see
+Table 7. Categories CII and CIII/CIV provide two numbers of subjects. The first number indicates the total number of participants enrolled in the study. The number in
+parenthesis indicates number of participants undergoing therapy using the particular system. We made this distinction because there is often a control group
+undergoing other form of therapy in the CII and CIII/CIV studies. If both numbers are equal, all participants underwent therapy using the specified system but other
+parameter of the study varied between the groups (e.g. training intensity, device control strategy, or order in which various forms of therapy were applied). No
+reference after the number and condition of participants indicates that the reference is the same as the one provided in the first column. Information about
+predecessors or successors is also provided, if available. We use the following symbols and abbreviations:
+- for degrees of freedom of the device (DOF) and supported movements (second and third column of the table respectively): [ ] - indicates passive (i.e. exerting only
+resistive force) and { } - indicates not-actuated degrees of freedom or movements, otherwise active.
+- for supported movements (third column): (joint name) - indicates that range of movements for that joint is limited to a very small range, AA – adduction/abduction,
+FE – flexion/extension, GR – grasp and release, PS – pronation/supination, RT – internal/external rotation, HD - horizonatal displacement, VD - vertical displacement
+(both in the shoulder girdle), MCP – metacarpophalangeal joint, * - indicates that the direction of the movement of the device does not correspond to the direction of
+any of basic anatomical movements (e.g. pronation/supination, flexion/extension, rotation) but is a combination of many, (x number) - indicates that a few particular
+movements are possible (e.g. flexion in a few joints of one finger), (in the plane) - indicates that the end effector of the device moves only in a specified plane; for the
+explanation of anatomical terms of motion see Figure 2.
+- for main control inputs and actuators (fourth and fifth column respectively): (commercial system name) - indicates that the particular commercial device (usually robot
+or haptic interface) is incorporated in the described system and that the particular sensors or actuators are part of that commercial system.
+- for main control (forth column): sEMG - surface electromyography.
+- for actuators (fifth column): AC - alternating current, DC - direct current, ERF - electrorheological fluid based, FES - functional electrical stimulation, MRF -
+magnetorheological fluid based, PAM - pneumatic artificial muscle, SEA - series elastic actuator, (x number) - number of particular actuators being used (provided only
+if such an information was available).
+- for clinical studies (last column): C0, CI, CII, CIII/CIV - category of the study: 0, I, II and III/IV, respectively (for category descriptions see the subsection Clinical studies of
+the survey); subject condition: aS - acute stroke, CP - cerebral palsy, cS - chronic stroke, ET - essential tremor, hs - healthy subject(s), MS - multiple sclerosis, SCI - spinal
+cord injury, sS - subacute stroke, TBI - traumatic brain injury; np - number of subjects is not provided.
+new and improved devices for robotic upper limb reha-
+bilitation. The aim of this paper is to summarize existing
+technical solutions for physical therapy of the upper limb.
+The survey of robotic devices is comprised of advanced
+technology systems. As defined in this report, the
+design of advance technology systems includes sensors,
+actuators, and control units; purely mechanical solutions
+are excluded from this survey. Although the research team
+made an effort to identify as many systems as possi-
+ble, it is reasonable to acknowledge that many systems
+
+----- Page 11 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 11 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+are left unmentioned. Nevertheless, this documentation
+is intended to be a valuable source of information for
+engineers, scientists and physiotherapists working on new
+solutions for physical rehabilitation.
+The survey
+Scope of the survey
+At the outset, the research team identified literature
+associated with the subject matter based on searches
+in PubMed, the Institute of Electrical and Electronics
+Engineers (IEEE), Science Direct and Google Scholar
+databases using various combinations of the following
+keywords: upper extremity, arm, hand, rehabilitation,
+therapy, training, movement, motion, assistance, sup-
+port, robot, robotized, robotic, mechatronic, and motor-
+ized. Additionally, referenced literature from the selected
+publications was included in the survey as well. The
+information obtained from this literature compendium is
+supplemented with the data acquired from professional
+caregivers and manufacturers’ catalogs and websites, as
+well as direct communications with rehabilitation profes-
+sionals, manufacturers and patients. Over 120 systems are
+summarized and compared in Table 1; this tabulated sum-
+mary constitutes the reference for information provided in
+subsequent sections. As previously mentioned, the scope
+of this report is generally limited to the devices that sup-
+port or retrain movement or manipulation abilities of
+disabled individuals. This survey excludes systems devel-
+oped for movement assessment, occupational purposes or
+boosting physical abilities of healthy people. We however
+considered some academic, not yet specialized systems,
+supporting upper-extremity movements, especially if they
+have potential to be used for rehabilitation purposes (e.g.
+CADEN-7 [97]). This survey also excludes devices that
+substitute movements of the disabled extremity but do
+not replace the movement itself (e.g. wheelchair mounted
+manipulators or autonomous robots). Although these
+devices improve the patient’s quality of life, they differ
+significantly from systems described in this survey and
+constitute a separate category of devices. Some compa-
+nies (e.g. CSMi Computer Sports Medicine, Inc.; Biodex
+Medical Systems, Inc.; BTE Technologies, Inc.) manufac-
+ture sensorized equipment for rehabilitation of various
+joints and muscles and whose principle of operation often
+resembles that of exercising devices found at fitness cen-
+ters. Those devices are used mainly to strengthen muscles
+and joints and provide some predefined resistance (e.g.
+isotonic, isometric or isokinetic exercises) or active force
+(e.g. continuous passive motion exercises). These devices
+also constitute a different category from the systems
+included in this survey because their functions are per-
+formed along a predefined operation pathway. Although
+difficult to clearly identify, the aforementioned were also
+excluded from this review.
+Throughout this report, the term “number of degrees
+of freedom (DOF)” describes the sum of all independent
+movements (i.e. displacements or rotations) that can be
+performed in all the joints of the device. The number of
+DOF is defined in order to determine the exact position
+and orientation of all segments of the device. Also, some
+sections in this report are supplemented by an explana-
+tion of the most important terminology for readers who
+are not familiar with the technical vocabulary.
+Application field and target group
+A description of the specific field of application for upper
+limb rehabilitation devices often determines solutions for
+which the device itself may be applied. Upper-extremity
+rehabilitation involves actions that stimulate patients’
+independence and quality of life. Two main application
+fields of robotic devices stand out: support to perform
+some ADLs (e.g. by power assistance or tremor suppres-
+sion) and providing physical training (therapy). Although
+there is a significant need for powered devices support-
+ing basic ADL at home, there are only a few of such
+devices proposed so far (see sixth column in Table 1).
+This is mainly due to technical and economical restric-
+tions. Such devices should significantly improve the lives
+of their users, otherwise patients become dissatisfied and
+discontinue their use shortly after. They should be also
+safe, easily to handle and inexpensive. Portability is also
+often expected from devices assisting patients to perform
+basic ADL; in such cases the amount of available energy
+is limited by the capacity to store energy. Furthermore,
+if the device is supposed to support movements of mul-
+tiple joints, the number of needed actuators increases as
+well as the weight of the device. Therefore, the number
+of portable actuated devices supporting upper extrem-
+ity movements is typically low. Instead, purely mechani-
+cal solutions are used for that purpose. A few examples
+of portable powered devices for upper extremity assis-
+tance used in daily living are PowerGrip system (Broaden
+Horizons, Inc., USA) and a system proposed by Hasegawa,
+et al. [98] (both for grasp assistance), as well as WOTAS
+orthosis [99] and a system proposed by Loureiro, et al.
+[100] (both for tremor suppression). However, portabil-
+ity is not always necessary. Often, especially after a stroke
+or a spinal cord injury, disorders of the upper extrem-
+ity are accompanied by lower extremity disabilities. These
+scenarios are typically characterized by immobilized con-
+ditions and require a wheelchair. Therefore, many sys-
+tems assisting upper limb movements are installed close
+to the patient (e.g. modular wheelchair-mounted system
+MUNDUS [101]).
+Another group of the robotic devices used for rehabil-
+itation purposes, much bigger than the group of devices
+supporting basic ADLs, constitute devices providing
+physical therapy. These may be designed for either
+
+----- Page 12 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 12 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+specialized therapeutic institutes or home-based condi-
+tions. A vast majority of these devices may be used only
+at therapeutic institutes since they require supervised
+assistance from qualified personnel. Their price is often
+prohibitive for personal use due to their complexity. The
+patient demand for home-based therapy is expected to
+increase. Along this context, the concept of the Gloreha
+system (Idrogenet srl) is provided in two versions: (1) a
+more complex and more adaptable professional version
+intended for use at hospitals and rehabilitation centers and
+(2) a simplified low-cost version intended for patient use
+at home. However, according to Dijkers, et al. [102], many
+therapists may stop using devices if set-up takes more than
+5 minutes. Thus new developed devices for physical train-
+ing should be intuitive, easy and fast to set-up and have a
+reasonable price.
+Stroke is the most common cause among diseases and
+injuries for upper limb movement disorders. It is esti-
+mated that by 2030, stroke will be the fourth leading
+cause of reduced disability-adjusted life-years (DALY) in
+western countries. DALY takes into account years of life
+lost due to premature death as wells as years of life
+lived in less than full health [103]. Other causes include
+traumatic brain injury, spinal cord injury and injuries
+to motoneurons, as well as certain neurological diseases
+such as multiple sclerosis, cerebral palsy, Guillain-Barre
+syndrome, essential tremor and Parkinson’s disease. Cur-
+rently proposed robotic systems for upper limb rehabilita-
+tion are typically tested on stroke patients. Only a fraction
+of these systems are investigated on subjects suffering
+from other diseases (see last column of Table 1).
+Type of assistance
+The most important terminology introduced in this
+section is explained in Table 2. Devices for upper limb
+rehabilitation may provide different types of motion assis-
+tance: active, passive, haptic and coaching. Active devices
+provide active motion assistance and possess at least one
+actuator, thus they are able to produce movement of the
+upper-extremity. Most of the devices discussed in this sur-
+vey are active (see Table 1). Such assistance of movements
+is required if patient is too weak to perform specific exer-
+cises. However, even with active devices, an exercise is
+considered passive when a patient’s effort is not required.
+For example, devices providing continuous passive motion
+exercises are active, but those exercises are categorized
+as passive because the subject remains inactive while the
+device actively moves the joint through a controlled range
+of motion. It is not necessary to apply active assistance
+to resist patient’s movement, to increase patient’s force or
+to ensure the patient is following the desired trajectory.
+Instead, passive devices may be applied that are equipped
+with actuators providing resistive force only (i.e. brakes).
+Such actuators consume less energy and are cheaper than
+Table 2 Glossary of terms concerning type of assistance
+Term
+Description
+Active device
+A device able to move limbs. Under such condition,
+this device requires active actuators which may
+increase the weight. It may also apply to subjects
+completely unable to move their limb.
+Passive device
+A device unable to move limbs, but may resist the
+movement when exerted in the wrong direction. This
+type of device may only be used for rehabilitation of
+subjects able to move their limbs. It is usually lighter
+than active device since it possesses no actuators
+other than brakes.
+Haptic device
+A device that interfaces with the user through the
+sense of touch. In most cases it provides some
+amount of resistive force, often also some other
+sensation (e.g. vibration). It is sometimes also able to
+generate specific movements. However, the force it
+generates is usually small. Haptic devices are
+commonly used in rehabilitation settings with virtual
+environments.
+Coaching device
+A device that neither assists nor resists movement.
+However, it is able to track the movement and provide
+feedback related to the performance of the subject.
+As haptic devices, coaching devices are also
+commonly used in rehabilitation settings with virtual
+environments.
+Active exercise
+An exercise in which subjects actively move their limb,
+although some assistance of the device may be
+provided. Such type of the exercise may be performed
+using any of the above listed types of devices.
+Passive exercise
+An exercise in which the subject remains passive,
+while a device moves the limb. This type of exercise
+requires an active device. Continuous passive motion
+(CPM) training is an example of passive exercise with
+active devices.
+the heavier actuators for active assistance. Devices using
+only resistive actuators include both devices for physical
+therapy, e.g. MEM-MRB [104] and PLEMO [105], and sys-
+tems for tremor suppression, e.g. WOTAS [99] orthosis
+and a system proposed by Loureiro, et al. [100].
+Haptic devices constitute another group of systems
+interacting with the user through the sense of touch.
+Haptic devices are similarly classified as either active or
+passive, depending on their type of actuator. In this report,
+haptic devices are independently categorized because
+their main function is not to cause or resist movement
+but rather to provide tactile sensation to the user. Other
+non-actuated devices for upper limb rehabilitation do
+not generate any forces but provide different feedback.
+These systems are labeled coaching devices through-
+out this report. Because coaching devices are sensorized,
+they serve as input interface for interaction with thera-
+peutic games in virtual reality (VR) (e.g. T-WREX [106],
+ArmeoSpring from Hocoma AG) or for telerehabilitation
+(i.e. remotely supervised therapy). Coaching systems using
+video-based motion recognition (e.g. Microsoft Kinect)
+would also belong to this category if it were not for their
+
+----- Page 13 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 13 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+lack of any mechanical part in contact with the patient.
+Therefore, these systems will not be further discussed in
+this survey.
+Passive and non-actuated systems are less complex,
+safer and cheaper than their active counterparts. However,
+they are often modified in the development process with
+more active characteristics. Still, the main characteristic
+that identifies a non-actuated or passive device is the lack
+of the ability to perform movement; they may be an option
+for continuation of the rehabilitation process, rather than
+for training of people with significant movement disorders
+at an early stage of rehabilitation.
+Mechanical design
+The most important terminology introduced in this
+section is explained in Table 3. When comparing the
+mechanical structure of robotic devices for movement
+rehabilitation often two categories of devices are con-
+sidered: end-effector-based and exoskeleton-based. The
+Table 3 Glossary of terms concerning mechanical design
+of robots for rehabilitation
+Term
+Description
+End-effector based
+device
+Contacts a subject’s limb only at its most distal
+part. It simplifies the structure of the device.
+However, it may complicate the control of the
+limb position in cases with multiple possible
+degrees of freedom.
+Exoskeleton-based
+device
+A device with a mechanical structure that mirrors
+the skeletal structure of the limb, i.e. each segment
+of the limb associated with a joint movement is
+attached to the corresponding segment of the
+device. This design allows independent,
+concurrent and precise control of movements in a
+few limb joints. It is, however, more complex than
+an end-effector based device. Orthoses restricting
+or assisting movement in one or more joints may
+be also considered exoskeleton-based devices.
+Planar robot
+A device, usually end-effector based, moving in a
+specific plane. Design of planar robots, decreases
+costs as well as the range of movements that
+may be exercised. Although this device performs
+movements in a plane, joints of the limb may still
+move in a three-dimensional space.
+Back-drivability
+A property of mechanical design indicating that
+the patient is able to move the device, even when
+the device is in passive state. It increases patient
+safety, because it does not constrain limb
+movements and keeps patient’s limb in a
+comfortable position.
+Modularity
+A property of a device indicating that optional
+parts may adapt it to a specific condition or simply
+to perform additional exercises.
+Reconfigurability
+A property of a device indicating that its
+mechanical structure may be modified without
+adding additional parts in order to adapt it to the
+condition of the subject or to perform other form
+of training.
+difference between the two categories is how the move-
+ment is transferred from the device to the patient’s
+upper extremity. End-effector-based devices contact the
+patient’s limb only at its most distal part that is attached
+to patient’s upper extremity (i.e. end effector). Movements
+of the end effector change the position of the upper limb
+to which it is attached. However, segments of the upper
+extremity create a mechanical chain. Thus, movements
+of the end effector also indirectly change the position of
+other segments of the patient’s body as well. Compared to
+end effectors, exoskeleton-based devices have a mechani-
+cal structure that mirrors the skeletal structure of patient’s
+limb. Therefore movement in the particular joint of the
+device directly produces a movement of the specific joint
+of the limb.
+The advantage of the end-effector-based systems is
+their simpler structure and thus less complicated con-
+trol algorithms. However, it is difficult to isolate specific
+movements of a particular joint because these systems
+produce complex movements. The manipulator allows up
+to six unique movements (i.e. 3 rotations and 3 transla-
+tions). Control of the movements of the patients upper
+limb is possible only if the sum of possible anatomical
+movements of patient arm in all assisted joints is lim-
+ited to six. Increasing the number of defined movements
+for the same position of the end-point of the manipulator
+results in redundant configurations of the patient’s arm,
+thus inducing risk of injuries and complicated control
+algorithms.
+The typical end-effector-based systems include serial
+manipulators (e.g. MIT Manus [107] - Figure 1B, ACRE
+[108]), parallel (e.g. CRAMER [109] and a system pro-
+posed by Takaiwa and Noritsugu [110], both for wrist
+rehabilitation), and cable-driven robots (e.g. NeReBot
+[111] - Figure 1C, MACARM [112]). The mechanical
+structure of HandCARE [113] may be also recognized as
+the series of end-effector-based cable-driven robots, each
+of which induce movement of one finger. In this system
+a clutch system allows independent movement of each
+finger using only one actuator.
+Application of the exoskeleton-based approach allows
+for independent and concurrent control of particular
+movement of patient’s arm in many joints, even if the
+overall number of assisted movements is higher than six.
+However, in order to avoid patient injury, it is necessary
+to adjust lengths of particular segments of the manipu-
+lator to the lengths of the segments of the patient arm.
+Therefore setting-up such device for a particular patient,
+especially if the device has many segments, may take a
+significant amount of time. Furthermore, the position of
+the center of rotation of many joints of human body,
+especially of the shoulder complex [114], may change
+significantly during movement. Special mechanisms are
+necessary to ensure patient safety and comfort when an
+
+----- Page 14 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 14 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Figure 1 Examples of mechanical structures of robotic devices for upper limb rehabilitation. A: ARM Guide - simple system using linear
+bearing to modify orientation [136]; B: InMotion ARM - end-effector-based commercial system [133]; C: NeReBot - cable-driven robot, ©2007 IEEE.
+Reprinted, with permission, from [111]; D: ArmeoPower - exoskeleton-based commercial system (courtesy of Hocoma AG).
+exoskeleton-based robot assists the movements of these
+joints [114]. For this reason, the mechanical and control
+algorithm complexity of such devices is usually signifi-
+cantly higher than of the end-effector-based devices. The
+complexity escalates as the number of DOF increases.
+In case of systems for the rehabilitation of the whole
+limb the number of DOF reaches nine (ESTEC exoskele-
+ton [115]) or ten (IntelliArm [116]). Some systems for
+fingers or hand rehabilitation have an even higher num-
+ber of DOF. Examples include the system proposed by
+Hasegawa, et al. with eleven DOF [98] and the hand
+exoskeleton developed at the Technical University (TU)
+of Berlin with twenty DOF [117]. Even at such a high
+number of DOF some of these devices still remain wear-
+able (i.e. the user is able to walk within a limited area
+due to connections to power source and control unit,
+e.g. ESTEC and hand exoskeleton developed at the TU
+Berlin) or portable (i.e. the area within which the user
+may walk is not limited, e.g. the system proposed by
+Hasegawa).
+Apart from purely exoskeleton- or end-effector-based
+devices, there are many systems combining a few
+approaches. In the ArmeoSpring system (Hocoma AG)
+for example, only the distal part – comprising the
+elbow, forearm and wrist – is designed as an exoskele-
+ton. Therefore the limb posture is statically fully deter-
+mined (as in exoskeleton-based systems) and the shoulder
+joint is not constrained, allowing easy individual sys-
+tem adaptation to different patients. A similar concept
+was applied in Biomimetic Orthosis for the Neuroreha-
+bilitation of the Elbow and Shoulder – BONES [118].
+In that case, a parallel robot consisting of passive slid-
+ing rods pivoting with respect to a fixed frame pro-
+vides shoulder movements. Such application of sliding
+rods allows internal/external rotation of the arm without
+any circular bearing element. The distal part allow-
+ing for flexing/extending the elbow resembles the exos-
+keleton structure. In the MIME-RiceWrist rehabilitation
+system [119] the end-effector-based MIME [120] system
+for shoulder and elbow rehabilitation is integrated with
+the parallel wrist mechanism used in the MAHI exoskele-
+ton (known as RiceWrist [119]).
+Another example is the 6 DOF Gentle/S [121] system
+allowing for relatively large reaching movements (three
+
+----- Page 15 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 15 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+actuated DOF of the end-effector-based commercial hap-
+tic interface HapticMaster, Moog in the Netherlands BV
+[122]) and arbitrary positioning of the hand (connection
+mechanism with three passive DOF). The Gentle/S system
+was further supplemented with a three-active-DOF hand
+exoskeleton to allow grasp and release movements. This
+new nine DOF system is known as Gentle/G [123].
+The HEnRiE [124] is a similar system based on the
+Gentle/S system. In addition to the three active DOF of
+HapticMaster, HEnRiE includes a connection mechanism
+with two passive DOF for positioning of the hand and
+grasping device (two parallelogram mechanisms allowing
+parallel opening and closing of fingers attachments) with
+only one active DOF.
+Some systems combine more than one robot at the
+same time. This approach may be considered as the com-
+bination of end-effector-approach, where only the most
+distal parts of robots are attached to the patient’s upper
+limb, with the exoskeleton-based approach, where move-
+ments of few segments are directly controlled at the same
+time. Use of two robots to control the movements of
+the limb may allow for mimicking the operations per-
+formed by therapist using two hands. Examples of sys-
+tems using two-robot-concept include REHAROB [125]
+(using two six-DOF manipulators), iPAM [126] and UMH
+[127] (both having six DOF in total). Researchers at the
+University of Twente, in Enschede, Netherlands, made an
+attempt to use two HapticMaster systems to provide coor-
+dinated bilateral arm training, but limitations in hardware
+and software caused the virtual exercise to behave differ-
+ently to the real-life [128]. In some cases industrial robots
+have also been used. The REHAROB uses IRB 140 and IRB
+1400H from ABB Ltd., while MIME [120] uses PUMA 560
+robot. In general, industrial robots reduce costs; however,
+such robots have significantly higher impedance than the
+human upper limb and, according to Krebs, et al. [129],
+should not be in close physical contact with patients.
+Therefore most of the robots used for the rehabilita-
+tion of the upper limb are designed with a low intrinsic
+impedance. Some of those devices are also back drivable
+(e.g. HWARD [130] and RehabExos [131]), meaning that
+the patient’s force is able to cause movement of those
+devices when they are in passive state. Back-drivability
+further increases safety of the patient because the device
+does not constrain patient movements. It also allows for
+using the device as an assessment tool to measure patient’s
+range of motion.
+The majority of the devices presented in Table 1 allow
+movements in three dimensions; however there are also
+planar robots, i.e., systems allowing movements only on
+a specified plane (e.g. MEMOS [132] and PLEMO [105]).
+Also the MIT Manus system initially allowed movements
+only on one plane [107]. Subsequently, an anti-gravity
+module added possibility to perform vertical movements
+[133] (Figure 1B). Designing the device as a planar robot
+reduces the range of movements that can be exercised for
+particular joint. It also reduces the cost of the device. Fur-
+thermore, when the working plane is well selected, the
+range of training motion may suffice in most of therapeu-
+tic scenarios. Some of such planar devices allow changes
+in the working space between horizontal and vertical
+(Braccio di Ferro [134]) or even almost freely selecting the
+working plane (e.g. PLEMO and Hybrid-PLEMO [135]). It
+further increases the range of possible exercise scenarios
+while keeping the cost of the device at a minimum.
+In the ARM Guide [136] (Figure 1A) and ARC-MIME
+[137] systems, with which patients practice reaching
+movements, the working space is limited to linear move-
+ments because the forearm typically follows a straight-line
+trajectory. However the orientation of the slide that assists
+forearm movements can be adjusted to reach multiple
+workspace regions and fit different scenarios.
+Modularity and reconfigurability are concepts that
+could reduce therapy costs by adopting therapeutic
+devices for various disabilities or stages in patient recov-
+ery. However there are still only a few systems using these
+concepts. For example, InMotion ARM robot (the com-
+mercial version of MIT Manus, previously called InMotion
+2.0) from Interactive Motion Technologies, Inc., may be
+extended by InMotion WRIST robot (previously InMotion
+3.0), developed at MIT [138] as a stand-alone system, and
+InMotion HAND add-on module (previously InMotion
+5.0) for grasp and release training. Another example of
+modular system is MUNDUS [101], consisting of various
+modules that may be included depending on the patient
+condition, starting from muscle weakness to complete lost
+of residual muscle function. For example as command
+input residual voluntary muscular activation, head/eye
+motion, or brain signals may be used. However, this sys-
+tem’s complexity might make commercialization of the
+device very difficult.
+A very interesting solution was implemented in the Uni-
+versal Haptic Drive (UHD) [139]. It has only two DOF and,
+depending on the chosen configuration, it can train either
+shoulder and elbow during reaching tasks or forearm
+(flexion/extension) and wrist. For the latter setting option,
+it is also possible to select a flexion/extension or prona-
+tion/supination training for the wrist. See Figure 2 for an
+explanation of anatomical terms used for description of
+upper limb motion.
+Actuation and power transmission
+The most important terminology introduced in this
+section is explained in Table 4. Traditionally, energy
+to the actuators is provided in three forms: electric
+current, hydraulic fluid or pneumatic pressure. The selec-
+tion of the energy source determines the type of actua-
+tors used in the system. Most of the devices for upper
+
+----- Page 16 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 16 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Figure 2 Main movements (degrees of freedom) of the upper
+extremity. 1: arm flexion/extension; 2: arm adduction/abduction; 3:
+arm internal(medial)/external(lateral) rotation; 4: elbow flexion/
+extension; 5: forearm pronation/supination; 6: wrist flexion/extension;
+7: wrist adduction(ulnar deviation)/abduction(radial deviation); 8:
+hand grasp/release.
+extremity rehabilitation use electric actuators but there
+are also other systems with pneumatic and hydraulic actu-
+ators. The electric actuators are most common because
+of their ease to provide and store electrical energy as
+well as their relatively higher power. Various types and
+sizes of electrical motors and servomotors are currently
+commercially available. Some authors (e.g. Caldwell and
+Tsagarakis [140]) argue that electric actuators are too
+heavy, compared to their pneumatic counterparts, and
+their impedance is too high to be used in rehabilita-
+tion applications. However, the relatively high power-
+to-weight ratio of pneumatic actuators is achieved by
+neglecting the weight of the power source. Adding an
+elastic element in series with the actuator may also miti-
+gate the high impedance of electric motors. This concept
+lead to the development of the so called Series Elastic
+Actuators (SEAs). SEAs decrease inertia and user inter-
+face impedance to provide an accurate and stable force
+Table 4 Glossary of terms concerning actuation of robots
+for rehabilitation
+Term
+Description
+Electric actuators
+Actuators powered by electric current. They
+are the most common because they easily
+provide a relatively high power and are able
+to store energy. There is a wide selection
+of commercially available electric actuators;
+however, some of them are heavy and/or
+their impedance is too high for rehabilitation
+settings.
+Hydraulic actuators
+Actuators powered by hydraulic pressure
+(usually oil). They are able to generate high
+forces. Their system is relatively complex
+considering the maintenance of pressurized
+oil under pressure to prevent leakage.
+Commercial hydraulic actuators are also
+heavy, therefore, only specially designed
+hydraulic actuators are used in rehabilitation
+robotics.
+Pneumatic actuators
+Actuators powered by compressed air. They
+have lower impedance and weigh less than
+electric actuators. Special compressors or
+containers with compressed air are required
+for power.
+Pneumatic Artificial
+Muscle (PAM, McKibben
+type actuator)
+A special type of pneumatic actuator with
+an internal bladder surrounded by a braided
+mesh shell with flexible, but non-extensible
+threads. Because of their specific design, an
+actuator under pressure shortens, similarly to
+the contracting muscle. It is relatively light
+and exerts force in a single direction. It is
+difficult to control because of its slow and
+non-linear dynamic functions.
+Series Elastic Actuator
+(SEA)
+A generic name used for a mechanism with
+an elastic element placed in series with an
+actuator. This solution is relatively often
+met in the design of rehabilitation robots. It
+decreases the inertia and intrinsic
+impedance of the actuator to allow a more
+accurate and stable force control and
+increase patient safety.
+Functional Electrical
+Stimulation (FES)
+It is a technique that uses electrical current to
+activate nerves and contract their innervated
+muscles. It produces the movement of the
+limb using natural actuators of the body.
+However, it is difficult to achieve precise and
+repeatable movement using this technique
+and it may be painful for the patient.
+control [141], thus increasing the safety of the patient. The
+disadvantage of application with an elastic element is the
+lower functional bandwidth. Still, the field of rehabilita-
+tion does not usually require high bandwidths. SEAs with
+electric motors are investigated in MARIONET [142] and
+UHD [139] systems, as well as in systems proposed by
+Vanderniepen, et al. (referred to as MACCEPA actuators)
+[143] and Rosati, et al. [144].
+A few systems use pneumatic actuators. Pneumatic
+actuators are lighter and have lower inherent impedance
+than the electric counterparts. Because such actuators
+
+----- Page 17 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 17 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+require pneumatic pressure, the system is generally either
+stationary (e.g. Pneu-WREX [145]), its service area is lim-
+ited (e.g. ASSIST [146]) or the compressor is installed
+on the patient’s wheelchair (e.g. system proposed by
+Lucas, et al. [147]). Special type of pneumatic actuators,
+called Pneumatic Artificial Muscles (PAMs), Pneumatic
+Muscle Actuators or McKibben type actuators are often
+used in rehabilitation robotics (e.g. Salford Arm Rehabili-
+tation Exoskeleton [148] or system proposed by Kobayashi
+and Nozaki [149]). Such actuators consist of an internal
+bladder surrounded by braided mesh shell with flexible,
+but non-extensible, threads. When the bladder is pres-
+surized, the actuator increases its diameter and shortens
+according to its volume, thus providing tension at its ends
+[150]. Due to such physical configuration, PAMs’ weight is
+generally light compared to other actuators, but also have
+slow and non-linear dynamic response (especially large
+PAMs), in consequence they are not practical for clini-
+cal rehabilitation scenarios [131,151]. In addition, at least
+two actuators are necessary in order to provide antago-
+nistic movements due to the unidirectional contracting.
+The ASSIST system has a special type of PAM with rotary
+pneumatic actuators that allows bending movements
+[146].
+A total of four systems using hydraulic actuators
+were identified in this survey. All four of them are not
+standard and use actuators developed specially for that
+purpose. Reasons to evade industrial hydraulic actu-
+ators include weight, impedance, fluid leakages and
+difficulties to provide fluid. Large, noisy systems are
+usually necessary for that purpose. Mono-and bi-articular
+types of Hydraulic Bilateral Servo Actuators (HBSAs)
+are used in the wheelchair-mounted exoskeleton pro-
+posed by Umemura, et al. [152]. Miniaturized and flex-
+ible fluidic actuators (FFA) were applied in the elbow
+orthosis proposed by Pylatiuk, et al. [153]. Hydraulic
+SEAs are used in two other systems: the Dampace
+system [154] is equipped with powered hydraulic disk
+brakes; the Limpact system [155], developed by the same
+group, uses an active rotational Hydro-Elastic Actuator
+(rHEA).
+In passive systems, it is often desired to modify the
+amount of resistance during the exercise. This modifi-
+cation increases the resistance when the patient departs
+from the desired trajectory or to provide haptic feed-
+back for VR interactions. In existing systems, differ-
+ent solutions for provision of adjustable resistive force
+have been implemented. Powered hydraulic brakes, for
+example, controlled by electromotors in a SEA are used
+in Dampace system [154]. Magnetic particle brakes are
+used in ARM Guide [136] (Figure 1A), in its succes-
+sor ARC-MIME [137] to resist other than longitudinal
+movements of the forearm, and in the device for train-
+ing of multi-finger twist motion proposed by Scherer,
+et al. [156]. A few groups have also investigated the
+application of brakes incorporating magnetorheological
+(MRF brakes) and electrorheological fluids (ERF brakes).
+These fluids change their rheological properties (i.e.
+viscosity) depending on the applied magnetic or elec-
+tric field, respectively. Thanks to those properties it
+is possible to achieve brakes with high-performance
+(with rapid and repeatable brake torque) [105]. MRF
+brakes are used in MRAGES [157] and MEM-MRB [104]
+systems. ERF brakes are used in PLEMO [105] and
+MR_CHIROD v.2 [158] systems. The same group that
+developed the PLEMO also proposed ERF clutches to con-
+trol the force provided by an electric motor in active
+systems. Such an actuation system was implemented in
+EMUL [159], Robotherapist [160] and Hybrid-PLEMO
+[135] devices.
+The natural actuators of body muscles can be used
+instead of external actuators. For this purpose, an elec-
+trical stimulation of the muscles leading to their contrac-
+tion can be applied. This specific electrical stimulation
+is known as Functional Electrical Stimulation (FES).
+FES significantly reduces the weight of the device. From a
+therapeutic point of view, FES allows patients to exercise
+muscles, improving muscle bulk and strength and pre-
+venting muscular atrophy [161]. It has been also shown
+that FES, complemented by conventional physiotherapy,
+may enhance the rehabilitation outcome [162]. However,
+FES may cause strong involuntary muscle contractions
+and can be painful for patient. Furthermore, it is dif-
+ficult to control movements using FES because of the
+non-linear force characteristic of contracting muscles,
+muscles fatigue and dependency of the achieved contrac-
+tion on the quality of the contact between stimulating
+electrodes and the body tissue. There are two commer-
+cial systems using FES for upper limb rehabilitation: Ness
+H200 (Bioness, Inc., US) and NeuroMove (Zynex Medical,
+Inc., US). Two other systems combining FES with assis-
+tive force were proposed by Freeman, et al. [163] and
+Li, et al. [164].
+When selecting actuators, it is also important to con-
+sider their location, especially with exoskeleton-based
+mechanical structures. The actuators can be placed dis-
+tally, close to the joints on which they actuate (e.g.
+ArmeoPower system, Figure 1D). This specification sim-
+plifies the power transmission by using direct drives.
+However, it increases the weight of the distal part of the
+device and inertia and makes it more difficult to control
+the system. On the other hand, locating the actuators in
+the proximal part of the device, often in the part that
+remains constrained, reduces the weight and inertia of
+the distal part. However, a power transmission mecha-
+nism complicates the mechanical structure and may lead
+to difficulties with control due to friction. For exam-
+ple, the same group who developed InMotion HAND
+
+----- Page 18 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 18 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+system proposed an earlier prototype of the hand mod-
+ule with eight active DOF and cable-driven mechanism
+for power transmission. The friction in that mechanism
+and its level of complexity was too high for clinical sce-
+narios [165]. Nevertheless, there are systems, in which
+power transmission using cables and gear drives was suc-
+cessfully applied, like for example CADEN-7 [97] and
+SUEFUL-7 [166].
+Control signals
+The most important terminology introduced in this
+section is explained in Table 5. Various signals may be
+used as control input of the device. Switches are often
+used to simplify design. Examples include the PowerGrip
+system from Broaden Horizons, Inc., hand held triggers
+(e.g. FES based system for grasp assistance proposed by
+Nathan, et al. [167]) and a joystick (e.g.MULOS [168]).
+Most of the systems having more complex control strate-
+gies use either kinematic, dynamic or a mix of both
+input signals (see Table 1 for a comparison). The type
+of the signal used as control input is partially determined
+by the low-level control strategy and vice-versa. In some
+cases, signals provided by actuator encoders (concerning
+position or torque) may be directly used for control pur-
+poses. However, usually torque measured by the encoder
+is a sum of the torque exerted by the user on device
+and internal torques in the device. Therefore, for better
+control of forces between patient and device, it is use-
+ful to apply additional sensors that will measure those
+forces directly.
+Some systems use surface electromyography (sEMG)
+as an input signal, which provides information about
+intention of the person to perform particular movement.
+Therefore it is possible to detect and support it. Most of
+such systems support elbow movements, as sEMG signals
+from muscles controlling this joints (i.e. biceps brachii or
+triceps brachii) are relatively easily measured. Among pro-
+posed solutions are both stationary (e.g. systems proposed
+Table 5 Glossary of terms concerning input control signals
+of robots for rehabilitation
+Term
+Description
+Dynamic signals
+Signals related to the torque or force exerted
+by the subject on various joints of the device
+(exoskeleton-based device) or at its end effector
+(end-effector-based device).
+Kinematic signals
+Signals related to positions, orientations, velocities
+and accelerations of particular segments or joints
+of the device or of the limb.
+Trigger signal
+A signal initiating a specific action. In simple cases,
+a switch or a button triggers the signal. In more
+complex cases, a threshold value of some signal is
+specified to trigger the action (e.g. a sEMG value
+corresponding to a level of muscle contraction).
+by Rosen, et al. [169] and Kiguchi, et al. [170]) and portable
+systems (e.g. systems proposed by Ögce and Özyalçin
+[171] and Pylatiuk, et al. [153]). So far the most successful
+of those systems is the one DOF portable orthosis devel-
+oped at the Massachusetts Institute of Technology (MIT),
+Cambridge, US [172]. The system successfully sustained
+clinical trials, received FDA approval and was commer-
+cialized as Myomo e100 system (Myomo, Inc.) [173].
+Examples of sEMG-controlled systems supporting move-
+ments of other joints include those proposed by Kiguchi,
+et al. [114] for shoulder rehabilitation, W-EXOS [174] for
+forearm and wrist rehabilitation, PolyJbot [175] for wrist
+rehabilitation, SUEFUL-7 [166] exoskeleton for whole
+limb (excluding fingers) movement assistance, TU Berlin
+Hand Exoskeleton [117] for fingers rehabilitation, as well
+as 11-DOF portable orthosis for grasp assistance pro-
+posed by Hasegawa, et al. [98]. The sEMG signals from
+the contralateral healthy limb have been also used to con-
+trol movements of the affected one (see system proposed
+by Li, et al. [176]). The concept of using movements of
+the not affected limb to control motion of the affected
+one has been also implemented in Bi-Manu-Track sys-
+tem (Reha-Stim, Germany), ARMOR exoskeleton [177]
+and device proposed by Kawasaki, et al. [178]. Using the
+other limb to control the affected one is especially useful
+during rehabilitation after stroke. In cases of hemipare-
+sis (or hemiplegia), often only one side of the body is
+affected.
+In some systems also contact-less movement detec-
+tion methods have been used. For example, Ding, et al.
+[179] proposed a system to assist the load of arbitrary
+selected muscles using motion capture systems in order to
+calculate the actual muscle force.
+Feedback to the user
+Different types of feedback may be provided to the
+user, among them: visual, tactile, audio and in the form
+of electrical stimulation. Some systems, for example
+those proposed by Lam, et al. [180] and Nathan, et al.
+[167], use vibrational stimulation of the muscle ten-
+dons to support their contraction. It was also suggested
+that providing tactile feedback to flexor and extensor
+surfaces of the skin at the appropriate location could
+produce more naturalistic movements and improve clin-
+ical outcomes [3]. Some other systems combine other
+types of the feedback, for example system proposed by
+Casellato, et al. [181] combines visual and haptic feed-
+back to improve motor performance of children with
+dystonia.
+A significant number of systems provide training in vir-
+tual reality (VR) scenarios. VR provides a much more
+interesting training surrounding to the patient, compared
+to the typically available conditions presented in therapeu-
+tic units. Furthermore, it allows for fast modification of
+
+----- Page 19 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 19 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+training scenarios, increasing patient attention and moti-
+vation to perform the exercise. Therefore it may also
+improve positive outcome of the therapy. It also adapts
+the system for various patients in a very short time
+frame and restarts the task if the object was dropped
+or misplaced. Haptic devices are especially well suited
+for provision of therapy in VR because they provide
+an impression of manipulating the virtual objects. Some
+groups developed own versions of haptic systems. For
+example Takahashi, et al. [182] proposed haptic device
+for arm rehabilitation, which can apply multiple types
+of force including resistance, assistance, elasticity, vis-
+cosity and friction. Other examples are: a two DOF
+Haptic Interface for Finger Exercise (HAFI), which pro-
+vides rehabilitation of only one finger at a time [183]; a
+force reflecting glove, named MRAGES, using magneto-
+rheological fluid [157]; MR_CHIROD v.2, a one DOF
+grasp exercise device for functional magnetic resonance
+imaging [158] and force-feedback glove Rutgers Mas-
+ter II-ND [184], developed at the Rutgers University
+(Piscataway, US) and used in hand therapy scenarios
+(e.g. [185-187]).
+Many groups have investigated application of a few
+of commercial haptic devices for rehabilitation of upper
+extremity. Among such haptic interfaces are:
+- HapticMaster incorporated for example in Gentle/S
+[121] (for other examples see Table 1),
+- in-parallel robots Phantom Omni and Premium (Geo-
+magic, Inc., US) - used e.g. in experiments performed by
+Casellato, et al. [181], Brewer, et al. [188], and Xydas and
+Louca [189],
+- parallel robot Falcon (Novint Technology, Inc., US) -
+used in My Scrivener system for hand writing training
+(Obslap Research LLC, US) [190],
+- force-feedback glove CyberGrasp (CyberGlove Systems
+LLC,US) - used among others in therapeutic scenarios
+investigated by Adamovich, et al. [191,192].
+Because the entertainment industry have recently intro-
+duced many new devices to capture motion of the healthy
+people for interaction with VR-based games, it may be
+expected that soon some of those devices will be also
+adapted for rehabilitation purposes, providing so called
+“serious games”.
+Control strategy
+The most important terminology introduced in this
+section is explained in Table 6. Following the exam-
+ple of Marchal-Crespo and Reinkensmeyer [193] we
+will consider “high-” and “low-level” control strategies
+used by rehabilitation robots. “High-level” control algo-
+rithms are explicitly designed to provoke motor plasticity
+whereas “low-level” strategies control the force, position,
+impedance or admittance factors of the “high-level” con-
+trol strategies.
+Table 6 Glossary of terms concerning control strategy of
+robots for rehabilitation
+Term
+Description
+“High-level” control
+strategy
+A control strategy with control algorithms
+explicitly designed to induce motor plasticity.
+Assistive control
+A “high-level” control strategy in which a device
+provides the physical assistance to aid the patient
+in accomplishing an intended movement.
+Challenge-based
+control
+A “high-level” control strategy in which a device
+challenges the patient to accomplish an intended
+movement.
+Haptic stimulation
+A “high-level” control strategy in which a robotic
+device is used as a haptic interface to perform
+activities in virtual reality environment.
+Couching control
+A “high-level” control strategy in which a robotic
+device neither physically assists nor resists the
+movement of the subject. It only quantifies and
+provides feedback (visual, acoustic or other)
+concerning the performance of the subject during
+exercise.
+“Low-level” control
+strategy
+A control strategy considered in the implementa-
+tion of the “high-level” control strategy in a device
+by appropriate control of the force, position,
+impedance or admittance.
+Admittance control
+A “low-level” control strategy in which the force
+exerted by the user is measured, and the device
+generates the corresponding displacement.
+Impedance control
+A “low-level” control strategy in which the motion
+of the limb is measured and the robot provides the
+corresponding force feedback.
+This terminology is mostly based on the one proposed by Marchal-Crespo and
+Reinkensmeyer [193].
+“High-level” control strategies
+There is a myriad of “high-level” control strategies for
+robotic movement training. This section briefly summa-
+rizes the classification of those strategies presented by
+Marchal-Crespo and Reinkensmeyer [193]. They identify
+four categorizes of control strategies: (a) assistive con-
+trol, (b) challenge-based control, (c) haptic stimulation,
+and (d) non-contacting coaching. Although some systems
+may fall into a few of these categorizes, this classification
+well illustrates main notions in the “high-level” control of
+robotic devices for upper limb rehabilitation. Those con-
+trol strategies in most cases correspond also to active,
+passive, haptic and coaching types of motion assistance
+described before.
+The assistive control strategy makes tasks safer and
+easier to accomplish, allowing more repetitions. There
+are four types of assistive strategies: impedance-based,
+counterbalance-based, EMG-based and performance-
+based adaptive control. In the impedance-based strat-
+egy, the patient follows a particular trajectory. The
+device does not intervene as long as the patient fol-
+lows this trajectory. However, as the patient leaves the
+trajectory, the device produces a restoring force that
+
+----- Page 20 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 20 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+increases along with the deviation from the desired tra-
+jectory. Often some margin of deviation from allowed
+trajectory is accepted before restoring force is pro-
+vided. Counterbalance-based strategies provide a par-
+tial, passive or active weight counterbalance to a limb,
+those making the exercises easier, as the amount of
+force needed to move the limb against the gravity
+may be significantly reduced. EMG-based approach uses
+the patient’s own sEMG signals to either trigger or
+proportionally control the assistance. Both of those
+approaches encourage patients’ effort. However, the trig-
+gered method is more susceptible to slacking, as the
+patient may learn to provide only the amount of force
+needed to trigger the assistance. Finally, the performance-
+based adaptive control strategies monitor the perfor-
+mance of the patient and adapt some aspects of the
+assistance (e.g. force, stiffness, time, path) according to
+the current performance of the patient, as well as per-
+formance during particular number of preceding task
+repetitions.
+Challenge-based
+control
+strategies fall
+into
+three
+groups: resistive, amplifying error and constraint-induced.
+The resistive strategies resist the desired movements,
+those increasing the effort and attention of the patient.
+The error amplifying strategies are based on the theory
+that faster improvements are achieved when error is
+increased [194]. Therefore they track the deviations from
+the desired trajectories and either increase the observed
+kinematic error or amplify its visual representation on
+the screen. The constraint-induced robotic rehabilitation
+strategy, similarly to conventional constraint-induced
+therapy, promotes the use of the affected limb by cons-
+training the not affected one.
+Haptic stimulation strategies make
+use
+of
+haptic
+devices described above, providing tactile sensation for
+interactions with virtual reality objects. These strate-
+gies support training of basic ADLs in safe conditions
+and without long set-up. They provide alternate tasks in
+various environments, attracting attention and providing
+conditions for implicit learning.
+Non-contacting coaching strategy is applied in systems
+that do not contact participants but rather monitor their
+activity and provide instructions to the patient. Instruc-
+tions indicate how to perform particular activities or what
+should be improved. Since such devices do not contact
+the patient, they are not applicable for systems described
+herein. However, this category may be extended to
+include also some sensorized, but not-actuated exoskele-
+tons, such as the gravity balancing orthosis T-WREX
+[106].
+“Low-level” control strategies
+Different “low-level” control strategies are combined to
+develop “high-level” rehabilitation strategies. Many “low-
+level” control strategies may be proposed during fol-
+lowing stages of development of a robotic rehabilitation
+device. This report provides a short description of basic
+approaches and does not include a comprehensive com-
+parison of “low-level” control strategies. General books on
+control engineering provide a more detailed description,
+in addition to articles referenced in Table 1.
+As the rehabilitation robots interact with human body,
+it is necessary to consider the manipulator and patient
+as a coupled mechanical system. The application of force
+or position control is not enough to ensure appropri-
+ate and safe dynamic interaction between human and
+robot [195]. Other control strategies, such as impedance
+or admittance control are implemented in most of the
+robots for upper limb rehabilitation. In the impedance
+control approach the motion of the limb is measured
+and the robot provides the corresponding force feed-
+back, whereas in the admittance control approach the
+force exerted by the user is measured, and the device
+generates the corresponding displacement. The advan-
+tages and disadvantages of the impedance and admittance
+control systems are complementary [196]. In general,
+robots with impedance control have stable interaction
+but poor accuracy in free-space due to friction. This
+low accuracy can be improved using inner loop torque
+sensors and low-friction joints or direct drives. Admit-
+tance control in contrast compensates the mass and
+friction of the device and provides higher accuracy in
+non-contact tasks, but can be unstable during dynamic
+interactions. This problem is eliminated using SEAs.
+Devices using admittance control require also high trans-
+mission ratios (e.g. harmonic drives) for precise motion
+control [196]. In some cases both of theses approaches
+may be combined together. Impedance control strat-
+egy has been implemented for example in MIT Manus
+[107] (Figure 1B) and L-Exos exoskeleton [197], admit-
+tance control is found in MEMOS [132] and iPAM
+[126].
+Clinical evidence
+Clinical studies
+As previously discussed, there has been a significant effort
+during last two decades to improve the design and con-
+trol strategy of robotic rehabilitation devices. Yet, less has
+been done to prove the efficacy of such systems in rehabil-
+itation settings. Although the results of clinical evaluation
+of therapy applying robots are still sparse, the problem
+is slowly being recognized. The focus in rehabilitation
+robotics is starting to move from technical laboratories to
+clinics. References to clinical trials in which robotic reha-
+bilitation devices have been used are provided in the last
+
+----- Page 21 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 21 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+column of Table 1. The classification of clinical trials used
+in this review is summarized in Table 7.
+From the developer and manufacturer’s point of view,
+there may be at least three objectives in performing clinical
+trials. The first one is to address regulatory requirements.
+The devices described in this review are considered med-
+ical devices in most countries and as such the studies
+proving device efficacy and safety may be required before
+they are authorized for distribution. Although in some
+cases the exemption from providing the clinical data may
+be granted, e.g. if the device is recognized as low risk
+(Class 1 device in the European Union and the USA) or
+if equivalent device has been already approved for com-
+mercialization, the clinical data may be required by health
+insurance authorities in order to provide reimbursement.
+In this case the objective of the trial is to obtain a proof
+of clinical or financial benefit of the use of the device
+as compared to the existing modes of therapy. The third
+objective of clinical trials is to provide the professional
+community with the clinical evidence of device’s efficacy.
+Although, the three objectives may seem to be similar, the
+requirements are not the same, therefore when design-
+ing a clinical trial it should be considered if the obtained
+results will allow to satisfy requirements of those three
+objectives. For the study design requirements to satisfy
+the marketing and reimbursement objectives, we refer the
+readers to the legal regulations in the country of interest.
+Whereas, for a review on the process to design a clinical
+train with sound scientific results we refer to Lo [198].
+From the clinical point of view, the objective of the
+clinical study may be different than to validate a partic-
+ular device. For therapists the robotic device is a tool
+Table 7 The classification of clinical trials of rehabilitation
+robots used in this review
+Term
+Description
+Category 0
+Initial feasibility studies: Trials performed with low
+number of healthy volunteers, often using the prototype
+of a device, in order to evaluate its safety and clinical
+feasibility.
+Category I
+Pilot Consideration-of-Concept studies: Clinical trials
+aimed at testing device safety, clinical feasibility and
+potential benefit. They are performed in a small
+population of subjects suffering from the target disease.
+There is either no control group in the trial, or healthy
+subjects are used as control.
+Category II
+Development-of-Concept studies: Clinical studies
+aiming at verification of device efficacy. Include a
+standardized description of the intervention, a control
+group, randomization and blinded outcome assessment.
+Category III/IV
+Demonstration-of-Concept-Studies/Proof-of-Concept
+studies: Further evaluation of the device efficacy. Similar
+to category II, however, usually these are multicentered
+studies with high number of participants.
+This classification is based on guidelines provided by Lo [198] and
+supplemented by Category 0.
+that provides a therapy protocol rather than an end prod-
+uct [198], thus they are rather interested in responses to
+questions concerning optimal training intensity, disorders
+for which such form of training may be beneficial, and
+whether robotic therapy should substitute or complement
+other forms of therapy.
+This survey includes a search into the US Clinical Trials
+database (http://clinicaltrials.gov/) from October 2013
+using a combination of keywords: robotic, robot, therapy
+and rehabilitation. This is an web-based database existing
+since 1997 and maintained by the US National Library of
+Medicine at the National Institutes of Health. Under the
+American Food and Drug Administration Amendments
+Act (FDAAA) of 2007 all the applicable clinical trials (what
+concerns category II and III/IV studies in our survey) per-
+formed in the USA and starting after 2007 have to be
+registered in this database. However, it includes also some
+category I studies and many other studies performed in
+other countries. Results of this search identified 197 clin-
+ical trials out of which 62 are relevant to this survey.
+The selected trials are divided into two categories. The
+main objective of the first category is to proof the effi-
+cacy or safety of the device, therefore there was either
+no control group or a control group was undergoing the
+standard form of the therapy. The main objective of the
+second category is to determine a more efficient form of
+the therapy. In the latter category, the participants were
+assigned to groups undergoing similar forms of therapy,
+but at different intensities, using various devices or under-
+going various forms of therapy in different order. A total
+of 31 studies aim at device safety or efficacy validation
+while 27 address better forms of therapy. A total of four
+trials were excluded. The objective of these trials was to
+validate other forms of therapy; devices described in this
+review have only been used as a reference. As indicated in
+Figure 3, the number of participants enrolled in studies for
+therapy improvement significantly increased during last
+three years compared to the number of participants in
+the device safety/efficacy validation studies. This suggests
+that the objective of the studies changes from validating
+forms of therapy to finding optimal applications methods.
+This survey identified a total of 21 devices out of the 58
+clinical studies. However, it was not possible to determine
+the robotic device in 11 studies. Surprisingly, almost only
+stroke survivors (54 studies) were enrolled. In the remain-
+ing four studies subjects with cerebral palsy, spinal cord
+injury, traumatic brain injury and rotator cuff tear were
+involved.
+Outcomes of clinical studies
+Many questions concerning effective robotic upper-limb
+rehabilitation still remain unanswered. One of the most
+important reasons is that the most effective interventions
+to optimize neural plasticity are still not clear and it is not
+
+----- Page 22 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 22 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Figure 3 Number of clinical studies and enrolled subjects depending on study objective and start year. Results based on a search in the
+clinicaltrials.gov database in October 2013. Numbers on and above the bars indicate the number of studies in each category starting in the
+particular year.
+possible to implement them in rehabilitation robotics [7].
+The other is that the results of the clinical controlled tri-
+als remains limited and those already available are difficult
+to compare with each other [7,193]. It is also questionable
+which measures should be used to evaluate the effects of
+therapy and which outcome should be compared: short-
+term or long-term. Scales based on evaluation of abili-
+ties influencing the quality of life are often not objective
+enough, since they rely on therapist expertise.
+Although it is not possible to indicate the best con-
+trol strategy for the rehabilitation, there is already some
+evidence showing that some strategies are producing bet-
+ter outcomes, whereas some can even decrease recov-
+ery time compared to possible non-robotic strategies
+[193].
+Most accepted theories about robotic rehabilitation
+are clear: The goal of the rehabilitation training is not only
+to maximize the number of repetition but to maximize the
+patients attention and effort as well [3]. The monotonous
+exercises provide worse retention of a skill compared with
+alternate training [7]. Adaptive therapy and assistance
+as needed provide better results as fixed pattern ther-
+apy [193]. Robotic therapy can possibly decrease recovery
+if it encourages slacking since the patient may decrease
+effort and attention due to the use of adaptive algorithm
+[193]. Because learning is error based, faster improve-
+ment may be achieved when error is increased [194].
+Implicit learning, allowing patients to learn skills without
+awareness, may result in greater learning effect [7]. Many
+functional gains are more dependent on wrist and hand
+movements than on the mobility of shoulder and elbow
+[7]. It is not the maximal voluntary contraction (strength
+of the muscles) but appropriately timed activity of ago-
+nist and antagonist (coordination of the movements) that
+significantly improve the rehabilitation [3].
+As previously stated, the objective of this report is
+not to review the results of clinical studies performed
+so far. A detailed review of clinical studies is referenced
+in other publications [7,198-202]. The most important
+results are still worth mentioning. Systematic review and
+meta-analysis of the trials performed in stroke patients
+suggest that robotic training improves motor impairment
+and strength but do not improve ability to perform ADLs
+[199,200]. The results of the first large randomized mul-
+ticenter study in which training with MIT-Manus robotic
+system have been compared with intensive therapist-
+provided therapy and usual care have revealed that there
+is no significant difference in the outcomes of the two
+intensive forms of the therapy [203]. Thus the most
+important advantage of robotic systems is their abil-
+ity to provide intensive repetitive training without over-
+burdening therapists [204]. Another advantage is the
+ability to provide more motivating training context, by
+means of a computer gaming environment with quan-
+titative feedback to motivate practice [205]. Concerning
+cost-effectiveness of robotic rehabilitation, the results of
+the previously mentioned multicenter trial have shown
+that when the total cost of the therapy is compared, i.e.
+the cost of the therapy plus the cost of all the other health
+care use, the costs of the two forms of the intensive ther-
+apy (i.e. robot-assisted and therapist-provided) are similar
+[203]. However, the cost of technology is expected to
+decrease, as opposed to the cost of human labor. There-
+fore cost-effective advantage toward robot-therapy may be
+expected [198].
+
+----- Page 23 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 23 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+Conclusions
+Due to population changes, shortage of professional ther-
+apists, and the increasing scientific and technical poten-
+tial, many research groups have proposed devices with
+the potential to facilitate the rehabilitation process. Many
+devices for upper limb rehabilitation have already been
+proposed. A vast majority of these proposed devices are
+technically advanced and are designed for clinical set-
+tings. However, there is still significant need to improve
+efficiency and reduce cost of home-based devices for ther-
+apy and ADLs assistance. The effectiveness of robotic
+over conventional therapy is arguable and the best ther-
+apy strategy is still not clear. The situation may change
+soon, because more and more devices are being commer-
+cialized and more scientific results will be available. It may
+encourage next groups to propose their own solutions.
+Developing new devices and improving those already in
+the market will be easier, when taking advantage from the
+already existing solutions. We hope that this survey will
+help to navigate between those solutions and select best of
+them, thus facilitating development of new and better sys-
+tems for robotic upper limb rehabilitation. We also hope
+that it will be a valuable source of information for all the
+professionals looking for a comprehensive reference.
+Competing interests
+The authors declare that they have no competing interests.
+Authors’ contributions
+PM performed systematical review of papers and drafted the manuscript. JE,
+KGH, and AJ contributed to the review of various systems and revised the
+manuscript. SL contributed to the concept, paper structure and revised the
+manuscript. All authors read and approved the manuscript.
+Acknowledgements
+We would like to thank Mrs. Christine Azevedo-Coste, Ph.D. for her critical
+reading and revising the manuscript and Mr. Gabriel David Nevarez, P.E. for
+proofreading the English.
+The work of PM has been supported by the European Union in the framework
+of European Social Fund through the Warsaw University of Technology
+Development Program. He would also like to thank the Center for Advanced
+Studies of the Warsaw University of Technology for the support that he
+received during preparation of this work and the Chair of Medical Engineering
+(mediTEC), Helmholtz-Institute for Biomedical Engineering, RWTH Aachen
+University for the possibility of performing the majority of the work on this
+manuscript during scientific stay in that institution.
+Author details
+1DEMAR - LIRMM, INRIA, University of Montpellier 2, CNRS, Montpellier, 161 rue
+Ada, 34095 Montpellier, France. 2Institute of Metrology and Biomedical
+Engineering, Warsaw University of Technology, ul. ´Sw. A. Boboli 8, 02-525
+Warszawa, Poland. 3Helmholtz-Institute for Biomedical Engineering, RWTH
+Aachen University, Pauwelsstraße 20, 52074 Aachen, Germany. 4Chair of
+Medical Engineering (mediTEC), Helmholtz-Institute for Biomedical
+Engineering, RWTH Aachen University, Pauwelsstraße 20, 52074 Aachen,
+Germany. 5Philips Chair of Medical Information Technology (MedIT),
+Helmholtz-Institute for Biomedical Engineering, RWTH Aachen University,
+Pauwelsstraße 20, 52074 Aachen, Germany.
+Received: 25 October 2012 Accepted: 3 January 2014
+Published: 9 January 2014
+References
+1.
+Platz T: Evidenzbasierte Armrehabilitation: Eine systematische
+Literaturübersicht [Evidence-based arm rehabilitation–a
+systematic review of the literature]. Nervenarzt 2003, 74(10):841–849.
+[http://dx.doi.org/10.1007/s00115-003-1549-7]
+2.
+Feys H, Weerdt WD, Verbeke G, Steck GC, Capiau C, Kiekens C, Dejaeger E,
+Hoydonck GV, Vermeersch G, Cras P: Early and repetitive stimulation
+of the arm can substantially improve the long-term outcome after
+stroke: a 5-year follow-up study of a randomized trial. Stroke 2004,
+35(4):924–929. [http://dx.doi.org/10.1161/01.STR.0000121645.44752.f7]
+3.
+Patton J, Small SL, Rymer WZ: Functional restoration for the stroke
+survivor: informing the efforts of engineers. Top Stroke Rehabil 2008,
+15(6):521–541. [http://dx.doi.org/10.1310/tsr1506-521]
+4.
+Richards L, Hanson C, Wellborn M, Sethi A: Driving motor recovery
+after stroke. Top Stroke Rehabil 2008, 15(5):397–411.
+[http://dx.doi.org/10.1310/tsr1505-397]
+5.
+WHO: The global burden of disease: 2004 Update. World Health
+Organization (WHO) 2008. [http://www.who.int/healthinfo/
+global_burden_disease/GBD_report_2004update_full.pdf]
+6.
+Riener R, Nef T, Colombo G: Robot-aided neurorehabilitation of the
+upper extremities. Med Biol Eng Comput 2005, 43:2–10.
+7.
+Brewer BR, McDowell SK, Worthen-Chaudhari LC: Poststroke upper
+extremity rehabilitation: a review of robotic systems and clinical
+results. Top Stroke Rehabil 2007, 14(6):22–44.
+[http://dx.doi.org/10.1310/tsr1406-22]
+8.
+Gopura RARC, Kiguchi K: Mechanical designs of active upper-limb
+exoskeleton robots: State-of-the-art and design difficulties. In Proc.
+IEEE International Conference on Rehabilitation Robotics ICORR. Kyoto,
+Japan; 2009:178–187.
+9.
+Cheng HS, Ju MS, Lin CCK: Improving elbow torque output of stroke
+patients with assistive torque controlled by EMG signals. J Biomech
+Eng 2003, 125(6):881–886.
+10.
+Cozens JA: Robotic assistance of an active upper limb exercise in
+neurologically impaired patients. Rehabil Eng, IEEE Trans 1999,
+7(2):254–256.
+11.
+Mavroidis C, Nikitczuk J, Weinberg B, Danaher G, Jensen K, Pelletier P,
+Prugnarola J, Stuart R, Arango R, Leahey M, Pavone R, Provo A, Yasevac D:
+Smart portable rehabilitation devices. J Neuroeng Rehabil 2005, 2:18.
+[http://dx.doi.org/10.1186/1743-0003-2-18]
+12.
+Song R, yu Tong K, Hu X: Assistive control system using continuous
+myoelectric signal in robot-aided arm training for patients after
+stroke. IEEE Trans Neural Syst Rehabil Eng 2008, 16(4):371–379. [http://dx.
+doi.org/10.1109/TNSRE.2008.926707]
+13.
+Hu X, Tong KY, Song R, Tsang VS, Leung PO, Li L: Variation of muscle
+coactivation patterns in chronic stroke during robot-assisted
+elbow training. Arch Phys Med Rehabil 2007, 88(8):1022–1029.
+[http://dx.doi.org/10.1016/j.apmr.2007.05.006]
+14.
+Song R, Tong KY, Hu XL, Tsang SF, Li L: The therapeutic effects of
+myoelectrically controlled robotic system for persons after
+stroke–a pilot study. Conf Proc IEEE Eng Med Biol Soc 2006,
+1:4945–4948. [http://dx.doi.org/10.1109/IEMBS.2006.260186]
+15.
+Kung PC, Ju MS, Lin CCK: Design of a forearm rehabilitation robot. In
+Proc. IEEE 10th International Conference on Rehabilitation Robotics ICORR.
+Noordwijk, Netherlands; 2007:228–233.
+16.
+Kung PC, Lin CCK, Ju MS, Chen SM: Time course of abnormal
+synergies of stroke patients treated and assessed by a
+neuro-rehabilitation robot. In Proc. IEEE International Conference on
+Rehabilitation Robotics ICORR. Kyoto, Japan; 2009:12–17.
+17.
+Colombo R, Pisano F, Mazzone A, Delconte C, Micera S, Carrozza MC,
+Dario P, Minuco G: Design strategies to improve patient motivation
+during robot-aided rehabilitation. J Neuroeng Rehabil 2007, 4:3.
+[http://dx.doi.org/10.1186/1743-0003-4-3]
+18.
+Hu XL, Tong KY, Song R, Zheng XJ, Lui KH, Leung WWF, Ng S,
+Au-Yeung SSY: Quantitative evaluation of motor functional
+recovery process in chronic stroke patients during robot-assisted
+wrist training. J Electromyogr Kinesiol 2009, 19(4):639–650.
+[http://dx.doi.org/10.1016/j.jelekin.2008.04.002]
+19.
+Hu XL, Tong KY, Song R, Zheng XJ, Leung WWF: A comparison between
+electromyography-driven robot and passive motion device on
+wrist rehabilitation for chronic stroke. Neurorehabil Neural Repair
+2009, 23(8):837–846. [http://dx.doi.org/10.1177/1545968309338191]
+
+----- Page 24 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 24 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+20.
+Sale P, Lombardi V, Franceschini M: Hand robotics rehabilitation:
+feasibility and preliminary results of a robotic treatment in
+patients with hemiparesis. Stroke Res Treat 2012, 2012:820931.
+[http://dx.doi.org/10.1155/2012/820931]
+21.
+Chen M, Ho SK, Zhou HF, Pang PMK, Hu XL, Ng DTW, Tong KY:
+Interactive rehabilitation robot for hand function training. In Proc.
+IEEE International Conference on Rehabilitation Robotics ICORR. Kyoto,
+Japan; 2009:777–780.
+22.
+Turner M, Gomez D, Tremblay M, Cutkosky M: Preliminary tests of an
+arm-grounded haptic feedback device in telemanipulation. In Proc.
+of the ASME Dynamic Systems and Control Division. Volume 64. Anaheim,
+CA; 1998:145–149.
+23.
+Ertas IH, Hocaoglu E, Barkana DE, Patoglu V: Finger exoskeleton for
+treatment of tendon injuries. In Proc. IEEE International Conference on
+Rehabilitation Robotics ICORR. Kyoto, Japan; 2009:194–201.
+24.
+Fuxiang Z: An Embedded Control Platform of a Continuous Passive
+Motion Machine for Injured Fingers. In Rehabilitation Robotics. Edited
+by Kommu SS. Vienna, Austria: I-Tech Education Publishing;
+2007:579–606.
+25.
+Vanoglio F, Luisa A, Garofali F, Mora C: Evaluation of the effectiveness
+of Gloreha (Hand Rehabilitation Glove) on hemiplegic patients.
+Pilot study. In XIII Congress of Italian Society of Neurorehabilitation, 18-20
+April. Italy: Bari; 2013.
+26.
+Parrinello I, Faletti S, Santus G: Use of a continuous passive motion
+device for hand rehabilitation: clinical trial on neurological
+patients. In 41 National Congress of Italian Society of Medicine and
+Physical Rehabilitation, 14-16 October. Rome, Italy; 2013.
+27.
+Varalta V, Smania N, Geroin C, Fonte C, Gandolfi M, Picelli A, Munari D,
+Ianes P, Montemezzi G, La Marchina E: Effects of passive rehabilitation
+of the upper limb with robotic device Gloreha on visual-spatial and
+attentive exploration capacities of patients with stroke issues. In
+XIII Congress of Italian Society of Neurorehabilitation, 18-20 April. Bari,
+Italy; 2013.
+28.
+Ho NSK, Tong KY, Hu XL, Fung KL, Wei XJ, Rong W, Susanto EA: An
+EMG-driven exoskeleton hand robotic training device on chronic
+stroke subjects: task training system for stroke rehabilitation. IEEE
+Int Conf Rehabil Robot; Boston, MA 2011, 2011:5975340. [http://dx.doi.
+org/10.1109/ICORR.2011.5975340]
+29.
+Schabowsky CN, Godfrey SB, Holley RJ, Lum PS, Development and pilot
+testing of HEXORR: hand EXOskeleton rehabilitation robot. J
+Neuroeng Rehabil 2010, 7:36. [http://dx.doi.org/10.1186/1743-0003-7-36]
+30.
+Kline T, Kamper D, Schmit B: Control system for pneumatically
+controlled glove to assist in grasp activities. In Proc. 9th International
+Conference on Rehabilitation Robotics ICORR. Chicago, IL; 2005:78–81.
+31.
+Mulas M, Folgheraiter M, Gini G: An EMG-controlled exoskeleton for
+hand rehabilitation. In Proc. 9th International Conference on
+Rehabilitation Robotics ICORR. Chicago, IL; 2005:371–374.
+32.
+Hesse S, Kuhlmann H, Wilk J, Tomelleri C, Kirker SGB: A new
+electromechanical trainer for sensorimotor rehabilitation of
+paralysed fingers: a case series in chronic and acute stroke
+patients. J Neuroeng Rehabil 2008, 5:21. [http://dx.doi.org/10.1186/
+1743-0003-5-21]
+33.
+Rotella MF, Reuther KE, Hofmann CL, Hage EB, BuSha BF: An Orthotic
+Hand-Assistive Exoskeleton for Actuated Pinch and Grasp. In
+Bioengineering Conference, IEEE 35th Annual Northeast. Boston, MA;
+2009:1–2. [http://dx.doi.org/10.1109/NEBC.2009.4967693]
+34.
+Sarakoglou I, Tsagarakis NG, Caldwell DG: Occupational and physical
+therapy using a hand exoskeleton based exerciser. In Proc. IEEE/RSJ
+International Conference on Intelligent Robots and Systems (IROS).
+Volume 3. Sendai, Japan; 2004:2973–2978.
+35.
+Tong KY, Ho SK, Pang PK, Hu XL, Tam WK, Fung KL, Wei XJ, Chen PN, Chen
+M: An intention driven hand functions task training robotic system.
+In Conf Proc IEEE Eng Med Biol Soc. Volume 2010. Buenos Aires, Argentina;
+2010:3406–3409. [http://dx.doi.org/10.1109/IEMBS.2010.5627930]
+36.
+Wege A, Hommel G: Development and control of a hand
+exoskeleton for rehabilitation of hand injuries. In Intelligent Robots
+and Systems, (IROS 2005). 2005 IEEE/RSJ International Conference on.
+Edmonton, Canada; 2005:3046–3051.
+37.
+Worsnopp TT, Peshkin MA, Colgate JE, Kamper DG: An Actuated Finger
+Exoskeleton for Hand Rehabilitation Following Stroke. In Proc. IEEE
+10th International Conference on Rehabilitation Robotics ICORR. Noordwijk,
+Netherlands; 2007:896–901.
+38.
+Xing K, Xu Q, He J, Wang Y, Liu Z, Huang X: A wearable device for
+repetitive hand therapy. In Proc. 2nd IEEE RAS & EMBS International
+Conference on Biomedical Robotics and Biomechatronics BioRob.
+Scottsdale, AZ; 2008:919–923.
+39.
+Ellis MD, Sukal T, DeMott T, Dewald JPA: ACT 3D exercise targets
+gravity-induced discoordination and improves reaching work area
+in individuals with stroke. In Proc. IEEE 10th International Conference on
+Rehabilitation Robotics ICORR. Noordwijk, Netherlands; 2007:890–895.
+40.
+Kahn LE, Lum PS, Rymer WZ, Reinkensmeyer DJ: Robot-assisted
+movement training for the stroke-impaired arm: Does it matter
+what the robot does? J Rehabil Res Dev 2006, 43(5):619–630.
+41.
+Chang JJ, Tung WL, Wu WL, Huang MH, Su FC: Effects of robot-aided
+bilateral force-induced isokinetic arm training combined with
+conventional rehabilitation on arm motor function in patients with
+chronic stroke. Arch Phys Med Rehabil 2007, 88(10):1332–1338.
+[http://dx.doi.org/10.1016/j.apmr.2007.07.016]
+42.
+Volpe BT, Krebs HI, Hogan N, OTR LE, Diels C, Aisen M: A novel
+approach to stroke rehabilitation: robot-aided sensorimotor
+stimulation. Neurology 2000, 54(10):1938–1944.
+43.
+Rabadi M, Galgano M, Lynch D, Akerman M, Lesser M, Volpe B: A pilot
+study of activity-based therapy in the arm motor recovery post
+stroke: a randomized controlled trial. Clin Rehabil 2008,
+22(12):1071–1082. [http://dx.doi.org/10.1177/0269215508095358]
+44.
+Ju MS, Lin CCK, Lin DH, Hwang IS, Chen SM: A rehabilitation robot
+with force-position hybrid fuzzy controller: hybrid fuzzy control of
+rehabilitation robot. IEEE Trans Neural Syst Rehabil Eng 2005,
+13(3):349–358. [http://dx.doi.org/10.1109/TNSRE.2005.847354]
+45.
+Kiguchi K, Rahman MH, Sasaki M, Teramoto K: Development of a 3DOF
+mobile exoskeleton robot for human upper-limb motion assist.
+Robotics and Autonomous Systems 2008, 56(8):678–691. [http://www.
+sciencedirect.com/science/article/B6V16-4R8MDRP-1/2/
+7d307e7bbef3e5958a6960e3da652723]
+46.
+Rosati G, Gallina P, Masiero S, Rossi A: Design of a new 5 d.o.f.
+wire-based robot for rehabilitation. In Proc. 9th International
+Conference on Rehabilitation Robotics ICORR. Chicago, IL; 2005:430–433.
+47.
+Colombo R, Sterpi I, Mazzone A, Delconte C, Minuco G, Pisano F:
+Measuring changes of movement dynamics during robot-aided
+neurorehabilitation of stroke patients. IEEE Trans Neural Syst Rehabil
+Eng 2010, 18:75–85. [http://dx.doi.org/10.1109/TNSRE.2009.2028831]
+48.
+Lum PS, Burgar CG, Shor PC, Majmundar M, der Loos, M V:
+Robot-assisted movement training compared with conventional
+therapy techniques for the rehabilitation of upper-limb motor
+function after stroke. Arch Phys Med Rehabil 2002, 83(7):952–959.
+49.
+Lum PS, Burgar CG, der Loos, M V, Shor PC, Majmundar M, Yap R: MIME
+robotic device for upper-limb neurorehabilitation in subacute
+stroke subjects: A follow-up study. J Rehabil Res Dev 2006,
+43(5):631–642.
+50.
+Lum PS, Burgar CG, Shor PC: Evidence for improved muscle
+activation patterns after retraining of reaching movements with
+the MIME robotic system in subjects with post-stroke hemiparesis.
+IEEE Trans Neural Syst Rehabil Eng 2004, 12(2):186–194. [http://dx.doi.org/
+10.1109/TNSRE.2004.827225]
+51.
+Moubarak S, Pham M, Pajdla T, Redarce T: Design Results of an Upper
+Extremity Exoskeleton. In Proc. 4th European Conference of the
+International Federation for Medical and Biological Engineering. Antwerp,
+Belgium; 2008.
+52.
+Masiero S, Celia A, Rosati G, Armani M: Robotic-assisted rehabilitation
+of the upper limb after acute stroke. Arch Phys Med Rehabil 2007,
+88(2):142–149. [http://dx.doi.org/10.1016/j.apmr.2006.10.032]
+53.
+Masiero S, Armani M, Rosati G: Upper-limb robot-assisted therapy in
+rehabilitation of acute stroke patients: focused review and results
+of new randomized controlled trial. J Rehabil Res Dev 2011,
+48(4):355–366.
+54.
+Fazekas G, Horvath M, Troznai T, Toth A: Robot-mediated upper limb
+physiotherapy for patients with spastic hemiparesis: a preliminary
+study. J Rehabil Med 2007, 39(7):580–582. [http://www.ingentaconnect.
+com/content/mjl/sreh/2007/00000039/00000007/art00013]
+55.
+Hesse S, Schulte-Tigges G, Konrad M, Bardeleben A, Werner C:
+Robot-assisted arm trainer for the passive and active practice of
+
+----- Page 25 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 25 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+bilateral forearm and wrist movements in hemiparetic subjects.
+Arch Phys Med Rehabil 2003, 84(6):915–920.
+56.
+Hesse S, Werner C, Pohl M, Rueckriem S, Mehrholz J, Lingnau ML:
+Computerized arm training improves the motor control of the
+severely affected arm after stroke: a single-blinded randomized
+trial in two centers. Stroke 2005, 36(9):1960–1966. [http://dx.doi.org/10.
+1161/01.STR.0000177865.37334.ce]
+57.
+Allington J, Spencer SJ, Klein J, Buell M, Reinkensmeyer DJ, Bobrow J:
+Supinator Extender (SUE): a pneumatically actuated robot for
+forearm/wrist rehabilitation after stroke. Conf Proc IEEE Eng Med Biol
+Soc 2011, 2011:1579–1582. [http://dx.doi.org/10.1109/IEMBS.2011.
+6090459]
+58.
+Cordo P, Lutsep H, Cordo L, Wright WG, Cacciatore T, Skoss R: Assisted
+movement with enhanced sensation (AMES): coupling motor and
+sensory to remediate motor deficits in chronic stroke patients.
+Neurorehabil Neural Repair 2009, 23:67–77. [http://dx.doi.org/10.1177/
+1545968308317437]
+59.
+Koeneman EJ, Schultz RS, Wolf SL, Herring DE, Koeneman JB:
+A pneumatic muscle hand therapy device. Conf Proc IEEE Eng Med Biol
+Soc 2004, 4:2711–2713. [http://dx.doi.org/10.1109/IEMBS.2004.1403777]
+60.
+Kutner NG, Zhang R, Butler AJ, Wolf SL, Alberts JL: Quality-of-life
+change associated with robotic-assisted therapy to improve hand
+motor function in patients with subacute stroke: a randomized
+clinical trial. Phys Ther 2010, 90(4):493–504. [http://dx.doi.org/10.2522/
+ptj.20090160]
+61.
+Rosenstein L, Ridgel AL, Thota A, Samame B, Alberts JL: Effects of
+combined robotic therapy and repetitive-task practice on
+upper-extremity function in a patient with chronic stroke. Am J
+Occup Ther 2008, 62:28–35.
+62.
+Frick EM, Alberts JL: Combined use of repetitive task practice
+and an assistive robotic device in a patient with subacute stroke.
+Phys Ther 2006, 86(10):1378–1386. [http://dx.doi.org/10.2522/ptj.
+20050149]
+63.
+Johnson M, Wisneski K, Anderson J, Nathan D, Smith R: Development of
+ADLER: The activities of daily living exercise robot. In 1st IEEE/
+RAS-EMBS Int. Conf. Biomedical Robotics and Biomechatronics, BioRob. Pisa,
+Italy; 2006:881–886.
+64.
+Wisneski KJ, Johnson MJ: Quantifying kinematics of purposeful
+movements to real, imagined, or absent functional objects:
+implications for modelling trajectories for robot-assisted ADL
+tasks. J Neuroeng Rehabil 2007, 4:7. [http://dx.doi.org/10.1186/1743-
+0003-4-7]
+65.
+Pignolo L, Dolce G, Basta G, Lucca LF, Serra S, Sannita WG: Upper limb
+rehabilitation after stroke: ARAMIS a “robo-mechatronic”
+innovative approach and prototype. In 4th IEEE RAS & EMBS Int. Conf.
+Biomedical Robotics and Biomechatronics (BioRob). Rome, Italy;
+2012:1410–1414. [http://ieeexplore.ieee.org/stamp/stamp.jsp?
+arnumber=6290868]
+66.
+Coote S, Murphy B, Harwin W, Stokes E: The effect of the GENTLE/s
+robot-mediated therapy system on arm function after stroke.
+Clin Rehabil 2008, 22(5):395–405. [http://dx.doi.org/10.1177/
+0269215507085060]
+67.
+Culmer PR, Jackson AE, Makower SG, Cozens JA, Levesley MC,
+Mon-Williams M, Bhakta B: A novel robotic system for quantifying
+arm kinematics and kinetics: description and evaluation in
+therapist-assisted passive arm movements post-stroke. J Neurosci
+Methods 2011, 197(2):259–269. [http://dx.doi.org/10.1016/j.jneumeth.
+2011.03.004]
+68.
+Kiguchi K, Kose Y, Hayashi Y: Task-oriented perception-assist for an
+upper-limb powerassist exoskeleton robot. In Proc. World
+Automation Congress (WAC). Kobe, Japan; 2010:1–6. [http://ieeexplore.
+ieee.org/xpls/abs_all.jsp?arnumber=5665314]
+69.
+Frisoli A, Bergamasco M, Borelli L, Montagner A, Greco G, Procopio C,
+Carboncini M, Rossi B: Robotic assisted rehabilitation in virtual
+reality with the L-EXOS. In Proc. of 7th ICDVRAT with ArtAbilitation. Maia,
+Portugal; 2008:253–260.
+70.
+Carignan C, Tang J, Roderick S, Naylor M: A Configuration-Space
+Approach to Controlling a Rehabilitation Arm Exoskeleton. In Proc.
+IEEE 10th International Conference on Rehabilitation Robotics ICORR.
+Noordwijk, Netherlands; 2007:179–187.
+71.
+Fluet GG, Qiu Q, Saleh S, Ramirez D, Adamovich S, Kelly D, Parikh H:
+Robot-assisted virtual rehabilitation (NJIT-RAVR) system for
+children with upper extremity hemiplegia. In Virtual Rehabilitation
+International Conference. Haifa, Israel; 2009:189–192.
+72.
+Wolbrecht ET, Chan V, Reinkensmeyer DJ, Bobrow JE: Optimizing
+compliant, model-based robotic assistance to promote
+neurorehabilitation. IEEE Trans Neural Syst Rehabil Eng 2008,
+16(3):286–297. [http://dx.doi.org/10.1109/TNSRE.2008.918389]
+73.
+Housman SJ, Le V, Rahman T, Sanchez RJ, Reinkensmeyer DJ: Arm-
+Training with T-WREX After Chronic Stroke: Preliminary Results of a
+Randomized Controlled Trial. In Proc. IEEE 10th International Conference
+on Rehabilitation Robotics ICORR. Noordwijk, Netherlands; 2007:562–568.
+74.
+Housman SJ, Scott KM, Reinkensmeyer DJ: A randomized controlled
+trial of gravity-supported, computer-enhanced arm exercise
+for individuals with severe hemiparesis. Neurorehabil Neural
+Repair 2009, 23(5):505–514. [http://dx.doi.org/10.1177/
+1545968308331148]
+75.
+Sanchez RJ, Liu J, Rao S, Shah P, Smith R, Rahman T, Cramer SC, Bobrow JE,
+Reinkensmeyer DJ: Automating arm movement training following
+severe stroke: functional exercises with quantitative feedback in a
+gravity-reduced environment. IEEE Trans Neural Syst Rehabil Eng 2006,
+14(3):378–389. [http://dx.doi.org/10.1109/TNSRE.2006.881553]
+76.
+Gupta A, O’Malley M: Design of a haptic arm exoskeleton for training
+and rehabilitation. IEEE ASME Trans Mechatronics 2006, 11(3):280.
+77.
+Lambercy O, Dovat L, Gassert R, Burdet E, Teo CL, Milner T: A haptic
+knob for rehabilitation of hand function. IEEE Trans Neural Syst Rehabil
+Eng 2007, 15(3):356–366. [http://dx.doi.org/10.1109/TNSRE.2007.903913]
+78.
+Casadio M, Giannoni P, Morasso P, Sanguineti V: A proof of concept
+study for the integration of robot therapy with physiotherapy in
+the treatment of stroke patients. Clin Rehabil 2009, 23(3):217–228.
+[http://dx.doi.org/10.1177/0269215508096759]
+79.
+Carpinella I, Cattaneo D, Abuarqub S, Ferrarin M: Robot-based
+rehabilitation of the upper limbs in multiple sclerosis: feasibility
+and preliminary results. J Rehabil Med 2009, 41(12):966–970. [http://
+www.ingentaconnect.com/content/mjl/sreh/2009/00000041/
+00000012/art00004]
+80.
+Casadio M, Sanguineti V, Solaro C, Morasso PG: A Haptic Robot Reveals
+the Adaptation Capability of Individuals with Multiple Sclerosis. Int
+J Rob Res 2007, 26(11-12):1225–1233.
+81.
+Vergaro E, Squeri V, Brichetto G, Casadio M, Morasso P, Solaro C,
+Sanguineti V: Adaptive robot training for the treatment of
+incoordination in Multiple Sclerosis. J Neuroeng Rehabil 2010, 7:37.
+[http://dx.doi.org/10.1186/1743-0003-7-37]
+82.
+Denève A, Moughamir S, Afilal L, Zaytoon J: Control system design of a
+3-DOF upper limbs rehabilitation robot. Comput Methods
+Programs Biomed 2008, 89(2):202–214. [http://dx.doi.org/10.1016/j.
+cmpb.2007.07.006]
+83.
+Furuhashi Y, Nagasaki M, Aoki T, Morita Y, Ukai H, Matsui N:
+Development of rehabilitation support robot for personalized
+rehabilitation of upper limbs. In Proc. IEEE International Conference on
+Rehabilitation Robotics ICORR. Kyoto, Japan; 2009:787–792.
+84.
+Mathai A, Qiu Q: Incorporating Haptic Effects Into Three-Dimensional
+Virtual Environments to Train the Hemiparetic Upper Extremity; 2009.
+[http://dx.doi.org/10.1109/TNSRE.2009.2028830]
+85.
+Ozawa T, Kikuchi T, Fukushima K, Akai H, Fukuda T, Tanida S, Fujikawa T,
+Kano S, Furusho J: Initial clinical tests for assessment models of
+synergy movements of stroke patients using PLEMO system with
+sensor grip device. In Proc. IEEE International Conference on
+Rehabilitation Robotics ICORR. Kyoto, Japan; 2009:873–878.
+86.
+Zhang H, Balasubramanian S, Wei R, Austin H, Buchanan S, Herman R,
+He J: RUPERT closed loop control design. Conf Proc IEEE Eng Med Biol
+Soc 2010, 2010:3686–3689. [http://dx.doi.org/10.1109/IEMBS.2010.
+5627647]
+87.
+Rosati G, Zanotto D, Secoli R, Rossi A: Design and control of two
+planar cable-driven robots for upper-limb neurorehabilitation. In
+Proc. IEEE International Conference on Rehabilitation Robotics ICORR. Kyoto,
+Japan; 2009:560–565.
+88.
+Tanaka Y, Ishii M, Tsuji T, Imamura N: Modeling and evaluation of
+human motor skills in a virtual tennis task. Conf Proc IEEE Eng Med Biol
+Soc; Vancouver, Canada 2008, 2008:4190–4193. [http://dx.doi.org/10.
+1109/IEMBS.2008.4650133]
+
+----- Page 26 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 26 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+89.
+Xiu-Feng Z, Lin-Hong J, Li-Yun G: A novel robot neurorehabilitation
+for upper limb motion. Conf Proc IEEE Eng Med Biol Soc; Shanghai, China
+2005, 5:5040–5043. [http://dx.doi.org/10.1109/IEMBS.2005.1615608]
+90.
+Nef T, Guidali M, Klamroth-Marganska V, Riener R: ARMin - Exoskeleton
+Robot for Stroke Rehabilitation. In World Congress on Medical Physics
+and Biomedical Engineering, September 7 - 12. Volume 25/IX of IFMBE
+Proceedings. Edited by Dössel O, Schlegel WC. Munich, Germany:
+Springer; 2009:127–130.
+91.
+Nef T, Quinter G, Müller R, Riener: Effects of arm training with the
+robotic device ARMin I in chronic stroke: three single cases.
+Neurodegener Dis 2009, 6(5-6):240–251. [http://dx.doi.org/10.1159/
+000262444]
+92.
+Staubli P, Nef T, Klamroth-Marganska V, Riener R: Effects of intensive
+arm training with the rehabilitation robot ARMin II in chronic
+stroke patients: four single-cases. J Neuroeng Rehabil 2009, 6:46.
+[http://dx.doi.org/10.1186/1743-0003-6-46]
+93.
+Gijbels D, Lamers I, Kerkhofs L, Alders G, Knippenberg E, Feys P: The
+Armeo Spring as training tool to improve upper limb functionality
+in multiple sclerosis: a pilot study. J Neuroeng Rehabil 2011, 8:5.
+[http://dx.doi.org/10.1186/1743-0003-8-5]
+94.
+Loureiro RCV, Lamperd B, Collin C, Harwin WS: Reach & grasp therapy:
+Effects of the Gentle/G System assessing sub-acute stroke
+whole-arm rehabilitation. In Proc. IEEE International Conference on
+Rehabilitation Robotics ICORR. Volume 2009. Kyoto; 2009:755–760.
+95.
+Bovolenta F, Sale P, Dall’Armi V, Clerici P, Franceschini M: Robot-aided
+therapy for upper limbs in patients with stroke-related lesions.
+Brief report of a clinical experience. J Neuroeng Rehabil 2011, 8:18.
+96.
+Treger I, Faran S, Ring H: Robot-assisted therapy for neuromuscular
+training of sub-acute stroke patients. A feasibility study. Eur J Phys
+Rehabil Med 2008, 44(4):431–435.
+97.
+Perry JC, Rosen J, Burns S: Upper-limb powered exoskeleton design.
+Mechatronics, IEEE/ASME Trans 2007, 12(4):408–417.
+98.
+Hasegawa Y, Mikami Y, Watanabe K, Sankai Y: Five-fingered assistive
+hand with mechanical compliance of human finger. In IEEE Int. Conf.
+Robotics and Automation (ICRA). Pasadena, CA; 2008:718–724.
+99.
+Rocon E, Belda-Lois JM, Ruiz AF, Manto M, Moreno JC, Pons JL: Design
+and validation of a rehabilitation robotic exoskeleton for tremor
+assessment and suppression. IEEE Trans Neural Syst Rehabil Eng 2007,
+15(3):367–378. [http://dx.doi.org/10.1109/TNSRE.2007.903917]
+100. Loureiro RCV, Belda-Lois JM, Lima ER, Pons JL, Sanchez-Lacuesta JJ,
+Harwin WS: Upper limb tremor suppression in ADL via an orthosis
+incorporating a controllable double viscous beam actuator. In Proc.
+9th Int. Conf. on Rehabilitation Robotics ICORR. Chicago, IL; 2005:119–122.
+101. Pedrocchi A, Ferrante S, Ambrosini E, Gandolla M, Casellato C, Schauer T,
+Klauer C, Pascual J, Vidaurre C, Gfoehler M, Reichenfelser W, Karner J,
+Micera S, Crema A, Molteni F, Rossini M, Palumbo G, Guanziroli E,
+Jedlitschka A, Hack M, Bulgheroni M, D Amico E, Schenk P, Zwicker S,
+Duschau-Wicke A, Miseikis J, Graber L, Ferrigno G: MUNDUS project:
+MUltimodal Neuroprosthesis for daily upper limb support.
+J Neuroeng Rehabil 2013, 10:66. [http://dx.doi.org/10.1186/1743-0003-
+10-66]
+102. Dijkers MP, deBear PC, Erlandson RF, Kristy K, Geer DM, Nichols A:
+Patient and staff acceptance of robotic technology in occupational
+therapy: a pilot study. J Rehabil Res Dev 1991, 28(2):33–44.
+103. Donnan GA, Fisher M, Macleod M, Davis SM: Stroke. Lancet 2008, 371
+(9624):1612–1623. [http://dx.doi.org/10.1016/S0140-6736(08)60694-7]
+104. Oda K, Isozumi S, Ohyama Y, Tamida K, Kikuchi T, Furusho J:
+Development of isokinetic and iso-contractile exercise machine
+MEM-MRB using MR brake. In Proc. IEEE Int. Conf. on Rehabilitation
+Robotics (ICORR). Kyoto, Japan; 2009:6–11.
+105. Kikuchi T, Xinghao H, Fukushima K, Oda K, Furusho J, Inoue A:
+Quasi-3-DOF rehabilitation system for upper limbs: its
+force-feedback mechanism and software for rehabilitation. In Proc.
+IEEE 10th International Conference on Rehabilitation Robotics (ICORR).
+Noordwijk, Netherlands; 2007:24–27.
+106. Sanchez R, Reinkensmeyer D, Shah P, Liu J, Rao S, Smith R, Cramer S,
+Rahman T, Bobrow J: Monitoring functional arm movement for
+home-based therapy after stroke. Conf Proc IEEE Eng Med Biol Soc; San
+Francisco, CA 2004, 7:4787–4790. [http://dx.doi.org/10.1109/IEMBS.2004.
+1404325]
+107. Krebs HI, Hogan N, Aisen ML, Volpe BT: Robot-aided
+neurorehabilitation. IEEE Trans Rehabil Eng 1998, 6:75–87.
+108. Schoone M, van Os, P, Campagne A: Robot-mediated Active
+Rehabilitation (ACRE) A user trial. In Proc. IEEE 10th International
+Conference on Rehabilitation Robotics (ICORR). Noordwijk, Netherlands;
+2007:477–481.
+109. Spencer SJ, Klein J, Minakata K, Le V, Bobrow JE, Reinkensmeyer DJ: A
+low cost parallel robot and trajectory optimization method for
+wrist and forearm rehabilitation using the Wii. In Proc. 2nd IEEE RAS &
+EMBS International Conference on Biomedical Robotics and
+Biomechatronics (BioRob). Scottsdale, AZ; 2008:869–874.
+110. Takaiwa M, Noritsugu T: Development of Wrist Rehabilitation
+Equipment Using Pneumatic Parallel Manipulator. In Proc. IEEE
+International Conference on Robotics and Automation (ICRA). Barcelona,
+Spain; 2005:2302–2307. [http://dx.doi.org/10.1109/ROBOT.2005.
+1570456]
+111. Rosati G, Gallina P, Masiero S: Design, implementation and clinical
+tests of a wire-based robot for neurorehabilitation. IEEE Trans Neural
+Syst Rehabil Eng 2007, 15(4):560–569. [http://dx.doi.org/10.1109/TNSRE.
+2007.908560]
+112. Beer RF, Naujokas C, Bachrach B, Mayhew D: Development and
+evaluation of a gravity compensated training environment for
+robotic rehabilitation of post-stroke reaching. In Proc. 2nd IEEE RAS &
+EMBS International Conference on Biomedical Robotics and
+Biomechatronics (BioRob). Scottsdale, AZ; 2008:205–210.
+113. Dovat L, Lambercy O, Gassert R, Maeder T, Milner T, Leong TC,
+Burdet E: HandCARE: a cable-actuated rehabilitation system to
+train hand function after stroke. IEEE Trans Neural Syst Rehabil
+Eng 2008, 16(6):582–591. [http://dx.doi.org/10.1109/TNSRE.2008.
+2010347]
+114. Kiguchi K, Iwami K, Yasuda M, Watanabe K, Fukuda T: An exoskeletal
+robot for human shoulder joint motion assist. Mechatronics,
+IEEE/ASME Transactions on 2003, 8:125–135.
+115. Schiele A, van der Helm, FCT: Kinematic design to improve
+ergonomics in human machine interaction. IEEE Trans Neural Syst
+Rehabil Eng 2006, 14(4):456–469. [http://dx.doi.org/10.1109/TNSRE.2006.
+881565]
+116. Ren Y, Park HS, Zhang LQ: Developing a whole-arm exoskeleton
+robot with hand opening and closing mechanism for upper limb
+stroke rehabilitation. In Proc. IEEE International Conference on
+Rehabilitation Robotics (ICORR). Kyoto, Japan; 2009:761–765.
+117. Fleischer C, Kondak K, Wege A, Kossyk I: Research on Exoskeletons at
+the TU Berlin. In Proceedings of German Workshop on Robotics, June 9-10.
+Braunschweig, Germany; 2009. [http://www.gwr09.org/download/
+paper/gwr09_0043.pdf]
+118. Klein J, Spencer S, Allington J, Bobrow JE, Reinkensmeyer DJ:
+Optimization of a parallel shoulder mechanism to achieve a
+high-force, low-mass, robotic-arm exoskeleton. Robotics, IEEE Trans
+2010, 26(4):710–715.
+119. Gupta A, O’Malley M, Patoglu V, Burgar C: Design, control and
+performance of RiceWrist: a force feedback wrist exoskeleton for
+rehabilitation and training. Int J Robot Res 2008, 27(2):233.
+120. Burgar CG, Lum PS, Shor PC, der Loos, H F M V: Development of robots
+for rehabilitation therapy: the Palo Alto VA/Stanford experience.
+J Rehabil Res Dev 2000, 37(6):663–673. [http://www.rehab.research.va.
+gov/jour/00/37/6/pdf/burgar.pdf]
+121. Amirabdollahian F, Loureiro R, Gradwell E, Collin C, Harwin W, Johnson
+G: Multivariate analysis of the Fugl-Meyer outcome measures
+assessing the effectiveness of GENTLE/S robot-mediated stroke
+therapy. J Neuroeng Rehabil 2007, 4:4. [http://dx.doi.org/10.1186/1743-
+0003-4-4]
+122. Van Der Linde R, Lammertse P: HapticMaster–a generic force
+controlled robot for human interaction. Industrial Robot: Int J 2003,
+30(6):515–524.
+123. Loureiro RCV, Harwin WS: Reach & Grasp Therapy: Design and
+Control of a 9-DOF Robotic Neuro-rehabilitation System. In Proc.
+IEEE 10th International Conference on Rehabilitation Robotics (ICORR).
+Noordwijk, Netherlands; 2007:757–763.
+124. Mihelj M, Podobnik J, Munih M: HEnRiE - Haptic environment for
+reaching and grasping exercise. In Proc. 2nd IEEE RAS & EMBS
+
+----- Page 27 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 27 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+International Conference on Biomedical Robotics and Biomechatronics
+(BioRob). Scottsdale, AZ; 2008:907–912.
+125. Toth A, Fazekas G, Arz G, Jurak M, Horvath M, Passive robotic movement
+therapy of the spastic hemiparetic arm with REHAROB: report of the
+first clinical test and the follow-up system improvement. In Proc. 9th
+International Conference on Rehabilitation Robotics (ICORR). Chicago, IL;
+2005:127–130.
+126. Culmer PR, Jackson AE, Makower S, Richardson R, Cozens JA,
+Levesley MC, Bhakta BB: A Control Strategy for Upper Limb Robotic
+Rehabilitation With a Dual Robot System. Mechatronics, IEEE/ASME
+Trans 2009, PP(99):1–11.
+127. Morales R, Badesa FJ, García-Aracil N, Sabater JM: Pneumatic robotic
+systems for upper limb rehabilitation. Med Biol Eng Comput 2011,
+49(10):1145–1156. [http://dx.doi.org/10.1007/s11517-011-0814-3]
+128. Houtsma JA, Houten FJAMV: Virtual reality and a haptic master-slave
+set-up in post-stroke upper-limb rehabilitation. Proc Inst Mech Eng H
+2006, 220(6):715–718.
+129. Krebs HI, Hogan N, Durfee W, Herr H: Rehabilitation robotics, orthotics and
+prosthetics. In Textbook of Neural Repair and Rehabilitation(Selzer M,
+Clarke S, Cohen L, Duncan P, Gage F, eds.): Cambridge Univ Press; 2006.
+130. Takahashi CD, Der-Yeghiaian L, Le V, Motiwala RR, Cramer SC:
+Robot-based hand motor therapy after stroke. Brain 2008,
+131(Pt 2):425–437. [http://dx.doi.org/10.1093/brain/awm311]
+131. Vertechy R, Frisoli A, Dettori A, Solazzi M, Bergamasco M: Development
+of a new exoskeleton for upper limb rehabilitation. In Proc. IEEE
+International Conference on Rehabilitation Robotics (ICORR). Kyoto, Japan;
+2009:188–193.
+132. Micera S, Carrozza M, Guglielmelli E, Cappiello G, Zaccone F, Freschi C,
+Colombo R, Mazzone A, Delconte C, Pisano F, et al.: A simple robotic
+system for neurorehabilitation. Autonomous Robots 2005,
+19(3):271–284.
+133. Krebs H, Ferraro M, Buerger S, Newbery M, Makiyama A, Sandmann M,
+Lynch D, Volpe B, Hogan N: Rehabilitation robotics: pilot trial of a
+spatial extension for MIT-Manus. J Neuroeng Rehabil 2004, 1:5. [http://
+dx.doi.org/10.1186/1743-0003-1-5]
+134. Casadio M, Sanguineti V, Morasso PG, Arrichiello V: Braccio di Ferro: a
+new haptic workstation for neuromotor rehabilitation. Technol
+Health Care 2006, 14(3):123–142.
+135. Kikuchi T, Ozawa T, Akai H, Furusho J: "Hybrid-PLEMO", rehabilitation
+system for upper limbs with active / passive force feedback, and its
+application for facilitation techniques. In Proc. IEEE International
+Conference on Rehabilitation Robotics (ICORR). Kyoto, Japan;
+2009:781–786.
+136. Reinkensmeyer DJ, Kahn LE, Averbuch M, McKenna-Cole A, Schmit BD,
+Rymer WZ: Understanding and treating arm movement impairment
+after chronic brain injury: progress with the ARM guide. J Rehabil
+Res Dev 2000, 37(6):653–662.
+137. Lum P, Reinkensmeyer D, Mahoney R, Rymer WZ, Burgar C: Robotic
+devices for movement therapy after stroke: current status and
+challenges to clinical acceptance. Top Stroke Rehabil 2002, 8(4):40–53.
+138. Krebs HI, Volpe BT, Williams D, Celestino J, Charles SK, Lynch D, Hogan N:
+Robot-aided neurorehabilitation: a robot for wrist rehabilitation.
+IEEE Trans Neural Syst Rehabil Eng 2007, 15(3):327–335. [http://dx.doi.org/
+10.1109/TNSRE.2007.903899]
+139. Oblak J, Cikajlo I, Matjacic Z: Universal Haptic Drive: A Robot for Arm
+and Wrist Rehabilitation. IEEE Trans Neural Syst Rehabil Eng 2009.
+[http://dx.doi.org/10.1109/TNSRE.2009.2034162]
+140. Caldwell DC, Tsagarakis N: "Soft" Exoskeletons for Upper and Lower
+Body Rehabilitation - Design, Control and Testing. Int J Humanoid
+Robot 2007, 4:1–24.
+141. Pratt GA, Williamson MM: Series elastic actuators. In Intelligent Robots
+and Systems 95. ’Human Robot Interaction and Cooperative Robots’,
+Proceedings. 1995 IEEE/RSJ International Conference on. Volume 1.
+Pittsburgh, PA; 1995:399–406.
+142. Sulzer JS, Peshkin MA, Patton JL: Design of a Mobile, Inexpensive
+Device for Upper Extremity Rehabilitation at Home. In Proc. IEEE 10th
+International Conference on Rehabilitation Robotics (ICORR). Noordwijk,
+Netherlands; 2007:933–937.
+143. Vanderniepen I, Van Ham R, Van Damme M, Versluys R, Lefeber D:
+Orthopaedic rehabilitation: A powered elbow orthosis using
+compliant actuation. In Proc. IEEE International Conference on
+Rehabilitation Robotics (ICORR). Kyoto, Japan; 2009:172–177.
+144. Rosati G, Cenci S, Boschetti G, Zanotto D, Masiero S: Design of a
+single-dof active hand orthosis for neurorehabilitation. In Proc. IEEE
+International Conference on Rehabilitation Robotics (ICORR). Kyoto, Japan;
+2009:161–166.
+145. Wolbrecht ET, Leavitt J, Reinkensmeyer DJ, Bobrow JE: Control of a
+pneumatic orthosis for upper extremity stroke rehabilitation. Conf
+Proc IEEE Eng Med Biol Soc; New York, NY 2006, 1:2687–2693. [http://dx.
+doi.org/10.1109/IEMBS.2006.259941]
+146. Sasaki D, Noritsugu T, Takaiwa M: Development of Active Support
+Splint driven by Pneumatic Soft Actuator (ASSIST). In Proc. IEEE
+International Conference on Robotics and Automation (ICRA). Barcelona,
+Spain; 2005:520–525.
+147. Lucas L, DiCicco M, Matsuoka Y: An EMG-controlled hand exoskeleton
+for natural pinching. J Robot Mechatronics 2004, 16:482–488.
+148. Tsagarakis N, Caldwell D: Development and control of a
+"soft-actuated" exoskeleton for use in physiotherapy and training.
+Autonomous Robots 2003, 15:21–33.
+149. Kobayashi H, Nozaki H: Development of muscle suit for supporting
+manual worker. In IEEE/RSJ International Conference on Intelligent Robots
+and Systems (IROS). San Diego, CA; 2007:1769–1774.
+150. Chou CP, Hannaford B: Measurement and modeling of McKibben
+pneumatic artificial muscles. IEEE Trans Robot Automation 1996,
+12:90–102.
+151. Balasubramanian S, Wei R, Perez M, Shepard B, Koeneman E, Koeneman
+J, He J: RUPERT: An exoskeleton robot for assisting rehabilitation of
+arm functions. In Proc. Virtual Rehabilitation. Vancouver, Canada;
+2008:163–167. [http://dx.doi.org/10.1109/ICVR.2008.4625154]
+152. Umemura A, Saito Y, Fujisaki K: A study on power-assisted
+rehabilitation robot arms operated by patient with upper limb
+disabilities. In Proc. IEEE International Conference on Rehabilitation
+Robotics (ICORR). Kyoto, Japan; 2009:451–456.
+153. Pylatiuk C, Kargov A, Gaiser I, Werner T, Schulz S, Bretthauer G: Design of
+a flexible fluidic actuation system for a hybrid elbow orthosis. In
+Proc. IEEE International Conference on Rehabilitation Robotics (ICORR).
+Kyoto, Japan; 2009:167–171.
+154. Stienen A, Hekman E, Prange G, Jannink M, Aalsma A, van der Helm F,
+van der Kooij H: Dampace: Design of an exoskeleton for
+force-coordination training in upper-extremity rehabilitation. J
+Med Devices 2009, 3:031003.
+155. Stienen AHA, Hekman EEG, ter Braak, H, Aalsma AMM, van der Helm FCT,
+van der Kooij H: Design of a rotational hydro-elastic actuator for an
+active upper-extremity rehabilitation exoskeleton. In Proc. 2nd IEEE
+RAS & EMBS International Conference on Biomedical Robotics and
+Biomechatronics (BioRob). Scottsdale, AZ; 2008:881–888.
+156. Scherer R, Pradhan S, Dellon B, Kim D, Klatzky R, Matsuoka Y:
+Characterization of multi-finger twist motion toward robotic
+rehabilitation. In Proc. IEEE International Conference on Rehabilitation
+Robotics (ICORR). Kyoto, Japan; 2009:812–817.
+157. Winter SH, Bouzit M: Use of Magnetorheological fluid in a force
+feedback glove. IEEE Trans Neural Syst Rehabil Eng 2007, 15:2–8. [http://
+dx.doi.org/10.1109/TNSRE.2007.891401]
+158. Khanicheh A, Mintzopoulos D, Weinberg B, Tzika AA, Mavroidis C:
+MR_CHIROD v.2: magnetic resonance compatible smart hand
+rehabilitation device for brain imaging. Neural Syst Rehabil Eng IEEE
+Trans 2008, 16:91–98.
+159. Furusho J, Koyanagi K, Imada Y, Fujii Y, Nakanishi K, Domen K, Miyakoshi
+K, Ryu U, Takenaka S, Inoue A: A 3-D rehabilitation system for upper
+limbs developed in a 5-year NEDO project and its clinical testing.
+Chicago, IL; 2005:53–56.
+160. Furusho J, Kikuchi T, Oda K, Ohyama Y, Morita T, Shichi N, Jin Y, Inoue A:
+A 6-DOF Rehabilitation Support System for Upper Limbs including
+Wrists "Robotherapist" with Physical Therapy. In Proc. IEEE 10th
+International Conference on Rehabilitation Robotics (ICORR). Noordwijk,
+Netherlands; 2007:304–309.
+161. Hamid S, Hayek R: Role of electrical stimulation for rehabilitation
+and regeneration after spinal cord injury: an overview. Eur Spine J
+2008, 17(9):1256–1269. [http://dx.doi.org/10.1007/s00586-008-0729-3]
+162. Takano Y, Haneda Y, Maeda T, Sakai Y, Matsuse H, Kawaguchi T,
+Tagawa Y, Shiba N: Increasing muscle strength and mass of thigh in
+
+----- Page 28 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 28 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+elderly people with the hybrid-training method of electrical
+stimulation and volitional contraction. Tohoku J Exp Med 2010,
+221:77–85.
+163. Freeman CT, Hughes AM, Burridge JH, Chappell PH, Lewin PL, Rogers E:
+A robotic workstation for stroke rehabilitation of the upper
+extremity using FES. Med Eng Phys 2009, 31(3):364–373. [http://dx.doi.
+org/10.1016/j.medengphy.2008.05.008]
+164. Li R, Hu XL, Tong KY: Combined Electromyography(EMG)-driven
+system with functional electrical stimulation (FES) for poststroke
+rehabilitation. In Proc. 2nd IEEE RAS & EMBS International Conference on
+Biomedical Robotics and Biomechatronics (BioRob). Scottsdale, AZ;
+2008:642–646.
+165. Masia L, Krebs HI, Cappa P, Hogan N: Design, Characterization, and
+Impedance Limits of a Hand Robot. In Proc. IEEE 10th International
+Conference on Rehabilitation Robotics (ICORR). Noordwijk, Netherlands;
+2007:1085–1089.
+166. Gopura RARC, Kiguchi K, Li Y: SUEFUL-7: A 7DOF upper-limb
+exoskeleton robot with muscle-model-oriented EMG-based
+control. In IEEE/RSJ International Conference on Intelligent Robots and
+Systems (IROS). St. Louis, MO; 2009:1126–1131.
+167. Nathan DE, Johnson MJ, McGuire J: Feasibility of integrating FES
+grasp assistance with a task-oriented robot-assisted therapy
+environment: A case study. In Proc. 2nd IEEE RAS & EMBS International
+Conference on Biomedical Robotics and Biomechatronics (BioRob).
+Scottsdale, AZ; 2008:807–812.
+168. Johnson GR, Carus DA, Parrini G, Marchese SS, Valeggi R: The design of
+a five-degree-of-freedom powered orthosis for the upper limb.
+Proc Inst Mech Eng H 2001, 215(3):275–284.
+169. Rosen J, Brand M, Fuchs MB, Arcan M: A myosignal-based powered
+exoskeleton system. IEEE Trans Syst, Man and Cybernet, Part A 2001,
+31(3):210–222.
+170. Kiguchi K, Esaki R, Tsuruta T, Watanabe K, Fukuda T: An exoskeleton
+system for elbow joint motion rehabilitation. In Proc. IEEE/ASME
+International Conference on Advanced Intelligent Mechatronics (AIM).
+Volume 2. Port Island, Japan; 2003:1228–1233. vol.2.
+171. Ögce F, Özyalçin H: Case study: A myoelectrically controlled
+shoulder-elbow orthosis for unrecovered brachial plexus injury.
+Prosthet Orthot Int 2000, 24(3):252–255.
+172. Stein J, Narendran K, McBean J, Krebs K, Hughes R:
+Electromyography-controlled exoskeletal upper-limb-powered
+orthosis for exercise training after stroke. Am J Phys Med Rehabil 2007,
+86(4):255–261. [http://dx.doi.org/10.1097/PHM.0b013e3180383cc5]
+173. Stein J: e100 NeuroRobotic system. Expert Rev Med Devices 2009,
+6:15–19. [http://dx.doi.org/10.1586/17434440.6.1.15]
+174. Gopura RAR, Kiguchi K: A human forearm and wrist motion assist
+exoskeleton robot with EMG-based Fuzzy-neuro control. In Proc.
+2nd IEEE RAS & EMBS International Conference on Biomedical Robotics and
+Biomechatronics (BioRob). Scottsdale, AZ; 2008:550–555.
+175. Song R, Tong KY, Hu XL, Zheng XJ: Myoelectrically Controlled Robotic
+System That Provide Voluntary Mechanical Help for Persons after
+Stroke. In Proc. IEEE 10th International Conference on Rehabilitation
+Robotics (ICORR). Noordwijk, Netherlands; 2007:246–249.
+176. Li Q, Wang D, Du Z, Song Y, Sun L: sEMG Based Control for 5 DOF
+Upper Limb Rehabilitation Robot System. In Proc. IEEE International
+Conference on Robotics and Biomimetics (ROBIO). Kunming, China;
+2006:1305–1310.
+177. Mayr A, Kofler M, Saltuari L: [ARMOR: an electromechanical robot for
+upper limb training following stroke. A prospective randomised
+controlled pilot study]. Handchir Mikrochir Plast Chir 2008, 40:66–73.
+[http://dx.doi.org/10.1055/s-2007-989425]
+178. Kawasaki H, Ito S, Ishigure Y, Nishimoto Y, Aoki T, Mouri T, Sakaeda H,
+Abe M: Development of a Hand Motion Assist Robot for
+Rehabilitation Therapy by Patient Self-Motion Control. In Proc. IEEE
+10th International Conference on Rehabilitation Robotics (ICORR).
+Noordwijk, Netherlands; 2007:234–240.
+179. Ding M, Ueda J, Ogasawara T: Pinpointed muscle force control using
+a power-assisting device: System configuration and experiment. In
+Proc. 2nd IEEE RAS & EMBS International Conference on Biomedical Robotics
+and Biomechatronics (BioRob). Scottsdale, AZ; 2008:181–186.
+180. Lam P, Hebert D, Boger J, Lacheray H, Gardner D, Apkarian J, Mihailidis A:
+A haptic-robotic platform for upper-limb reaching stroke therapy:
+preliminary design and evaluation results. J Neuroeng Rehabil 2008,
+5:15. [http://dx.doi.org/10.1186/1743-0003-5-15]
+181. Casellato C, Pedrocchi A, Zorzi G, Vernisse L, Ferrigno G, Nardocci N:
+EMG-based visual-haptic biofeedback: a tool to improve motor
+control in children with primary dystonia. IEEE Trans Neural Syst
+Rehabil Eng 2013, 21(3):474–480. [http://dx.doi.org/10.1109/TNSRE.2012.
+2222445]
+182. Takahashi Y, Terada T, Inoue K, Ito Y, Ikeda Y, Lee H, Komeda T: Haptic
+Device System for Upper Limb Motor and Cognitive Function
+Rehabilitation: Grip Movement Comparison between Normal
+Subjects and Stroke Patients. In Proc. IEEE 10th International Conference
+on Rehabilitation Robotics (ICORR). Noordwijk, Netherlands; 2007:
+736–741.
+183. Mali U, Munih M: HIFE-haptic interface for finger exercise.
+Mechatronics, IEEE/ASME Trans 2006, 11:93–102.
+184. Bouzit M, Burdea G, Popescu G, Boian R: The Rutgers Master II-new
+design force-feedback glove. Mechatronics, IEEE/ASME Trans 2002,
+7(2):256–263.
+185. Popescu VG, Burdea GC, Bouzit M, Hentz VR: A virtual-reality-based
+telerehabilitation system with force feedback. IEEE Trans Inf Technol
+Biomed 2000, 4:45–51.
+186. Jack D, Boian R, Merians AS, Tremaine M, Burdea GC, Adamovich SV,
+Recce M, Poizner H: Virtual reality-enhanced stroke rehabilitation.
+Neural Syst Rehabil Eng, IEEE Trans 2001, 9(3):308–318.
+187. Adamovich SV, Merians AS, Boian R, Lewis JA, Tremaine M, Burdea GS,
+Recce M, Poizner H: A virtual reality-based exercise system for hand
+rehabilitation post-stroke. Presence: Teleoperators & Virtual Environ
+2005, 14(2):161–174.
+188. Brewer BR, Klatzky R, Matsuoka Y: Visual feedback distortion in a
+robotic environment for hand rehabilitation. Brain Res Bull 2008,
+75(6):804–813. [http://dx.doi.org/10.1016/j.brainresbull.2008.01.006]
+189. Xydas EG, Louca LS: Design and Development of a Haptic Peg-Board
+Exercise for the Rehabilitation of People with Multiple Sclerosis. In
+Proc. IEEE 10th International Conference on Rehabilitation Robotics (ICORR).
+Noordwijk, Netherlands; 2007:906–916.
+190. Palsbo SE, Hood-Szivek P: Effect of robotic-assisted
+three-dimensional repetitive motion to improve hand motor
+function and control in children with handwriting deficits: a
+nonrandomized phase 2 device trial. Am J Occup Ther 2012,
+66(6):682–690. [http://dx.doi.org/10.5014/ajot.2012.004556]
+191. Adamovich S, Fluet GG, Merians AS, Mathai A, Qiu Q: Recovery of hand
+function in virtual reality: Training hemiparetic hand and arm
+together or separately. Conf Proc IEEE Eng Med Biol Soc; Vancouver,
+Canada 2008, 2008:3475–3478. [http://dx.doi.org/10.1109/IEMBS.2008.
+4649954]
+192. Adamovich SV, Fluet GG, Mathai A, Qiu Q, Lewis J, Merians AS: Design of
+a complex virtual reality simulation to train finger motion for
+persons with hemiparesis: a proof of concept study. J Neuroeng
+Rehabil 2009, 6:28. [http://dx.doi.org/10.1186/1743-0003-6-28]
+193. Marchal-Crespo L, Reinkensmeyer DJ: Review of control strategies for
+robotic movement training after neurologic injury. J Neuroeng
+Rehabil 2009, 6:20. [http://dx.doi.org/10.1186/1743-0003-6-20]
+194. Patton JL, Stoykov ME, Kovic M, Mussa-Ivaldi FA: Evaluation of robotic
+training forces that either enhance or reduce error in chronic
+hemiparetic stroke survivors. Exp Brain Res 2006, 168(3):368–383.
+[http://dx.doi.org/10.1007/s00221-005-0097-8]
+195. Hogan N: Impedance control: an approach to manipulation. Part 1 -
+Theory. J Dynamic Syst, Meas Control 1985, 107:1–7.
+196. Ott C, Mukherjee R, Nakamura Y: Unified Impedance and Admittance
+Control. In Proc. IEEE Int Conf Robotics and Automation (ICRA).
+Anchorage, AK; 2010:554–561.
+197. Frisoli A, Borelli L, Montagner A, Marcheschi S, Procopio C, Salsedo F,
+Bergamasco M, Carboncini MC, Tolaini M, Rossi B: Arm rehabilitation
+with a robotic exoskeleleton in Virtual Reality. In Proc. IEEE 10th
+International Conference on Rehabilitation Robotics (ICORR). Noordwijk,
+Netherlands; 2007:631–642.
+198. Lo AC: Clinical designs of recent robot rehabilitation trials. Am J Phys
+Med Rehabil 2012, 91(11 Suppl 3):S204–S216. [http://dx.doi.org/10.1097/
+PHM.0b013e31826bcfa3]
+
+----- Page 29 (native) -----
+Maciejasz et al. Journal of NeuroEngineering and Rehabilitation 2014, 11:3
+Page 29 of 29
+http://www.jneuroengrehab.com/content/11/1/3
+199. Kwakkel G, Kollen BJ, Krebs HI: Effects of robot-assisted therapy on
+upper limb recovery after stroke: a systematic review. Neurorehabil
+Neural Repair 2008, 22(2):111–121.
+200. Mehrholz J, Platz T, Kugler J, Pohl M: Electromechanical and
+robot-assisted arm training for improving arm function and
+activities of daily living after stroke. Cochrane Database Syst Rev 2008,
+4:CD006876. [http://onlinelibrary.wiley.com/doi/10.1002/14651858.
+CD006876.pub2/full]
+201. Timmermans AAA, Seelen HAM, Willmann RD, Kingma H:
+Technology-assisted training of arm-hand skills in stroke: concepts
+on reacquisition of motor control and therapist guidelines for
+rehabilitation technology design. J Neuroeng Rehabil 2009, 6:1.
+[http://dx.doi.org/10.1186/1743-0003-6-1]
+202. Waldner A, Tomelleri C, Hesse S: Transfer of scientific concepts to
+clinical practice: recent robot-assisted training studies. Funct Neurol
+2009, 24(4):173–177.
+203. Lo AC, Guarino PD, Richards LG, Haselkorn JK, Wittenberg GF,
+Federman DG, Ringer RJ, Wagner TH, Krebs HI, Volpe BT, Bever CTJr,
+Bravata DM, Duncan PW, Corn BH, Maffucci AD, Nadeau SE, Conroy SS,
+Powell JM, Huang GD, Peduzzi P: Robot-assisted therapy for
+long-term upper-limb impairment after stroke. N Engl J Med 2010,
+362(19):1772–1783. [http://dx.doi.org/10.1056/NEJMoa0911341]
+204. Brochard S, Robertson J, Médée B, Rémy-Néris O: What’s new in new
+technologies for upper extremity rehabilitation? Curr Opin Neurol
+2010, 23(6):683–687. [http://dx.doi.org/10.1097/WCO.
+0b013e32833f61ce]
+205. Reinkensmeyer DJ, Boninger ML: Technologies and combination
+therapies for enhancing movement training for people with a
+disability. J Neuroeng Rehabil 2012, 9:17. [http://dx.doi.org/10.1186/
+1743-0003-9-17]
+doi:10.1186/1743-0003-11-3
+Cite this article as: Maciejasz et al.: A survey on robotic devices for upper
+limb rehabilitation. Journal of NeuroEngineering and Rehabilitation 2014 11:3.
+Submit your next manuscript to BioMed Central
+and take full advantage of: 
+• Convenient online submission
+• Thorough peer review
+• No space constraints or color ﬁgure charges
+• Immediate publication on acceptance
+• Inclusion in PubMed, CAS, Scopus and Google Scholar
+• Research which is freely available for redistribution
+Submit your manuscript at 
+www.biomedcentral.com/submit

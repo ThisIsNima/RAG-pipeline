@@ -1,0 +1,770 @@
+
+
+----- Page 1 (native) -----
+The Quantum Internet
+H. J. Kimble
+Norman Bridge Laboratory of Physics 12-33
+California Institute of Technology
+Pasadena, California 91125, USA
+(Dated: June 25, 2008)
+Quantum networks oﬀer a unifying set of opportunities and challenges across exciting intellec-
+tual and technical frontiers, including for quantum computation, communication, and metrology.
+The realization of quantum networks composed of many nodes and channels requires new scien-
+tiﬁc capabilities for the generation and characterization of quantum coherence and entanglement.
+Fundamental to this endeavor are quantum interconnects that convert quantum states from one
+physical system to those of another in a reversible fashion. Such quantum connectivity for networks
+can be achieved by optical interactions of single photons and atoms, thereby enabling entanglement
+distribution and quantum teleportation between nodes.
+INTRODUCTION
+The past two decades have witnessed a wide range of fundamental discoveries in quantum information science (QIS),
+ranging from a quantum algorithm that places public-key cryptography at risk to a protocol for the teleportation
+of quantum states [1]. This union of quantum mechanics and information science has fostered great advances in
+our understanding of the quantum world and in our ability to control coherently individual quantum systems [2].
+Unique capabilities of quantum systems to process and distribute information have been identiﬁed, and powerful new
+perspectives for understanding the complexity and subtleties of quantum dynamical phenomena have emerged.
+Within the broad context of QIS, quantum networks play an important role, both for the formal analysis and the
+physical implementation of quantum computation, communication, and metrology [2, 3, 4, 5, 6]. Figure 1(a) illustrates
+a notional quantum network based upon the original proposals in Refs. [4, 7]. To create a quantum network, quantum
+information is generated, processed, and stored locally in quantum nodes. These nodes are linked by quantum channels
+that transport quantum states from site to site with high ﬁdelity and that distribute entanglement across the entire
+network. With relatively modest processing capabilities, one could even envision a ‘quantum internet’ that could
+accomplish tasks that are otherwise impossible within the realm of classical physics, including the distribution of
+‘quantum software’ [8, 9].
+Apart from any particular algorithm, there is an important advantage to be gained from quantum as opposed to
+classical connectivity between nodes [10]. A network of quantum nodes linked by classical channels comprised of k
+nodes each with n qubits has a state space of dimension k2n, whereas a fully quantum network linked by quantum
+channels has an exponentially larger dimension 2kn. Quantum connectivity also provides a potentially powerful means
+to overcome size-scaling and error-correlation problems that would otherwise limit the size of machines for quantum
+processing [11]. At any stage in the development of quantum technologies, there will be a largest size attainable for
+individual quantum processing units, which can be superseded by linking such units together into a fully quantum
+network.
+A quite diﬀerent perspective of a quantum network is to view the nodes as components of a physical system
+that interact by way of the quantum channels. In this case, the underlying physical processes used for quantum
+network protocols are adapted to simulate the evolution of quantum many-body systems [12]. For example, atoms
+localized at separate nodes can have eﬀective “spin – spin” interactions catalyzed by single-photon pulses that travel
+along the channels between the nodes [13]. The “quantum wiring” of the network allows a wide range for the eﬀective
+Hamiltonian and topology of the resulting “lattice”. Moreover, the extension of entanglement across quantum networks
+can be related to the classical problem of percolation [14].
+These exciting opportunities motivate an examination of research related to the actual physical processes for
+translating the abstract illustration in Fig. 1(a) into reality. From diverse activities worldwide, I will narrow the
+focus to provide an overview of current eﬀorts and prospects for harnessing optical processes at the level of single
+photons and atoms for the reliable transport of quantum states across complex quantum networks. In this context,
+we require that quantum states of a material system be mapped to and from propagating optical ﬁelds as illustrated
+in Fig. 1(b), thereby achieving quantum connectivity for the network, including entanglement to enable quantum
+teleportation between nodes.
+Such considerations are timely since scientiﬁc capabilities are now passing the threshold from a learning phase
+with individual systems over the past ﬁfteen years and are advancing into a domain of rudimentary functionality for
+arXiv:0806.4195v1  [quant-ph]  25 Jun 2008
+
+----- Page 2 (native) -----
+2
+FIG. 1: Quantum networks from abstract to physical. (a) A quantum network composed of quantum nodes for processing and
+storing quantum states and quantum channels for the distribution of quantum information. Such a network can alternatively be
+viewed as a strongly correlated many-particle system. (b) Quantum interface between matter and light. Coherent interactions
+within the node are characterized by the rate χ, while κ speciﬁes the rate for coupling between the node and photons in the
+external channel. Parasitic losses occur at rate γ. (c) Quantum state transfer and entanglement distribution from node A to
+B within the setting of cavity QED [7]. At node A the control pulse Ωout
+A (t) aﬀects the transformation of atomic state |ψ⟩
+to the state of a propagating optical ﬁeld (i.e., a ‘ﬂying photon’). At node B the pulse Ωin
+B (t) is applied to map the state
+of the ﬂying photon into an atom within the cavity, thereby realizing the transfer of the state |ψ⟩from A to B [22]. (d)
+Distribution of entanglement using ensembles of a large number of atoms [16]. A single-photon pulse at node A is coherently
+split into two entangled components that propagate to nodes B, C and are there coherently mapped by control ﬁelds Ω(in)
+B,C(t)
+into an entangled state between ensembles at B, C. At later times, components of the entangled state can be retrieved from
+the quantum memories by separate control ﬁelds Ω(out)
+B,C (t) [23].
+
+----- Page 3 (native) -----
+3
+quantum nodes connected by quantum channels. From a broad spectrum of remarkable achievements, two important
+areas on which I will focus are strong coupling of single photons and atoms within the setting of cavity quantum
+electrodynamics (QED) [15] and quantum information processing with atomic ensembles [16]. Critical to both these
+examples are long-lived quantum memories provided by the atomic system and eﬃcient light-matter interfaces.
+I apologize at the outset for my sins of omission related to alternative approaches.
+In these early days, it is
+impossible to foresee which of many exciting possibilities might lead to rudimentary networks with nontrivial sci-
+entiﬁc capabilities much less to functional systems of technological signiﬁcance. Many physical systems are being
+investigated as surveyed in Ref. [2] and described at the following websites: http://qist.lanl.gov/qcomp map.shtml,
+http://www.scala-ip.org/public/, and http://www.qubitapplications.com/. However, my purpose is not to present an
+exhaustive set of detailed descriptions, but rather to convey basic principles for physical implementations of quantum
+networks by way of a few examples in Quantum Optics. I strive thereby to stimulate the involvement of a larger
+community in this endeavor, including for systems-level studies.
+A QUANTUM INTERFACE BETWEEN LIGHT AND MATTER
+The principal scientiﬁc challenge in the quest to distribute quantum states across a quantum network is the at-
+tainment of coherent control over the interactions of light and matter at the single-photon level. Whereas atoms and
+electrons have relatively large long-range interactions for their spin and charge degrees of freedom, individual photons
+have interaction cross-sections that are typically orders of magnitude too small for nontrivial dynamics when coupled
+to single degrees of freedom for a material system.
+The endeavor to address this issue began in the optical physics community in the 1990s with the development of
+theoretical protocols for the coherent transfer of quantum states between atoms and photons within the setting of
+cavity quantum electrodynamics (QED) [7, 17, 18]. Other important advances have been made in the past decade,
+including with atomic ensembles [16, 19, 20]. The reversible mapping of quantum states between light and matter
+provides the basis for quantum-optical interconnects and is a fundamental primitive for building quantum networks.
+Although the original schemes for such interconnects are fragile to experimental imperfections, a complete set of
+theoretical protocols have subsequently been developed for the robust distribution of quantum information over
+quantum networks, including, quite signiﬁcantly, the invention of the quantum repeater [4, 21] and scalable quantum
+networks with atomic ensembles [16].
+Fig. 1(b) illustrates a generic quantum interface between light and matter described by the interaction Hamiltonian
+Hint(t), where for typical states ⟨Hint(t)⟩∼ℏχ(t), with χ(t) the time-dependent coupling strength between the
+internal material system and the electromagnetic ﬁeld. Desiderata for a quantum interface include that χ(t) should
+be “user-controlled” for clocking states to and from the quantum memory (e.g., by way of an auxiliary laser), that
+the physical processes employed should be robust in the face of imperfections (e.g., by adiabatic transfer), and that
+mistakes should be eﬃciently detected and ﬁxed (e.g., with quantum error correction). In qualitative terms, the rate
+κ which characterizes the bandwidth of the input-output channel should be large compared to the rate γ for any
+parasitic losses, and both these rates should be small compared to the rate of coherent coupling, χ ≫κ ≫γ.
+Two speciﬁc examples of physical systems to realize a quantum interface and distribute coherence and entanglement
+between nodes are shown in Fig. 1(c), (d). In the case of Fig. 1(c), single atoms are trapped within optical cavities at
+nodes A, B which are linked by an optical ﬁber. External ﬁelds control the transfer of the quantum state |ψ⟩stored
+in the atom at node A to the atom at node B by way of photons that propagate from A to B [7, 22]. In Fig. 1(d), a
+single photon pulse generated at node A is coherently split into two components and propagates to nodes B, C, where
+the entangled photon state is coherently mapped into an entangled state between collective excitations at the two
+nodes [16, 19, 20, 23]. Subsequent readout of entanglement from either or both of the memories at B, C to photon
+pulses is implemented at the push of a button.
+In the sections that follow, I will elaborate in somewhat more detail the underlying physical processes for the
+implementation of quantum-optical interconnects between matter and light. Particular attention will be given to the
+two examples in Fig. 1(c), (d).
+CAVITY QUANTUM ELECTRODYNAMICS
+At the forefront of the endeavor to achieve strong, coherent interactions between light and matter has been the
+area of cavity quantum electrodynamics (QED) [24]. In both the optical [15, 25] and microwave [26, 27, 28, 29, 30]
+domains, strong coupling of single atoms and photons has been achieved by utilizing electromagnetic resonators of
+
+----- Page 4 (native) -----
+4
+small mode volume Vm with quality factors Q ∼107 −1011. Extensions of cavity QED to other systems [31] include
+quantum dots coupled to micropillars and photonic bandgap cavities [32, 33, 34, 35] and Cooper-pairs interacting
+with superconducting resonators (i.e., ‘circuit’ QED reviewed in Ref. [36]).
+a)
+10μm
+c)
+b)
+10-4
+10-2
+1
+102
+104
+2010
+2005
+2000
+1995
+1990
+1985
+1980
+Year
+n0
+.
+3 mm
+κ
+g
+γ
+FIG. 2: Elements of cavity QED. (a) A simple schematic of an atom-cavity system depicting the three governing rates (g, κ, γ)
+in cavity QED, where g ∼χ from Fig. 1. (b) Photograph of two mirror substrates that form a Fabry-Perot cavity shown
+schematically above. The cavity has length l = 10 µm, waist w0 = 12 µm transverse to the cavity axis, and ﬁnesse F ≃5×105.
+The supporting structure serves for active servo control of the cavity length to δl ≃10−14 m [15]. (c) Critical photon number
+n0 versus time for a series of experiments in cavity QED, ﬁrst at the Unversity of Texas at Austin and then in the Caltech
+Quantum Optics Group. These experiments involve both spherical mirror Fabry-Perot cavities (circles) and the whispering
+gallery modes of monolithic SiO2 resonators (squares). The points in 2006, 2008 are from Refs. [43, 44] demonstrated for a
+SiO2 microtoroidal resonator, while those in 2009, 2011 are projections for a microtoroid [45].
+Figure 2(a, b) depicts a single atom located inside an optical resonator, for which strong coupling of atom and
+photon requires that a single intracavity photon creates a “large” electric ﬁeld. Stated more quantitatively, if the
+coupling frequency of one atom to a single mode of an optical resonator is g (i.e., 2g is the one-photon Rabi frequency),
+then
+g =
+s
+|⃗ε · ⃗µ0|2ωC
+2ℏϵ0Vm
+.
+(1)
+Here, ⃗µ0 is the transition-dipole moment between the relevant atomic states with transition frequency ωA, and
+ωC ≃ωA is the resonant frequency of the cavity ﬁeld with polarization vector ⃗ε and mode volume Vm. Experiments
+
+----- Page 5 (native) -----
+5
+in cavity QED explore strong coupling with g ≫(γ, κ), where γ is the atomic decay rate to modes other than the
+cavity mode and κ is the decay rate of the cavity mode itself. Expressed in the language of traditional optical physics,
+the number of photons required to saturate the intracavity atom is n0 ∼γ2/g2, and the number of atoms required
+to have an appreciable eﬀect on the intracavity ﬁeld is N0 ∼κγ/g2. Strong coupling in cavity QED moves beyond
+traditional optical physics for which (n0, N0) ≫1 to explore a qualitatively new regime with (n0, N0) ≪1 [15].
+A variety of approaches have been employed to achieve strong coupling in cavity QED over the past three decades,
+with reviews of much of the early work available in Ref.[24]. Of particular note in the development of this ﬁeld were the
+pioneering experiments of H. Walther [26], who combined Rydberg atoms with superconducting cavities (Q ∼1010)
+to advance cavity QED into a regime of strong coupling in the microwave domain [28, 29]. A recent spectacular
+achievement is the observation of the step-by-step collapse of the quantum state of an intracavity microwave ﬁeld [30].
+In the optical domain, a route to strong coupling is the use of high-ﬁnesse optical resonators (F ∼105 −106) and
+atomic transitions with large ⃗µ0 (i.e., oscillator strengths near unity). Figure 2(c) provides an illustration of progress
+along this avenue, with research now well into the domain (n0, N0) ≪1.
+Of course as the cavity volume Vm is reduced to increase g as in Eq. 1, the requirement for atomic localization
+necessarily becomes more stringent. Not surprisingly, central to activities in cavity QED over the past decade have
+been eﬀorts to trap and localize atoms within high-ﬁnesse optical cavities in a regime of strong coupling, with the
+initial demonstration in 1999 [37]. Subsequent advances are reviewed in Ref. [38], including trap lifetimes ≳10 s
+[39, 40]. Quantum control has now been achieved over both internal (i.e., atomic dipole and cavity ﬁeld) and external
+(i.e., atomic motion) degrees of freedom for a strongly coupled atom-cavity system [41]. An exciting prospect is cavity
+QED with single trapped ions, where the boundary for strong coupling has been reached [42].
+Coherence and entanglement in cavity QED
+An application of these capabilities to quantum networks is the generation of single photons “on demand” (see Box
+1). By way of strong coupling of the cavity ﬁeld to an atomic transition, an external control ﬁeld Ω(t) transfers one
+photon into the cavity mode and thence to free-space by way of the cavity output mirror, leading to a single-photon
+pulse |φ1(t)⟩as a collimated beam. The temporal structure (amplitude and phase) of the resulting “ﬂying photon”
+|φ1(t)⟩can be tailored by way of the control ﬁeld Ω(t) [7, 46, 47], with the spatial structure of the wavepacket set by
+the cavity mode ψ(⃗r).
+Several experiments have conﬁrmed the essential aspects of this process for the deterministic generation of single
+photons [39, 42, 48]. Signiﬁcantly, in the ideal, adiabatic limit, the atomic excited state |e⟩is not populated [49].
+By deterministically generating a bit stream of single-photon pulses from single, trapped atoms, these experiments
+provide a ﬁrst step in the evolution of quantum networks based upon ﬂying photons.
+Relative to single-photon generation by diverse other systems [50], a distinguishing aspect of the dark-state protocol
+discussed in Box 1 is that it should be reversible, so that a photon emitted from one system A can be eﬃciently
+transferred to another system B by simply applying the time-reversed (and suitably delayed) ﬁeld Ω(t) at B, as
+illustrated in Figure 1(c).
+Such an advance was reported in Ref. [22] by implementing the reversible mapping of a coherent optical ﬁeld
+to and from internal states of a single, trapped Cesium atom.
+As described by Eq.
+2 in Box 1, the incident
+ﬁeld |φfield(t)⟩∼c0 |0⟩field + c1 |1⟩field was approximated by a coherent state λ(t) with ¯n = 1.1 photons and was
+transferred into a coherent superposition of atomic states. The stored atomic state was then coherently mapped
+back into a propagating ﬁeld β(t). Although there were imperfections in this experiment [22], it provides the initial
+veriﬁcation of the fundamental primitive upon which the protocol in Ref. [7] is based.
+The discussion in Box 1 as well as related possibilities [13, 47] rely upon strong coupling between an atom and
+a single polarization of the intracavity ﬁeld. However, by extending these ideas to the two polarization eigenmodes
+of the cavity for a given TEM00 longitudinal mode, it is possible to generate entanglement between internal atomic
+states and the polarization state of a coherently generated photon [51, 52, 53]. An initial control ﬁeld Ω1(t1) results in
+an entangled state between internal states of the atom |b±⟩and the polarization state of a ﬂying photon
+φ±
+field(t1)
+E
+coherently generated by the coupled atom-cavity system. Application of a second control ﬁeld Ω2(t2) returns the atom
+to its initial (unentangled) state while generating a second ﬂying photon
+ξ±
+field(t2)
+E
+, thereby leading to entanglement
+between the polarizations σ± of the two ﬁelds φ±
+field, ξ±
+field emitted at times t1, t2.
+Precisely such a sequence of operations Ω1,2(t1,2) has been applied to single Rubidium atoms falling through a high-
+ﬁnesse optical cavity [25]. In an experimental tour de force, these authors were able to create entangled photons with
+time separation τ = t2 −t1 limited by the atomic transit time. Although the atoms arrived randomly, the protocol
+
+----- Page 6 (native) -----
+6
+itself is intrinsically deterministic and represents a signiﬁcant advance toward the generation and distribution of
+entangled states for quantum networking. With trapped atoms, it will be possible to generate entangled states at user
+selected times (t1, t2) at the “push of button.” Moreover, the scheme is inherently reversible, so that the entangled
+state between atom and ﬁeld can be used to distribute entanglement to a second atom-cavity system in a network.
+In a broader context, important advances have been made in the generation and transfer of quantum states with
+other physical systems. For example, single photons generated by a quantum dot coupled to a photonic-bandgap cavity
+have been transmitted to a second, ‘target’ cavity via an on-chip waveguide [54]. Ref. [36] reviews the spectacular
+progress made in wiring quantum circuits by way of superconducting microwave cavities and coherent transmission
+along a quantum bus.
+This discussion provides a preview of coming experimental advances towards the realization of quantum networks
+based upon interactions in cavity QED. Diverse theoretical protocols have been developed but have awaited the
+maturation of experimental capabilities, which we are now witnessing.
+Included are the sequential generation of
+entangled multiqubit states [55], the teleportation of atomic states from one node to another [18], photonic quantum
+computation by photon-photon interactions at the nodes [47], and reversible mapping of quantum states of atomic
+motion to and from light [56]. Certainly, new technical capabilities beyond conventional Fabry-Perot cavities will be
+required to enable such scientiﬁc investigations, with Box 2 discussing some candidate systems.
+QUANTUM NETWORKS WITH ATOMIC ENSEMBLES
+An area of considerable activity in the quest to distribute coherence and entanglement across quantum networks
+has been the interaction of light with atomic ensembles comprised of a large collection of identical atoms. For the
+regime of continuous variables, entanglement has been achieved between two atomic ensembles each consisting of
+∼1012 atoms [67], and quantum teleportation of light to matter demonstrated for the mapping of coherent optical
+states to the collective spin states of an atomic memory [68]. More general activities in this area are covered in Ref.
+[69].
+Here, I will focus instead on the regime of discrete variables with photons and atomic excitations taken one by one.
+Research in this area is based upon the remarkable theoretical protocol in Ref. [16] (hereafter referred to as ‘DLCZ’),
+which presented a realistic scheme for entanglement distribution by way of a quantum-repeater architecture [4, 21].
+Fundamental to the DLCZ protocol is the generation and retrieval of single ‘spin’ excitations within an ensemble
+of a large number of atoms (see Box 3) [70]. In concert with photoelectric detection, a ﬁrst laser pulse creates a
+single excitation |1a⟩stored collectively within the atomic ensemble. At a later time, a second pulse deterministically
+converts excitation stored within the atomic memory in the state |1a⟩into a propagating ﬁeld, denoted as ﬁeld 2.
+The basic processes illustrated in Box 3 can be extended to create an entangled pair of ensembles as in Fig. 3(a) [16].
+A pair of ensembles L, R is illuminated by separate write pulses, leading to the overall state |φL,R⟩=
+φL
+a,1
+
+⊗
+φR
+a,1
+
+,
+where
+φL
+a,1
+
+,
+φR
+a,1
+
+are entangled states between atomic excitation and photon number for ﬁeld 1 for the L, R
+ensembles (see Eq.
+1 in Box 3).
+The scattered ﬁelds 1L, 1R from the two ensembles are combined on a 50-50
+beamsplitter, with outputs directed to two photodetectors D1, D2.
+In the ideal case and to lowest order in p, a
+photoelectric detection event at either detector projects the ensembles into the entangled state
+|ΨL,R⟩=
+1
+√
+2[|0a⟩L |1a⟩R ± eiη1 |1a⟩L |0a⟩R],
+(2)
+with the sign + or −set by whether D1 or D2 records the event. The phase η1 is determined by the diﬀerence of
+phase shifts along the two channels, η1 = βL −βR [71], which must be stable.
+The state |ΨL,R⟩is generated in a probabilistic but heralded fashion from quantum interference in the measurement
+process [72, 73, 74]. That is, detection of a photon from one or the other atomic ensemble in an indistinguishable
+fashion results in an entangled state with one collective spin excitation shared coherently between the ensembles.
+Necessarily, because p ≪1, any given trial with the write pulses is unlikely to produce a detection event at D1, D2,
+with such failed trials requiring the system to be reinitialized. However, a photoelectric detection event at D1, D2
+unambiguously heralds the creation of the entangled state |ΨL,R⟩. Limited by the coherence time between the levels
+{|g⟩i , |s⟩i} [75], this entangled state is stored in the quantum memory provided by the L, R ensembles and available
+‘on demand’ for subsequent tasks, such as entanglement connection [16, 76].
+Although the preceding discussion is for an ideal case and neglects higher-order terms, the DLCZ protocol is designed
+to be resilient to important sources of imperfections, including losses in propagation and detection, as well as detector
+dark counts. Indeed, the scheme functions with “built-in entanglement puriﬁcation” [16] and enables entanglement
+to be extended beyond the separation of two ensembles in an eﬃcient and scalable fashion. Theoretical extensions
+
+----- Page 7 (native) -----
+7
+FIG. 3: Fundamentals of the DLCZ protocol [16]. a) Measurement-induced entanglement between two atomic ensembles L, R
+[16, 71]. Synchronized laser pulses incident on the ensembles (write beams L, R) generate small amplitudes for spontaneous
+Raman scattering [70], denoted as 1L, 1R. These ﬁelds interfere at a 50%-50% beam splitter, with outputs directed to single-
+photon detectors D1, D2. A measurement event at either detector projects the L, R ensembles into the entangled state |ΨL,R⟩
+with one quantum of excitation shared remotely between the ensembles.
+Entanglement is stored in the quantum memory
+provided by the ensembles and can be subsequently converted to propagating light pulses by a set of read laser pulses (Box
+3). b) Experimentally determined elements of the density matrix ρexp
+L,R for entanglement between two atomic ensembles [75],
+corresponding to concurrence C = 0.9±0.3, where C = 0 for an unentangled state. For comparison the density matrix ρth
+L,R for
+the ideal state |ΨL,R⟩is shown with concurrence C = 1. c) Photograph of the laboratory setup for entanglement of two pairs
+of atomic ensembles for the realization of functional quantum nodes L, R separated by 3 m [93]. The four elongated ovals each
+show a cylinder of 105 Cesium atoms which forms an atomic ensemble at each site. Entangled states
+˛˛Ψu
+L,R
+¸
+,
+˛˛Ψl
+L,R
+¸
+between
+the upper u and lower l pairs at the L, R nodes are generated and stored in an asynchronous fashion for each pair u, l as in a).
+Atomic excitations for the pairs Lu, Ll and Ru, Rl are subsequently converted to ﬂying photons at each node with polarization
+encoding that leads to violation of a Bell inequality [93]. The entire experiment functions under the quantum control of single
+detection events.
+[77, 78, 79] of the DLCZ protocol have examined related network architectures for optimizing scalability in view of
+actual laboratory capabilities, to which I next turn.
+Coherence and entanglement with atomic ensembles
+The publication of the DLCZ protocol in 2001 led to the rapid development of a worldwide community with by
+now signiﬁcant achievements in the creation and distribution of entanglement. The initial, enabling steps in the
+implementation of the protocol of DLCZ were the observations of quantum correlations both for single photon pairs
+
+----- Page 8 (native) -----
+8
+[81, 82] and for large photon number (103−104) [83] generated in the collective emission from atomic ensembles. Single
+photons were generated by the eﬃcient mapping of stored, collective atomic excitation to propagating wavepackets
+for ﬁeld 2, as in Box 3 [84, 85, 87, 88, 89]. Conditional readout eﬃciencies of 74% in free space [86] and 84% [90] in a
+cavity were realized for the state transfer from a single, collective “spin” excitation stored in the atomic ensemble to
+a single photon for ﬁeld 2.
+With these capabilities for coherent control of collective atomic emission, heralded entanglement between distant
+ensembles was achieved in 2005 [71], with the entangled state stored in quantum memories (i.e., the two ensembles)
+located in distinct apparatuses separated by 3 m.
+After a programmable delay, entanglement was conﬁrmed by
+mapping the state of the atoms to optical ﬁelds and by measuring mutual coherence and photon statistics for these
+ﬁelds. Although the degree of entanglement between the ensembles was small in the initial experiment [71], more
+recent work [75] has led to the inference C = 0.9±0.3 for the concurrence C [91] of entanglement stored between L, R
+ensembles, with the associated density matrix ρL,R shown in Fig. 3(b).
+The DLCZ protocol is based upon a quantum repeater architecture involving independent operations on parallel
+chains of quantum systems [16], with scalability relying critically upon conditional control of quantum states stored
+in remote quantum memories [92]. The experiment shown in Fig. 3(c) [93] took an important step towards this goal
+by achieving the minimal functionality required for scalable quantum networks. Heralded entanglement was created
+asynchronously between a qubit located at node L and one at node R, where each qubit was encoded by a pair of
+upper u and lower l atomic ensembles. The entangled states at the (L, R) nodes were stored in the quantum memory
+provided by the ensembles, and then eﬃciently mapped to propagating light ﬁelds resulting in an eﬀective polarization
+entangled state, as veriﬁed by the measured violation of a Bell inequality for these light ﬁelds. This setup was also
+used for the initial investigation of entanglement swapping [76] to demonstrate coherence between ensembles that had
+no direct interaction.
+Beyond DLCZ’s proposal for measurement-induced entanglement, it is also possible to achieve deterministic mapping
+of quantum states of light to and from atomic ensembles by way of electromagnetically induced transparency (EIT)
+[19, 20, 80]. The pioneering work in Refs. [94, 95] demonstrated the storage and retrieval of classical pulses to and
+from an ensemble. Refs. [96, 97] extended this work into the quantum regime of single photons. Entanglement
+between two ensembles coupled to a cavity mode was achieved in Ref. [98] by adiabatic transfer of excitation, thereby
+providing a means for on-demand entanglement. To assist the distribution of entanglement over quantum networks,
+Ref. [23] realized the reversible mapping of photonic entanglement into and out of pairs of quantum memories by an
+EIT process illustrated in Fig. 1(d).
+Contemporary with these experiments which achieved heralded [16, 71, 75, 93] and deterministic [23, 98] entangle-
+ment have been a variety of experiments based upon entanglement as a post diction [99], for which a physical state
+is not available for utilization in a scalable network but which are nonetheless signiﬁcant. An important advance in
+this regard is the work in Ref. [100], which employed a pair of ensembles for entanglement generation to achieve a
+posteriori teleportation of light to an atomic memory.
+There has also been considerable eﬀort devoted to the detailed characterization of decoherence for stored atomic
+excitation and entanglement [75, 93, 100].
+Decoherence of entanglement between distinct atomic ensembles was
+observed in the decay of the violation of a Bell inequality [93] and of the ﬁdelity for teleportation [100]. By way of
+measurements of concurrence C(t), Ref. [75] presented quantitative characterizations for the relationship of the global
+evolution of the entangled state to the temporal dynamics of various local correlations.
+EXTENDING ENTANGLEMENT FOR QUANTUM NETWORKS
+The entangled states created so far both in cavity QED and by way of the DLCZ protocol are between pairs of
+systems, so-called bipartite entanglement, for which deﬁnitive procedures exist for operational veriﬁcation. Certainly
+the creation of more general classes of entangled states shared among N > 2 systems would be of great interest. In
+this regard, an important area of ongoing research is the development of theoretical protocols amenable to laboratory
+implementation for entanglement veriﬁcation of quantum states distributed over the nodes of a quantum network.
+However, as we progress toward more complex quantum networks, the issue of entanglement veriﬁcation becomes
+increasingly problematic. Theoretical tools and experimental capabilities do not at present exist for characterizing
+the general states of quantum networks.
+Perhaps surprisingly, a nontrivial task will be simply to answer the question “Does it work?” That is, as even
+moderately complex quantum networks are realized in the laboratory, it will become ever more diﬃcult to assess
+quantitatively the characteristics of the network, including such basic questions as “Does entanglement extend across
+the whole network?” On the one hand, we might follow a strategy motivated by the underlying physical processes
+
+----- Page 9 (native) -----
+9
+upon which the network is based and attempt to determine, for example, the density matrix ρ(t) for the network.
+This course of action surely fails because of the exponential growth in ρ(t) with the size of the network.
+We might instead follow a strategy based upon more functional issues of algorithmic capability.
+That is, we
+could attempt to implement a quantum algorithm for computation or communication to test whether the purported
+quantum network actually accomplishes anything beyond the capabilities of any classical counterpart. This course is
+problematic since the advantage of a quantum network may only be realized above some threshold in the size of the
+network. Furthermore, from an experimental perspective, this strategy does not oﬀer much in the way of diagnostics
+for ‘ﬁxing’ the network when it fails.
+A less obvious approach might be to adopt more seriously the perspective of a quantum network as a quantum
+many body system and to search for more ‘physical’ characteristics of the network (e.g., the scaling behavior of pair
+correlation functions and multipartite entanglement). Indeed, an active area of research is the nature of entanglement
+for systems that undergo quantum phase transitions, including the pioneering advance for 1-D spin chains in Ref.
+[101].
+CONCLUSION
+Although important progress has been made, there remain many scientiﬁc challenges that require new theoretical
+insights and experimental capabilities in the quest to realize functional quantum networks. Certainly, the current state
+of the art is primitive relative to that required for the robust and scalable implementation of sophisticated network
+protocols, whether over short or long distances. The realization of quantum memories, local quantum processing,
+quantum repeaters, and error-corrected teleportation are very ambitious goals. There is nevertheless considerable
+activity worldwide directed towards these important goals.
+While my discussion has considered separately cavity QED-based networks and those implemented via the DLCZ
+protocol, clearly quantum networks will evolve as heterogeneous entities. For example, the same protocol that creates
+the entangled state |ΨL,R⟩between two ensembles in Eq. 2 can be employed to create the entangled state
+|ΠA,E⟩∼[|1A⟩|0E⟩± |0A⟩|1E⟩] ,
+(3)
+with one excitation shared jointly by an atom in a cavity |1A⟩and an atomic ensemble |1E⟩. A critical task is the
+development of unambiguous procedures for entanglement veriﬁcation, which is a nontrivial undertaking that has not
+always been carried out correctly [99].
+I have used quantum networks as unifying theme but stress that the research described has much broader import,
+including for advancing our understanding of quantum dynamical systems and, for the particular cases considered,
+creating new physics from controlled nonlinear interactions of single photons and atoms. Altogether, these are exciting
+times in Quantum Information Science as we pass from a regime of individual ‘Lego blocks’ (e.g., a single atom-cavity
+system) into the realm of complex quantum systems assembled from many such units from the ground up. One
+important area of this scientiﬁc enterprise is the realization of quantum networks.
+I have every conﬁdence that
+extending entanglement across quantum networks will create wonderful scientiﬁc opportunities for the exploration of
+physical systems that have not heretofore existed in the natural world.
+
+----- Page 10 (native) -----
+10
+[1] Nielsen, M. A. & Chuang, I. L. Quantum Computation and Quantum Information. (Cambridge University Press, 2000).
+[2] For a recent review of progress, see Zoller, P. et al. Quantum information processing and communication, Strategic report
+on current status, visions and goals for research in Europe. Eur. Phys. J. D 36, 203-228 (2005).
+[3] Bennett, C. H., Brassard, G. & Ekert, A. K. Quantum cryptography. Scientiﬁc American 267(4), 50-57 (1992).
+[4] Briegel, H. -J., van Enk, S. J., Cirac, J. I. & Zoller, P. in The Physics of Quantum Information (eds. Bouwmeester, D.,
+Ekert, A. & Zeilinger, A.) (Springer, Berlin, 2000).
+[5] Spiller, T. P. et al. Quantum computation by communication New J. Phys. 8, (27 February 2006).
+[6] Giovannetti, V., Lloyd, S. & Maccone, L. Quantum-enhanced measurements: Beating the standard quantum limit. Science
+306, 1330-1336 (2004).
+[7] Cirac, J. I., Zoller, P., Kimble, H. J. & Mabuchi, H. Quantum state transfer and entanglement distribution among distant
+nodes in a quantum network. Phys. Rev. Lett. 78, 3221-3224 (1997).
+[8] Preskill, J. P. Plug-in Quantum Software. Nature 402, 357-358 (1999).
+[9] Gottesman, D. & Chuang, I. Demonstrating the viability of universal quantum computation using teleportation and
+single-qubit operations. Nature 402, 390-393 (1999).
+[10] Cirac, J. I., Ekert, A. K., Huelga, S. F. & Macchiavello, C. Distributed quantum computation over noisy channels Phys.
+Rev. A 59, 4249-4254 (1999).
+[11] Copsey, D. et al. Toward a scalable, silicon-based quantum computing architecture. IEEE J. Selected Topics in Quantum
+Electronics 9, 1552-1569 (2003).
+[12] Illuminati, D. Quantum optics: Light does matter. Nature Phys. 2, 803-804 (2006) and references therein.
+[13] Duan, L. -M., Wang, B. & Kimble, H. J. Robust quantum gates on neutral atoms with cavity-assisted photon scattering.
+Phys. Rev. A 72, 032333 (2005).
+[14] Ac´ın, A., Cirac, J. I. & Lewenstein, M., Entanglement percolation in quantum networks. Nature Physics 3, 256-259
+(2007).
+[15] Miller, R., Northup, T. E., Birnbaum, K. M., Boca, A., Boozer, A. D. & Kimble, H. J. Trapped atoms in cavity QED:
+coupling quantized light and matter. J. Phys. B: At. Mol. Opt. Phys. 38, S551-S565 (2005).
+[16] Duan, L. -M., Lukin, M. D., Cirac, J. I. & Zoller, P. Long-distance quantum communication with atomic ensembles and
+linear optics. Nature 414, 413-418 (2001).
+[17] Parkins, A. S., Marte, P., Zoller, P. & Kimble, H. J. Synthesis of arbitrary quantum states via adiabatic transfer of
+Zeeman coherence. Phys. Rev. Lett. 71, 3095-3098 (1993).
+[18] van Enk, S. J., Cirac, J. I. & Zoller, P. Photonic channels for quantum communication. Science 279, 205-208 (1998).
+[19] Lukin, M. D. Colloquium: Trapping and manipulating photon states in atomic ensembles. Rev. Mod. Phys. 75, 457-472
+(2003).
+[20] Fleischhauer, M., Imamoglu, A. & Marangos, J. P. Electromagnetically induced transparency: Optics in coherent media.
+Rev. Mod. Phys. 77, 633-673 (2005).
+[21] Briegel, H. -J., D¨ur, W., Cirac, J. I. & Zoller, P. Quantum Repeaters: The role of imperfect local operations in quantum
+communication. Phys. Rev. Lett. 81, 5932-5935 (1998).
+[22] Boozer, A. D., Boca, A., Miller, R., Northup, T. E. & Kimble, H. J. Reversible state transfer between light and a single
+trapped atom. Phys. Rev. Lett. 98, 193601 (2007).
+[23] Choi, K. S., Deng, H., Laurat, J. & Kimble, H. J. Mapping photonic entanglement into and out of a quantum memory.
+Nature 452, 67-71 (2008).
+[24] Berman, P. (ed.) Cavity Quantum Electrodynamics, (Academic Press, San Diego, 1994).
+[25] Wilk, T., Webster, S. C., Kuhn, A. & Rempe, G. Single-atom single-photon quantum interface. Science 317, 488-490
+(2007).
+[26] Meschede, D., Walther, H. & Mueller, G. One-atom maser. Phys. Rev. Lett. 54, 551-554 (1985).
+[27] Meystre, P. Cavity Quantum Optics and the Quantum Measurement Process. in Progress in Optics, Vol. XXX (ed. E.
+Wolf) (Elsevier Science Publishers B.V., Amsterdam, 1992).
+[28] Walther, H. Fortschr. Phys. Quantum optics of single atoms. 52, 1154-1164 (2004).
+[29] Raimond, J. M. et al. Probing a quantum ﬁeld in a photon box. J. Phys. B: At. Mol. Opt. Phys. 38, S535-S550 (2005).
+[30] Guerlin, C. et al. Progressive ﬁeld-state collapse and quantum non-demolition photon counting. Nature 448, 889-893
+(2007).
+[31] For a review, see Vahala, K. J. Optical microcavities. Nature 424, 839-846 (2004).
+[32] For a review, see Khitrova, G., Gibbs, H. M., Kira, M., Koch, S. W. & Scherer, A. Vacuum Rabi splitting in semiconduc-
+tors. Nature Physics 2, 81-90 (2006).
+[33] Srinivasan, K. & Painter, O. Linear and nonlinear optical spectroscopy of a strongly coupled microdisk–quantum dot
+system. Nature 450, 862-865 (2007).
+[34] For a review, see A. J. Shields, Nature Photonics 1, 215 (2007).
+[35] Englund, D. et al. Controlling cavity reﬂectivity with a single quantum dot. Nature 450, 857-861 (2007).
+[36] Schoelkopf, R. J. & Girvin, S. M. Wiring up quantum systems. Nature 451, 664-669 (2008).
+[37] Ye, J., Vernooy, D. W. & Kimble, H. J. Trapping of single atoms in cavity QED. Phys. Rev. Lett. 83, 4987-4990 (1999).
+[38] For a review of optical traps in cavity QED, see Ye, J., Kimble, H. J. & Katori, H. Quantum state engineering and
+precision metrology using state-insensitive light traps. Science (in press, 2008).
+
+----- Page 11 (native) -----
+11
+[39] Hijlkema, M. et al. A single-photon server with just one atom. Nature Physics 3, 253-255 (2007).
+[40] Fortier, K. M., Kim, S. Y., Gibbons, M. J. Ahmadi, P. & Chapman, M. S. Deterministic loading of individual atoms to
+a high-ﬁnesse optical cavity. Phys. Rev. Lett. 98, 233601 (2007).
+[41] Boozer, A. D., Boca, A., Miller, R., Northup, T. E. & Kimble, H. J. Cooling to the ground state of axial motion for one
+atom strongly coupled to an optical cavity. Phys. Rev. Lett. 97, 083602 (2006).
+[42] Keller, M., Lange, B., Hayasaka, K., Lange, W. & Walther, H. Continuous generation of single photons with controlled
+waveform in an ion-trap cavity system. Nature 431, 1075-1078 (2004).
+[43] Aoki, T., Dayan, B., Wilcut, E., Bowen, W. P., Parkins, A. S., Kimble, H. J., Kippenberg, T. J. & Vahala, K. J.
+Observation of strong coupling between one atom and a monolithic microresonator. Nature 443, 671-674 (2006).
+[44] Dayan, B., Parkins, A. S., Aoki, T., Ostby, E. P., Vahala, K. J. & Kimble, H. J. A photon turnstile dynamically regulated
+by one atom. Science 319, 1062-1065 (2008).
+[45] Spillane, S. M., Kippenberg, T. J., Vahala, K. J., Goh, K. W., Wilcut, E. & Kimble, H. J. Ultrahigh-Q toroidal microres-
+onators for cavity quantum electrodynamics. Phys. Rev. A 71, 013817 (2005).
+[46] Kuhn, A., Hennrich, M., Bondo, T. & Rempe, G. Controlled Generation of Single Photons from a Strongly Coupled
+Atom-Cavity System. Appl. Phys. B 69, 373-377 (1999).
+[47] Duan, L. -M. & Kimble, H. J. Scalable photonic quantum computation through cavity-assisted interactions. Phys. Rev.
+Lett. 92, 127902 (2004).
+[48] McKeever, J., Boca, A., Boozer, A. D., Miller, R., Buck, J. R., Kuzmich, A. & Kimble, H. J. Deterministic generation of
+single photons from one atom trapped in a cavity. Science 303, 1992-1994 (2004).
+[49] Bergmann, K., Theuer, H. & Shore, B. W.Coherent population transfer among quantum states of atoms and molecules,
+Rev. Mod. Phys. 70, 1003-1025 (1998).
+[50] Lounis, B. & Orrit, M. Single-photon sources. Rep. Prog. Phys. 68, 1129-1179 (2005).
+[51] Lange, W. & Kimble, H. J. Dynamic generation of maximally entangled photon multiplets by adiabatic passage. Phys.
+Rev. A 61, 063817 (2000).
+[52] Duan, L. -M. & Kimble, H. J. Eﬃcient engineering of multiatom entanglement through single-photon detections. Phys.
+Rev. Lett. 90, 253601 (2003).
+[53] Sun, B., Chapman, M. S. & You, L. Atom-photon entanglement generation and distribution. Phys. Rev. A 69, 042316
+(2004).
+[54] Englund, D., Faraon, A., Zhang, B., Yamamoto, Y. & Vuˇckovi´c, J. Generation and transfer of single photons on a photonic
+crystal chip. Opt. Express 15, 5550-5558 (2007).
+[55] Sch¨on, C., Solano, E., Verstraete, F., Cirac, J. I. & Wolf, M. M. Sequential generation of entangled multiqubit states.
+Phys. Rev. Lett. 95, 110503 (2005).
+[56] Parkins, A. S. & Kimble, H. J. Quantum state transfer between motion and light. Journal Opt. B: Quantum Semiclass.
+Opt. 1, 496-504 (1999).
+[57] Hood, C. J., Ye, J. & Kimble, H. J. Characterization of high-ﬁnesse mirrors: Loss, phase shifts, and mode structure in
+an optical cavity. Phys. Rev. A 64, 033804 (2001).
+[58] Vernooy, D. W., Furusawa, A., Georgiades, N. Ph., Ilchenko, V. S. & Kimble, H. J. Cavity QED with high-Q whispering
+gallery modes. Phys. Rev. A 57, R2293-R2296 (1998).
+[59] Trupke, M. et al. Atom detection and photon production in a scalable, open, optical microcavity. Phys. Rev. Lett. 99,
+063601 (2007).
+[60] Treutlein, P. et al. Quantum information processing in optical lattices and magnetic microtraps. Fortschritte der Physik
+- Progress of Physics 54, 702-718 (2006).
+[61] Park, Y. -S., Cook, A. K. & Wang, H. Cavity QED with diamond nanocrystals and silica microspheres. Nano Letters 6,
+2075-2079 (2006).
+[62] Xu, X. et al. Coherent Optical Spectroscopy of a Strongly Driven Quantum Dot. Science 317, 929-932 (2007).
+[63] Armani, D. K., Kippenberg, T. J., Spillane, S. M. & Vahala, K. J. Ultra-high-Q toroid microcavity on a chip. Nature
+421, 925-928 (2003).
+[64] Spillane, S. M., Kippenberg, T. J., Painter, O. J. & Vahala, K. J. Ideality in a ﬁber-taper-coupled microresonator system
+for application to cavity quantum electrodynamics. Phys. Rev. Lett. 91, 043902 (2003).
+[65] Braginsky, V. B., Gorodetsky, M. L. & Ilchenko, V. S. Quality-factor and nonlinear properties of optical whispering-gallery
+modes. Phys. Lett. A 137, 393-397 (1989).
+[66] Vernooy, D. W., Ilchenko, V. S., Mabuchi, H., Streed, E. W. & Kimble, H. J. High-Q measurements of fused-silica
+microspheres in the near infrared. Opt. Lett. 23, 247-249 (1998).
+[67] Julsgaard, B., Kozhekin, A. & Polzik, E. S. Experimental long-lived entanglement of two macroscopic objects. Nature
+413, 400-403 (2001).
+[68] Sherson, J. F. et al. Quantum teleportation between light and matter. Nature 443, 557-560 (2006).
+[69] For a review, see Cerf, N. J., Leuchs, G. & Polzik, E. S. (eds.) Quantum Information with Continuous Variables (World
+Scientiﬁc Publishing, New Jersey, 2007).
+[70] Raymer, M. G., Walmsley, I. A., Mostowski, J. & Sobolewska, B. Quantum theory of spatial and temporal coherence
+properties of stimulated Raman scattering. Phys. Rev. A 32, 332-344 (1985).
+[71] Chou, C. -W., de Riedmatten, H., Felinto, D., Polyakov, S. V., van Enk, S. J. & Kimble, H. J. Measurement-induced
+entanglement for excitation stored in remote atomic ensembles. Nature 438, 828-832 (2005).
+[72] Dicke, R. H. Interaction-free quantum measurements: A paradox? Am. J. Phys. 49, 925-930 (1981).
+[73] Cabrillo, C., Cirac, J. I., Garc´ıa-Fern´andez, P. & Zoller, P. et al. Creation of entangled states of distant atoms by
+
+----- Page 12 (native) -----
+12
+interference. Phys. Rev. A 59, 1025-1033 (1999).
+[74] Bose, S. et al. Proposal for Teleportation of an Atomic State via Cavity Decay Phys. Rev. Lett. 83, 5158 - 5161 (1999).
+[75] Laurat, J., Choi, K. S., Deng, H., Chou, C.-W. & Kimble, H. J. Heralded entanglement between atomic ensembles:
+Preparation, decoherence, and scaling. Phys. Rev. Lett. 99, 180504 (2007).
+[76] Laurat, J. et al. Towards experimental entanglement connection with atomic ensembles in the single excitation regime.
+New J. Phys. 9, 207-220 (2007).
+[77] Jiang, L., Taylor, J. M. & Lukin, M. D. Fast and robust approach to long-distance quantum communication with atomic
+ensembles. Phys. Rev. A 76, 012301 (2007).
+[78] Zhao, B., Chen, Z. -B., Chen, Y. -A., Schmiedmayer, J & Pan, J. -W. Robust creation of entanglement between remote
+memory qubits. Phys. Rev. Lett. 98, 240502 (2007).
+[79] Sangouard, N. et al., Robust and eﬃcient quantum repeaters with atomic ensembles and linear optics, available at
+http://arxiv.org/abs/0802.1475.
+[80] Harris, S. E. Electromagnetically induced transparency. Phys. Today 50, 36-40 (1997).
+[81] Kuzmich, A., Bowen, W. P., Boozer, A. D., Boca, A., Chou, C. W., Duan, L. -M. & Kimble, H. J. Generation of
+nonclassical photon pairs for scalable quantum communication with atomic ensembles. Nature 423, 731-734 (2003).
+[82] Bali´c, V., Braje, D. A., Kolchin, P., Yin, G. Y. & Harris, S. E. Generation of paired photons with controllable waveforms.
+Phys. Rev. Lett. 94, 183601 (2005).
+[83] van der Wal, C. H., Eisaman, M. D., Andr´e, A., Walsworth, R. L., Phillips, D. F., Zibrov, A. S. & Lukin, M. D. Atomic
+memory for correlated photon states. Science 301, 196 (2003).
+[84] Chou, C. W., Polyakov, S. V., Kuzmich, A. & Kimble, H. J. Single-photon generation from stored excitation in an atomic
+ensemble. Phys. Rev. Lett. 92, 213601 (2004).
+[85] Laurat, J. et al. Eﬃcient retrieval of a single excitation stored in an atomic ensemble. Opt. Express 14, 6912-6918 (2006).
+[86] Du, S. et al. Subnatural linewidth biphotons with controllable temporal length. Phys. Rev. Lett. 100, 18603 (2006).
+[87] Thompson, J. K., Simon, J., Loh, H. & Vuleti´c, V. A high-brightness source of narrowband, identical-photon pairs.
+Science 313, 74-77 (2006).
+[88] Matsukevich, D. N. et al. Deterministic single photons via conditional quantum evolution. Phys. Rev. Lett. 97, 013601
+(2006).
+[89] Chen, S. et al. Deterministic and storable single-photon source based on a quantum memory. Phys. Rev. Lett. 97, 173004
+(2006).
+[90] Simon, J., Tanji, H., Thompson, J. K. & Vuleti´c, V. Interfacing collective atomic excitations and single photons. Phys.Rev.
+Lett. 98, 183601 (2007).
+[91] Wootters, W. K. Entanglement of formation of an arbitrary state of two qubits. Phys. Rev. Lett. 80, 2245-2248 (1998).
+[92] Felinto, D., Chou, C. W., Laurat, J., Schomburg, E. W., de Riedmatten, H. & Kimble, H. J., Conditional control of the
+quantum states of remote atomic memories for quantum networking, Nature Physics 2, 844-848 (2006) (advanced online
+publication 29 October, 2006).
+[93] Chou, C. -W., Laurat, J., Deng, H., Choi, K. S., de Riedmatten, H., Felinto, D. & Kimble, H. J. Functional quantum
+nodes for entanglement distribution over scalable quantum networks. Science 316, 1316-1320 (2007); published online 5
+April 2007 (DOI 10.1126/science.1140300).
+[94] Liu, C., Dutton, Z., Behroozi, C. H. & Hau, L. V. Observation of coherent optical information storage in an atomic
+medium using halted light pulses. Nature 409, 490-493 (2001).
+[95] Phillips, D. F., Fleischhauer, A., Mair, A., Walsworth, R. L. & Lukin, M. D. Storage of light in atomic vapor. Phys. Rev.
+Lett. 86, 783-786 (2001).
+[96] Chaneli`ere, T. et al. Storage and retrieval of single photons transmitted between remote quantum memories. Nature 438,
+833-836 (2005).
+[97] Eisaman, M. D. et al. Electromagnetically induced transparency with tunable single-photon pulses. Nature 438, 837-841
+(2005).
+[98] Simon, J., Tanji, H., Ghosh, S. & Vuleti´c, V. Single-photon bus connecting spin-wave quantum memories. Nature Physics
+3, 765-769 (2007); advance online publication, 23 September 2007 (DOI 10.1038/nphys726).
+[99] van Enk, S. J., L¨utkenhaus, N. & Kimble, H. J. Experimental procedures for entanglement veriﬁcation. Phys. Rev. A 75,
+052318 (2007).
+[100] Chen, Y. -A. et al. Memory-built-in quantum teleportation with photonic and atomic qubits. Nature Physics 4, 103-107
+(2008).
+[101] Vidal, G., Latorre, J. I., Rico, E., Kitaev, A., Entanglement in quantum critical phenomena. Phys. Rev. Lett. 90, 227902
+(2003).
+Acknowledgement – I gratefully acknowledge the contributions made by members of the Caltech Quantum Optics
+Group, and especially K. S. Choi, B. Dayan, and R. Miller for their eﬀorts on this manuscript. I am indebted to J.
+P. Preskill and S. J. van Enk for their insights. This research is supported by the National Science Foundation, by
+IARPA, and by Northrop Grumman Space Technology.
+Correspondence – Correspondence and requests for materials should be addressed to HJK. (email:
+hjkim-
+ble@caltech.edu).
+
+----- Page 13 (native) -----
+13
+BOX 1 - MAPPING QUANTUM STATES BETWEEN ATOMS AND PHOTONS
+Reversible state transfer between light and a single trapped atom can be achieved by way of the mappings |b⟩|1⟩→
+|a⟩|0⟩and |a⟩|0⟩→|b⟩|1⟩for the coherent absorption and emission of single photons as illustrated in parts (i) and (ii)
+of the ﬁgure [22]. Here |a⟩, |b⟩represent internal states of the atom with long-lived coherence (e.g., atomic hyperﬁne
+states in the 6S1/2, F = 3 and F = 4 manifolds of atomic Cesium) and |0⟩, |1⟩are Fock states of the intracavity ﬁeld
+with n = 0, 1 excitations. The transition |b⟩↔|e⟩is strongly coupled to a mode of an optical cavity with interaction
+energy ℏg. In this simple setting, the interaction Hamiltonian for atom and cavity ﬁeld has a “dark state” (i.e., no
+excited state component |e⟩) [49] given by [17]
+|D⟩= cos θ |a⟩|0⟩+ sin θ |b⟩|1⟩,
+(1)
+where cos θ = [1 + Ω2(t)
+g2 ]−1/2 with Ω(t) as a classical control ﬁeld. For Ω(t = 0) = 0, we have |D⟩= |a⟩|0⟩, while for
+Ω(t →∞) ≫g, |D⟩→|b⟩|1⟩.
+In (i), by adiabatically ramping a control ﬁeld Ω1(t) ≫g from on to oﬀover a time scale ∆t slow compared to
+1/g, the atomic state is mapped from |b⟩to |a⟩with the accompanying coherent absorption of 1 intracavity photon.
+Conversely, in (ii) by turning a control ﬁeld Ω2(t) from oﬀto on, the atomic state is mapped from |a⟩to |b⟩with the
+transfer of 1 photon into the cavity mode.
+As shown in (a)-(c) in the ﬁgure, these two processes can be combined to achieve the coherent transfer of the state
+of a propagating optical ﬁeld λ(t) = |φfield(t)⟩into and out of a quantum memory formed by the atomic states |a⟩, |b⟩
+[22]. In the ideal case, the mapping is speciﬁed by
+|φfield(t)⟩|b⟩→(a) |0⟩(c1 |a⟩+ c0 |b⟩) · · ·(b) · · · →(c) |φfield(t + τ)⟩|b⟩.
+(2)
+where the ﬁeld state is taken to be a coherent superposition of zero and one photon, |φfield(t)⟩= E(t)[c0 |0⟩field +
+c1 |1⟩field]. E(t) describes the envelope of the ﬁeld external to the cavity, with
+R
+|E(t)|2dt = 1. Given timing informa-
+tion for incoming ﬁeld |φfield(t)⟩, step (a) in this process is accomplished by adiabatically ramping the control ﬁeld
+Ω1(t) from on to oﬀ. In (b), the internal states of the atom provide a long-lived quantum memory. At a user-selected
+later time t+τ, step (c) is initiated by turning Ω2(t+τ) from oﬀto on, thereby coherently mapping the atomic state
+c1 |a⟩+ c0 |b⟩back to the “ﬂying” ﬁeld state β(t) = |φfield(t + τ)⟩.
+
+----- Page 14 (native) -----
+14
+BOX 2 - A NEW PARADIGM FOR CAVITY QED
+The realization of large-scale quantum networks [4, 7] requires the capability to interconnect many quantum nodes
+over quantum channels, for which conventional Fabry-Perot conﬁgurations are ill suited [57]. There have correspond-
+ingly been eﬀorts to develop of alternative microcavity systems [31, 58], both for single atoms [43, 44, 59, 60] and
+atom-like systems [61, 62], such as nitrogen vacancy centers in diamond [61]. A quantitative comparison of many
+candidate systems is provided by Table I in Ref. [45].
+A remarkable resonator for this purpose is the microtoroidal cavity formed from fused silica (SiO2) shown in the
+ﬁgure [63, 64].
+Such a resonator supports a whispering gallery mode (WGM) [65] circulating around the outer
+circumference of the toroid with an evanescent ﬁeld external to the resonator, as shown in part (c) of the ﬁgure.
+Because of the small mode volume Vm and large quality factor Q [65, 66], an atom interacting with the evanescent
+ﬁeld of a WGM can be well into the regime of strong coupling with projected values for the critical photon n0 and
+atom N0 numbers (n0, N0) ≃(2×10−5, 10−6) [45], respectively, signiﬁcantly beyond current [15] and projected [45, 57]
+capabilities for cavity QED with Fabry-Perot cavities (Fig. 2(c)).
+The fabrication techniques pioneered in Refs. [63, 64] lend themselves to the integration of many microtoroidal
+resonators to form optical networks, as illustrated in (a) and (b) of the ﬁgure.
+Part (a) shows a photograph of
+silicon chip with a linear array of microtoroidal resonators within a UHV apparatus [44]. The toroids appear as small
+scattering centers on a silicon chip that runs vertically down the center of the picture. The black arrows point to a
+horizontal SiO2 ﬁber taper for coupling light to and from one resonator. Part (b) is a SEM micrograph of an array
+of microtoroidal resonators showing toroids of fused silica on silicon supports [63].
+These resonators have the capability for input-output coupling with small parasitic loss [64] for the conﬁguration
+shown in (d), which is a photograph of an individual toroid and ﬁber coupler from (a) [44]. Quality factors Q = 4×108
+have been realized at λ = 1550 nm and Q ≃108 at λ = 850 nm, with good prospects for improvement to Q ∼1010
+[45]. For these parameters, the eﬃciency ϵ for coupling quantum ﬁelds into and out of the resonator could approach
+ϵ ∼0.99 −0.999, while still remaining ﬁrmly in the regime of strong coupling [45]. Such high eﬃciency is critical for
+the realization of complex quantum networks, including for the distribution and processing of quantum information
+[4, 7, 47] and for investigations of the association between quantum many-body systems and quantum networks
+[12, 14].
+The initial step in this quest was the demonstration of strong coupling between individual atoms and the ﬁeld of
+a microtoroidal resonator in Ref. [43]. More recently, nonclassical ﬁelds have been generated from the interaction
+of single atoms with a microtoroidal resonator by way of a ‘photon turnstile’ for which a single atom dynamically
+regulates the transport of photons one-by-one through the microtoroidal resonator [44], as illustrated in (d). Only
+single photons can be transmitted in the forward direction (to the left in the ﬁgure), with excess photons n > 1
+dynamically rerouted to the backward direction.
+
+----- Page 15 (native) -----
+15
+BOX 3 - WRITING AND READING SINGLE ATOMIC EXCITATIONS
+The DLCZ protocol [16] is based upon ensembles of Na identical atoms with a Λ-level conﬁguration as shown in
+the ﬁgure. The metastable lower states |g⟩and |s⟩can be, e.g., atomic hyperﬁne states of the electronic ground level
+to ensure a long lifetime for coherence. As illustrated in (a), all atoms are initially prepared in state |g⟩with no
+excitation, namely |0a⟩≡⊗Na
+i
+|g⟩i, and a weak oﬀ-resonant ‘write’ pulse is then sent through the ensemble. There
+results a small amplitude √p for one of the Na atoms to be transferred from |g⟩to |s⟩and to emit a photon into
+the forward-scattered optical mode (designated as ﬁeld 1) with frequency and/or polarization distinct from the write
+ﬁeld.
+Of course for small excitation probability p ≪1, mostly nothing happens as a result of the writing pulse, so that
+the resulting state |φa,1⟩for the atomic ensemble and ﬁeld 1 in the ideal case is given by
+|φa,1⟩= |0a⟩|01⟩+ eiβ√p |1a⟩|11⟩+ O(p),
+(1)
+where |n1⟩is the state of the forward-propagating ﬁeld 1 with n1 photons and the phase β is determined by the
+write pulse and ﬁeld 1 propagation phases. The atomic state |1a⟩in Eq. 1 is a collective (entangled) state with one
+excitation shared symmetrically among the Na atoms (i.e., one ‘spin ﬂip’), where in the ideal case [16]
+|1a⟩=
+1
+√Na
+Na
+X
+i=1
+|g⟩1 · · · |s⟩i · · · |g⟩Na .
+(2)
+Field 1 is directed to a single-photon detector, where a detection event is recorded with probability ∝p. Such an
+event for ﬁeld 1 heralds that a single excitation (or spin ﬂip |g⟩→|s⟩) has been created and stored in the atomic
+ensemble in the state |1a⟩with high probability. Higher-order processes with multiple atomic and ﬁeld 1 excitations
+are also possible and ideally occur to lowest order with probability p2.
+After a user-deﬁned delay (subject to the ﬁnite lifetime of the quantum memory), the collective atomic excitation
+|1a⟩can be eﬃciently converted to a propagating beam (designated as ﬁeld 2) by way of a strong ‘read’ pulse as in
+(b), where in the ideal case, there is a one-to-one transformation of atomic to ﬁeld excitation, |1a⟩→|12⟩. For the
+case of resonance with the |s⟩→|e⟩transition, the reading process utilizes the phenomenon of electromagnetically
+induced transparency [19, 20, 80].
+Write
+Field 1
+Field 2
+Read
+Field 1
+Field 2
+Write
+Read
+a)
+b)

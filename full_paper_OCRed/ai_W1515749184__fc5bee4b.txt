@@ -1,0 +1,820 @@
+
+
+----- Page 1 (native) -----
+MIT Open Access Articles
+Design, fabrication and control of soft robots
+The MIT Faculty has made this article openly available. Please share
+how this access benefits you. Your story matters.
+Citation: Rus, Daniela, and Michael T. Tolley. “Design, Fabrication and Control of Soft Robots.” 
+Nature 521, no. 7553 (May 27, 2015): 467–475.
+As Published: http://dx.doi.org/10.1038/nature14543
+Publisher: Nature Publishing Group
+Persistent URL: http://hdl.handle.net/1721.1/100772
+Version: Author's final manuscript: final author's manuscript post peer review, without 
+publisher's formatting or copy editing
+Terms of use: Creative Commons Attribution-Noncommercial-Share Alike
+
+----- Page 2 (native) -----
+Design, fabrication and control of soft robots 
+Daniela Rus1 and Michael T. Tolley2 
+ 
+1Computer Science and Artificial Intelligence Laboratory, Massachusetts Institute of Technology  
+2Department of Mechanical and Aerospace Engineering, University of California, San Diego 
+ 
+Abstract 
+ 
+Conventionally, engineers have employed rigid materials to fabricate 
+precise, predictable robotic systems, which are easily modeled as rigid 
+members connected at discrete joints. Natural systems, however, often 
+match or exceed the performance of robotic systems with deformable 
+bodies. Cephalopods, for example, achieve amazing feats of manipulation 
+and locomotion without a skeleton; even vertebrates like humans achieve 
+dynamic gaits by storing elastic energy in their compliant bones and soft 
+tissues. Inspired by nature, engineers have begun to explore the design and 
+control of soft-bodied robots composed of compliant materials. This Review 
+discusses recent developments in the emerging field of soft robotics. 
+Introduction 
+Biology has long been a source of inspiration for engineers making ever-more capable machines1. 
+Softness and body compliance are salient features often exploited by biological systems, which 
+tend to seek simplicity and exhibit reduced complexity in their interactions with their 
+environment2. Several of the lessons learned from studying biological systems are now 
+culminating in the definition of a new class of machine we, and others, refer to as soft 
+robots3, 4, 5, 6. Traditional, rigid-bodied robots are used today extensively in manufacturing and 
+can be specifically programmed to perform a single task efficiently, but often with limited 
+adaptability. Because they are built of rigid links and joints, they are unsafe for interaction with 
+human beings. A common practice is to separate human and robotic workspaces in factories to 
+mitigate safety concerns. The lack of compliance in conventional actuation mechanisms is part of 
+this problem. Soft robots provide an opportunity to bridge the gap between machines and people. 
+In contrast to hard bodied robots, soft robots have bodies made out of intrinsically soft and/or 
+extensible materials (e.g. silicone rubbers) that can deform and absorb much of the energy arising 
+from a collision. Soft robots have a continuously deformable structure with muscle-like actuation 
+that emulates biological systems and results in a relatively large number of degrees of freedom as 
+compared to their hard-bodied counterparts. Soft robots (Fig. 1) have the potential to exhibit 
+unprecedented adaptation, sensitivity, and agility. Soft bodied robots promise to 1) Move with the 
+ability to bend and twist with high curvatures and thus can be used in confined spaces7; 2) 
+Deform their bodies in a continuous way and thus achieve motions that emulate biology8; 3) 
+Adapt their shape to the environment employing compliant motion and thus manipulate objects9, 
+or move on rough terrain and exhibit resilience10; 4) Execute rapid, agile maneuvers, such as the 
+escape maneuver in fish11.
+
+----- Page 3 (native) -----
+The key challenge for creating soft machines that achieve their full potential is the 
+development of controllable soft bodies using materials that integrate sensors, actuators, and 
+computation, that together enable the body to deliver the desired behavior. Traditional 
+approaches to robot control assume rigidity in the linkage structure of the robot and are a poor fit 
+for controlling soft bodies, thus new soft materials require new algorithms. 
+What is soft?  
+“Soft” refers to the body of the robot. Soft materials are the key enablers for creating soft robot 
+bodies. While Young’s Modulus is only defined for homogeneous, prismatic bars that are subject 
+to axial loading and small deformations, it is nonetheless a useful measure of the rigidity of 
+materials used in the fabrication of robotic systems5. Materials traditionally used in robotics (e.g. 
+metals, hard plastics), have moduli on the order of 109–1012 Pa, whereas natural organisms are 
+often composed of materials (e.g. skin, muscle tissue) with moduli on the order of 104–109 Pa 
+(i.e. orders of magnitude lower than their engineered counterparts, see Fig. 2). We define soft 
+robots as systems capable of autonomous behavior that are primarily composed of materials with 
+moduli in the range of the moduli of soft biological materials. 
+Advantages of using materials with compliance similar to soft biological materials include a 
+significant reduction in the harm that could be inadvertently caused by robotic systems (as has 
+been demonstrated for rigid robots with compliant joints12), increasing their potential for 
+interaction with humans. Compliant materials also adapt more readily to various objects, 
+simplifying tasks like grasping13, and can also lead to improved mobility over soft substrates14.  
+For the body of a soft robot to achieve its potential, facilities for sensing, actuation, 
+computation, power storage, and communication must be embedded in the soft material, resulting 
+in smart materials. Additionally, algorithms that drive the body to deliver desired behaviors are 
+required. These algorithms implement impedance matching to the structure of the body. This 
+tight coupling between body and brain allows us to think about soft bodied systems as machines 
+with mechanical intelligence, where the body can be viewed to augment the brain with 
+morphological computation15, 16. This ability of the body to perform computation simplifies the 
+control algorithms in many situations, blurring the line between the body and the brain. However, 
+soft robots (like soft organisms) require control algorithms, which (at least for the foreseeable 
+futures) will run on some sort of computing hardware. While both body and brain must be 
+considered in concert, the challenges involved are distinct enough that we find it useful to 
+organize them here into separate sections. 
+In the following three sections we review recent developments in the field of soft robotics as 
+they pertain to design and fabrication, computation and control, and systems and applications. 
+We then conclude with a discussion of persistent challenges facing soft robotics, and suggest 
+areas where we see the greatest potential for societal impact. 
+Design and Fabrication 
+A robot is classified as hard or soft on the basis of the compliance of its underlying materials3. 
+Soft robots are capable of continuum deformations, but not all continuum robots are soft. For 
+example, the robotic elephant trunk manipulator17 is a discrete hyper-redundant continuum robot 
+composed of rigid materials; the articulated catheter robot18 is an example of hard continuum 
+robot; OctArm19 (Fig. 3b) is an example of semi-soft continuum robot; while the caterpillar 
+robot20 (Fig. 1a) and the rolling belt robot21 are examples of soft continuum robots. These soft
+
+----- Page 4 (native) -----
+machines have modular bodies consisting of soft rubber segments, which can be composed 
+serially or in parallel to create complex morphologies. The body of a soft robot may consist of 
+multiple materials with different stiffness properties22, 11. A soft robot encases in a soft body all 
+the sub-systems of a conventional robot: an actuation system, a perception system, driving 
+electronics, and a computation system, with corresponding power sources. Technological 
+advances in soft materials and subsystems compatible with the soft body enable the autonomous 
+function of the soft robot. The rest of this section describes recent progress in developing sub-
+systems for soft robots. With this range of components, design tools are used to create the 
+topology of the robot body along with the placement of its functional components. Given the 
+design roadmap, the robot is ready to be fabricated. 
+Actuation 
+The segments of a soft robot are usually actuated in one of two ways (See Fig. 4): 1) Variable 
+length tendons (in the form of tension cables23 or shape memory alloy actuators24) may be 
+embedded in soft segments, to achieve, for example, robotic octopus arms (Fig. 3f). 2) In another 
+common approach, pneumatic actuation is used to inflate channels in a soft material and cause a 
+desired deformation. Pneumatic artificial muscles (PAMs), also known as McKibben actuators, 
+are examples of compliant linear soft actuators composed of elastomer tubes in fiber sleeves25, 26. 
+Fluidic elastomer actuators (FEAs) are a new type of highly extensible and adaptable, low-power 
+soft actuator. FEAs comprise synthetic elastomer films operated by the expansion of embedded 
+channels under pressure. Once pressurized, the actuator will keep its position with little or no 
+additional energy consumption. FEAs can be operated pneumatically27, 28, 29, 30, 10 or 
+hydraulically31, 32. Given a small number of options for pressurized working fluid generation, and 
+a significant difference between the time constants for the generators and actuators, pressure 
+regulating components such as regulators and valves are necessary. Regardless of the actuation 
+method, soft actuators are frequently arranged in a biologically inspired agonist-antagonist 
+arrangement (like muscles) to allow bi-directional actuation. Another benefit of this arrangement 
+is that co-contraction of muscle pairs leads to adaptable compliance.  
+The design and actuation of soft robotic systems dates back to at least 1992 when a team 
+demonstrated the impressive capabilities of soft, flexible microactuators27 (Fig. 3a). This work 
+demonstrated the approach of pneumatic actuation of robotic elements composed of elastomer. In 
+this approach, a fluid (usually air) is used to inflate channels in the elastomer, while some 
+asymmetry in the design or constituent materials causes the component to actuate (move) in a 
+desired way (see Fig. 4). The resulting continuous, adaptive motions can appear surprisingly 
+lifelike. Other groups29,33-35 (Fig. 1b, c) used soft lithography techniques adapted from 
+microfluidics, as well as soft composite materials composed of various silicone polymers and 
+elastomers at times embedded with paper or cloth, to design and fabricate pneumatically actuated 
+soft systems. One challenge with these designs based on pneumatic networks (also referred to as 
+pneu-nets) is that the high strains required for actuation can lead to slow actuation rates and 
+rupture failures. A slightly more complex design for pneumatically actuated elastomeric soft 
+robots reduced the material strain required for actuation36, and allowed the untethered walking of 
+a large, soft robot10. Soft-lithography fabrication approaches typically use a layer of stiffer rubber 
+or elastomer sometimes with paper, fabric, or a plastic film embedded to achieve asymmetric 
+strain for actuation. An alternative approach is to augment all elastomeric elements with flexible 
+fibers, which limit the stress taken up by the elastomer during pneumatic actuation. The result is 
+soft actuators with reduced extensibility and flexibility, but the ability to withstand higher
+
+----- Page 5 (native) -----
+actuation pressures, and hence apply larger forces. Using complex molding and/or freeform 
+fabrication techniques, it is possible to embed fibers directly into pneumatic elastomeric actuators 
+to achieve agile motions based on bending27, 13, 37. 
+While most soft robot prototypes have used pneumatic or hydraulic actuation, a great deal of 
+research has focused on the development of electrically activated soft actuators composed of 
+electroactive polymers (EAPs)38, 39, which have also led to prototype systems22. Since energy is 
+typically most readily stored in electrical form, and computation is usually done on electronic 
+circuits, it may be more efficient to directly use electrical potential to actuate soft robots. Types 
+of EAPs include Dielectric EAPs, ferroelectric polymers, electrostrictive graft polymers, liquid 
+crystal polymers, ionic EAPs, electrorheological fluids, ionic polymer-metal composites, and 
+stimuli-responsive gels. Since a detailed discussion is beyond the scope of this review, we refer 
+the reader to refs 38, 39 for details. In general, fabrication, performance, and long-term stability 
+are active areas of research in EAPs.  
+Instead of designing the stiffness of robotic systems by tuning their constituent materials, 
+another line of soft robotics research has sought to control material stiffness on-the-fly. One 
+approach is to embed or encase soft materials with stiffer materials such as wax40 or metal41, 
+which can be softened thermally. Embedded heaters can thus be used to adjust the structure’s 
+effective stiffness and allow for compliant behavior or actuated repositioning. Similarly, 
+isothermal phase change caused by particle jamming has also been explored as a method of 
+adjusting a soft robot’s rigidity for actuation42, 43 (Fig. 1f), or even for grasping an impressive 
+array of objects44 (Fig. 3c).  
+Stretchable Electronics 
+To date, most integrated soft robotics systems have relied on traditional, rigid electronics to store 
+the control algorithms and connect to the systems’ actuators, sensors, and power sources. 
+However, there has recently been a great effort in the area of soft and stretchable 
+electronics45, 46, 47. A full discussion of this area is beyond the scope of the current review, 
+however as the field of soft/stretchable electronics matures, we expect greater integration with 
+soft robots, resulting in completely soft prototypes. 
+Sensing 
+The compliance and morphology of soft robots precludes the use of many traditional sensors 
+including encoders, metal or semiconductor strain gages, or inertial measurement units (IMUs). 
+While flexible-bending sensors based on piezoelectric polymers are available as commercial 
+products, these may not be appropriate due to the need for all elements of the system to be both 
+bendable and stretchable. Soft, stretchable electronics may enable new sensing modalities48, 49. 
+The basis of proprioceptive sensors for a soft robot is usually either non-contact sensors or very 
+low modulus elastomers combined with liquid-phase materials. Since soft robots are actuated by 
+generating curvatures, proprioception relies on curvature sensors. The low modulus of proposed 
+elastomer sensors (which have characteristic moduli in the range of 105-106 Pa) impart minimal 
+change on the impedance of the underlying structures. These sensors generally have layered 
+structures, where multiple thin elastomer layers are patterned with microfluidic channels by soft 
+lithography. The channels are subsequently filled with a liquid conductor (e.g. gallium-containing 
+alloys such as eutectic gallium-indium or eGaIn). With layered channel geometries, it is possible 
+to tailor sensors for measuring various strains including tensile, shear50, or curvature51. To
+
+----- Page 6 (native) -----
+address the fabrication challenges involved with injecting complex channel networks with liquid 
+conductor, recent work has investigated mask deposition of the conductor52, or direct 3D printing 
+of conductive material53. Alternatively, exteroceptive sensing may be used to measure the 
+curvatures of a soft robot’s body segments in real time30. To expand the applications of soft 
+robotics, compatible chemical and biological sensors54 may be used to sense environmental 
+signals. Such sensors may be more compatible with soft robots than the optical and audio 
+recorders typically used in robotics. 
+Power Sources 
+A big challenge for soft robots is stretchable, portable power sources for actuation. For pneumatic 
+actuators, existing fluidic power sources are not soft and are usually big and bulky. Current off-
+the-shelf pressure sources are generally limited to compressors or pumps and compressed air 
+cylinders55. If we draw an analogy to electrical systems, compressors are similar to generators as 
+they convert electrical energy into mechanical energy, and compressed gas cylinders are similar 
+to capacitors as they store a pressurized fluid in a certain volume to be discharged when required. 
+Miniature compressors use valuable electrical energy inefficiently, and cylinders in useful form 
+factors do not offer longevity. What has been missing for fluidic systems is the equivalent of a 
+battery, where a chemical reaction generates the necessary energy for actuation using a fuel. The 
+chemically operated portable pressure source, or pneumatic battery28 (Fig. 1g) generates 
+pressurized gas using a hydrogen peroxide monopropellant56. Combustible fuels are another 
+promising high energy density chemical fuel source57, 58. 
+Electrically powered actuators (as well as the electrical controllers for pneumatic systems) 
+require soft, flexible, lightweight electrical power sources59. As with soft electronics, this is an 
+active area of research. Recent promising developments include graphene60, organic polymer61, 
+embedded conductive fabric62 based batteries.  
+Design 
+Existing soft robotic systems have typically been designed with traditional 3D computer-aided 
+design (CAD) software. However, today’s CAD software was not created with freeform 3D 
+fabrication processes in mind, and does not easily accommodate the complex non-homogenous 
+3D designs, which may be desired for soft robotics. This has led researchers to either rely on 
+relatively simple “2.5-D” layered designs, or come up with customized approaches to the design 
+and fabrication of each system, typically based on commercial 3D molding techniques58, 11. 
+Following an alternative approach, researchers have used design automation algorithms inspired 
+by evolution to design soft robots63. Soft robot designs have been automatically generated using 
+custom finite element analysis software (VoxCAD), which accommodates materials with a large 
+range of moduli, coupled with design optimization using an evolutionary algorithm64. In addition, 
+evolutionary algorithms have been used to automatically generate soft robot designs65. 
+Fabrication 
+Recent progress in the field of soft robotics has been enabled by the development of rapid digital 
+design and fabrication tools. Researchers have manufactured complex soft robotic systems by 
+taking advantage of rapid and adaptable fabrication techniques66, including multimaterial 3D 
+printing67, shape deposition manufacturing (SDM)68, and soft lithography69. These techniques 
+can be combined to create composites with heterogenous materials (e.g. rubber with different
+
+----- Page 7 (native) -----
+stiffness moduli), embedded electronics, and internal channels for actuation31, 70. Direct digital 
+printing with soft materials may be another option for fabricating arbitrary soft structures. A wide 
+range of robot bodies can be fabricated using these techniques. The next section discussed control 
+systems supporting a wide range of soft robot applications.  
+Computation and Control 
+Unlike the control of rigid bodies, whose movements can be described by six degrees of freedom 
+(three rotations and three translations about the x, y, and z axes), the movements of soft bodies 
+cannot be confined to planar motions. Soft materials are elastic and can bend, twist, stretch, 
+compress, buckle, wrinkle, etc. Such motion can be viewed as offering an infinite number of 
+degrees of freedom, a fact which makes the control of soft robots very challenging. Controlling 
+soft robots requires new approaches to modeling, control, dynamics, and high-level planning.  
+The muscle analogy for soft actuators has driven a number of biologically-inspired approaches 
+to modeling and control for soft materials. The octopus’ arm is the prototypical example of a 
+highly adaptive, soft actuator in nature that has been the source of inspiration for several 
+biomimetic designs. The study of the octopus shows that it forms pseudo-joints and uses human-
+like strategies for precise point-to-point movements such as fetching71. An understanding of the 
+working principles and control of soft organisms (such as the octopus) has led to a model for the 
+control of soft robots72. Likewise, the caterpillar has provided an ideal model for mobile soft 
+robots73. The study of these systems for the development and implementation of soft robotic 
+systems, has also, in turn, reflected back on our understanding of the mechanics and control of 
+the associated natural systems74.  
+Modeling and Kinematics 
+The kinematics and dynamics of soft robotic systems are unlike those of traditional, rigid-bodied 
+robots. When composed of a series of actuation elements, these robots approach a continuum 
+behavior. In theory, the final shape of the robot can be described by a continuous function and 
+modeling this behavior requires continuous mathematics. Because soft robots are different than 
+traditional rigid linkage-based systems, researchers have developed new static, dynamic and 
+kinematic models that capture their ability to bend and flex75. 
+Robots made entirely from soft elastomer and powered by fluids do not yet have well 
+understood models or planning and control algorithms primarily because their intrinsic 
+deformation is continuous, complex, and highly compliant. Additionally, soft robots are often 
+underactuated; they can contain many passive degrees of freedom, and when driven with low 
+pressure fluids the available input fluid power is unable to compensate for gravitational loading. 
+Soft robot designers often model the kinematics of soft robots using a simplifying assumption 
+which leads to the piecewise constant curvature (PCC) model. Webster and Jones showed that the 
+PCC model is equivalent to many other modeling approaches75. Building on the PCC model, 
+researchers have developed methods to map the actuation space to configuration space. These 
+approaches are robot-specific in that they integrate the morphology of the robot and the 
+characteristics of the actuation system. One approach uses Bernoulli-Euler beam mechanics to 
+predict deformation76, 75, 3; Another develops a relationship between the joint variables and the 
+curvature arc parameters77 which applies to high and medium pressure robots; A third presents 
+models that describe the deformation of robots actuated with low pressures28, 11, 29. These models 
+are the basis for the forward kinematics of their respective systems. However, the PCC model
+
+----- Page 8 (native) -----
+does not capture all aspects of soft robots and in an effort to increase the envelope of the model, 
+Renda et al developed non-constant curvature models78. 
+The inverse kinematics (IK) problem, as posed in75 (i.e. computing the curvatures required to 
+place a specified point on the robot body at a desired location), is more challenging. Existing 
+literature has provided several approaches for semi-soft robots79, 77. A limitation of existing 
+approaches to solving the IK problem for linear soft bodies (e.g. arms) is that currently neither 
+the whole body, nor the pose of the end effector (which may be important for manipulation, 
+sensing, etc.), are not considered in the solution. Autonomous obstacle avoidance and movement 
+through a confined environment are difficult without a computational solution to the IK problem 
+that is aware of the whole body of the robot in space. Real-time, closed-loop curvature controllers 
+are required that drive the bending of the soft pneumatic body segments of the manipulator 
+despite their high compliance and lack of kinematic constraints. Marchese et al. developed a 
+method for closed-loop curvature control of a soft bodied planar manipulator30. This work used 
+the PCC assumption with a cascaded curvature controller. Wang et al. proposed an alternative 
+visual servo control approach for cable-driven soft robotic manipulators80. 
+The inverse kinematics algorithm enables task-space planning algorithms to autonomously 1) 
+position their end-effector (or some other part of their body) in free-space, 2) maneuver in 
+confined environments, and 3) grasp-and-place objects. These task-space algorithms require that 
+the planner considers the entire robot body (e.g. the whole arm not just the end effector for 
+manipulators). Existing algorithms for whole body control81 assume rigid body systems and have 
+not been extended to soft bodied robots. For whole body control of soft robots, it is difficult to 
+control the configuration of the whole soft body due to compliance. Marchese et al.30 presented a 
+computational approach to whole body planning for soft planar manipulators. This approach 
+considered both the primary task of advancing the pose of the end effector of the soft robot, and 
+the secondary task of positioning the changing envelope of the whole robot in relation to the 
+environment30, 7.  
+Control 
+Researchers have used these models to develop new approaches to low-level control, inverse 
+kinematics, dynamic operations, and planning for soft robotic systems. An important aspect of 
+these algorithms is the use of compliance when the robot interacts with its environment. 
+Compliance allows the robot to adapt its shape and function to objects of unknown or uncertain 
+geometry and is the basis for new control and planning algorithms for soft robots in the presence 
+of uncertainly. For example, soft robots can execute pick and place operations without precise 
+positioning or accurate geometric models of the object to be grasped44.  
+Low-level control for soft robots is done as pressure control using pressure transducers or 
+volume control using strain sensors. Pressure control accommodates differences in actuator 
+compliance. Volume control is an avenue to configuration control and supports setting a 
+maximum safe displacement limit. Most fluid-powered soft robots use open-loop valve 
+sequencing to control body segment actuation. Valve sequencing means that a valve is turned on 
+for some duration of time to pressurize the actuator and then turned off to either hold or deflate it. 
+Many soft robotic systems use this control approach21, 28, 29, 34, 10. Marchese et al. demonstrated 
+continuously adjustable, variable pressurization using a fluidic drive cylinder30. Recent work has 
+sought to develop control elements for pneumatic soft robots (e.g. valves), which do not require 
+electrical control signals. In this work, passive valves with memory allow the addressable control 
+of many soft robotic actuators from a single controlled pressure source82.
+
+----- Page 9 (native) -----
+The dynamics of soft robots open the door for new robot capabilities. Much like a child on a 
+swing set, repeatable positioning of a soft tentacle places it outside of its gravity compensation 
+envelope, where the end effector could accomplish tasks. Physical phenomena common to soft 
+robots—including actuation limits, the self-loading effects of gravity, and the high compliance of 
+the manipulator—can be represented as constraints within a trajectory optimization algorithm 
+that operates on a dynamic model of the soft robot7. One example dynamic maneuver enables soft 
+robots to interact with humans by quickly grabbing objects directly from the hand of a human7. 
+Dynamic control of soft robots can be achieved using a new dynamic model for a spatial soft 
+fluidic elastomer manipulator, a method for identifying all unknown system parameters (i.e. the 
+soft manipulator, fluidic actuators, and continuous drive cylinders or valving), and a planning 
+algorithm that computes locally-optimal dynamic maneuvers through iterative learning control. 
+The this approach represents actuation limits, the self-loading effects of gravity, and the high 
+compliance of the manipulator, as constraints within the optimization.  
+Dynamic models of hard and semi-soft continuum robots provide examples for a variety of 
+control techniques for soft robots83, 76, 84. Other work has modeled dynamic polymeric pneumatic 
+tubes subject to tip loading using a bending beam approximation85, but this has not been used for 
+control. Tatlicioglu et al. developed a dynamic model for, and provided simulations of, a planar 
+extensible continuum manipulator using a Lagrangian approach86. Luo et al.87 modeled the 
+dynamics of a soft planar snake. 
+Systems and Applications 
+In this section we review some of the systems and that have been developed to date to address a 
+variety of potential applications to locomotion, manipulation, and human-machine interaction. 
+Locomotion 
+Recent work has explored the modes of locomotion possible with (or enabled by) soft bodies 
+(Fig. 1). Notably, studies of caterpillars have led to a soft robotic systems20, 73, as well as a further 
+understanding of the control of motion in these animals74. An understanding of worm 
+biomechanics also led to a bioinspired worm design composed of flexible materials and actuated 
+by shape memory actuators (SMAs)88, and an annelid inspired robot actuated by dielectric 
+elastomer22. A European initiative studied the biomechanics and control of the octopus to 
+produce a soft robotic prototype24, 9. Likewise, a self-contained, autonomous robotic fish actuated 
+by soft fluidic actuators was demonstrated to be capable of forward swimming, turning, and 
+depth adjustment11, 31 (see Fig. 5). This robot can execute a c-turn escape maneuver in 100 
+milliseconds, which is on par with its biological counterpart, enabling the use of this robot as an 
+instrument (i.e. a physical model) for biological studies. Soft robotics projects have also explored 
+quadrupedal locomotion29, 10, rolling28, 73, and snake-like undulation8. Jumping has also been 
+achieved using internal combustion of hydrocarbon fuels to achieve rapid energy release57, 58. 
+Many of the exciting applications for soft robotics (e.g. search-and-rescue, environmental 
+monitoring), require an autonomous, mobile system. However, most experimental soft robotic 
+systems rely on power and/or control signals delivered through pneumatic and/or electrical 
+tethers. Since typical actuation power sources (e.g. air compressors, batteries) are relatively 
+heavy (e.g. 1.2 kg10), tethers greatly simplify system design by significantly reducing the required 
+carrying capacity. One approach to achieving mobile systems is to tether a soft robot to a mobile 
+rigid robot with a greater carrying capacity89. Untethered mobile systems have circumvented the
+
+----- Page 10 (native) -----
+challenge of carrying heavy power sources by operating underwater11, 31 or rolling on a 
+surface28, 8 such that actuation system masses do not have to be lifted against gravity. Another 
+approach has developed materials and designs tailored to operate at working pressures high 
+enough to carry large payloads10.  
+Manipulation 
+Manipulation is one of the canonical challenges for robotics (Fig. 3). Soft systems have a natural 
+advantage over rigid robots in grasping an manipulating unknown objects since the compliance 
+of soft grippers allows them to adapt to a variety of objects with simple control schemes. 
+Grippers which employ isothermal phase change due to granular jamming have taken advantage 
+of this feature of soft systems44, 90. Underactuated grippers composed of silicone elastomers with 
+embedded 
+pneumatic 
+channels 
+have 
+also 
+demonstrated 
+impressive 
+adaptability33,13. 
+Commercially developed systems have also demonstrated manipulation with lightweight grippers 
+composed of inflated flexible (but not extensible) material91. As one of the more mature 
+applications of soft robotic technology, companies have begun to produce soft robotic 
+manipulators (e.g. Pneubotics an Otherlab Company, Empire Robotics Inc., Soft Robotics Inc.). 
+Medical/Wearable Applications 
+One of the natural advantages of soft robotic systems is the compatibility of their moduli with 
+those of natural tissues for medical and wearable applications. Rigid medical devices or orthoses 
+run the risk of causing damage or discomfort to human or animal tissue. Additionally, it can be 
+difficult to perfectly replicate the motion of natural joints with rigid orthodics. One possibility is 
+to integrate a degree of compliance into wearable devices, for example for orthopedic 
+rehabilitation. Recently, researchers have begun to look at medical wearable applications for soft 
+robotics including soft wearable input devices (e.g. wearable keyboards92), soft orthodics for 
+human ankle-foot rehabilitation37, soft sensing suits for lower limb measurement93, soft actuated 
+systems for gait rehabilitation of rodents who have had their spinal cord surgically cut94, and a 
+soft system for simulation of cardiac actuation95. 
+Soft Cyborgs 
+Recent work has begun to investigate robotic systems that directly integrate biological (as 
+opposed to artificial, biologically compatible) materials. Since biological materials are often very 
+soft, the resulting systems are soft robotic systems (or perhaps they would be more aptly named 
+soft cyborgs). For example, microbes which digest organic material and produce electricity have 
+powered artificial muscles for autonomous robots96, and cardiomyocytes have been used to 
+power a jellyfish inspired swimming cyborg97. One challenge with using swarms of inexpensive 
+soft robots for exploration is that of retrieving the robots once the task is completed. One way to 
+avoid this problem is to develop biodegradable and the soft robots powered by gelatin actuators98. 
+Since gelatin is edible, there may also be medical applications for this technology. 
+Future Directions 
+The field of soft robotics aims to create the science and applications of soft autonomy by asking 
+the questions: How do we design and control soft machines, and how do we use these new 
+machines?  Current research on the algorithmic and device-level aspects of soft robots has 
+demonstrated soft devices that can locomote, manipulate, and interact with people and their
+
+----- Page 11 (native) -----
+environment in unique ways. Soft mobile robots capable of locomotion on unknown terrain and 
+soft robot manipulators capable of pose-invariant and shape-invariant grasping rely on 
+compliance to mitigate uncertainty and adapt to environment and task. These basic behaviors 
+open the door for applications where robots work closely with humans. For example, a soft robot 
+manipulator could handle and prep a wide variety of food items in the kitchen while a soft mobile 
+robot could use contact to guide patients during physiotherapy exercises. The soft home robot 
+could assist the elderly with monitoring their medicine regiments while a soft factory robot could 
+support humans in delicate assembly tasks. But how do we get to the point where soft robots 
+deliver on their full potential?  We need (1) rapid design tools and fabrication recipes for low-
+cost soft robots, (2) novel algorithmic approaches to the control of soft robots that account for 
+their material properties, (3) tools for developing device-specific programming environments that 
+allow non-experts to use the soft machines, (4) creative individuals to design new solutions, and 
+(5) early adopters of the technology.  
+The soft robotics community is creating materials that have the ability to compute, sense, and 
+move, leading to a convergence between materials and machines. The materials are becoming 
+more like computers due to embedded electro-mechanical components, and machines are getting 
+softer due to the alternative materials used to create them. This convergence requires tools for 
+functional specification and automated co-design of the soft body (including all the components 
+necessary for actuation, sensing, and computation) and the soft brain (including all software 
+aspects of controlling the device and reasoning about the world and the goal task). Progress in 
+new materials with programmable stiffness properties, proprioceptive sensing, contact modeling, 
+and recipes for rapid fabrication will enable the creation of increasingly more capable soft 
+machines.  
+But how soft should a soft robot be in order to meet its true potential?  As with many aspects 
+of robotics, this depends on the task and environment. For domains that require extreme body 
+compliance (e.g. inspecting a pipe with complex geometry or laproscopic surgery) or dealing 
+with a great amount of uncertainty (e.g. locomotion on rocky uneven terrain or grasping unknown 
+objects), soft machines can bring the capabilities of robots to new levels. However, soft robots 
+are difficult to model and control, especially when they need to retain a desired body 
+configuration without external support (e.g. an elephant trunk holding an object at a desired 
+height in the presence of gravity). Augmenting soft machines with skeletons, much like 
+vertebrates, could simplify such tasks. An important consideration for the future of soft machines 
+is how to match the softness of the body to the range of capabilities expected from the machine in 
+a way that most effectively leverages the body.  
+Rapid fabrication recipes and tools for soft robots with embedded electronics are needed to 
+expand the user base beyond experts. Additionally, more advances are needed to expand the 
+computation and control capabilities of existing systems. The current approaches to robot control 
+rely on external localization. But soft robots that operate autonomously need the ability to 
+localize proprioceptively. Current models for soft robots do not capture their dynamics. Improved 
+dynamics models will lead to more capable controllers. Although the current planners for soft 
+robots allow the systems to collide harmlessly with their environments, the collision are not 
+detected. However, contact with the environment can be a useful aspect of task-level planning.  
+Soft robots have the potential to provide a link between living systems and artificial systems at 
+multiple levels: high-level tasks, in interaction between humans and robots, and in cognition. 
+Pfeifer and Bongard have argued that bodies are central to the way that we think99. This view, 
+embodied artificial intelligence, holds that robotic bodies and brains must be considered and
+
+----- Page 12 (native) -----
+developed in concert, much as the bodies and brains of their biological counterparts co-evolved. 
+Soft robotic systems have the potential to exploit morphological computation to adapt to, and 
+interact with, the world in a way that is difficult or impossible with rigid systems. Following the 
+principles of embodied artificial intelligence, soft robots may allow us to develop biologically 
+inspired artificial intelligence in ways that are not possible with rigid bodied robots. 
+ 
+Bibliography 
+ 
+1. 
+Full, R. J. Invertebrate locomotor systems. Comprehensive Physiology (1997).  
+2. 
+Dickinson, M. H. et al. How animals move: an integrative view. Science 288, 100–106 
+(2000).  
+3. 
+Trivedi, D., Rahn, C. D., Kier, W. M. & Walker, I. D. Soft robotics: Biological inspiration, 
+state of the art, and future research. Applied Bionics and Biomechanics 5, 99–117 (2008).  
+This paper discusses the biological inspiration for soft robotics and reviews the first 
+generation of soft robotic systems which employ primarily pneumatic artificial muscle 
+or electroactive polymer actuators. 
+4. 
+Kim, S., Laschi, C. & Trimmer, B. Soft robotics: a bioinspired evolution in robotics. Trends 
+in biotechnology 31, 287–294 (2013).  
+This paper reviews design and actuation approaches for soft robots, and discusses the 
+biomechanics of three organisms which frequently serve as inspiration. 
+5. 
+Majidi, C. Soft robotics: A perspective–current trends and prospects for the future. Soft 
+Robotics 1, 5–11 (2013).  
+6. 
+Laschi, C. & Cianchetti, M. Soft robotics: new perspectives for robot bodyware and control. 
+Frontiers in bioengineering and biotechnology 2 (2014).  
+7. 
+Marchese, A. D., Tedrake, R. & Rus, D. Dynamics and trajectory optimization for a soft 
+spatial fluidic elastomer manipulator. The International Journal of Robotics Research, to 
+appear (2015).  
+This paper describes a new algorithm for dynamic control of soft robots and 
+demonstrates the use of this method to achieve reachability outside of the static 
+envelope of the robot. 
+8. 
+Onal, C. D. & Rus, D. Autonomous undulatory serpentine locomotion utilizing body 
+dynamics of a fluidic soft robot. Bioinspiration & biomimetics 8, 026003 (2013).  
+This paper presents a mobile soft robot composed of bidirectional fluidic elastomer
+
+----- Page 13 (native) -----
+actuators to achieve snake-like locomotion. 
+9. 
+Mazzolai, B., Margheri, L., Cianchetti, M., Dario, P. & Laschi, C. Soft-robotic arm inspired 
+by the octopus: from artificial requirements to innovative technological solutions. 
+Bioinspiration & biomimetics 7, 025005 (2012).  
+This paper presents the design of a biologically inspired artificial muscular hydrostat 
+for underwater soft robotics. 
+10. Tolley, M. T. et al. A resilient, untethered soft robot. Soft Robotics 1, 213–223 (2014).  
+This paper addresses the design of a legged soft robot system capable of carrying the 
+components required for untethered walking without a skeleton, and demonstrates 
+that soft robots can be resilient to harsh conditions such as large external forces and 
+extreme temperatures. 
+11. Marchese, A. D., Onal, C. D. & Rus, D. Autonomous soft robotic fish capable of escape 
+maneuvers using fluidic elastomer actuators. Soft Robotics 1, 75–87 (2014).  
+This paper describes a self-contained autonomous robot fish that is capable of 
+executing biologically inspired escape maneuvers (i.e. rapid changes in direction) in 
+hundreds of milliseconds, which is on par with similarly sized fish. 
+12. Albu-Schaffer, A. et al. Soft robotics. Robotics & Automation Magazine, IEEE 15, 20–30 
+(2008).  
+13. Deimel, R. & Brock, O. A novel type of compliant, underactuated robotic hand for 
+dexterous grasping. Robotics: Science and Systems, Berkeley, CA 1687–1692 (2014).  
+This paper describes the design and testing of an inexpensive, modular, underactuated 
+soft robot hand with pneumatically actuated fiber-reinforced elastomer digits. 
+14. Majidi, C., Shepherd, R. F., Kramer, R. K., Whitesides, G. M. & Wood, R. J. Influence of 
+surface traction on soft robot undulation. The International Journal of Robotics Research 
+32, 1577–1584 (2013).  
+15. Paul, C. Morphological computation: A basis for the analysis of morphology and control 
+requirements. Robotics and Autonomous Systems 54, 619–630 (2006). 
+16. Hauser, H., Ijspeert, A. J., Fuchslin, R. M., Pfeifer, R. & Maass, W. Towards a theoretical 
+foundation for morphological computation with compliant bodies. Biological cybernetics 
+105, 355–370 (2011).  
+17. Hannan, M. W. & Walker, I. D. Kinematics and the implementation of an elephant’s trunk 
+manipulator and other continuum style robots. Journal of Robotic Systems 20, 45–63
+
+----- Page 14 (native) -----
+(2003).  
+18. Camarillo, D. B., Carlson, C. R. & Salisbury, J. K. Configuration tracking for continuum 
+manipulators with coupled tendon drive. Robotics, IEEE Transactions on 25, 798–808 
+(2009).  
+19. McMahan,W. et al. Field trials and testing of the octarm continuum manipulator. In 
+Robotics and Automation (ICRA), IEEE International Conference on, 2336–2341 (IEEE, 
+2006).  
+20. Lin, H., Leisk, G.  &  Trimmer, B. Soft robots in space: a perspective for soft robotics. Acta 
+Futura 6, 69–79 (2013).  
+21. Correll, N., Onal, C., Liang, H., Schoenfeld, E. & Rus, D. Soft autonomous materials – 
+using active elasticity and embedded distributed computation. In Experimental Robotics 
+227-240 (Springer 2014) 
+22. Jung, K., Koo, J. C., Lee, Y. K., Choi, H. R. et al. Artificial annelid robot driven by soft 
+actuators. Bioinspiration & biomimetics 2, S42 (2007).  
+23. Calisti, M. et al. An octopus-bioinspired solution to movement and manipulation for soft 
+robots. Bioinspiration & biomimetics 6, 036002 (2011).   
+24. Laschi, C. et al. Soft robot arm inspired by the octopus. Advanced Robotics 26, 709–727 
+(2012).  
+25. Schulte, H. The characteristics of the McKibben artificial muscle. The application of 
+external power in prosthetics and orthotics 874, 94–115 (1961).  
+26. Chou, C.-P. & Hannaford, B. Measurement and modeling of McKibben pneumatic artificial 
+muscles. Robotics and Automation, IEEE Transactions on 12, 90–102 (1996).  
+27. Suzumori, K., Iikura, S. & Tanaka, H. Applying a flexible microactuator to robotic 
+mechanisms. Control Systems, IEEE 12, 21–27 (1992).  
+28. Onal, C. D., Chen, X., Whitesides, G. M. & Rus, D. Soft mobile robots with on-board 
+chemical pressure generation. In International Symposium on Robotics Research (ISRR), 1–
+16 (2011).  
+29. Shepherd, R. F. et al. Multigait soft robot. Proceedings of the National Academy of 
+Sciences 108, 20400–20403 (2011).  
+This paper describes the rapid design and fabrication of a soft robot body capable of 
+walking and undulating tethered to a pneumatic actuation system.
+
+----- Page 15 (native) -----
+30. Marchese, A. D., Komorowski, K., Onal, C. D. & Rus, D. Design and control of a soft and 
+continuously deformable 2d robotic manipulation system. In Robotics and Automation 
+(ICRA), IEEE International Conference on (2014).  
+31. Katzschmann, R. K., Marchese, A. D. & Rus, D. Hydraulic Autonomous Soft Robotic Fish 
+for 3D Swimming. In International Symposium on Experimental Robotics (ISER), 1122374 
+(Marrakech, Morocco, 2014). 
+32. Polygerinos, P., Wang, Z., Galloway, K. C., Wood, R. J. & Walsh, C. J. Soft robotic glove 
+for combined assistance and at-home rehabilitation. Robotics and Autonomous Systems in 
+press (2014).  
+This paper demonstrates a wearable soft robotic system which augments the grasping 
+force of wearers for rehabilitation. 
+33. Ilievski, F., Mazzeo, A. D., Shepherd, R. F., Chen, X. & Whitesides, G. M. Soft robotics for 
+chemists. Angewandte Chemie 123, 1930–1935 (2011).  
+This paper demonstrates the effective use of methods and materials from chemistry 
+and soft-materials science in the fabrication of soft robots. 
+34. Martinez, R. V. et al. Robotic tentacles with three-dimensional mobility based on flexible 
+elastomers. Advanced Materials 25, 205–212 (2013).  
+35. Morin, S. A. et al. Camouflage and display for soft machines. Science 337, 828–832 (2012).  
+36. Mosadegh, B. et al. Pneumatic networks for soft robotics that actuate rapidly. Advanced 
+Functional Materials 24, 2163–2170 (2014).  
+37. Park, Y.-L. et al. Design and control of a bio-inspired soft wearable robotic device for 
+ankle– foot rehabilitation. Bioinspiration & biomimetics 9, 016007 (2014).  
+38. Bar-Cohen, Y. Electroactive Polymer (EAP) Actuators as Artificial Muscles: Reality, 
+Potential, and Challenges (SPIE Press, 2004).  
+39. Wallace, G. G., Teasdale, P. R., Spinks, G. M. & Kane-Maguire, L. A. Conductive 
+electroactive polymers: intelligent polymer systems (CRC press, 2008).  
+40. Cheng, N.G., Gopinath, A., Wang, L., Iagnemma, K. &Hosoi, A.E. Thermally tunable, self-
+healing composites for soft robotic applications. Macromolecular Materials and 
+Engineering (2014).   
+41. Shan, W., Lu, T. &Majidi, C. Soft-matter composites with electrically tunable 
+elasticrigidity. Smart Materials and Structures 22, 085005 (2013).
+
+----- Page 16 (native) -----
+42. Steltz, E., Mozeika, A., Rodenberg, N., Brown, E. & Jaeger, H. M. Jsel: Jamming skin 
+enabled locomotion. In Intelligent Robots and Systems (IROS). IEEE/RSJ International 
+Conference on, 5672–5677 (IEEE, 2009).  
+43. Cianchetti, M. et al. Stiff-flop surgical manipulator: mechanical design and experimental 
+characterization of the single module. In Intelligent Robots and Systems (IROS). IEEE/RSJ 
+International Conference on, 3576–3581 (IEEE, 2013).  
+44. Brown, E. et al. Universal robotic gripper based on the jamming of granular material. 
+Proceedings of the National Academy of Sciences 107, 18809–18814 (2010).  
+45. Rogers, J. A., Someya, T. & Huang, Y. Materials and mechanics for stretchable electronics. 
+Science 327, 1603–1607 (2010).  
+46. Hammock, M. L., Chortos, A., Tee, B. C.-K., Tok, J. B.-H. & Bao, Z. 25th anniversary 
+article: The evolution of electronic skin (e-skin): A brief history, design considerations, and 
+recent progress. Advanced Materials 25, 5997–6038 (2013).  
+47. Kaltenbrunner, M. et al. An ultra-lightweight design for imperceptible plastic electronics. 
+Nature 499, 458–463 (2013).  
+48. Yang, S. & Lu, N. Gauge factor and stretchability of silicon-on-polymer strain gauges. 
+Sensors 13, 8577–8594 (2013).   
+49. Kim, D.-H. et al. Epidermal electronics. Science 333, 838–843 (2011).  
+50. Vogt, D. M., Park, Y.-L. & Wood, R. J. Design and characterization of a soft multi-axis 
+force sensor using embedded microfluidic channels. Sensors Journal, IEEE 13, 4056–4064 
+(2013).  
+51. Majidi, C., Kramer, R. & Wood, R. J. A non-differential elastomer curvature sensor for 
+softer-than-skin electronics. Smart Materials and Structures 20, 105017 (2011).  
+52. Kramer, R. K., Majidi, C. & Wood, R. J. Masked deposition of gallium-indium alloys for 
+liquid-embedded elastomer conductors. Advanced Functional Materials 23, 5292–5296 
+(2013).  
+53. Muth,J.T. etal. Embedded 3d printing of strain sensors within highly stretchable elastomers. 
+Advanced Materials 26, 6307–6312 (2014).  
+54. Taylor, R. F. & Schultz, J. S. Handbook of chemical and biological sensors (CRC Press, 
+1996).  
+55. Wehner, M. et al. Pneumatic energy sources for autonomous and wearable soft robotics. 
+Soft Robotics 1, 263–274 (2014).
+
+----- Page 17 (native) -----
+56. Goldfarb, M., Barth, E. J., Gogola, M. A. & Wehrmeyer, J. A. Design and energetic 
+characterization of a liquid-propellant-powered actuator for self-powered robots. 
+Mechatronics, IEEE/ASME Transactions on 8, 254–262 (2003).  
+57. Shepherd, R. F. et al. Using explosions to power a soft robot. Angewandte Chemie 125, 
+2964–2968 (2013).  
+58. Tolley, M. T. et al. An untethered jumping soft robot. In Intelligent Robots and Systems 
+(IROS). IEEE/RSJ International Conference on, 561–566 (IEEE, 2014).  
+59. Xu, S. et al. Stretchable batteries with self-similar serpentine interconnects and integrated 
+wireless recharging systems. Nature communications 4, 1543 (2013).  
+60. Li, N., Chen, Z., Ren, W., Li, F. & Cheng, H.-M. Flexible graphene-based lithium ion 
+batteries with ultrafast charge and discharge rates. Proceedings of the National Academy of 
+Sciences 109, 17360-17365 (2012).  
+61. Suga, T., Ohshiro, H., Sugita, S., Oyaizu, K. & Nishide, H. Emerging n-type redox-active 
+radical polymer for a totally organic polymer-based rechargeable battery. Advanced 
+Materials 21, 1627–1630 (2009).  
+62. Gaikwad, A. M. et al. Highly stretchable alkaline batteries based on an embedded 
+conductive fabric. Advanced Materials 24, 5071–5076 (2012).  
+63. Lipson, H. Challenges and opportunities for design, simulation, and fabrication of soft 
+robots. Soft Robotics 1, 21–27 (2014).  
+64. Hiller, J. & Lipson, H. Automatic design and manufacture of soft robots. Robotics, IEEE 
+Transactions on 28, 457–466 (2012).  
+65. Rieffel, J., Knox, D., Smith, S. & Trimmer, B. Growing and evolving soft robots. Artificial 
+life 20, 143–162 (2014).  
+66. Cho, K.J. etal. Review of manufacturing processes for soft biomimetic robots. International 
+Journal of Precision Engineering and Manufacturing 10, 171–181 (2009).  
+67. Lipson, H. & Kurman, M. Fabricated: The New World of 3D Printing (John Wiley & Sons, 
+2013).  
+68. Cham, J. G., Bailey, S. A., Clark, J. E., Full, R. J. & Cutkosky, M. R. Fast and robust: 
+Hexapedal robots via shape deposition manufacturing. The International Journal of 
+Robotics Research 21, 869–882 (2002).  
+69. Xia, Y. & Whitesides, G. M. Soft lithography. Annual review of materials science 28, 153– 
+184 (1998).
+
+----- Page 18 (native) -----
+70. Marchese, A. D., Katzschmann, R. & Rus, D. A recipe for soft fluidic elastomer robots. Soft 
+Robotics 2, 7–25 (2015).  
+71. Sumbre, G., Fiorito, G., Flash, T. & Hochner, B. Octopus uses human-like strategy to 
+control point-to-point arm movement. Current Biology 16, 767–772 (2006).  
+72. Margheri, L., Laschi, C. & Mazzolai, B. Soft robotic arm inspired by the octopus: I. from 
+biological functions to artificial requirements. Bioinspiration & biomimetics 7, 025004 
+(2012).  
+73. Lin, H.-T., Leisk, G. G. & Trimmer, B. GoQBot: a caterpillar-inspired soft-bodied rolling 
+robot. Bioinspiration & biomimetics 6, 026007 (2011).  
+This paper describes a soft mobile robot developed as a tool to study caterpillar 
+locomotion including crawling and ballistic rolling. 
+74. Saunders, F., Trimmer, B. A. & Rife, J. Modeling locomotion of a soft-bodied arthropod 
+using inverse dynamics. Bioinspiration & Biomimetics 6, 016001 (2011). 
+75. Webster, R. J. & Jones, B. A. Design and kinematic modeling of constant curvature 
+continuum robots: A review. The International Journal of Robotics Research 29, 1661–
+1683 (2010).  
+76. Gravagne, I. A., Rahn, C. D. & Walker, I. D. Large deflection dynamics and control for 
+planar continuum robots. Mechatronics, IEEE/ASME Transactions on 8, 299–307 (2003).  
+77. Jones, B. A. & Walker, I. D. Kinematics for multisection continuum robots. Robotics, IEEE 
+Transactions on 22, 43–55 (2006).  
+78. Renda, F., Giorelli, M., Calisti, M., Cianchetti, M. & Laschi, C. Dynamic model of a multi- 
+bending soft robot arm driven by cables. Robotics, IEEE Transactions on 30, 1109–1122 
+(2014).  
+79. Neppalli, S., Csencsits, M. A., Jones, B. A. & Walker, I. D. Closed-form inverse kinematics 
+for continuum manipulators. Advanced Robotics 23, 2077–2091 (2009).  
+80. Wang, H. et al. Visual servo control of cable-driven soft robotic manipulator. In Intelligent 
+Robots and Systems (IROS). IEEE/RSJ International Conference on, 57–62 (2013).  
+81. Khatib, O., Sentis, L., Park, J. & Warren, J. Whole body dynamic behavior and control of 
+human-like robots. International Journal of Humanoid Robotics 1, 29–43 (2004).  
+82. Napp, N., Araki, B., Tolley, M. T., Nagpal, R. & Wood, R. J. Simple passive valves for 
+addressable pneumatic actuation. In Robotics and Automation (ICRA), IEEE International 
+Conference on, 1440–1445 (IEEE, 2014).
+
+----- Page 19 (native) -----
+83. Chirikjian, G. S. Hyper-redundant manipulator dynamics: a continuum approximation. 
+Advanced Robotics 9, 217–243 (1994).  
+84. Yekutieli, Y. et al. Dynamic model of the octopus arm. I. biomechanics of the octopus 
+reaching movement. Journal of neurophysiology 94, 1443–1458 (2005).  
+This paper describes a 2D dynamic model for a soft manipulators based on muscular 
+hydrostats. 
+85. Snyder, J. & Wilson, J. Dynamics of the elastic with end mass and follower loading. 
+Journal of applied mechanics 57, 203–208 (1990).  
+86. Tatlicioglu, E., Walker, I. D. & Dawson, D. M. Dynamic modeling for planar extensible 
+continuum robot manipulators. In Robotics and Automation (ICRA), IEEE International 
+Conference on, 1357–1362 (IEEE, 2007).  
+87. Luo, M., Agheli, M. & Onal, C. D. Theoretical modeling and experimental analysis of a 
+pressure-operated soft robotic snake. Soft Robotics 1, 136–146 (2014).  
+88. Seok, S. et al. Meshworm: a peristaltic soft robot with antagonistic nickel titanium coil 
+actuators. Mechatronics, IEEE/ASME Transactions on 18, 1485–1497 (2013).  
+89. Stokes, A. A., Shepherd, R. F., Morin, S. A., Ilievski, F. & Whitesides, G. M. A hybrid 
+combining hard and soft robots. Soft Robotics 1, 70–74 (2013).  
+90. Amend, J. R., Brown, E. M., Rodenberg, N., Jaeger, H. M. & Lipson, H. A positive 
+pressure universal gripper based on the jamming of granular material. Robotics, IEEE 
+Transactions on 28, 341–350 (2012). 
+91. Sanan, S., Lynn, P. S. & Griffith, S. T. Pneumatic torsional actuators for inflatable robots. 
+Journal of Mechanisms and Robotics 6, 031003 (2014).  
+92. Kramer, R. K., Majidi, C. & Wood, R. J. Wearable tactile keypad with stretchable artificial 
+skin. In Robotics and Automation (ICRA), IEEE International Conference on, 1103–1107 
+(IEEE, 2011).  
+93. Mengüç, Y. et al. Wearable soft sensing suit for human gait measurement. The 
+International Journal of Robotics Research 33,1748-1764 (2014).  
+94. Song, Y. S. et al. Soft robot for gait rehabilitation of spinalized rodents. In Intelligent 
+Robots and Systems (IROS). IEEE/RSJ International Conference on, 971–976 (IEEE, 
+2013).  
+95. Roche, E. T. et al. A bioinspired soft actuated material. Advanced Materials 26, 1200–1206 
+(2014).
+
+----- Page 20 (native) -----
+96. Ieropoulos, I., Anderson, I. A., Gisby, T., Wang, C.-H. & Rossiter, J. Microbial-powered 
+artificial muscles for autonomous robots. In SPIE Smart Structures and Materials+ Non- 
+destructive Evaluation and Health Monitoring, 728708–728708 (International Society for 
+Optics and Photonics, 2009).  
+97. Nawroth, J. C. et al. A tissue-engineered jellyfish with biomimetic propulsion. Nature 
+Biotechnology 30, 792–797 (2012).  
+98. Chambers, L., Winfield, J., Ieropoulos, I. & Rossiter, J. Biodegradable and edible gelatine 
+actuators for use as artificial muscles. In SPIE Smart Structures and Materials+ 
+Nondestructive Evaluation and Health Monitoring, 90560B–90560B (International Society 
+for Optics and Photonics, 2014). 
+99. Pfeifer, R., Bongard, J. & Grand, S. How the body shapes the way we think: a new view of 
+intelligence (MIT Press, 2007). 
+100. Suzumori, K., Endo, S., Kanda, T., Kato, N. & Suzuki, H. A bending pneumatic rubber 
+actuator realizing soft-bodied manta swimming robot. In Robotics and Automation (ICRA), 
+IEEE International Conference on, 4975–4980 (IEEE, 2007). 
+Acknowledgements  
+The authors would like to thank Andrew Marchese, Robert Katzschmann, and the anonymous 
+reviewers for their insightful comments and suggestions in editing this paper. This work was 
+done with partial support from the National Science Foundation grant number IIS-1226883. We 
+are grateful.  
+Competing Interests 
+The authors declare that they have no competing financial interests. 
+Correspondence  
+Correspondence and requests for materials should be addressed to D. Rus (email: 
+rus@csail.mit.edu).
+
+----- Page 21 (native) -----
+Figure 1:  Mobile soft robotic systems inspired by a range of biological systems, demonstrating a) 
+caterpillar-inspired locomotion20, b) a multi-gait quadruped29, c) active camouflage35, d) walking 
+in hazardous environments10, e) worm-inspired locomotion88, f) particle jamming-based 
+actuation42, g) rolling powered by a pneumatic battery28, h) a hybrid hard/soft robot89, i) snake-
+inspired locomotion8, j) jumping powered by internal combustion58, k) manta-ray inspired 
+locomotion100, and l) an autonomous fish11.  
+ 
+  
+Figure 2:  Approximate tensile modulus (Young’s modulus) of selected engineering and 
+biological materials. Soft robots are composed primarily of materials with moduli comparable to 
+those of soft biological materials (muscles, skin, cartilage, etc.), or less than approximately 1 
+GPa, which exhibit considerable compliance under normal loading conditions.
+
+----- Page 22 (native) -----
+Figure 3:  Grasping and manipulation, canonical challenges in robotics, can be greatly simplified 
+with soft robotics. Examples of experimental soft robotic manipulations systems demonstrating a) 
+microactuation27, b) soft continuum manipulation19, c) grasping with particle jamming44, d) 
+simple gripper fabrication by soft lithography33, e) underactuated dextrous grasping13, f) octopus-
+inspired manipulation24, g) inflatable robotic manipulators91, h) feedback control of a 
+multisegmented arm30, i) a soft glove for rehabilitation32.
+
+----- Page 23 (native) -----
+Figure 4:  Common approaches to actuation of soft robot bodies in resting (left) and actuated 
+(right) states. a) Longitudinal tensile actuators (e.g. tension cables or shape memory alloy 
+actuators which contract when heated) along a soft robot arm cause bending when activated. b) 
+Transverse tensile actuators cause a soft robot arm to extend when contracted (a muscle 
+arrangement also seen in the octopus72). c) Pneumatic artificial muscles composed of an 
+elastomeric tube in a woven fiber shell. A pressure applied internally causes the tube and shell to 
+expand radially, causing longitudinal contraction. d) Fluidic elastic actuator or Pneu-Net design 
+consisting of a pneumatic network of channels in an elastomer that expand when filled with a 
+pressurized fluid, causing the soft body to bend toward a strain limited layer (e.g. a stiffer rubber 
+or elastomer embedded with paper or other tensile fibers).
+
+----- Page 24 (native) -----
+Figure 5:  (Top) Soft robotic fish physical prototype and design schematic31. (Bottom) Images 
+from a high speed video of the fish executing a c-turn escape maneuver, with elapsed time 
+indicated11.

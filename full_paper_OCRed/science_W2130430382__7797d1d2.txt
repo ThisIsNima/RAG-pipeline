@@ -1,0 +1,1725 @@
+
+
+----- Page 1 (native) -----
+ARTICLE
+Received 12 Jul 2013 | Accepted 13 Sep 2013 | Published 11 Oct 2013
+Inferring tumour purity and stromal and immune
+cell admixture from expression data
+Kosuke Yoshihara1,2, Maria Shahmoradgoli3, Emmanuel Martı´nez1,4, Rahulsimham Vegesna1, Hoon Kim1,
+Wandaliz Torres-Garcia1, Victor Trevin˜o4, Hui Shen5, Peter W. Laird5, Douglas A. Levine6, Scott L. Carter7,
+Gad Getz7, Katherine Stemke-Hale3, Gordon B. Mills3 & Roel G.W. Verhaak1
+Inﬁltrating stromal and immune cells form the major fraction of normal cells in tumour tissue
+and not only perturb the tumour signal in molecular studies but also have an important role in
+cancer biology. Here we describe ‘Estimation of STromal and Immune cells in MAlignant
+Tumours using Expression data’ (ESTIMATE)—a method that uses gene expression
+signatures to infer the fraction of stromal and immune cells in tumour samples. ESTIMATE
+scores correlate with DNA copy number-based tumour purity across samples from 11
+different tumour types, proﬁled on Agilent, Affymetrix platforms or based on RNA sequencing
+and available through The Cancer Genome Atlas. The prediction accuracy is further
+corroborated using 3,809 transcriptional proﬁles available elsewhere in the public domain.
+The ESTIMATE method allows consideration of tumour-associated normal cells in genomic
+and transcriptomic studies. An R-library is available on https://sourceforge.net/projects/
+estimateproject/.
+DOI: 10.1038/ncomms3612
+OPEN
+1 Department of Bioinformatics and Computational Biology, The University of Texas MD Anderson Cancer Centre, Houston, Texas 77030, USA. 2 Department
+of Obstetrics and Gynecology, Niigata University Graduate School of Medical and Dental Sciences, Niigata 951-8510, Japan. 3 Department of Systems
+Biology, The University of Texas MD Anderson Cancer Centre, Houston, Texas 77030, USA. 4 Catedra de Bioinformatica, Tecnologico de Monterrey, Campus
+Monterrey, Monterrey, Nuevo Leon 64849, Mexico. 5 USC Epigenome Centre, University of Southern California, Los Angeles, California 90033, USA.
+6 Gynecology Service, Department of Surgery, Memorial Sloan-Kettering Cancer Centre, New York, New York 10065, USA. 7 The Broad Institute of Harvard
+and MIT, Cambridge, Massachusetts 02142, USA. Correspondence and requests for materials should be addressed to R.G.W.V.
+(email: rverhaak@mdanderson.org).
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+1
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 2 (native) -----
+M
+alignant solid tumour tissues consist of not only tumour
+cells but also tumour-associated normal epithelial and
+stromal cells, immune cells and vascular cells. Stromal
+cells are thought to have important roles in tumour growth,
+disease progression1,2 and drug resistance3. Inﬁltrating immune
+cells act in a context-dependent manner, and whereas antitumor
+effects of inﬁltrating T-lymphocytes have been observed in
+ovarian cancer4–6, associations with tumour growth, invasion
+and metastasis were described in colorectal cancer7,8. The
+comprehensive
+understanding
+of
+tumour-associated
+normal
+cells in tumour tissues may provide important insights into
+tumour biology and aid in the development of robust prognostic
+and predictive models.
+Gene expression proﬁling of cancer has resulted in the
+identiﬁcation of molecular subtypes and the development of
+models for prediction prognosis and has enriched our knowledge
+of the molecular pathways of tumorigenesis9–13. Increasing
+evidence suggests that the inﬁltration of tumour-associated
+normal cells inﬂuences the analysis of clinical tumour samples
+by genomic approaches, such as gene expression proﬁles or copy
+number data, and biological interpretation of the results requires
+considerable attention to sample heterogeneity14–16. Several
+methods have been proposed to estimate the fraction of tumour
+cells in clinical tumour samples by using DNA copy number
+array data14,15 or by using next-generation sequencing data17.
+DNA copy number-based estimation of tumour purity is rapidly
+gaining traction in predicting the purity of tumour samples;
+however, such methods are limited to samples with available copy
+number proﬁles. Previous studies have attempted to deconvolve
+gene expression data into gene expression proﬁles from their
+constituent cellular fractions, whereas others have focused on
+deconvolution of microarray data obtained from normal tissue
+into
+cell-type-speciﬁc
+proﬁles,
+by
+calculating
+enrichment
+scores18–22. These methods take advantage of the differences in
+transcriptome properties of distinct cell types.
+Here we present a new algorithm that takes advantage of the
+unique properties of the transcriptional proﬁles of cancer samples
+to infer tumour cellularity as well as the different inﬁltrating
+normal cells, called ESTIMATE (Estimation of STromal and
+Immune cells in MAlignant Tumour tissues using Expression
+data). We focus on stromal and immune cells that form the major
+non-tumour constituents of tumour samples and identify speciﬁc
+signatures related to the inﬁltration of stromal and immune cells
+in tumour tissues1. By performing single-sample gene set-
+enrichment analysis (ssGSEA)13,23, we calculate stromal and
+immune scores to predict the level of inﬁltrating stromal and
+immune cells and these form the basis for the ESTIMATE score
+to infer tumour purity in tumour tissue. Finally, we describe the
+biological characteristics of stromal and immune scores in The
+Cancer Genome Atlas (TCGA) data sets24–29.
+Results
+Estimation of inﬁltrating cells and tumour purity. An overview
+of ESTIMATE algorithm is shown in Fig. 1. We devised two gene
+signatures: (1) a ‘stromal signature’ that was designed to capture
+the presence of stroma in tumour tissue, and (2) an ‘immune
+signature’ that aimed to represent the inﬁltration of immune cells
+in tumour tissue (Supplementary Data 1). To generate these
+signatures, we performed the following steps (Fig. 1). Genes
+associated with the quantity of inﬁltrating immune cells in
+tumour tissue were identiﬁed using leukocyte methylation
+10,412 common genes
+The cancer genome atlas
+Public database
+Agilent 244K
+(G4502A)
+Affymetrix
+HT-HG-U133A
+Illumina
+RNA sequence
+Affymetrix
+HG-U133Plus2.0
+Agilent 4x44K
+(G4112F)
+Affymetrix
+human X3P
+Gene filtering 1 (GSE1133)
+Normal hematopoietic cells (n=12) 
+versus other normal cells (n=77)
+Selection of top-ranked 141 genes
+after sorting by SAM score
+9,190 genes
+1,222 genes
+447 genes
+Gene Filtering 2 (TCGA_OV)
+High (n=14) versus Low (n=14)
+immune cell infiltrating samples
+161 Common genes
+338 genes
+Immune signature
+(141 genes)
+Stromal signature
+(141 genes)
+Gene filtering 3
+(GSE9899, GSE14548 and GSE35602)
+Tumour versus stroma
+Gene filtering 4
+Extract genes with low
+variability in CCLE (n=451)
+Gene filtering 5
+Extract low expressed genes
+in glioma stem-like cells (n=25)
+Fold change > 2
+q-value < 0.0001
+Fold change > 2
+q-value < 0.0001
+Fold change > 2
+q-value < 0.0001
+Estimate score
+Stromal score
+Immune score
+Tumour purity
+Presence of
+stromal cell
+Presence of
+immune cell
+Combine
+ssGSEA
+ssGSEA
+Figure 1 | An overview of the ESTIMATE algorithm. The ESTIMATE algorithm uses gene expression data to output the estimated levels of inﬁltrating
+stromal and immune cells and estimated tumour purity. Inﬁltrating stromal- and immune cell-related genes were identiﬁed by ﬁve gene ﬁlterings.
+ARTICLE
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+2
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 3 (native) -----
+scores, which were previously shown to correlate with the pre-
+sence of leukocytes in ovarian carcinomas15. Gene expression
+proﬁles of normal hematopoietic samples were compared with
+those of other normal cell types. The overlap between the two
+gene sets constituted the immune signature. Stromal-related
+genes
+were
+selected
+among
+non-hematopoiesis
+genes
+by
+comparison of the tumour cell fraction and matched stromal
+cell
+fraction
+after
+laser-capture
+microdissection
+in
+breast,
+colorectal and ovarian cancer data sets30–32. Genes with high
+variability in cancer cell lines and genes highly expressed in
+glioma stem-like cells were ﬁltered to make up the stromal
+signature. We used single-sample ssGSEA13,23 of these two
+signatures to generate scores that reﬂect the presence of each cell
+type in tumour samples and combined represent a measurement
+of tumour purity.
+In order to evaluate the reliability of the stromal and the
+immune signatures, we obtained three ovarian carcinoma tumour
+samples and performed microbead-based cell sorting to separate
+tumour and non-tumour cell fractions. The epithelial, tumour
+cell-containing, cell fraction was enriched using an EpCAM
+antibody. Transcriptional proﬁles were obtained from the bulk
+tumour samples as well as the EpCAM-positive and EpCAM-
+negative cell fractions. Although tumour cells may not necessarily
+express EpCAM and some normal epithelial cells may express
+EpCAM33, a signiﬁcant reduction in stromal signature scores
+(paired t-test, P ¼ 0.0042) and a declining trend in immune
+signature scores (paired t-test, P ¼ 0.072) were observed in all
+three EpCAM-positive cell fractions compared with the EpCAM-
+negative cell fractions, suggesting that these signatures are
+associated with the amount of non-epithelial cells in tumour
+samples (Fig. 2a).
+In the three data sets used in the process of gene selection,
+there was a signiﬁcant reduction in the stromal and immune
+scores in the tumour cell fraction (Fig. 2b; Supplementary Fig.
+S1). Similarly, the microdissected stroma-enriched fraction in the
+three independent public data sets, which were not used in
+construction of the gene signature was signiﬁcantly decreased
+(ovarian cancer (GSE29156), P ¼ 2.5  10  5; breast cancer
+(GSE10797), P ¼ 1.9  10  7; lung cancer (GSE33363), P ¼ 5.7
+ 10  7 by paired t-test; Fig. 2c). Although immune scores in the
+tumour cell-enriched fraction were lower than those in bulk
+tumour- or stroma-enriched fraction (ovarian cancer, P ¼ 0.0030;
+breast cancer P ¼ 3.2  10  7; lung cancer P ¼ 0.0044 by paired
+t-test; Fig. 2d), one tumour-enriched sample retained a high
+a
+EpCAM(+)
+Ovarian cancer (MDA)
+Stromal
+Immune
+Ovarian cancer (GSE9899)
+Tumor part
+Stromal part
+Stromal
+Immune
+Laser-capture microdissection
+1
+2
+3
+EpCAM(–)
+Stromal
+Immune
+b
+1
+2
+3
+4
+5
+1
+2
+3
+4
+5
+1
+2
+3
+4
+5
+Stromal
+Immune
+c
+d
+Ovarian cancer
+(GSE29156)
+0
+1,000
+–1,000
+0
+1,000
+–1,000
+Stromal score
+Immune score
+0
+1,000
+–1,000
+Immune score
+0
+1,000
+–1,000
+Immune score
+0
+1,000
+–1,000
+Stromal score
+0
+1,000
+–1,000
+Stromal score
+Tumor part
+(n=7)
+Stromal part
+(n=7)
+P = 2.5 × 10–5
+Ovarian cancer
+(GSE29156)
+P = 0.00030
+Breast cancer
+(GSE10797)
+P = 1.9 × 10–7
+Breast cancer
+(GSE10797)
+P = 3.2 × 10–7
+Lung cancer
+(GSE33363)
+P = 5.7 × 10–5
+Lung cancer
+(GSE33363)
+P = 0.0044
+Tumor part
+(n=7)
+Stromal part
+(n=7)
+Tumor part
+(n=28)
+Stromal part
+(n=28)
+Tumor part
+(n=28)
+Stromal part
+(n=28)
+Tumor part
+(n=5)
+Bulk tumor
+(n=5)
+Tumor part
+(n=5)
+Bulk tumor
+(n=5)
+–2,000
+2,000
+0
+–2,000
+2,000
+0
+1
+2
+3
+1
+2 3
+Figure 2 | Stromal and immune scores for tumour cell and stromal fractions of tumour samples. Stromal and immune scores were generated using
+expression data sets obtained from tumour cell or stromal cell-enriched samples. (a,b) Heatmaps display stromal (upper row) and immune score
+(lower row) per sample (each column) using ovarian cancer samples after (a) microbead-based cell sorting and (b) laser-capture microdissection
+(red ¼ high, blue ¼ low score). (c,d) Box and whisker plots display reduced (c) stromal and (d) immune scores for the tumour cell-enriched samples
+(tumour part) after laser-capture microdissection compared with matched stromal cell-enriched (ovary, breast) or bulk tumour samples (lung).
+Box represents the median (thick line) and the quartiles (line). Whisker expresses 1.5 interquartile range (IQR) of the lower or the upper quartile.
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+ARTICLE
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+3
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 4 (native) -----
+immune score (Fig. 2b), suggesting that immune cells were
+retained in the microdissected tumour cell-enriched fraction. This
+observation may reﬂect the challenges in microdissecting tumour
+and immune cells that intermix in many tumours. It could also be
+related to differences between inﬁltrating immune cells and
+immune cells surrounding the tumour4–6.
+To evaluate the association of the stromal and immune scores
+with tumour purity, we compared ESTIMATE scores with
+predictions
+of
+tumour
+purity
+based
+on
+the
+ABSOLUTE
+method15. ABSOLUTE establishes the fraction of tumour
+cells in a tumour sample based on somatic DNA copy number
+alterations and has been shown to provide highly accurate
+prediction of tumour purity. Immune and stromal signature
+scores of TCGA Agilent array-based expression proﬁles of
+ovarian cancer (n ¼ 417; 28 samples used to deﬁne the
+immune signature were not included in this analysis) showed
+a signiﬁcant correlation of both stromal and immune scores with
+ABSOLUTE tumour purity predictions (Pearson’s correlation
+coefﬁcient or r,  0.65 and  0.60; distance r, 0.65 and 0.58)
+(Fig.
+3a,b).
+Importantly,
+ESTIMATE
+scores
+showed
+an
+increased correlation with tumour purity compared with
+stromal-only and immune-only scores (Pearson’s r,  0.69;
+distance r, 0.69) (Fig. 3c). There was a positive correlation
+between stromal and immune scores (Pearson’s r, 0.62; distance
+r,
+0.58),
+and
+samples
+with
+low
+tumour
+purity
+showed
+high stromal and immune scores (Fig. 3d). Speciﬁc samples
+were associated with high stromal but not high immune scores,
+and
+vice
+versa,
+suggesting
+variable
+inﬁltrating
+patterns
+(Supplementary Data 2).
+To illustrate the broad utility of the ESTIMATE algorithm, we
+applied this model to 10 TCGA tumour types for which both
+DNA copy number and gene expression data sets were available,
+proﬁled on four different platforms (Table 1)24,26–29. These 10
+tumour types were among the ﬁrst cancers to be characterized
+by TCGA and were included in TCGA’s Pan-Cancer effort.
+To
+conﬁrm
+the
+accuracy
+of
+the
+ESTIMATE
+algorithm,
+receiver
+operating
+characteristic
+(ROC)
+curve
+analysis34
+using
+ABSOLUTE-based
+tumour
+purity
+was
+performed.
+Tumour samples were divided into high- and low-purity
+groups based on several cutoff values of ABSOLUTE-based
+tumour purity (0.9, 0.8, 0.7 and 0.6), and the area under t
+he
+ROC
+curve
+(AUC)
+for
+each
+cutoff
+was
+measured.
+For example, a cutoff of 0.7 for tumour purity resulted in
+Agilent-based ESTIMATE score AUC of 0.89 in the TCGA
+ovarian cancer data set used as the training set (Fig. 3f). Next,
+we applied the ROC analysis to other data sets by using the
+same procedure. Similar AUC values were observed across
+different expression platforms as well as different tumour types
+(Fig. 4a; Supplementary Figs S2–S6).
+Immune cells not only inﬁltrate the tumour cell region
+but have also been demonstrated to associate with stromal cells,
+in a cancer-type-speciﬁc manner4. The correlation between
+4,000
+Stromal score
+0.0
+0.25
+0.5
+0.75
+1.0
+Tumour purity
+2,000
+Immune score
+0.0
+0.25
+0.5
+0.75
+1.0
+Tumour purity
+2,000
+0
+4,000
+Estimate score
+0.0
+0.25
+0.5
+0.75
+1.0
+Tumour purity
+0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+4,000
+Stromal score
+2,000
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+Purity >0.9 (AUC=0.897)
+Purity >0.8 (AUC=0.862)
+Purity >0.7 (AUC=0.887)
+Purity >0.6 (AUC=0.833)
+OV (n=417, Agilent)
+Distance correlation coefficient 0.65
+Pearson’ s correlation coeffient –0.65
+Distance correlation coefficient 0.58
+Pearson’ s correlation coeffient –0.60
+Distance correlation coefficient 0.69
+Pearson’ s correlation coeffient –0.69
+Distance correlation coefficient 0.58
+Pearson’ s correlation coeffient 0.62
+OV (n=417, Agilent)
+OV (n=417, Agilent)
+OV (n=417, Agilent)
+OV (n=417, Agilent)
+0
+2,000
+Immune score
+1.0
+0.8
+0.6
+0.4
+Tumour
+purity
+f
+e
+d
+a
+b
+c
+OV (n=417, Agilent)
+Stromal
+Immune
+High
+High
+(n=154)
+High
+Low
+(n=55)
+Low
+High
+(n=55)
+Low
+0.4
+0.6
+0.8
+1.0
+Tumour purity
+Stromal
+Dominant
+Immune
+Dominant
+Low
+(n=153)
+Figure 3 | The association between tumour purity variables in TCGA’s ovarian cancer data set. (a–d) Scatterplots between tumour purity and
+(a) stromal, (b) immune, (c) ESTIMATE scores and between (d) stromal and immune scores in the TCGA ovarian cancer data set. TCGA ovarian cancer
+samples used in the gene selection (n ¼ 28) were not included in the ﬁgure. Dash lines denote each median value for stromal and immune scores.
+(e) The association between tumour purity and stromal- or immune-dominant pattern. Four subgroups were divided based on the median of stromal and
+immune scores. (f) The ROC curves for four cutoff values in TCGA ovarian cancer data set. N ¼ 417.
+ARTICLE
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+4
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 5 (native) -----
+stromal
+and
+immune
+scores
+varied
+across
+cancer
+types,
+ranging
+from
+high
+(GBM,
+Pearson’s
+r ¼ 0.8)
+to
+modest
+(KIRC, Pearson’s r ¼ 0.38; Fig. 3d; Supplementary Fig. S7). This
+suggests that the stromal and immune signatures do not
+measure
+the
+same
+phenotype
+and
+reﬂects
+the
+variable
+association between immune cells and tumour stroma across
+cancers. Pathology-based estimates of the percentage of tumour
+cells, stromal cells and inﬁltrating lymphocytes, evaluated from
+hematoxylin-eosin-stained slides, were less correlated with
+ESTIMATE, stromal and immune scores (Fig. 5).
+Table 1 | A list of The Cancer Genome Atlas data sets.
+Tumour type
+Affymetrix
+Agilent
+RNAseq*
+RNAseqV2*
+Bladder urothelial carcinoma
+
+
+
+122 (95)
+Breast cancer
+
+530 (488)
+774 (723)
+515 (482)
+Colon and rectal adenocarcinoma
+
+224 (218)
+83 (81)
+264 (255)
+Glioblastoma multiforme
+529 (417)
+403 (319)
+
+154 (123)
+Head and neck squamous cell carcinoma
+
+
+
+303 (293)
+Clear cell renal cell carcinoma
+
+72 (42)
+469 (329)
+480 (329)
+Lung adenocarcinoma
+
+
+
+230 (228)
+Lung squamous cell carcinoma
+133 (115)
+155 (130)
+223 (129)
+220 (129)
+Ovarian serous cystadenocarcinoma
+585 (469)
+558 (442)
+
+262 (248)
+Uterine corpus endometrial carcinoma
+
+
+333 (253)
+370 (281)
+Total
+1,247 (1,001)
+1,942 (1,639)
+1,882 (1,515)
+2,920 (2,463)
+The number in parenthesis expresses the number of samples whose tumour purity was calculated by using both gene expression data (ESTIMATE) and copy number data (ABSOLUTE).
+*RNAseq and RNAseqV2 are expression data based on Reads Per Kilobase per Milion mapped reads (RPKM) and RNA-Seq by Expectation Maximization (RSEM), respectively.
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+b
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+a
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+New sample
+c
+–2,000
+0
+2,000
+4,000
+95% prediction interval
+TCGA_agilent set (n =1,197)
+(BRCA, COADREAD, GBM,
+RCC, LUSC)
+TCGA_RNAseq set (n =1,515)
+(BRCA, COADREAD, KIRC,
+LUSC, UCEC)
+TCGA_affymetrix set (n =532)
+(GBM, LUSC)
+Validation set (n =195)
+(BRCA, COADREAD, KIRC, LUAD,
+cell line)
+Estimate score
+Estimate-predicted tumour purity
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+Specificity
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Sensitivity
+TCGA_RNAseqV2 set (n =2,215)
+(BLCA, BRCA, COADREAD, GBM,
+HNSC, KIRC, LUAD, LUSC, UCEC)
+Purity >0.9 (AUC=0.84)
+Purity >0.8 (AUC=0.847)
+Purity >0.7 (AUC=0.846)
+Purity >0.6 (AUC=0.829)
+Purity >0.9 (AUC=0.944)
+Purity >0.8 (AUC=0.914)
+Purity >0.7 (AUC=0.875)
+Purity >0.6 (AUC=0.847)
+Purity >0.9 (AUC=0.889)
+Purity >0.8 (AUC=0.877)
+Purity >0.7 (AUC=0.862)
+Purity >0.6 (AUC=0.843)
+Purity >0.9 (AUC=0.895)
+Purity >0.8 (AUC=0.878)
+Purity >0.7 (AUC=0.849)
+Purity >0.6 (AUC=0.825)
+Purity >0.9 (AUC=0.917)
+Purity >0.8 (AUC=0.923)
+Purity >0.7 (AUC=0.975)
+Purity >0.6 (AUC=0.956)
+Figure 4 | Evaluation of ESTIMATE algorithm. The accuracy of the ESTIMATE algorithm was evaluated by the AUC when tumour samples were
+divided into high- and low-purity groups on the basis of DNA copy number-based tumour purity. (a,b) The ROC curves for four cutoff values in (a) the
+Agilent data set, the Affymetrix data set, and the RNAseq data set, the RNAseqV2 data set, and (b) the validation data set. (c) An example of ESTIMATE
+for new Affymetrix sample, with an ESTIMATE-predicted tumour purity of 0.58. Black dot and grey dash lines show ESTIMATE tumour purity and
+95% prediction interval, respectively. The grey dots represent the background distribution based on 955 samples from the TCGA Affymetrix data set.
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+ARTICLE
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+5
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 6 (native) -----
+Prediction of tumour purity using ESTIMATE. In order to
+facilitate tumour purity prediction using ESTIMATE signatures,
+we transformed the scoring system to a [0,1] range. First, a
+regression curve for ESTIMATE score and tumour purity based
+on ABSOLUTE in the TCGA data set was established. By
+applying the nonlinear least squares method to the modiﬁed
+TCGA Affymetrix data (n ¼ 995) (Supplementary Fig. S8a),
+ESTIMATE-based tumour purity prediction model was devel-
+oped. There was a high correlation between ESTIMATE-based
+and DNA copy number-based tumour purity (Pearson’s r ¼ 0.74)
+(Supplementary Fig. S8b).
+Validating the capacity of ESTIMATE to predict tumour
+purity was performed using an independent data set (n ¼ 195)
+composed of seven publicly available data sets including
+both Affymetrix microarray expression data and matched
+SNP array copy number data (Supplementary Table S1).
+Moreover, ESTIMATE-based tumour purities were highly
+correlated with the ABSOLUTE-based tumour purities in the
+independent
+validation
+set
+(Pearson’s
+r ¼ 0.87)
+(Fig.
+4b;
+Supplementary Fig. S8c). When four cutoff values (ABSO-
+LUTE-based
+tumour
+purity
+of
+0.9,
+0.8,
+0.7
+and
+0.6)
+were applied, the average and standard deviation of the
+accuracy per cutoff was 0.87±0.050 (Supplementary Table
+S2).
+ESTIMATE
+provided
+tumour
+purity
+predictions
+in
+individual samples with a 95% conﬁdence interval of the
+validity of the prediction (Fig. 4c).
+To show the speciﬁcity of the tumour purity prediction, we
+used copy number and expression data from 27 cancer cell
+lines samples (GSE34211). The root-mean-square error of
+ESTIMATE and ABSOLUTE were 0.006 and 0.051, respectively,
+indicating consistent absence of immune and stromal signals
+(Supplementary Fig. S9). Next, we calculated ESTIMATE scores
+using the expression proﬁles from 10 normal ovarian epithelium
+samples
+(GSE18520).
+The
+ESTIMATE-predicted
+tumour
+purity was 0.68±0.12 (Supplementary Table S3), suggesting
+that normal ovarian epithelium may have some stromal or
+immune cell components. In addition, to clarify whether
+alteration of gene expression levels related to cell adhesion,
+migration or wound-healing processes that occur within tumour
+cells would affect our stromal, immune and ESTIMATE scores,
+we used public microarray data (GSE17708) from 26 lung
+adenocarcinoma cell lines treated or untreated by transforming
+growth factor beta 1. Although our stromal scores slightly
+increased,
+the
+estimated
+tumour
+purity
+was
+unaffected
+(Supplementary Fig. S10).
+We investigated the correlation of the stromal, immune
+and ESTIMATE scores with methylation-based estimates of
+the
+fraction
+of
+leukocytes
+in
+tumour
+tissues15.
+A
+high
+correlation
+between
+our
+immune
+score
+and
+leukocyte
+methylation
+score
+was
+observed
+across
+all
+tumour
+types (Pearson’s r ¼ 0.75±0.091) (Supplementary Fig. S11).
+Interestingly, stromal scores were not strongly correlated with
+leukocyte methylation score (Pearson’s r ¼ 0.51±0.089). These
+ﬁndings showed that our immune scores were speciﬁcally
+associated with the presence of leukocytes across different
+tumour types.
+Stromal
+Estimate
+Immune
+r=0.24 (Pearson)
+r=0.23 (distance)
+Absolute
+r=0.008 (Pearson)
+r=0.077 (distance)
+r=–0.061 (Pearson)
+r=0.065 (distance)
+r=0.18 (Pearson)
+r=0.17 (distance)
+BLCA
+BRCA
+COADREAD
+GBM
+HNSC
+KIRC
+LUAD
+LUSC
+OV
+UCEC
+0
+–2,000
+–1,000
+1,000
+2,000
+Stromal score
+Immune score
+0
+–2,000 –1,000
+1,000
+2,000 3,000
+0
+20
+40
+60
+80
+0
+20
+40
+Histological percentage of lymphocyte
+infiltration
+Histological percentage of stromal cells
+60
+80
+100
+0
+–4,000
+–2,000
+2,000
+4,000
+Estimate score
+Absolute-based tumour purity
+0
+0.2
+0.4
+0.6
+0.8
+1.0
+20
+40
+60
+80
+100
+0
+20
+40
+Histological tumour purity
+Histological tumour purity
+60
+80
+100
+Figure 5 | Correlation of scores with histological ﬁndings. Scatterplots between stromal, immune, ESTIMATE scores and ABSOLUTE-based tumour
+purity versus the following histological ﬁndings: percentage of stromal cells (left upper corner), percentage of inﬁltrating lymphocytes (right upper corner),
+and percentage of tumour cells (bottoms panels). Twenty-eight TCGA ovarian cancer samples used in the gene selection were excluded from this analysis.
+ARTICLE
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+6
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 7 (native) -----
+Patterns of stromal and immune cell scores across different
+tumour types. Using both TCGA and non-TCGA data sets
+from 10 different tumour types (Supplementary Table S1), we
+examined the distribution of stromal and immune score per
+tumour type (Fig. 6; Supplementary Fig. S12, Supplementary
+Table S4). As reported previously, lung adenocarcinomas
+showed lower purity compared with other tumour types15.
+The relatively high levels of stroma found in clear cell renal
+cell carcinoma and breast carcinoma may be associated with the
+high
+levels
+of
+adipocyte
+content
+that
+is
+characteristic
+of both tumour types35,36. In high-grade serous ovarian
+carcinoma, high stromal or immune scores reﬂect the presence
+of mesenchymal or immunoreactive gene expression subtypes
+that
+have
+been
+reported
+previously30,37.
+Clear
+cell
+renal
+cell carcinomas are considered to be immunogenic tumours,
+and this characteristic is captured by the relatively high levels of
+immune
+signature
+expression38.
+Immunogenicity
+is
+not
+known as a property of lung squamous cell carcinoma;
+however, this disease is characterized by a high percentage
+(495%) of patients with a history of smoking, which has
+been linked to lung inﬂammation39,40. Lung squamous cell
+carcinomas
+showed
+relatively
+high
+immune
+cell
+scores
+and
+have
+recently
+been
+associated
+with
+susceptibility
+to
+immunomodulatory
+therapeutics
+such
+as
+ipilimumab40.
+Further investigation is needed to show that the presence of
+inﬁltrating immune cells is a biomarker for immunotherapy
+response. The similarity in the distribution of stromal and
+immune scores between lung squamous cell carcinoma and head
+and neck squamous cell carcinoma suggests that these tumours
+may
+harbour
+a
+similar
+genomic
+proﬁle
+but
+also
+share
+comparable tumour cellularities28.
+The impact of tumour purity on somatic mutations. To
+examine the impact of tumour purity on the ability to detect
+genetic alterations, we assigned samples with ESTIMATE scores
+in the top 25% to a low-purity subgroup, and samples with
+the bottom 25% ESTIMATE scores to a high-purity subgroup,
+per tumour type. We observed a reduced number of mutations
+per megabase in low-purity head and neck squamous cell
+carcinomas and clear cell renal cell carcinomas, (unpaired t-test
+with Benjamini–Hochberg FDR correction, adjusted P ¼ 0.055
+and 0.055) but not in other tumour types, suggesting that
+the
+sequencing
+coverage
+used
+for
+TCGA
+samples
+is
+sufﬁcient to comprehensively detect somatic sequence variants
+(Supplementary Fig. S13). Next, we evaluated the mutation
+spectrum of high- and low-purity subgroups by measuring the
+relative contribution of the two types of transition base sub-
+stitution (A4G/G4A and T4C/C4T) and the four classes of
+transversion
+base
+substitutions
+(C4A/A4C,
+C4G/G4C,
+T4A/A4T and T4G/G4T). Two of the ten TCGA data sets
+(head and neck squamous cell carcinoma, lung squamous cell
+carcinoma) showed a signiﬁcantly decreased fraction of T4A
+substitutions in the low-purity group compared with the high-
+purity group (unpaired t-test with Benjamini–Hochberg FDR
+correction,
+adjusted
+P ¼ 0.015
+and
+0.015,
+respectively)
+(Supplementary Table S5). The ratio of transitions and trans-
+versions was signiﬁcantly associated with purity level in head and
+neck squamous cell carcinoma (adjusted P ¼ 0.018).
+Discussion
+We have developed a new algorithm to infer the level of
+inﬁltrating stromal and immune cells in tumour tissues and
+0.0
+0.1
+Fraction of sample
+Stromal score
+Max
+Min
+0.0
+0.1
+Fraction of sample
+Immune score
+Max
+Min
+0.2
+0.2
+–2,000
+0
+2,000
+a
+b
+HNSC (303)
+GBM (154)
+BLCA (122)
+UCEC (370)
+COADREAD (264)
+LUAD (230)
+BRCA (515)
+OV (262)
+LUSC (220)
+KIRC (480)
+HNSC
+COADREAD
+BLCA
+UCEC
+GBM
+LUAD
+BRCA
+OV
+LUSC
+KIRC
+Stromal score
+–2,000
+0
+2,000
+HNSC
+COADREAD
+BLCA
+UCEC
+GBM
+LUAD
+BRCA
+OV
+LUSC
+KIRC
+Immune score
+HNSC (303)
+GBM (154)
+BLCA (122)
+UCEC (370)
+COADREAD (264)
+LUAD (230)
+BRCA (515)
+OV (262)
+LUSC (220)
+KIRC (480)
+TCGA
+RNAseqV2
+TCGA
+RNAseqV2
+Figure 6 | Unique distribution of stromal and immune scores. (a,b) Distinct distributions of (a) stromal and (b) immune scores across different tumour
+types were observed in RNAseqV2Affymetrix platform data sets. The number of parenthesis means sample size per data sets.
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+ARTICLE
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+7
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 8 (native) -----
+tumour purity using gene expression data. The predictive ability
+of this method has been validated in large and independent data
+sets. Genomic, transcriptomic and proteomic analyses using
+clinical tumour tissue are affected by the fraction of tumour cells
+present, and methods for evaluation of the non-tumour portions
+of tumour samples could provide an important context to
+genomic data analysis15. ESTIMATE scores were signiﬁcantly
+correlated with the tumour purity of clinical cancer samples as
+well as cancer cell line samples and provide an accessible and
+straightforward approach to obtain a measure of the amount of
+tumour cells in a biological sample. The ESTIMATE algorithm
+may be further optimized by including signature of endothelial
+cells and tumour-type-speciﬁc normal epithelial cells.
+Tumour purity of clinical tumour samples is routinely
+determined by pathologists through visual evaluation of hema-
+toxylin- and eosin-stained slides. In this study, histological
+estimates of the percentage of tumour cells, stromal cells and
+inﬁltrating lymphocytes did not correlate well with ESTIMATE,
+stromal and immune scores, consistent with the weak correlation
+between DNA copy number-based tumour purity and histological
+tumour
+purity15.
+This
+discrepancy
+between
+genomic-
+or
+transcriptomic-based and pathology-based estimates might be
+affected by the sensitivity of histopathological examination to
+interobserver
+bias
+and
+variability
+in
+accuracy15,41
+or
+the
+difference in tissue sections42 in the same sample between
+nucleic acid extraction and histological evaluation.
+The contribution of immune cells to ovarian carcinoma is well
+recognized5,6, and we chose to use the TCGA ovarian carcinoma
+samples as the basis for development of the immune signature, as
+four types of principal information were available: tumour tissue for
+cell-sorting experiments, estimates of the amount of desmoplasia,
+immunohistochemistry-based counts of the number of leukocytes
+and methylation leukocyte scores. Importantly, the performance of
+ESTIMATE in both TCGA and non-TCGA ovarian carcinoma data
+sets was not distinctively better compared with other tumour types,
+and we thus believe that the method used to develop the signature is
+not biased towards ovarian cancers.
+The ﬁbroblast/mesenchymal nature of stromal cells separates
+their gene expression proﬁle from that of the epithelial tumour
+cells, thus providing a rationale to seek a signature that is
+characteristic of stromal cells in general, despite the notion that
+stromal cells may be tumour-type-speciﬁc. As expression data sets
+from three cancer types (ovary, breast and colon) were used to
+compare tumour cell fractions and matched stromal cell fractions
+after laser-capture microdissection, we suggest that some of the
+diversity in tumour-associated stroma among various cancer
+types was captured. Importantly, the ESTIMATE accuracy among
+ovarian, breast and colon cancer TCGA samples was not notably
+better than that of other tumour types, suggesting that the
+stromal signature can be broadly applied. The dependency of
+ESTIMATE on inﬁltrating stromal and immune cells resulted in
+some limitations, such as the inability to accurately infer tumour
+cellularity of hematopoietic or stromal tumours (for example,
+leukaemia,
+sarcoma
+and
+gastrointestinal
+stromal
+tumours)
+because of the high and tumour-intrinsic expression of stromal-
+or immune-related genes. Owing to the lack of data, we were
+unable to evaluate ESTIMATE in the context of tumour types
+such as prostate or pancreas cancer that may present with atypical
+patterns of tumour-associated cells—that is, increased fractions of
+normal epithelial cells. Additional methods may be needed to
+predict cancer cell fractions for such malignancies. The diverse
+pattern of the presence of stroma and immune cells across
+tumour types further emphasizes the different context-dependent
+ways in which tumour-associated normal cells function and more
+broadly illustrates the impact of the tumour microenvironment
+on tumorigenesis and homeostasis. Epithelial-to-mesenchymal
+transitions in tumour cells have been frequently described43. It is
+possibility
+that
+some
+overlap
+exists
+between
+the
+stromal
+expression
+signature
+and
+a
+mesenchymal
+tumour
+cell
+phenotype. However, the strong correlation with tumour purity
+may suggest that epithelial-to-mesenchymal transition is often
+confused with the increased presence of tumour-associated
+stroma.
+Low tumour purities may reduce the sensitivity of somatic
+mutation detection44. We did not observe an association of tumour
+purity with mutation rates except in head and neck squamous cell
+carcinomas and clear cell renal cell carcinoma, suggesting that the
+impact of tumour purity to identify somatic mutations is less
+compared with other factors such as depth or coverage or the
+mutation detection algorithm applied. We noted differences in
+mutational proﬁle and spectrum between high and low stromal/
+immune subgroups in several tumour types. The consistent
+reduction in T4A substitutions in some low-purity cases
+suggests that the tumour microenvironment can have an impact
+on mutational processes or alternatively that the types of mutations
+in the tumour can alter stromal and immune inﬁltrations. Our
+ESTIMATE method for the assessment of stromal and immune
+cells in tumour tissues may provide an additional avenue to
+increase our understanding of molecular phenotype.
+Our results show that the levels of stromal and immune cells in
+tumour tissue can be associated with clinical characteristics.
+Further reﬁnement of the lineage characteristics of inﬁltrating
+cells, such as distinguishing between various types of leukocytes,
+may reveal a more consistent pattern of clinical associations than
+what we have currently described. Novel therapeutics such as
+ipilumimab and nivolumab alters T-lymphocyte checkpoint
+control and may be particularly effective in tumours with
+intrinsically high levels of inﬁltrating leukocytes. Whether
+ESTIMATE immune scores could serve as a biomarker for
+immunotherapy response is a topic for further investigation.
+The ESTIMATE method can be applied for assessment of the
+presence of stromal cells and the inﬁltration of immune cells in
+tumour samples using gene expression data. The method is
+publicly available through the SourceForge software repository
+(https://sourceforge.net/projects/estimateproject/). The applica-
+tion of ESTIMATE to publicly available microarray expression
+data
+sets,
+as
+well
+as
+new
+microarray
+or
+RNA-seq-based
+transcriptome proﬁles, may help in elucidating the facilitating
+roles of the microenvironment to neoplastic cell and provide new
+insights into context in which genomic alterations occur.
+Methods
+Data preparation. TCGA level 3 gene expression levels were obtained from the
+TCGA Data Portal45 in March 2013. In this study, we used 10 tumour types from
+four platforms: Affymetrix HT-HG-U133A (one-colour type—that is, one RNA
+sample is labelled with a ﬂuorophore and hybridized to a microarray), Agilent
+G4502A (two-colour type—that is, one sample and one reference are labelled with
+different ﬂuorophores and hybridized together on a same microarray), RNAseq
+(quantiﬁed as Reads Per Kilobase per Million mapped reads)46 and RNAseqV2
+(quantiﬁed through RNA-seq by Expectation Maximization)47 (Table 1). The
+tumour types selected for our study were among the ﬁrst tumour types analysed
+through TCGA and were selected as cancer types studied in TCGA’s Pan-Cancer
+project. In addition, we used 31 data sets of microarray expression or SNP array
+copy numbers from Gene Expression Omnibus48 and ArrayExpress49, glioblastoma
+expression data set from the Repository of Molecular Brain Neoplasia Data50,
+cancer cell line expression data set from Cancer Cell Line Encyclopedia (CCLE)51
+and a glioma stem-like cell expression data set from researchers at MD Anderson
+Cancer Center (Supplementary Table S1).
+Microbead-based cell sorting. First, the tissue of a fresh frozen ovarian cancer
+sample was diced into 1-mm pieces. The tissue was further enzymatically dis-
+sociated with 0.8 mg/ml HBSS Liberase Research Grade (#05-401-119-001; Roche)
+and incubated at 37 C for 1 h, followed by mechanical dissociation using an 18-G
+needle. To isolate single cells, the resulting cell suspension was ﬁltered using a 40-
+mm ﬁlter. Lastly, the remaining cells were separated into an epithelial tumour cell
+ARTICLE
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+8
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 9 (native) -----
+fraction and a non-epithelial tumour-associated stromal fraction. For cell sorting,
+we used antibody-coated microbeads that recognize the epithelial cell surface
+marker EpCAM (#130-061-101; Miltenyi Biotec), which results in an EpCAM-
+positive tumour cell fraction and an EpCAM-negative tumour-associated stromal
+cell fraction. To test the efﬁciency of our procedure we performed gene expression
+proﬁling on three bulk tumours, three EpCAM-positive fractions and three
+EpCAM-negative fractions after cell sorting using Illumina BeadChip Human HT-
+12 v4 according to the manufacturer’s instructions. This study was approved by the
+institutional ethics review board at The University of Texas MD Anderson Cancer
+Centre (Lab 07-0108). All patients provided written informed consent for the
+collection of samples and subsequent analysis.
+Microarray data processing. Probes from Affymetrix HG-U133A, HG-
+U133Plus2.0 and HT_HG-U133A GeneChip platforms were mapped to a tran-
+script database and combined in one probe set per gene, as described previously52.
+Expression levels from these Affymetrix data sets were individually established
+using RMA and quantile normalization53. Raw data from Affymetrix Human
+133  3 P array were processed using the Bioconductor rma package with the
+default setting. On the Agilent G4112F platform, data normalization was carried
+out in GeneSpring GX 11.5 (Agilent Technologies) by setting the raw signal
+threshold to 1.0 and using 75th percentile normalization54. Quantile normalization
+was performed for Illumina Human HT-12 v4 microarray data using the
+Bioconductor preprocessCore package. On Affymetrix Human 133  3P array,
+Agilent G4112F and Illumina Human HT-12 v4 probes measuring the same gene
+were averaged to obtain one expression value per gene and sample.
+Gene selection. A ﬂowchart of gene selection in this study is shown in
+Supplementary Fig. S1. To analyse expression data measured from six different
+platforms, we extracted 10,412 common genes. In the gene selection process, we
+used the signiﬁcance analysis of microarray55 method to detect differentially
+expressed genes (more than twofold and qo0.0001) between two groups.
+First, by comparing normal hematopoietic cells (two CD14 monocytes, two
+dendritic cells, two CD56 NK cells, two CD4 T-cells, two CD8 T-cells and two
+CD19 B-cells) to other normal cells in the GSE1133 data set, we divided 10,412
+common genes into two groups: 1,222 genes that were upregulated in normal
+hematopoietic cells (named ‘normal hematopoietic cell-related genes’) and 9,190
+other genes. Second, to extract genes associated with inﬁltrating immune cells in
+tumour tissues, we adopted leukocyte methylation signature scores that describe
+the level of immune cell inﬁltration in ovarian cancer tissues using methylation
+data15. Of 489 samples in TCGA ovarian cancer-uniﬁed expression data56, 403
+samples include a leukocyte methylation signature score. We deﬁned the
+respective high and low immune cell inﬁltration groups as those having a
+leukocyte score higher than the 97th percentile (n ¼ 14) and those with a score
+lower than the 3rd percentile (n ¼ 14). We compared the two groups. As a result,
+we extracted 447 upregulated genes in the high immune cell inﬁltration group
+and found 161 genes that overlapped between the 1,222 normal hematopoietic
+cell-related genes and the 447 genes related to inﬁltrating immune cell-related
+genes. Third, we compared the tumour portion with their matched stromal part
+after laser-capture microdissection including ovarian cancer (GSE9890), breast
+cancer (GSE14548) and colorectal cancer (GSE35602) in order to evaluate the
+possibility that stroma-forming cells in tumour tissue differ among various
+tumour types. For those three respective data sets, we extracted 245, 300 and
+1,147 upregulated genes in stromal samples and picked up 338 stromal-related
+genes that overlapped in at least two data sets. Fourth, to exclude genes with high
+variability across tumour types, we calculated the median absolute deviation
+(MAD) based on 451 samples from the CCLE expression data set, which
+consisted of breast, brain, colon, endometrial, kidney, lung and ovarian cancer
+types. We deﬁned genes with MAD o0.5 as genes with low variability13 in the
+CCLE data set and selected 172 overlapping genes related to the presence of
+stroma in tumour tissue samples. Furthermore, as brain tumours are derived from
+non-epithelial cells, brain tumours highly express some stromal markers that have
+been previously reported. Therefore, we calculated the average expression level
+per gene and ranked the genes in the order of the average expression level in the
+glioma stem-like cell data set to exclude genes highly expressed in stromal tissue
+in brain tumours. We decided that genes ranked lower than the median rank as
+low expression in glioma stem-like cells. After that, we extracted 141 stromal
+genes. To unify the number of genes between those related to stroma and to
+immune cell inﬁltration, we extracted 141 genes related to immune cell
+inﬁltration by selecting the top-ranked 141 genes after sorting by the signiﬁcance
+analysis of microarray score obtained by comparison of the high to low immune
+cell inﬁltration groups. Genes included in the two signatures are listed in
+Supplementary Data 1. In the evaluation of the two signatures across the TCGA
+data sets, we observed that the stromal signature prior to including the two
+additional ﬁltering steps was not able to provide equivalent predictive ability
+compared with that of the immune signature. As tuning the signature based on its
+performance in the TCGA data sets of other tumour types increased the risk of
+overﬁtting, we validated the effectiveness of the signatures on the independent
+data set (Fig. 4b; Supplementary Fig. S8c).
+ESTIMATE. ESTIMATE outputs stromal, immune and ESTIMATE scores by
+performing ssGSEA13,23,37. For a given sample, gene expression values were rank-
+normalized and rank-ordered. The empirical cumulative distribution functions of
+the genes in the signature and the remaining genes were calculated. A statistic was
+calculated by an integration of the difference between the empirical cumulative
+distribution function, which is similar to the one used in gene set-enrichment
+analysis but based on absolute expression rather than differential expression.
+We deﬁned ssGSEA based on the signatures related to stromal tissue and
+immune cell inﬁltration as stromal and immune scores and combined the stromal
+and immune scores as the ‘ESTIMATE score’. The formula for calculating
+ESTIMATE-based tumour purity was developed in TCGA Affymetrix data
+(n ¼ 1,001) including both the ESTIMATE score and ABSOLUTE-based tumour
+purity. To develop a precise prediction model for tumour purity, we excluded six
+outliers from all Affymetrix data by computing a multivariate outlier criterion
+based on the generalized extreme studentized deviate test57,58 using the
+Bioconductor Parametric and Resistant Outlier Detection (PARODY) package
+(Supplementary Fig. S8a). Next, we entered both the ESTIMATE score and tumour
+purity to Eureqa Formuliza 0.97 Beta using the default setting59. Eureqa attempts to
+design a mathematical formula that ﬁts observed data employing an evolutionary
+algorithm60. We obtained a ﬁtted formula to predict tumour purity based on the
+ESTIMATE score. Finally, we applied this formula to the nonlinear least squares
+method (nls function for stats package) to determine the ﬁnal formula for
+predicting tumour purity, as follows:
+Tumour purity ¼ cos (0.6049872018 þ 0.0001467884  ESTIMATE score). (1)
+HAPSEG and ABSOLUTE. ABSOLUTE-based tumour purity in the TCGA data
+sets was obtained from each TCGA working group. To calculate ABSOLUTE-based
+tumour purity in other data sets, we ran HAPSEG version 1.1.1 and ABSOLUTE
+version 1.0.4. As indicated on the website61, we ran Birdseed v1 using Affymetrix
+Power Tools62 and input the resulting apt-probeset-summarize and apt-probeset-
+genotype ﬁles into HAPSEG. After that, we ran ABSOLUTE at the default setting.
+In the subsequent analyses, we used samples for which the tumour purity levels
+were called by ABSOLUTE.
+SNP array data for HAPSEG and ABSOLUTE. We downloaded SNP array data
+from Gene Expression Omnibus48 and ArrayExpress49. We used Affymetrix CEL
+ﬁles (including per-probe intensity values) from two platforms (Affymetrix
+GeneChip Human Mapping 250 K Sty array and Genome-Wide Human SNP array
+6.0) in this study. Samples that had passed the 93% call-rate threshold (GeneChip
+Human Mapping 500 K array) or the 86% threshold (Genome-Wide Human SNP
+array 6.0)63 were applied to the ABSOLUTE algorithm15.
+Leukocyte methylation score. We downloaded leukocyte methylation score data
+(syn1809223)15 that predicts the fraction of leukocyte in tumour tissue based on
+genome-wide DNA methylation data from Synapse BETA64 and investigated the
+correlation of stromal, immune and ESTIMATE scores with leukocyte methylation
+scores for each tumour type.
+Histological purity estimates. We downloaded Biotab clinical information per
+sample from the TCGA Data portal. Basically, each tumour specimen was
+embedded in optimal cutting temperature medium, and histologic sections were
+obtained as top and bottom portions for pathological review. Of ‘biospeci-
+men_slide’ data for each tumour type, we used ‘percentage of inﬁltrating lym-
+phocyte’, ‘percentage of stromal cells’ and ‘percentage of tumour cells’ to examine
+the association of our stromal, immune and ESTIMATE scores and histological
+ﬁndings. For samples with multiple slide data, we used the mean of each value in
+performing correlation analysis.
+Mutation analysis. We downloaded mutation annotation format ﬁles
+(syn1710680) and mutation rates (syn1713813) based on MuSIC65 for 10 different
+types of tumours from Synapse BETA64. From the mutation annotation format
+ﬁles, we extracted mutation status for 10,412 common genes that were used as
+background in the ESTIMATE algorithm. Of the several mutation types, we
+used ‘Frame_Shift_Del/Ins,’ ‘In_Frame_Del/Ins,’ ‘Missense_Mutation’ and
+‘ Nonsense_Mutation’ in this study. We converted the mutation status per gene
+that was converted into binary data (1, mutated; 0, wild type) to use in the
+mutation analysis. To examine the impact of inﬁltrating normal cells on genetic
+alterations, we extracted high and low ESTIMATE score subgroups from the
+expression data per tumour type. The high and low ESTIMATE score subgroups
+were deﬁned, respectively, as samples with scores higher than the 75th percentile
+and within the 25th percentile of the ESTIMATE score range. We combined the
+expression data in the two subgroups with somatic mutation binary data. Samples
+without either expression or mutation were excluded from this analysis. Mutation
+frequency was evaluated by the number of mutations per Mbp26–29. To investigate
+the mutation spectrum between the two subgroups per tumour type, we selected
+single-nucleotide alterations and converted them into the six classes of base
+substitution (C4A, C4G, C4T, T4A, T4C and T4G)66,67. We then calculated
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+ARTICLE
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+9
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 10 (native) -----
+the relative contribution of each of the six classes of base substitutions and
+compared them between the two subgroups.
+Next, we extracted the respective high and low stromal/immune score
+subgroups based on the 75th and 25th percentiles of each score per tumour type
+and combined each subgroup’s expression data and mutation data.
+Statistical analysis. We conduced all computations with R 2.13.2 (ref. 68) and
+used standard statistical tests as appropriate. Where appropriate, P-values were
+corrected for multiple testing using the Benjamini–Hochberg false discovery rate
+method69.
+References
+1. Hanahan, D. & Weinberg, R. A. Hallmarks of cancer: the next generation. Cell
+144, 646–674 (2011).
+2. Kalluri, R. & Zeisberg, M. Fibroblasts in cancer. Nat. Rev. Cancer 6, 392–401
+(2006).
+3. Straussman, R. et al. Tumour micro-environment elicits innate resistance to
+RAF inhibitors through HGF secretion. Nature 487, 500–504 (2012).
+4. Fridman, W. H., Pages, F., Sautes-Fridman, C. & Galon, J. The immune
+contexture in human tumours: impact on clinical outcome. Nat. Rev. Cancer
+12, 298–306 (2012).
+5. Zhang, L. et al. Intratumoral T cells, recurrence, and survival in epithelial
+ovarian cancer. N. Engl. J. Med. 348, 203–213 (2003).
+6. Sato, E. et al. Intraepithelial CD8 þ tumor-inﬁltrating lymphocytes and a high
+CD8 þ /regulatory T cell ratio are associated with favorable prognosis in
+ovarian cancer. Proc. Natl Acad. Sci. USA 102, 18538–18543 (2005).
+7. Pages, F. et al. Effector memory T cells, early metastasis, and survival in
+colorectal cancer. N. Engl. J. Med. 353, 2654–2666 (2005).
+8. Mlecnik, B. et al. Histopathologic-based prognostic factors of colorectal cancers
+are associated with the state of the local immune reaction. J. Clin. Oncol. 29,
+610–618 (2011).
+9. van de Vijver, M. J. et al. A gene-expression signature as a predictor of survival
+in breast cancer. N. Engl. J. Med. 347, 1999–2009 (2002).
+10. Tomlins, S. A. et al. Recurrent fusion of TMPRSS2 and ETS transcription factor
+genes in prostate cancer. Science 310, 644–648 (2005).
+11. Director’s Challenge Consortium for the Molecular Classiﬁcation of lung
+adenocarcinoma. Gene expression-based survival prediction in lung
+adenocarcinoma: a multi-site, blinded validation study. Nat. Med. 14, 822–827
+(2008).
+12. Verhaak, R. G. et al. Prediction of molecular subtypes in acute myeloid
+leukemia based on gene expression proﬁling. Haematologica 94, 131–134
+(2009).
+13. Verhaak, R. G. et al. Integrated genomic analysis identiﬁes clinically relevant
+subtypes of glioblastoma characterized by abnormalities in PDGFRA, IDH1,
+EGFR, and NF1. Cancer Cell 17, 98–110 (2010).
+14. Van Loo, P. et al. Allele-speciﬁc copy number analysis of tumors. Proc. Natl
+Acad. Sci. USA 107, 16910–16915 (2010).
+15. Carter, S. L. et al. Absolute quantiﬁcation of somatic DNA alterations in human
+cancer. Nat. Biotechnol. 30, 413–421 (2012).
+16. de Ridder, D. et al. Purity for clarity: the need for puriﬁcation of tumor cells in
+DNA microarray studies. Leukemia 19, 618–627 (2005).
+17. Su, X., Zhang, L., Zhang, J., Meric-Bernstam, F. & Weinstein, J. N. PurityEst:
+estimating purity of human tumor samples using next-generation sequencing
+data. Bioinformatics 28, 2265–2266 (2012).
+18. Venet, D., Pecasse, F., Maenhaut, C. & Bersini, H. Separation of samples into
+their constituents using gene expression data. Bioinformatics 17(Suppl 1):
+S279–S287 (2001).
+19. Erkkila, T. et al. Probabilistic analysis of gene expression measurements from
+heterogeneous tissues. Bioinformatics 26, 2571–2577 (2010).
+20. Shen-Orr, S. S. et al. Cell type-speciﬁc gene expression differences in complex
+tissues. Nat. Methods 7, 287–289 (2010).
+21. Shoemaker, J. E. et al. CTen: a web-based platform for identifying enriched cell
+types from heterogeneous microarray data. BMC Genomics 13, 460 (2012).
+22. Bolen, C. R., Uduman, M. & Kleinstein, S. H. Cell subset prediction for blood
+genomic studies. BMC Bioinformatics 12, 258 (2011).
+23. Barbie, D. A. et al. Systematic RNA interference reveals that oncogenic KRAS-
+driven cancers require TBK1. Nature 462, 108–112 (2009).
+24. The Cancer Genome Atlas Research Network. Comprehensive genomic
+characterization deﬁnes human glioblastoma genes and core pathways. Nature
+455, 1061–1068 (2008).
+25. The Cancer Genome Atlas Research Network. Integrated genomic analyses of
+ovarian carcinoma. Nature 474, 609–615 (2011).
+26. The Cancer Genome Atlas Network. Comprehensive molecular portraits of
+human breast tumours. Nature 490, 61–70 (2012).
+27. The Cancer Genome Atlas Network. Comprehensive molecular
+characterization of human colon and rectal cancer. Nature 487, 330–337
+(2012).
+28. The Cancer Genome Atlas Research Network. Comprehensive genomic
+characterization of squamous cell lung cancers. Nature 489, 519–525 (2012).
+29. The Cancer Genome Atlas Research Network. Integrated genomic
+characterization of endometrial carcinoma. Nature 497, 67–73 (2013).
+30. Tothill, R. W. et al. Novel molecular subtypes of serous and endometrioid
+ovarian cancer linked to clinical outcome. Clin. Cancer Res. 14, 5198–5208
+(2008).
+31. Ma, X. J., Dahiya, S., Richardson, E., Erlander, M. & Sgroi, D. C. Gene
+expression proﬁling of the tumor microenvironment during breast cancer
+progression. Breast Cancer Res. 11, R7 (2009).
+32. Nishida, N. et al. Microarray analysis of colorectal cancer stromal tissue
+reveals upregulation of two oncogenic miRNA clusters. Clin. Cancer Res. 18,
+3054–3070 (2012).
+33. Munz, M., Baeuerle, P. A. & Gires, O. The emerging role of EpCAM in cancer
+and stem cell signaling. Cancer Res. 69, 5627–5629 (2009).
+34. Robin, X. et al. pROC: an open-source package for R and S þ to analyze and
+compare ROC curves. BMC Bioinformatics 12, 77 (2011).
+35. Yao, M. et al. Gene expression analysis of renal carcinoma: adipose
+differentiation-related protein as a potential diagnostic and prognostic
+biomarker for clear-cell renal carcinoma. J Pathol. 205, 377–387 (2005).
+36. Mueller, E. et al. Terminal differentiation of human breast cancer through
+PPAR gamma. Mol. Cell 1, 465–470 (1998).
+37. Verhaak, R. G. et al. Prognostically relevant gene signatures of high-grade
+serous ovarian carcinoma. J. Clin. Invest. 123, 517–525 (2013).
+38. Grabmaier, K. et al. Molecular cloning and immunogenicity of renal cell
+carcinoma-associated antigen G250. Int. J. Cancer 85, 865–870 (2000).
+39. Grivennikov, S. I., Greten, F. R. & Karin, M. Immunity, inﬂammation, and
+cancer. Cell 140, 883–899 (2010).
+40. Lynch, T. J. et al. Ipilimumab in combination with paclitaxel and carboplatin
+as ﬁrst-line treatment in stage IIIB/IV non-small-cell lung cancer: results from
+a randomized, double-blind, multicenter phase II study. J. Clin. Oncol. 30,
+2046–2054 (2012).
+41. Cohen, D. A. et al. Interobserver agreement among pathologists for
+semiquantitative hormone receptor scoring in breast carcinoma. Am. J. Clin.
+Pathol. 138, 796–802 (2012).
+42. Gerlinger, M. et al. Intratumor heterogeneity and branched evolution revealed
+by multiregion sequencing. N. Engl. J. Med. 366, 883–892 (2012).
+43. Kalluri, R. & Weinberg, R. A. The basics of epithelial-mesenchymal transition.
+J. Clin. Invest. 119, 1420–1428 (2009).
+44. Ding, L. et al. Somatic mutations affect key pathways in lung adenocarcinoma.
+Nature 455, 1069–1075 (2008).
+45. The Cancer Genome Atlas Data Portal https://tcga-data.nci.nih.gov/tcga/.
+46. Mortazavi, A., Williams, B. A., McCue, K., Schaeffer, L. & Wold, B. Mapping
+and quantifying mammalian transcriptomes by RNA-Seq. Nat. Methods 5,
+621–628 (2008).
+47. Li, B. & Dewey, C. N. RSEM: accurate transcript quantiﬁcation from RNA-Seq
+data with or without a reference genome. BMC Bioinformatics 12, 323 (2011).
+48. Edgar, R., Domrachev, M. & Lash, A. E. Gene Expression Omnibus: NCBI gene
+expression and hybridization array data repository. Nucleic Acids Res. 30,
+207–210 (2002).
+49. Rustici, G. et al. ArrayExpress update--trends in database growth and links to
+data analysis tools. Nucleic Acids Res. 41(Database issue): D987–D990 (2013).
+50. NCI. REMBRANDT http://rembrandt.nci.nih.gov.
+51. Barretina, J. et al. The Cancer Cell Line Encyclopedia enables predictive
+modelling of anticancer drug sensitivity. Nature 483, 603–607 (2012).
+52. Liu, H. et al. AffyProbeMiner: a web resource for computing or retrieving
+accurately redeﬁned Affymetrix probe sets. Bioinformatics 23, 2385–2390 (2007).
+53. Irizarry, R. A. et al. Exploration, normalization, and summaries of high density
+oligonucleotide array probe level data. Biostatistics 4, 249–264 (2003).
+54. Yoshihara, K. et al. High-risk ovarian cancer based on 126-gene expression
+signature is uniquely characterized by downregulation of antigen presentation
+pathway. Clin. Cancer Res. 18, 1374–1385 (2012).
+55. Tusher, V. G., Tibshirani, R. & Chu, G. Signiﬁcance analysis of microarrays
+applied to the ionizing radiation response. Proc. Natl Acad. Sci. USA 98,
+5116–5121 (2001).
+56. TCGA ovarian cancer uniﬁed expression data http://tcga-data.nci.nih.gov/docs/
+publications/uniﬁed_expression/ (2010).
+57. Rosner, B. Percentage points for genralized ESD many-outlier procedure.
+Technometrics 25, 165–172 (1983).
+58. Caroni, C. & Prescott, P. Sequential application of Wilks’s multivariate outlier
+test. Appl. Stat. 41, 355–364 (1992).
+59. Eureqa http://creativemachines.cornell.edu/eureqa (2000).
+60. Schmidt, M. & Lipson, H. Distilling free-form natural laws from experimental
+data. Science 324, 81–85 (2009).
+61. ABSOLUTE https://conﬂuence.broadinstitute.org/display/CGATools/
+ABSOLUTE (2013).
+62. Affymetrix Power Tools http://www.affymetrix.com/partners_programs/
+programs/developer/tools/powertools.affx (2013).
+ARTICLE
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+10
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+& 2013 Macmillan Publishers Limited. All rights reserved.
+
+----- Page 11 (native) -----
+63. Adachi, S. et al. Meta-analysis of genome-wide association scans for genetic
+susceptibility to endometriosis in Japanese population. J. Hum. Genet. 55,
+816–821 (2010).
+64. Synapse BETA https://www.synapse.org/ (2013).
+65. Dees, N. D. et al. MuSiC: identifying mutational signiﬁcance in cancer
+genomes. Genome Res. (2012; 22, 1589–1598.
+66. Nik-Zainal, S. et al. The life history of 21 breast cancers. Cell 149, 994–1007
+(2012).
+67. Imielinski, M. et al. Mapping the hallmarks of lung adenocarcinoma with
+massively parallel sequencing. Cell 150, 1107–1120 (2012).
+68. R Development Core Team. R: a language and environment for statistical
+computing (2011).
+69. Benjamini, Y. & Hochberg, Y. Controlling the false discovery rate - a practical and
+powerful approach to multiple testing. J. Roy. Stat. Soc. B Met. 57, 289–300 (1995).
+Acknowledgements
+We gratefully acknowledge the contributions from the TCGA Research Network and its
+TCGA Pan-Cancer Analysis Working Group (contributing consortium members are
+listed in Supplementary Note 1). The TCGA Pan-Cancer Analysis Working Group is
+coordinated by J.M. Stuart, C. Sander and I. Shmulevich. This work was supported in
+part by the U.S. National Cancer Institute (grant number CA143883 to The University of
+Texas MD Anderson Genome Data Analysis Centre). We thank Dr W.K. Alfred Yung
+and Dr Erik Sulman for providing the glioma stem-like cell expression data set.
+Author contributions
+K.Y. and R.G.W.V. conceived and designed the present study. M.S. performed the
+experiments. K.Y., H.K. and R.G.W.V. analysed the data. K.Y., R.V., H.K., W.T.-G. and
+R.G.W.V. developed and coded the ESTIMATE algorithm. E.M., V.T., H.S., P.W.L.,
+D.A.L., S.L.C., G.G., K.S.-H., G.B.M. and TCGA contributed data/materials/analysis
+tools. K.Y. and R.G.W.V. wrote the manuscript. All authors read and approved the ﬁnal
+manuscript.
+Additional information
+Supplementary Information accompanies this paper at http://www.nature.com/
+naturecommunications
+Competing ﬁnancial interests: The authors declare no competing ﬁnancial interests.
+Reprints and permission information is available online at http://npg.nature.com/
+reprintsandpermissions/
+How to cite this article: Yoshihara, K. et al. Inferring tumour purity and stromal and
+immune cell admixture from expression data. Nat. Commun. 4:2612 doi: 10.1038/
+ncomms3612 (2013).
+This work is licensed under a Creative Commons Attribution-
+NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
+this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/
+NATURE COMMUNICATIONS | DOI: 10.1038/ncomms3612
+ARTICLE
+NATURE COMMUNICATIONS | 4:2612 | DOI: 10.1038/ncomms3612 | www.nature.com/naturecommunications
+11
+& 2013 Macmillan Publishers Limited. All rights reserved.

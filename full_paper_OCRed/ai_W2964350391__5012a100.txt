@@ -1,0 +1,874 @@
+
+
+----- Page 1 (native) -----
+Inception-v4, Inception-ResNet and
+the Impact of Residual Connections on Learning
+Christian Szegedy, Sergey Ioffe, Vincent Vanhoucke, Alexander A. Alemi
+Google Inc.
+1600 Amphitheatre Parkway
+Mountain View, CA
+Abstract
+Very deep convolutional networks have been central to the
+largest advances in image recognition performance in recent
+years. One example is the Inception architecture that has
+been shown to achieve very good performance at relatively
+low computational cost. Recently, the introduction of resid-
+ual connections in conjunction with a more traditional archi-
+tecture has yielded state-of-the-art performance in the 2015
+ILSVRC challenge; its performance was similar to the lat-
+est generation Inception-v3 network. This raises the ques-
+tion: Are there any beneﬁts to combining Inception architec-
+tures with residual connections? Here we give clear empiri-
+cal evidence that training with residual connections acceler-
+ates the training of Inception networks signiﬁcantly. There
+is also some evidence of residual Inception networks out-
+performing similarly expensive Inception networks without
+residual connections by a thin margin. We also present sev-
+eral new streamlined architectures for both residual and non-
+residual Inception networks. These variations improve the
+single-frame recognition performance on the ILSVRC 2012
+classiﬁcation task signiﬁcantly. We further demonstrate how
+proper activation scaling stabilizes the training of very wide
+residual Inception networks. With an ensemble of three resid-
+ual and one Inception-v4 networks, we achieve 3.08% top-5
+error on the test set of the ImageNet classiﬁcation (CLS) chal-
+lenge.
+Introduction
+Object recognition is a central task for computer vision and
+artiﬁcial intelligence in general. Strong vision models are
+key enabling components of AI systems that can process
+visual inputs. Their applications include computer user in-
+terfaces (gesture recognition), web search, OCR systems,
+autonomous transportation, medical imaging, areal imag-
+ing, robotics and image processing. Before 2012, special-
+ized solutions were required for each speciﬁc application do-
+main. Since then, deep convolutional neural networks have
+become mainstream to address these tasks. Convolutional
+neural networks go back to the 1980s (Fukushima 1980)
+and (LeCun et al. 1989), but recent good results (Krizhevsky,
+Sutskever, and Hinton 2012) on the large scale ImageNet
+image-recognition benchmark ILSVRC (Russakovsky et al.
+2014) has lead to a revived interest in their use. The
+Copyright c⃝2017, Association for the Advancement of Artiﬁcial
+Intelligence (www.aaai.org). All rights reserved.
+same neural network architecture “AlexNet” (Krizhevsky,
+Sutskever, and Hinton 2012) has been applied to a large
+number of application domains with good results.
+The same architectures that work well for object detection
+can be applied successfully to a wide variety of computer vi-
+sion tasks, including object-detection (Girshick et al. 2014),
+segmentation (Long, Shelhamer, and Darrell 2015), human
+pose estimation (Toshev and Szegedy 2014), video classiﬁ-
+cation (Karpathy et al. 2014), object tracking (Wang and Ye-
+ung 2013), and super-resolution (Dong et al. 2014). These
+examples are but a few of the multitude of applications to
+which deep convolutional networks have been very success-
+fully applied ever since. Moreover it has been demonstrated
+that architectural improvements of convolutional networks
+that target recognition performance tend to translate to per-
+formance gains for the other tasks as well.
+This universal applicability motivates our focus on recog-
+nition models for the widely used ILSVRC12 object-
+recognition benchmark (Russakovsky et al. 2014) on which
+the task is to classify the images into one (or ﬁve) of a
+thousand different classes. The dataset comprises of 1.2 mil-
+lion training images, 50,000 validation images and 100,000
+test images. All of them are divided up equally between the
+1000 classes. This benchmark has been a very popular task
+to measure the quality of object recognition solutions since
+2010.
+In this work we study the combination of two of the most
+recent ideas: Residual connections (He et al. 2015) and the
+latest revised version of the Inception architecture (Szegedy
+et al. 2015b). In (He et al. 2015), it is argued that residual
+connections are inherently important for training very deep
+architectures. Since Inception networks tend to be very deep,
+it is natural to replace the ﬁlter concatenation stage of the
+Inception architecture with residual connections. This would
+allow Inception to reap the beneﬁts of the residual approach
+while retaining its computational efﬁciency.
+Besides a straightforward integration, we have also stud-
+ied whether Inception without residual connections can be
+made more efﬁcient by making it deeper and wider. For
+that purpose, we evaluated a new version named Inception-
+v4 which has a more uniform simpliﬁed architecture and
+more inception modules than Inception-v3. Historically,
+Inception-v3 had inherited a lot of the baggage of the earlier
+incarnations. The technical constraints chieﬂy came from
+Proceedings of the Thirty-First AAAI Conference on Artificial Intelligence (AAAI-17)
+4278
+
+----- Page 2 (native) -----
+the need for partitioning the model for distributed training
+using DistBelief (Dean et al. 2012). Now, after migrating
+our training setup to TensorFlow (Abadi et al. 2015) these
+constraints have been lifted, which allowed us to simplify
+the architecture signiﬁcantly. The details of that simpliﬁed
+architecture are described in the Architectural Choices Sec-
+tion starting on page 2.
+In this paper, we will compare the two pure Inception vari-
+ants, Inception-v3 and v4, with similarly expensive hybrid
+Inception-ResNet versions. Admittedly, those models were
+picked in a somewhat ad hoc manner with the main con-
+straint being that the parameters and computational com-
+plexity of the models should be somewhat similar to the cost
+of the non-residual models. We have tested bigger and wider
+Inception-ResNet variants and they performed at the level
+of Inception-ResNet-v2 on the ImageNet classiﬁcation chal-
+lenge (Russakovsky et al. 2014) dataset.
+Lastly, we report an evaluation of an ensemble of all mod-
+els described. As it was apparent that both Inception-v4
+and Inception-ResNet-v2 performed similarly well, each ex-
+ceeding state-of-the art single-frame performance on the Im-
+ageNet validation dataset, we wanted to see how a combina-
+tion pushes the state-of-the-art on this well studied dataset.
+Surprisingly, we found that gains on the single-frame per-
+formance do not translate into similarly large gains on en-
+sembled performance. Nonetheless, it still allows us to re-
+port 3.1% top-5 error on the validation set with four models
+ensembled setting a new state-of-the-art, to the best of our
+knowledge.
+Related Work
+Convolutional networks have become popular in large scale
+image recognition tasks after (Krizhevsky, Sutskever, and
+Hinton 2012). Some of the next important milestones were
+Network-in-network by (Lin, Chen, and Yan 2013), VG-
+GNet by (Simonyan and Zisserman 2014) and GoogLeNet
+(Inception-v1) by (Szegedy et al. 2015a).
+Residual connections were introduced in (He et al. 2015)
+in which they give convincing theoretical and practical ev-
+idence for the advantages of utilizing additive merging of
+signals both for image recognition, and especially for ob-
+ject detection. The authors argued that residual connections
+are inherently necessary for training very deep convolutional
+models. Our ﬁndings do not seem to support this view, at
+least for image recognition. However it might require more
+experiments with even deeper networks to fully understand
+the true beneﬁts of residual connections. In the experimental
+section we demonstrate that it is not very difﬁcult to train
+very deep competitive networks without utilizing residual
+connections. However the use of residual connections seems
+to improve the training speed greatly, which is alone a great
+argument for their use.
+The Inception deep convolutional architecture was intro-
+duced as GoogLeNet in (Szegedy et al. 2015a), here named
+Inception-v1. Later the Inception architecture was reﬁned in
+various ways, ﬁrst by the introduction of batch normaliza-
+tion (Ioffe and Szegedy 2015) (Inception-v2). Later by ad-
+ditional factorization ideas in the third iteration (Szegedy et
+&RQY
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+&RQY
+&RQY
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+[&RQY
+Figure 1: Residual connections as introduced in (He et al.
+2015). On the left is the original residual connection. On the
+right is an optimized version that reduces the computational
+cost by the use of a 1 × 1 convolution.
+al. 2015b) which will be referred to as Inception-v3 in this
+report.
+Architectural Choices
+Pure Inception blocks
+Our older Inception models used to be trained in a parti-
+tioned manner, where each replica was partitioned into mul-
+tiple sub-networks in order to be able to ﬁt the whole model
+in memory. However, the Inception architecture is highly
+tunable, meaning that there are a lot of possible changes to
+the number of ﬁlters in the various layers that do not af-
+fect the quality of the fully trained network. In order to opti-
+mize the training speed, we used to tune the layer sizes care-
+fully in order to balance the computation between the vari-
+ous model sub-networks. In contrast, with the introduction
+of TensorFlow (Abadi et al. 2015), our most recent models
+can be trained without partitioning the replicas. This is en-
+abled in part by recent memory optimizations to backpropa-
+gation, achieved by carefully considering which tensors are
+needed for gradient computation and structuring the com-
+putation to reduce the number of such tensors. Historically,
+we have been relatively conservative about changing the ar-
+chitecture and restricted our experiments to varying isolated
+network components while keeping the rest of the network
+stable. Not simplifying earlier choices resulted in networks
+that looked more complicated that they needed to be. In our
+newer experiments, for Inception-v4 we decided to shed this
+unnecessary baggage and made uniform choices for the In-
+ception blocks for each grid size.
+The full conﬁguration of the Inception-v4 network is out-
+lined in Figures 2, which contains the overall schema and
+stem conﬁguration and Figure 3, which details the construc-
+tion of the interior modules.
+Residual Inception Blocks
+For the residual versions of the Inception networks, we use
+cheaper Inception blocks than the original Inception. Each
+Inception block is followed by ﬁlter-expansion layer (1 ×
+1 convolution without activation) which is used for scaling
+up the dimensionality of the ﬁlter bank before the residual
+addition to match the depth of the input. This is needed to
+4279
+
+----- Page 3 (native) -----
+compensate for the dimensionality reduction induced by the
+Inception block.
+We tried several versions of the residual version of In-
+ception. Only two of them are detailed here. The ﬁrst one
+“Inception-ResNet-v1” has roughly the computational cost
+of Inception-v3, while “Inception-ResNet-v2” matches the
+raw cost of the newly introduced Inception-v4 network.
+However, the step time of Inception-v4 proved to be signiﬁ-
+cantly slower in practice, probably due to the larger number
+of layers.
+Another small technical difference between our residual
+and non-residual Inception variants is that in our Inception-
+ResNet experiments, we used batch-normalization only on
+top of the traditional layers, but not on top of the residual
+summations. It is reasonable to expect that a thorough use of
+batch-normalization should be advantageous, but the imple-
+mentation of batch-normalization in TensorFlow was con-
+suming a lot of memory and we would have needed to de-
+crease the overall number of layers, if batch-normalization
+had been used everywhere.
+The full conﬁguration of the Inception-Resnet-v1 network
+is outlined in Figure 6 which contains the overall schema
+and stem conﬁguration and Figure 4 that has the detailed
+conﬁguration of the interior modules.
+The full conﬁguration of the Inception-Resnet-v2 network
+uses the schema in Figure 6, the stem in Figure 2, and the
+modules in Figure 5.
+6WHP
+,QSXW[[
+[[
+[,QFHSWLRQ$
+2XWSXW[[
+2XWSXW[[
+5HGXFWLRQ$
+2XWSXW[[
+[,QFHSWLRQ%
+[,QFHSWLRQ&
+5HGXFWLRQ%
+$YDUDJH3RROLQJ
+'URSRXWNHHS
+2XWSXW[[
+2XWSXW[[
+2XWSXW[[
+2XWSXW
+6RIWPD[
+2XWSXW
+2XWSXW
+[&RQY
+VWULGH9
+,QSXW
+[[
+[&RQY
+9
+[&RQY
+
+[0D[3RRO
+VWULGH9
+[&RQY
+VWULGH9
+)LOWHUFRQFDW
+[&RQY
+
+[&RQY
+9
+[&RQY
+
+[&RQY
+
+[&RQY
+
+)LOWHUFRQFDW
+[&RQY
+9
+0D[3RRO
+VWULGH 9
+[&RQY
+9
+)LOWHUFRQFDW
+[[
+[[
+[[
+[[
+[[
+[[
+[[
+Figure 2: On the left is the overall schema for the pure
+Inception-v4 network. On the right is the detailed compo-
+sition of the stem. Note that this stem conﬁguration was also
+used for the Inception-ResNet-v2 network outlines in Fig-
+ures 5, 6. V denotes the use of ‘Valid’ padding, otherwise
+‘Same’ padding was used. Sizes to the side of each layer
+summarize the shape of the output for that layer.
+Scaling of the Residuals
+We found that if the number of ﬁlters exceeded 1000, the
+residual variants started to exhibit instabilities and the net-
+work just “died” early in the training, meaning that the last
+layer before the average pooling started to produce only ze-
+ros after a few tens of thousands of iterations. This could
+not be prevented, either by lowering the learning rate, or by
+adding an extra batch-normalization to this layer.
+We found that scaling down the residuals before adding
+them to the previous layer activation seemed to stabilize the
+training. In general we picked some scaling factors between
+0.1 and 0.3 to scale the residuals before their being added to
+the accumulated layer activations (cf. Figure 7).
+A similar instability was observed by (He et al. 2015) in
+the case of very deep residual networks and they suggested a
+two-phase training where the ﬁrst “warm-up” phase is done
+with very low learning rate, followed by a second phase with
+high learning rate. We found that if the number of ﬁlters is
+very high, then even a very low (0.00001) learning rate is
+not sufﬁcient to cope with the instabilities and the training
+with high learning rate had a chance to destroy its effects.
+We found it much more reliable to scale the residuals.
+Even where the scaling was not strictly necessary, it never
+seemed to harmed the ﬁnal accuracy, but it helped to stabi-
+lize the training.
+Training Methodology
+We have trained our networks with stochastic gradient de-
+scent, utilizing the TensorFlow (Abadi et al. 2015) dis-
+tributed machine learning system using 20 replicas, each
+running a NVidia Kepler GPU. Our earlier experiments used
+momentum (Sutskever et al. 2013) with a decay of 0.9, while
+our best models were achieved using RMSProp (Tieleman
+and Hinton ) with a decay of 0.9 and ϵ = 1.0. We used a
+learning rate of 0.045, decayed every two epochs using an
+exponential rate of 0.94. In addition, gradient clipping (Pas-
+canu, Mikolov, and Bengio 2012) was found to be useful to
+stabilize the training. Model evaluations are performed using
+a running average of the parameters computed over time.
+Experimental Results
+First we observe the evolution of the top-1 and top-5
+validation-error of the four variants during training. After
+the experiment was conducted, we have found that our con-
+tinuous evaluation was conducted on a subset of the valida-
+tion set which omitted about 1700 blacklisted entities due to
+poor bounding boxes. It turned out that the omission should
+have been only performed for the CLSLOC benchmark, but
+yields somewhat incomparable (more optimistic) numbers
+when compared to other reports including some earlier re-
+ports by our team. The difference is about 0.3% for top-1
+error and about 0.15% for the top-5 error. However, since
+the differences are consistent, we think the comparison be-
+tween the curves is a fair one.
+On the other hand, we have rerun our multi-crop and en-
+semble results on the complete validation set consisting of
+50,000 images. Also the ﬁnal ensemble result was also per-
+formed on the test set and sent to the ILSVRC test server
+4280
+
+----- Page 4 (native) -----
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+)LOWHUFRQFDW
+)LOWHUFRQFDW
+$YJ3RROLQJ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+)LOWHUFRQFDW
+)LOWHUFRQFDW
+$YJ3RROLQJ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+)LOWHUFRQFDW
+)LOWHUFRQFDW
+$YJ3RROLQJ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+Figure 3: The schema for interior grid modules of the pure Inception-v4 network. The 35 × 35, 17 × 17 and 8 × 8 grid modules
+are depicted from left to right. These are the Inception-A, Inception-B, and Inception-C blocks of Figure 2 respectfully.
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+Figure 4: The schema for interior grid modules of the Inception-ResNet-v1 network. The 35 × 35, 17 × 17 and 8 × 8 grid
+modules are depicted from left to right. These are the Inception-A, Inception-B, and Inception-C blocks of the schema on the
+left of Figure 6 for the Inception-ResNet-v1 network, respectfully.
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+
+[&RQY
+/LQHDU
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+Figure 5: The schema for interior grid modules of the Inception-ResNet-v2 network. The 35 × 35, 17 × 17 and 8 × 8 grid
+modules are depicted from left to right. These are the Inception-A, Inception-B and Inception-C blocks of the schema on the
+left of Figure 6 for the Inception-ResNet-v2 network, respectfully.
+4281
+
+----- Page 5 (native) -----
+6WHP
+,QSXW[[
+[[
+[,QFHSWLRQUHVQHW$
+2XWSXW[[
+2XWSXW[[
+5HGXFWLRQ$
+2XWSXW[[
+[,QFHSWLRQUHVQHW
+%
+[,QFHSWLRQUHVQHW&
+5HGXFWLRQ%
+$YDUDJH3RROLQJ
+'URSRXWNHHS
+2XWSXW[[
+2XWSXW[[
+2XWSXW[[
+2XWSXW
+6RIWPD[
+2XWSXW
+2XWSXW
+[&RQY
+VWULGH9
+,QSXW
+[[
+[&RQY
+9
+[&RQY
+
+[0D[3RRO
+VWULGH9
+[&RQY
+
+[[
+[[
+[[
+[[
+[[
+[[
+[&RQY
+9
+[[
+[&RQY
+VWULGH9
+[[
+Figure 6: On the left is the overall schema for the Inception-
+Resnet-v1 and Inception-Resnet-v2 network. While the
+schema are the same for both networks, the composition of
+the stem and interior modules differ. The stem of Inception-
+Resnet-v1 is shown to the right, while the stem of Inception-
+Resnet-v2 is the same as the pure Inception-v4 network, de-
+picted on the right of Figure 2. The interior modules are de-
+noted in Figure 4 and Figure 5 respectfully. V denotes the
+use of ‘Valid’ padding, otherwise ‘Same’ padding was used.
+Sizes to the side of each layer summarize the shape of the
+output for that layer.
+$FWLYDWLRQ
+6FDOLQJ
+
+5HOXDFWLYDWLRQ
+5HOXDFWLYDWLRQ
+,QFHSWLRQ
+Figure 7: The general schema for scaling combined
+Inception-ResNet modules. We expect that the same idea
+is useful in the general ResNet case, where instead of the
+Inception block an arbitrary subnetwork is used. The scal-
+ing block just scales the last linear activations by a suitable
+constant, typically around 0.1, but we found that deeper net-
+works require lower constants.
+for validation to verify that our tuning did not result in over-
+ﬁtting. We would like to stress that this ﬁnal validation was
+done only once and we have submitted our results only twice
+in the last year: once for the BN-Inception paper and later
+during the ILSVR-2015 CLSLOC competition, so we be-
+lieve that the test set numbers constitute a true estimate of
+the generalization capabilities of our model.
+Figure 8: Top-1 error evolution during training of pure
+Inception-v3 vs a residual network of similar computational
+cost. The evaluation is measured on a single-crop on the non-
+blacklist images of the ILSVRC-2012 validation set. The
+residual model was training much faster, but reached slightly
+worse ﬁnal accuracy than the traditional Inception-v3.
+Figure 9: Top-1 error evolution during training of pure
+Inception-v3 vs a residual Inception of similar computa-
+tional cost. The evaluation is measured on a single-crop on
+the non-blacklist images of the ILSVRC-2012 validation set.
+The residual version was training much faster and reached
+slightly better ﬁnal accuracy than the traditional Inception-
+v4.
+Finally, we present some comparisons between various
+versions of Inception and Inception-ResNet. The models
+Inception-v3 and Inception-v4 are deep convolutional net-
+works not utilizing residual connections while Inception-
+ResNet-v1 and Inception-ResNet-v2 are Inception style net-
+works that utilize residual connections instead of ﬁlter con-
+catenation.
+4282
+
+----- Page 6 (native) -----
+Figure 10: Top-5 error evolution of all four models (single-
+model, single-crop). This shows the improvement due to
+larger model size. Although the residual version converges
+faster, the ﬁnal accuracy seems to mainly depend on the
+model size.
+Figure 11: Top-1 error evolution of all four models (single-
+model, single-crop). This paints a similar picture as the top-5
+evaluation in Figure 10.
+Network
+Top-1 Error
+Top-5 Error
+BN-Inception (Ioffe and Szegedy 2015)
+25.2%
+7.8%
+Inception-v3 (Szegedy et al. 2015b)
+21.2%
+5.6%
+Inception-ResNet-v1
+21.3%
+5.5%
+Inception-v4
+20.0%
+5.0%
+Inception-ResNet-v2
+19.9%
+4.9%
+Table 1: Single-crop – single-model experimental results.
+Reported on the non-blacklisted subset of the validation set
+of ILSVRC 2012.
+Network
+Crops
+Top-1 Error
+Top-5 Error
+ResNet (He et al. 2015)
+10
+25.2%
+7.8%
+Inception-v3 (Szegedy et al. 2015b)
+12
+19.8%
+4.6%
+Inception-ResNet-v1
+12
+19.8%
+4.6%
+Inception-v4
+12
+18.7%
+4.2%
+Inception-ResNet-v2
+12
+18.7%
+4.1%
+Table 2: 10/12-crop evaluations – single-model experimental
+results. Reported on all the 50,000 images of the validation
+set of ILSVRC 2012.
+Network
+Crops
+Top-1 Error
+Top-5 Error
+Inception-v3 (Szegedy et al. 2015b)
+144
+18.9%
+4.3%
+Inception-ResNet-v1
+144
+18.8%
+4.3%
+Inception-v4
+144
+17.7%
+3.8%
+Inception-ResNet-v2
+144
+17.8%
+3.7%
+Table 3: 144-crop evaluations – single-model experimental
+results. Reported on the all 50,000 images of the validation
+set of ILSVRC 2012. In comparison (He et al. 2015) report a
+Top-1 Error of 19.4% and Top-5 Error of 4.5% for ResNet-
+151 but with a different ‘dense’ evaluation strategy.
+Network
+N
+Top-1 Error
+Top-5 Error
+ResNet (He et al. 2015)
+6
+N/A
+3.6%
+Inception-v3 (Szegedy et al. 2015b)
+4
+17.3%
+3.6%
+Inception-v4(+Residual)
+4
+16.4%
+3.1%
+Table 4: Ensemble results with 144-crop/dense evalua-
+tion. Reported on the all 50,000 images of the valida-
+tion set of ILSVRC 2012. The second column (N) de-
+notes how many models were ensembled. For Inception-
+v4(+Residual), the ensemble consists of one pure Inception-
+v4 and three Inception-ResNet-v2 models and were evalu-
+ated both on the validation and on the test-set. The test-set
+performance was 3.08% top-5 error verifying that we don’t
+over-ﬁt on the validation set.
+Table 1 shows the single-model, single-crop top-1 and
+top-5 error of the various architectures on the validation set.
+Table 2 shows the performance of the various models with
+a small number of crops: 10 crops for ResNet as was re-
+ported in (He et al. 2015), for the Inception variants, we have
+used the 12-crop evaluation as as described in (Szegedy et al.
+2015a).
+Table 3 shows the single-model performance of the vari-
+ous models using a 144-crop evaluation. These are compet-
+itive in comparison to the reported 19.4% top-1 and 4.5%
+top-5 error rate reported in (He et al. 2015), albeit with a
+slightly different ‘dense’ evaluation strategy. For the incep-
+tion networks, the 144-crop strategy was used as described
+in (Szegedy et al. 2015a).
+Table 4 compares ensemble results. For the pure resid-
+ual network the 6-model dense evaluation result is reported
+from (He et al. 2015). For the inception networks 4 mod-
+els were ensembled using the 144-crop strategy as described
+in (Szegedy et al. 2015a).
+Open source implementations of the Inception-ResNet-v2
+and Inception-v4 models in this paper as well as pre-trained
+weights are available at the TensorFlow Models github page:
+github.com/tensorﬂow/models.
+Conclusions
+We have presented three new network architectures in detail:
+• Inception-ResNet-v1: a hybrid Inception version that
+has
+a
+similar
+computational
+cost
+to
+Inception-v3
+from (Szegedy et al. 2015b).
+• Inception-ResNet-v2: a costlier hybrid Inception version
+4283
+
+----- Page 7 (native) -----
+with signiﬁcantly improved recognition performance.
+• Inception-v4: a pure Inception variant without residual
+connections with roughly the same recognition perfor-
+mance as Inception-ResNet-v2.
+We studied how the introduction of residual connections
+leads to dramatically improved training speed for the In-
+ception architecture. Our latest models (with and without
+residual connections) outperform all our previous networks,
+just by virtue of the increased model size, while keeping
+the overall number of parameters and computational cost in
+check compared to competing approaches.
+References
+Abadi, M.; Agarwal, A.; Barham, P.; Brevdo, E.; Chen, Z.;
+Citro, C.; Corrado, G. S.; Davis, A.; Dean, J.; Devin, M.;
+Ghemawat, S.; Goodfellow, I.; Harp, A.; Irving, G.; Isard,
+M.; Jia, Y.; Jozefowicz, R.; Kaiser, L.; Kudlur, M.; Leven-
+berg, J.; Man´e, D.; Monga, R.; Moore, S.; Murray, D.; Olah,
+C.; Schuster, M.; Shlens, J.; Steiner, B.; Sutskever, I.; Tal-
+war, K.; Tucker, P.; Vanhoucke, V.; Vasudevan, V.; Vi´egas,
+F.; Vinyals, O.; Warden, P.; Wattenberg, M.; Wicke, M.; Yu,
+Y.; and Zheng, X. 2015. TensorFlow: Large-scale machine
+learning on heterogeneous systems. Software available from
+tensorﬂow.org.
+Dean, J.; Corrado, G.; Monga, R.; Chen, K.; Devin, M.;
+Mao, M.; Senior, A.; Tucker, P.; Yang, K.; Le, Q. V.; et al.
+2012. Large scale distributed deep networks. In Advances
+in Neural Information Processing Systems, 1223–1231.
+Dong, C.; Loy, C. C.; He, K.; and Tang, X. 2014. Learning
+a deep convolutional network for image super-resolution. In
+Computer Vision–ECCV 2014. Springer. 184–199.
+Fukushima, K.
+1980.
+Neocognitron: A self-organizing
+neural network model for a mechanism of pattern recogni-
+tion unaffected by shift in position. Biological cybernetics
+36(4):193–202.
+Girshick, R.; Donahue, J.; Darrell, T.; and Malik, J. 2014.
+Rich feature hierarchies for accurate object detection and se-
+mantic segmentation. In Proceedings of the IEEE Confer-
+ence on Computer Vision and Pattern Recognition (CVPR).
+He, K.; Zhang, X.; Ren, S.; and Sun, J.
+2015.
+Deep
+residual learning for image recognition.
+arXiv preprint
+arXiv:1512.03385.
+Ioffe, S., and Szegedy, C. 2015. Batch normalization: Accel-
+erating deep network training by reducing internal covariate
+shift. In Proceedings of The 32nd International Conference
+on Machine Learning, 448–456.
+Karpathy, A.; Toderici, G.; Shetty, S.; Leung, T.; Suk-
+thankar, R.; and Fei-Fei, L. 2014. Large-scale video clas-
+siﬁcation with convolutional neural networks. In Computer
+Vision and Pattern Recognition (CVPR), 2014 IEEE Confer-
+ence on, 1725–1732. IEEE.
+Krizhevsky, A.; Sutskever, I.; and Hinton, G. E.
+2012.
+Imagenet classiﬁcation with deep convolutional neural net-
+works. In Advances in neural information processing sys-
+tems, 1097–1105.
+LeCun, Y.; Boser, B.; Denker, J. S.; Henderson, D.; Howard,
+R. E.; Hubbard, W.; and Jackel, L. D. 1989. Backpropaga-
+tion applied to handwritten zip code recognition.
+Neural
+computation 1(4):541–551.
+Lin, M.; Chen, Q.; and Yan, S. 2013. Network in network.
+arXiv preprint arXiv:1312.4400.
+Long, J.; Shelhamer, E.; and Darrell, T. 2015. Fully con-
+volutional networks for semantic segmentation. In Proceed-
+ings of the IEEE Conference on Computer Vision and Pat-
+tern Recognition, 3431–3440.
+Pascanu, R.; Mikolov, T.; and Bengio, Y. 2012. On the dif-
+ﬁculty of training recurrent neural networks. arXiv preprint
+arXiv:1211.5063.
+Russakovsky, O.; Deng, J.; Su, H.; Krause, J.; Satheesh, S.;
+Ma, S.; Huang, Z.; Karpathy, A.; Khosla, A.; Bernstein, M.;
+et al. 2014. Imagenet large scale visual recognition chal-
+lenge.
+Simonyan, K., and Zisserman, A. 2014. Very deep convo-
+lutional networks for large-scale image recognition. arXiv
+preprint arXiv:1409.1556.
+Sutskever, I.; Martens, J.; Dahl, G.; and Hinton, G. 2013.
+On the importance of initialization and momentum in deep
+learning. In Proceedings of the 30th International Confer-
+ence on Machine Learning (ICML-13), volume 28, 1139–
+1147. JMLR Workshop and Conference Proceedings.
+Szegedy, C.; Liu, W.; Jia, Y.; Sermanet, P.; Reed, S.;
+Anguelov, D.; Erhan, D.; Vanhoucke, V.; and Rabinovich,
+A. 2015a. Going deeper with convolutions. In Proceed-
+ings of the IEEE Conference on Computer Vision and Pat-
+tern Recognition, 1–9.
+Szegedy, C.; Vanhoucke, V.; Ioffe, S.; Shlens, J.; and Wojna,
+Z. 2015b. Rethinking the inception architecture for com-
+puter vision. arXiv preprint arXiv:1512.00567.
+Tieleman, T., and Hinton, G. Divide the gradient by a run-
+ning average of its recent magnitude. COURSERA: Neural
+Networks for Machine Learning, 4, 2012. Accessed: 2015-
+11-05.
+Toshev, A., and Szegedy, C. 2014. Deeppose: Human pose
+estimation via deep neural networks. In Computer Vision
+and Pattern Recognition (CVPR), 2014 IEEE Conference
+on, 1653–1660. IEEE.
+Wang, N., and Yeung, D.-Y. 2013. Learning a deep com-
+pact image representation for visual tracking. In Advances
+in Neural Information Processing Systems, 809–817.
+4284

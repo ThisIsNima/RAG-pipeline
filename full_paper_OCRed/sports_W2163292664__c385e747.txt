@@ -1,0 +1,1080 @@
+
+
+----- Page 1 (native) -----
+HAL Id: inria-00548645
+https://inria.hal.science/inria-00548645v1
+Submitted on 20 Dec 2010
+HAL is a multi-disciplinary open access
+archive for the deposit and dissemination of sci-
+entific research documents, whether they are pub-
+lished or not.
+The documents may come from
+teaching and research institutions in France or
+abroad, or from public or private research centers.
+L’archive ouverte pluridisciplinaire HAL, est
+destinée au dépôt et à la diffusion de documents
+scientifiques de niveau recherche, publiés ou non,
+émanant des établissements d’enseignement et de
+recherche français ou étrangers, des laboratoires
+publics ou privés.
+Actions in Context
+Marcin Marszalek, Ivan Laptev, Cordelia Schmid
+To cite this version:
+Marcin Marszalek, Ivan Laptev, Cordelia Schmid. Actions in Context. CVPR 2009 - IEEE Confer-
+ence on Computer Vision & Pattern Recognition, Jun 2009, Miami, United States. pp.2929-2936,
+￿10.1109/CVPR.2009.5206557￿. ￿inria-00548645￿
+
+----- Page 2 (native) -----
+Actions in Context
+Marcin Marszałek
+INRIA Grenoble
+marcin.marszalek@inria.fr
+Ivan Laptev
+INRIA Rennes
+ivan.laptev@inria.fr
+Cordelia Schmid
+INRIA Grenoble
+cordelia.schmid@inria.fr
+Abstract
+This paper exploits the context of natural dynamic scenes
+for human action recognition in video.
+Human actions
+are frequently constrained by the purpose and the physi-
+cal properties of scenes and demonstrate high correlation
+with particular scene classes. For example, eating often
+happens in a kitchen while running is more common out-
+doors. The contribution of this paper is three-fold: (a) we
+automatically discover relevant scene classes and their cor-
+relation with human actions, (b) we show how to learn se-
+lected scene classes from video without manual supervision
+and (c) we develop a joint framework for action and scene
+recognition and demonstrate improved recognition of both
+in natural video. We use movie scripts as a means of auto-
+matic supervision for training. For selected action classes
+we identify correlated scene classes in text and then re-
+trieve video samples of actions and scenes for training using
+script-to-video alignment. Our visual models for scenes and
+actions are formulated within the bag-of-features frame-
+work and are combined in a joint scene-action SVM-based
+classiﬁer. We report experimental results and validate the
+method on a new large dataset with twelve action classes
+and ten scene classes acquired from 69 movies.
+1. Introduction
+Video becomes an easily created and widely spread me-
+dia serving entertainment, education, communication and
+other purposes. The associated demand for mining large
+collections of realistic video data motivates further research
+in automatic video understanding.
+Video understanding involves interpretation of objects,
+scenes and actions. Whereas previous work mostly dealt
+with these concepts separately, a uniﬁed approach is ex-
+pected to provide yet unexplored opportunities to beneﬁt
+from mutual contextual constraints among actions, scenes
+and objects. For example, while some actions and scenes
+typically co-occur, the chance of co-occurrence of random
+classes of scenes and actions can be low.
+In this work, we build upon the above intuition and ex-
+ploit co-occurrence relations between actions and scenes in
+video. Starting from a given set of action classes, we aim to
+(a) eating, kitchen
+(b) eating, cafe
+(c) running, road
+(d) running, street
+Figure 1. Video samples from our dataset with high co-occurrences
+of actions and scenes and automatically assigned annotations.
+automatically discover correlated scene classes and to use
+this correlation to improve action recognition. Since some
+actions are relatively scene-independent (e.g. “smile”), we
+do not expect context to be equally important for all ac-
+tions. Scene context, however, is correlated with many ac-
+tion classes. Moreover, it often deﬁnes actions such as “lock
+the door” or “start the car”. It is therefore essential for ac-
+tion recognition in general.
+We aim to explore scenes and actions in generic and re-
+alistic video settings. We avoid speciﬁc scenarios such as
+surveillance or sports, and consider a large and diverse set
+of video samples from movies, as illustrated in Fig. 1. We
+use movie scripts for automatic video annotation and apply
+text mining to discover scene classes which co-occur with
+given actions. We use script-to-video alignment and text
+search to automatically retrieve video samples and corre-
+sponding labels for scenes and actions in movies. Note, that
+we only use scripts for training and do not assume scripts to
+be available during testing.
+Given the automatically retrieved video samples with
+possibly noisy labels, we use the bag-of-features represen-
+tation and SVM to learn separate visual models for action
+and scene classiﬁcation. As the main contribution of this
+paper we demonstrate that automatically estimated contex-
+tual relations improve both (i) recognition of actions in the
+context of scenes as well as (ii) recognition of scenes in the
+1
+
+----- Page 3 (native) -----
+context of actions. We, in particular, emphasize the fully au-
+tomatic nature of our approach and its scalability to a large
+number of action and scene classes.
+The rest of the paper is organized as follows. The re-
+maining part of this section reviews related work. Section 2
+presents script mining for discovering contextual relations
+and automatic video annotation.
+Section 3 describes in-
+dependent visual classiﬁcation of actions and scenes. Sec-
+tion 4 introduces the joint action and scene recognition and
+evaluates the contextual relationships mined from text and
+learned from visual data. Section 5 concludes the paper.
+1.1. Related work
+Visual context has a long history of research with early
+studies in cognitive science [1]. In computer vision context
+has been used for interpretation of static scenes [10, 20, 21,
+26]. For example, scene context is used to impose spatial
+priors on the location of objects in the image [21, 26]. In a
+similar spirit, [20] exploits spatial relations between objects
+and scene parts for segmentation and recognition of static
+images. Co-occurrence of people in images is explored for
+face recognition in [16].
+A few papers explore the context of human actions. Sim-
+ilar to our work, [14] exploits scene context for event recog-
+nition, but only applies it to static images. In [8, 18, 22, 27]
+object context is used for action recognition and demon-
+strates improved recognition of objects and actions in video.
+However, in most of the previous work only constrained ex-
+perimental settings are considered. In contrast, we focus on
+action recognition in realistic video data from movies. Fur-
+thermore, we automatically discover contextual relations
+between scenes and actions.
+Scripts have been explored as a means of automatic
+video annotation in [2, 5, 12]. We follow this work and
+add the use of scripts to estimate relations between scenes
+and actions in video. A related approach deriving object
+relations from textual annotations in still images has been
+recently presented in [9]. For action and scene recognition
+we follow bag-of-features models explored in many recent
+works on object, scene and action recognition in still images
+and video [3, 4, 12, 13, 19, 24, 25].
+2. Script mining for visual learning
+Learning visual representations of realistic human ac-
+tions and scenes requires a large amount of annotated video
+data for training. While manual video annotation and data
+collection is time-consuming and often unsatisfying, recent
+work adopts video-aligned scripts for automatic annotation
+of videos such as movies and sitcoms [2, 5, 12]. In the
+following we brieﬂy describe script-to-video alignment in
+subsection 2.1 and script-based retrieval of action samples
+in subsection 2.2. Subsection 2.3 presents automatic script
+Subtitles
+Script
+00:24:22 –> 00:24:25
+– Yes, Monsieur Laszlo.
+Right this way.
+✲
+☛
+✡
+✟
+✠
+❍❍❍
+❍
+❥
+☛
+✡
+✟
+✠
+✘✘✘✘✘✘✘✘
+✘
+✿
+00:24:51 –> 00:24:53
+Two Cointreaux, please.
+✲
+☛
+✡
+✟
+✠
+✘✘✘✘✘✘✘✘
+✿
+int. Rick’s cafe, main room, night
+Scene caption
+Monsieur Laszlo. Right this way.
+Speech
+As the headwaiter takes them to a
+table they pass by the piano, and
+the woman looks at Sam.
+Sam,
+with a conscious effort, keeps his
+eyes on the keyboard as they go
+past. The headwaiter seats Ilsa...
+Scene description
+Two cointreaux, please.
+Speech
+Figure 2. Script synchronization using timestamps from subtitles.
+mining of action-correlated scene classes and discusses the
+retrieval of the corresponding video samples.
+2.1. Script-to-video alignment
+Scripts are text documents publicly available for the ma-
+jority of popular movies. They contain scene captions, di-
+alogs and scene descriptions, but usually do not provide
+time synchronization with the video. Following [2, 5, 12],
+we address this problem by synchronizing script dialogs
+with the corresponding subtitles. Subtitles are easy to ob-
+tain from the web or DVDs and are already synchronized
+with the video through timestamps. Hence, we match script
+text with subtitles using dynamic programming and then es-
+timate temporal localization of scene captions and scene de-
+scriptions by transferring time information from subtitles to
+scripts. Using this procedure, illustrated in Fig. 2, we obtain
+a set of short video clips (segmented by subtitle timestamps)
+with corresponding script parts, i.e., textual descriptions.
+2.2. Action retrieval
+To automatically collect video samples for human ac-
+tions, we follow the approach in [12]. We choose twelve
+frequent action classes and manually assign corresponding
+action labels to scene descriptions in a few movie scripts.
+Note that these scripts are distinct from the 69 scripts used
+in the following for automatic annotation. We then train an
+off-the-shelf bag-of-words text classiﬁer and automatically
+retrieve scene descriptions with action labels from a set of
+69 movie scripts1 synchronized with the video as described
+1We obtain movie scripts from www.dailyscript.com, www.movie-
+page.com and www.weeklyscript.com. The 69 movies used in this paper
+are divided into 33 training movies and 36 test movies as follows.
+Training movies: American Beauty, As Good as It Gets, Being John
+Malkovich, The Big Lebowski, Bruce Almighty The Butterﬂy Effect,
+Capote, Casablanca, Charade, Chasing Amy, The Cider House Rules,
+Clerks, Crash, Double Indemnity, Forrest Gump, The Godfather, The
+Graduate, The Hudsucker Proxy, Jackie Brown, Jay and Silent Bob Strike
+Back, Kids, Legally Blonde, Light Sleeper, Little Miss Sunshine, Liv-
+ing in Oblivion, Lone Star, Men in Black, The Naked City, Pirates of the
+
+----- Page 4 (native) -----
+Auto
+Train
+Clean
+Test
+AnswerPhone
+59
+64
+DriveCar
+90
+102
+Eat
+44
+33
+FightPerson
+33
+70
+GetOutCar
+40
+57
+HandShake
+38
+45
+HugPerson
+27
+66
+Kiss
+125
+103
+Run
+187
+141
+SitDown
+87
+108
+SitUp
+26
+37
+StandUp
+133
+146
+All Samples
+810
+884
+Auto
+Train
+Clean
+Test
+EXT-House
+81
+140
+EXT-Road
+81
+114
+INT-Bedroom
+67
+69
+INT-Car
+44
+68
+INT-Hotel
+59
+37
+INT-Kitchen
+38
+24
+INT-LivingRoom
+30
+51
+INT-Ofﬁce
+114
+110
+INT-Restaurant
+44
+36
+INT-Shop
+47
+28
+All Samples
+570
+582
+(a) Actions
+(b) Scenes
+Table 1. Distribution of video samples in two automatically gen-
+erated training sets and two manually veriﬁed test sets for action
+and scene classes respectively. The total length of action samples
+is about 600k frames or 7 hours of video. For scene samples it is
+about 990k frames or 11 hours. Our dataset is publicly available
+at http://www.irisa.fr/vista/actions/hollywood2
+in Section 2.1. With this procedure we automatically obtain
+video samples for a chosen set of action labels.
+We split all retrieved samples into the test and training
+subsets, such that the two subsets do not share samples from
+the same movie. For training samples we keep the (noisy)
+labels obtained with the automatic procedure. We manu-
+ally validate and correct labels for the test samples in order
+to properly evaluate the performance of our approach. Ta-
+ble 1 (left) summarizes the action classes and the numbers
+of samples we use for training and testing action classiﬁers.
+2.3. Scene retrieval
+The main objective of this work is to exploit re-occurring
+relations between actions and their scene context to improve
+classiﬁcation. For a given set of action classes, this requires
+both (i) identiﬁcation of relevant scene types and (ii) esti-
+mation of the co-occurrence relation with actions. We aim
+to solve both tasks automatically in a scalable framework.
+While visual data could be used for our purpose, we ﬁnd
+Caribbean: Dead Man’s Chest, Psycho, Quills, Rear Window, Fight Club.
+Test movies: Big Fish, Bringing Out The Dead, The Crying Game, Dead
+Poets Society, Erin Brockovich, Fantastic Four, Fargo, Fear and Loathing
+in Las Vegas, Five Easy Pieces, Gandhi, Gang Related, Get Shorty, The
+Grapes of Wrath, The Hustler, I Am Sam, Independence Day, Indiana
+Jones and The Last Crusade, It Happened One Night, It’s a Wonderful Life,
+LA Conﬁdential, The Lord of the Rings: The Fellowship of the Ring, Lost
+Highway, The Lost Weekend, Midnight Run, Misery, Mission to Mars,
+Moonstruck, Mumford, The Night of the Hunter, Ninotchka, O Brother
+Where Art Thou, The Pianist, The Princess Bride, Pulp Fiction, Raising
+Arizona, Reservoir Dogs.
+EXThouse
+EXTroad
+INTbedroom
+INTcar
+INThotel
+INTkitchen
+INTliving−room
+INToffice
+INTrestaurant
+INTshop
+AnswerPhone
+DriveCar
+Eat
+FightPerson
+GetOutCar
+HandShake
+HugPerson
+Kiss
+Run
+SitDown
+SitUp
+StandUp
+Text/Training−set
+Video/Test−set
+Figure 3. Conditional probabilities p(Scene|Action) estimated
+from scripts (green) and ground truth visual annotation (yellow).
+Note the consistency of high probability values (large circles) with
+intuitively expected correlations between actions and scenes. Ob-
+serve also the consistency of probability values automatically esti-
+mated from text and manually estimated from visual video data.
+it easier to discover relevant scene types in text. As in the
+previous section, we resort to movie scripts. We use scene
+captions, short descriptions of the scene setup, which are
+consistently annotated in most of the movie scripts and usu-
+ally provide information on location and day time:
+INT. TRENDY RESTAURANT - NIGHT
+INT. M. WALLACE’S DINING ROOM - MORNING
+EXT. STREETS BY DORA’S HOUSE - DAY.
+To discover relevant scene concepts, we collect unique
+words and consecutive word pairs from the captions. We
+use WordNet [7] to select expressions corresponding to in-
+stances of “physical entity”. We also use the WordNet hi-
+erarchy to generalize concepts to their hyponyms, such as
+taxi→car, cafe→restaurant, but preserve concepts which
+share hyponyms, such as kitchen, living room and bedroom
+(they share the room hyponym). We also explicitly recog-
+nize INT (interior) and EXT (exterior) tags.
+From the resulting 2000 contextual concepts we select
+30 that maximize co-occurrence with action classes in the
+training scripts. To select both frequent and informative
+concepts, we sort them by the entropy computed for the
+distributions of action labels. This results in an ordered list
+from which we take the top ten scene concepts.
+Figure 3 illustrates co-occurrences between automati-
+cally selected scene classes and actions. The size of the
+circles corresponds to the estimated probabilities of scenes
+for given action classes and coincides well with intuitive ex-
+pectations. For example, running mostly occurs in outdoor
+scenes while eating in kitchen and restaurant scenes.
+
+----- Page 5 (native) -----
+Since the selection of scene classes and their relations
+to actions were automatically derived from the training
+movie scripts, we validate (i) how well script-estimated co-
+occurrences transfer to the video domain and (ii) how well
+they generalize to the test set. We manually annotate scenes
+in test videos and perform evaluation. Co-occurrences es-
+timated automatically from training scripts and manually
+evaluated on test movies are illustrated with different colors
+in Fig. 3. An equal division of the circles by colors validates
+the consistency between relations mined from text and those
+actually occurring in videos.
+Having found correlated scene concepts, we automati-
+cally retrieve the corresponding video samples as in Sec-
+tion 2.2. Note, however, that there is no need for a text
+classiﬁer in this case. The procedure for ﬁnding correlated
+scene concepts is therefore fully automatic and unsuper-
+vised. As for the actions dataset, we keep the automatically
+obtained scene labels for the training set and verify the la-
+bels to be correct for the test set. The automatically selected
+scene classes and the number of corresponding samples in
+both subsets are illustrated in Table 1 (right). Note that for
+training we do not use any manual annotation of video sam-
+ples neither for action nor scene classes.
+3. Visual learning of actions and scenes
+Our actions and scene classiﬁers are based on a bag-of-
+features image representation [3, 4, 25] and classiﬁcation
+with Support Vector Machines [23]. Our video represen-
+tation uses simultaneously static and dynamic features as
+described in subsection 3.1. In subsection 3.2 we brieﬂy
+introduce the approach for classiﬁcation and subsection 3.3
+evaluates features for action and scene classiﬁcation.
+3.1. Bag-of-features video representation
+Inspired by the recent progress of recognition in uncon-
+strained videos [12], we build on the bag-of-features video
+representation for action recognition [19, 24].
+The bag-
+of-features representation views videos as spatio-temporal
+volumes. Given a video sample, salient local regions are
+extracted using an interest point detector. Next, the video
+content in each of the detected regions is described with lo-
+cal descriptors. Finally, orderless distributions of features
+are computed for the entire video sample.
+To construct our baseline we follow the work of
+Laptev [11] and extract motion-based space-time features.
+This representation focuses on human actions viewed as
+motion patterns. The detected salient regions correspond
+to motion extrema and features are based on gradient dy-
+namics and optical ﬂow. This baseline approach has shown
+success for action recognition, but is alone not sufﬁcient for
+scene classiﬁcation. To reliably model scenes, we need to
+include static appearance in addition to motion patterns. We
+(a) 3D Harris
+(b) 2D Harris
+Figure 4. Interest point detections for a movie frame. Note that
+3D Harris points (left) focus on motion, whereas 2D Harris points
+(right) are distributed over the scene.
+therefore view the video as a collection of frames as well.
+This allows us to employ the bag-of-features components
+developed for static scene and object recognition [28] and
+have a hybrid representation in a uniﬁed framework. In the
+following we describe each component in detail.
+3D-Harris detector.
+Salient motion is detected using a
+multi-scale 3D generalization of the Harris operator [11].
+Since the operator responds to 3D corners, applying it to
+video volumes allows to detect (in space and time) charac-
+teristic points of moving salient parts. The left image of
+ﬁgure 4 shows an example where the detector responds to
+actors dancing in the center of the scene.
+2D-Harris detector.
+To describe static content we use
+the 2D scale-invariant Harris operator [17].
+It responds
+to corner-like structures in images and allows us to detect
+salient areas in individual frames extracted from the video.
+See the right part of Fig. 4 for an example, where the detec-
+tor responds to salient areas all around the scene. We detect
+static features in a video stream every second.
+HoF and HoG descriptors.
+We compute HoG and HoF
+descriptors [12] for the regions obtained with the 3D-Harris
+detector. HoF is based on local histograms of optical ﬂow.
+It describes the motion in a local region. HoG is a 3D his-
+togram of 2D (spatial) gradient orientations. It describes the
+static appearance over space and time.
+SIFT descriptor.
+We compute the SIFT descriptor [15]
+for the regions obtained with the 2D-Harris detector. SIFT
+is a weighted histogram of gradient orientations. Unlike the
+HoG descriptor, it is a 2D (spatial) histogram and does not
+take into account the temporal domain.
+These three different types of descriptors capture motion
+patterns (HoF), dynamic appearance (HoG) and static ap-
+pearance (SIFT). For each descriptor type we create a visual
+vocabulary [25]. These vocabularies are used to represent a
+video sample as an orderless distribution of visual words,
+typically called bag-of-features [3]. We compare feature
+distributions using χ2 distance and fuse different feature
+types in the classiﬁer as described in the following.
+3.2. χ2 Support Vector Classiﬁer
+We use Support Vector Machines [23] (SVM) to learn
+actions and scene context. The decision function of a binary
+
+----- Page 6 (native) -----
+C-SVM classiﬁer takes the following form:
+g(x) =
+X
+i
+αiyiK(xi, x) −b
+(1)
+where K(xi, x) is the value of a kernel function for the
+training sample xi and the test sample x, yi ∈{+1, −1}
+is the class label (positive/negative) of xi, αi is a learned
+weight of the training sample xi, and b is a learned thresh-
+old. We use the values of the decision function as a conﬁ-
+dence score and plot recall-precision curves for evaluation.
+We then compute the average precision (AP), which approx-
+imates the area under a recall-precision curve [6].
+The simplest kernel possible is a linear kernel. The de-
+cision function can then be rewritten as a weighted sum of
+sample components, i.e.,
+K(xi, xj) = xi · xj ,
+g(x) = w · x −b .
+(2)
+To classify feature distributions compared with the χ2
+distance, we use the multi-channel Gaussian kernel:
+K(xi, xj) = exp
+ −
+X
+c
+1
+Ωc
+Dc(xi, xj)
+
+(3)
+where Dc(xi, xj) is the χ2 distance for channel c, and Ωc
+is the average channel distance [28].
+To build a multi-class classiﬁer one might combine bi-
+nary classiﬁers using one-against-rest or one-against-one
+strategies. Note, however, that in our setup all problems are
+binary, i.e., we recognize each concept independently and
+concurrent presence of multiple concepts (mainly multiple
+actions) is possible. To compare the overall system per-
+formance, we compute an average AP (AAP) over a set of
+binary classiﬁcation problems.
+3.3. Evaluation of the action and scene classiﬁers
+Figure 5 compares HoG, HoF and SIFT features for ac-
+tion and scene recognition on the datasets described in Sec-
+tion 2. On the left of Fig. 5 we show classes where SIFT
+features give better results than the other feature types. The
+majority of these classes are scenes types, both interior and
+exterior. It is interesting to observe that there are also the ac-
+tions sitting up and getting out of car. This can be explained
+by the context information provided by the bedroom setting
+and the presence of a car respectively. On the right side of
+Fig. 5 we display classes where HoG and HoF features are
+more appropriate. They include actions like ﬁghting, sitting
+down and standing up. Interestingly, we also observe ac-
+tion and scene classes related to driving a car. This could be
+due to the characteristic background motion seen through
+the vehicle windows while driving.
+Overall, the results conﬁrm that both static and dynamic
+features are important for recognition of scenes and actions.
+Furthermore, the performance of a feature type might be
+difﬁcult to predict due to the inﬂuence of the context.
+To exploit the properties of different feature types, we
+combine them. Table 2 compares static SIFT features, the
+combination of dynamic HoGs and HoFs, and the combi-
+nation of all three feature types. Note that the combination
+of HoGs and HoFs corresponds to the state-of-the-art action
+recognition method of Laptev et al. [12].
+The two leftmost columns of Table 2 quantify and allow
+further analysis of previously discussed results (cf. Fig. 5).
+The comparison conﬁrms that some action classes are better
+recognized with static features, whereas some scene classes
+can be well characterized with dynamic features. Yet, static
+features are generally better for scene recognition (7/10
+classes, in bold) and dynamic features for action recogni-
+tion (8/12 classes, in bold). This result also conﬁrms our
+hypothesis that the baseline video representation using only
+dynamic features is not suitable for scene recognition.
+The rightmost column of Table 2 shows the recognition
+performance when all three feature types are combined. For
+action classes (upper part), combining static SIFT features
+with dynamic HoG and HoF features improves accuracy in
+8/12 cases (in bold). Yet, the average action classiﬁcation
+SIFT
+HoG
+HoG
+SIFT
+HoF
+HoF
+AnswerPhone
+0.105
+0.088
+0.107
+DriveCar
+0.313
+0.749
+0.750
+Eat
+0.082
+0.263
+0.286
+FightPerson
+0.081
+0.675
+0.571
+GetOutCar
+0.191
+0.090
+0.116
+HandShake
+0.123
+0.116
+0.141
+HugPerson
+0.129
+0.135
+0.138
+Kiss
+0.348
+0.496
+0.556
+Run
+0.458
+0.537
+0.565
+SitDown
+0.161
+0.316
+0.278
+SitUp
+0.142
+0.072
+0.078
+StandUp
+0.262
+0.350
+0.325
+Action average
+0.200
+0.324
+0.326
+EXT.House
+0.503
+0.363
+0.491
+EXT.Road
+0.498
+0.372
+0.389
+INT.Bedroom
+0.445
+0.362
+0.462
+INT.Car
+0.444
+0.759
+0.773
+INT.Hotel
+0.141
+0.220
+0.250
+INT.Kitchen
+0.081
+0.050
+0.070
+INT.LivingRoom
+0.109
+0.128
+0.152
+INT.Ofﬁce
+0.602
+0.453
+0.574
+INT.Restaurant
+0.112
+0.103
+0.108
+INT.Shop
+0.257
+0.149
+0.244
+Scene average
+0.319
+0.296
+0.351
+Total average
+0.259
+0.310
+0.339
+Table 2. Comparison of feature combinations in our bag-of-
+features approach. Average precision is given for action and scene
+classiﬁcation in movies.
+Both actions and scenes beneﬁt from
+combining static and dynamic features.
+
+----- Page 7 (native) -----
+0
+ 0.1
+ 0.2
+ 0.3
+ 0.4
+ 0.5
+ 0.6
+ 0.7
+ 0.8
+ 0.9
+INT.Office
+EXT.Road
+INT.Bedroom
+EXT.House
+SitUp
+GetOutCar
+INT.Shop
+HugPerson
+INT.Kitchen
+AnswerPhone
+INT.Hotel
+HandShake
+Run
+Kiss
+INT.LivingRoom
+Eat
+INT.Restaurant
+StandUp
+SitDown
+INT.Car
+DriveCar
+FightPerson
+Average precision (AP)
+SIFT
+HoG
+HoF
+Figure 5. Comparison of single feature types in our bag-of-features approach. Average precision is given for action and scene classiﬁcation
+in movies. The static SIFT features perform well for most scene types while HoG and HoF features are important for action recognition.
+score remains basically the same as for the HoG and HoF
+baseline. This is due to the loss in classes like ﬁghting, sit-
+ting down and standing up which are strongly motion-based
+and where static features might only introduce unnecessary
+background noise. For scene classes (lower part), a com-
+bination of all feature types improves over SIFT for only
+4/10 cases (in bold). Yet, the improvement for scene clas-
+siﬁcation is signiﬁcant on average. Combining static and
+dynamic features sometimes degrades performance. How-
+ever, for classes like car interior, where motion plays a crit-
+ical role, it results in a signiﬁcant gain.
+Summary.
+The results show that a combination of static
+and dynamic features is a good choice for a generic video
+recognition framework. It allows to recognize actions and
+scenes in a uniform setup. Our approach also models im-
+plicit context, i.e., events which are not directly related to
+the action, such as background motion in car interior.
+4. Classiﬁcation with context
+The goal in this section is to improve action classiﬁca-
+tion based on scene context obtained with the scene clas-
+siﬁers. We integrate context by updating the classiﬁcation
+score ga(x), cf. (1), for an action a ∈A. To the origi-
+nal classiﬁcation score we add a linear combination of the
+scores gs(x) for contextual concepts (scenes) s ∈S:
+g′
+a(x) = ga(x) + τ
+X
+s∈S
+wasgs(x)
+(4)
+where τ is a global context weight and was are weights link-
+ing concepts a and s.
+Given a set A of actions and a set S of contextual cate-
+gories for which we have ga and gs decision functions re-
+spectively, the parameters of our context model are τ and
+was. In this paper we propose two methods for obtaining
+the weights was. The ﬁrst one is based on text mining2 and
+2Note that the weights are determined in the training stage and then
+the second one learns the weights from visual data. The
+τ parameter allows to control the inﬂuence of the context.
+We have observed that the results are not very sensitive to
+this parameter and set it to a value of 3 for all our experi-
+ments. Classiﬁcation is always based on the combination of
+all three feature types.
+4.1. Mining contextual links from text
+The most straightforward way to obtain the weights was
+is based on the information contained in the scripts, i.e.,
+p(Scene|Action) estimated from scripts of the training set
+as described in Section 2.3. As shown in Figure 3, these
+weights correspond well to our intuition and the visual in-
+formation in videos.
+Let us rewrite the context model given by (4) as
+g′
+a(x) = ga(x) + τ Wgs(x)
+(5)
+where g′
+a(x) is the vector of new scores and ga(x) is a
+vector with the original scores for all basic (action) classes,
+gs(x) is a vector with scores for all context (scene) classes,
+and W is a weight matrix.
+We determine W from scripts of the training set by deﬁn-
+ing it to be a conditional probability matrix encoding the
+probability of a scene given an action P(S ∈S|A ∈A).
+4.2. Learning contextual links from visual data
+An alternative approach to determine contextual rela-
+tionships between scenes and actions is to learn them from
+the visual data. We keep the same model as given by (4),
+but rewrite it as
+g′
+a(x) = ga(x) + τ wa · gs(x)
+(6)
+where wa is a vector of weights and gs(x) is a vector
+formed with the scores for contextual concepts. We then
+kept for the recognition phase, so even with a text-mining approach no
+textual data is necessary for the recognition itself, only for training.
+
+----- Page 8 (native) -----
+0
+ 0.1
+SitUp
+DriveCar
+FightPerson
+HandShake
+HugPerson
+AnswerPhone
+SitDown
+Kiss
+Eat
+StandUp
+Run
+GetOutCar
+Gain in average precision (AP)
+Vision-learned context
+Text-mined context
+Figure 7. Exploiting scene context in action recognition. AP gain
+for SVM-learned and text-mined context is compared. Note the
+consistent improvement for most action classes.
+replace the linear combination with a linear C-SVM classi-
+ﬁer, cf. (2), denoted as za:
+g′
+a(x) = ga(x) + τza(gs(x)) .
+(7)
+This allows us to learn the weights in a supervised man-
+ner, i.e., the weights of our context model are determined
+by a second-layer SVM classiﬁer. This linear classiﬁer is
+trained after the ﬁrst-layer ga and gs classiﬁers are trained.
+It uses the same training data, but combines action and con-
+text classes in one learning task. Thus, from a perspective of
+a single action classiﬁer, the information available for learn-
+ing is richer. During recognition, the second-layer classiﬁer
+takes a vector of scene scores as an input and produces a
+contextual prediction for the action class.
+4.3. Experimental results
+Action recognition.
+Figure 7 evaluates the gain for action
+recognition when using scene context. We show the average
+precision gains for context weights learned from text (red)
+and with a linear SVM (yellow). We obtain a gain of up to
+10%, which is a remarkable improvement in difﬁcult real-
+istic setting. The largest gain is observed for action classes
+like sitting up or driving a car, which have a strong local-
+ized context of bedroom and car respectively, cf. Fig. 3. The
+more uniform scene context of ﬁghting is easily exploited
+with text mining, but confuses the SVM classiﬁer.
+Context
+AAP
+text context
+0.355
+vision context
+0.336
+no context
+0.325
+context only
+0.238
+chance
+0.125
+Context
+AAP
+text context
+0.373
+vision context
+0.371
+no context
+0.351
+context only
+0.277
+chance
+0.162
+(a) Actions
+(b) Scenes
+Table 3. Average AP obtained using various context sources and
+not using context. We also compare to a model where context only
+is used and to chance level.
+Figure 7 also shows that our method does not help much
+for action classes like standing up, which have low depen-
+dence on the scene type. Furthermore, the context mined
+from text leads to some confusion when trying to recognize
+getting out of a car. This might be due to special shoot-
+ing conditions for this action class, which are typical for
+movies. Still, for most (75%) classes we observe a consis-
+tent and signiﬁcant improvement of at least 2.5%, obtained
+with the context mined from scripts. This shows the difﬁ-
+culty of learning contextual relations using a limited amount
+of visual data, but at the same time highlights the ability of
+our method to overcome this problem by mining text.
+Table 3 (left) compares average AP achieved with differ-
+ent context sources when classifying actions using scenes
+as context. It conﬁrms that context weights improve the
+overall performance. The gain is at 3% for weights mined
+from text and at 2% for learned weights. Interestingly, us-
+ing context only, i.e., classifying actions with only contex-
+tual scene classiﬁers, is still signiﬁcantly better than chance.
+This shows the potential of context in natural videos.
+Overall, the experiments conﬁrm that our context model
+can exploit contextual relationships between scenes and ac-
+tions.
+It integrates well with bag-of-features and SVM
+based classiﬁers and helps action recognition. See Fig. 6 for
+sample classiﬁcation results where the scene context helped
+action recognition the most.
+Scene recognition.
+We have observed that action classiﬁ-
+cation can be improved by using contextual scene informa-
+tion. We will now investigate if the inverse also holds, i.e.,
+whether we can improve scene classiﬁcation by recogniz-
+ing actions. Figure 8 evaluates the gain for scene recogni-
+(a) DriveCar
+(b) FightPerson
+(c) HandShake
+(d) SitUp
+Figure 6. Sample frames for action video clips where the context signiﬁcantly helps recognition. Please note the car interior for driving,
+the outdoor setting for ﬁghting, the house exterior for handshaking, and ﬁnally the bedroom for sitting up.
+
+----- Page 9 (native) -----
+0
+ 0.1
+EXT.Road
+INT.LivingRoom
+INT.Shop
+INT.Hotel
+INT.Bedroom
+INT.Kitchen
+EXT.House
+INT.Restaurant
+INT.Office
+INT.Car
+Gain in average precision (AP)
+Vision-learned context
+Text-mined context
+Figure 8. Exploiting action context in scene recognition. AP gain
+for SVM-learned and text-mined context is compared. Note the
+signiﬁcant improvement for the leftmost categories.
+tion when using action context. We show the average pre-
+cision gains for context mined from textual data (red) and
+learned with a linear SVM (yellow). As for action recogni-
+tion, cf. Fig. 7, an AP gain of up to 11% is observed. Again,
+an improvement of at least 2.5% is obtained for most of the
+classes. Concurrent analysis with Fig. 3 explains the difﬁ-
+culties of learning the context for shop interior. This scene
+type does not occur too often for any of the action classes.
+Table 3 (right) conﬁrms these results, and for both types of
+context sources shows an improvement of 2% on average.
+5. Conclusions
+This paper shows that we can use automatically extracted
+context information based on video scripts and improve ac-
+tion recognition. Given completely automatic action and
+scene training sets we can learn individual classiﬁers which
+integrate static and dynamic information. Experimental re-
+sults show that both types of information are important for
+actions and scenes and that in some cases the context in-
+formation dominates. For example car interior is better de-
+scribed by motion features. The use of context information
+can be made explicit by modeling the relations between ac-
+tions and scenes based on textual co-occurrence and by then
+combining the individual classiﬁers. This improves the re-
+sults for action as well as scene classiﬁcation. In this paper
+we have also created a new dataset which includes actions,
+scenes as well as their co-occurrence in real-world videos.
+Furthermore, we have demonstrated the usefulness of tex-
+tual information contained in scripts for visual learning.
+Acknowledgments.
+This work was partly funded by the Quaero
+project as well as the European project Class. We would like to
+thank B. Rozenfeld for his help with action classiﬁcation in scripts.
+References
+[1] I. Biederman, R. Mezzanotte, and J. Rabinowitz. Scene perception:
+detecting and judging objects undergoing relational violations. Cogn.
+Psychol., 14:143–177, 1982.
+[2] T. Cour, C. Jordan, E. Miltsakaki, and B. Taskar.
+Movie/script:
+Alignment and parsing of video and text transcription. In ECCV,
+2008.
+[3] G. Csurka, C. Dance, L. Fan, J. Willamowski, and C. Bray. Visual
+categorization with bags of keypoints. In Workshop on Statistical
+Learning in Computer Vision, 2004.
+[4] P. Doll´ar, V. Rabaud, G. Cottrell, and S. Belongie. Behavior recog-
+nition via sparse spatio-temporal features. In VS-PETS, 2005.
+[5] M. Everingham, J. Sivic, and A. Zisserman. Hello! my name is...
+Buffy – automatic naming of characters in TV video.
+In BMVC,
+2006.
+[6] M. Everingham, L. van Gool, C. Williams, J. Winn, and A. Zisser-
+man. Overview and results of the classiﬁcation challenge, 2008. The
+PASCAL VOC’08 Challenge Workshop, in conj. with ECCV.
+[7] C. Fellbaum, editor. Wordnet: An Electronic Lexical Database. Brad-
+ford Books, 1998.
+[8] A. Gupta and L. Davis. Objects in action: An approach for combin-
+ing action understanding and object perception. In CVPR, 2007.
+[9] A. Gupta and L. Davis. Beyond nouns: Exploiting prepositions and
+comparative adjectives for learning visual classiﬁers. In ECCV, 2008.
+[10] G. Heitz and D. Koller. Learning spatial context: Using stuff to ﬁnd
+things. In ECCV, 2008.
+[11] I. Laptev. On space-time interest points. IJCV, 64(2/3):107–123,
+2005.
+[12] I. Laptev, M. Marszałek, C. Schmid, and B. Rozenfeld. Learning
+realistic human actions from movies. In CVPR, 2008.
+[13] S. Lazebnik, C. Schmid, and J. Ponce.
+Beyond bags of features:
+spatial pyramid matching for recognizing natural scene categories.
+In CVPR, 2006.
+[14] L. Li and L. Fei-Fei. What, where and who? classifying events by
+scene and object recognition. In ICCV, 2007.
+[15] D. Lowe. Distinctive image features form scale-invariant keypoints.
+IJCV, 60(2):91–110, 2004.
+[16] T. Mensink and J. Verbeek. Improving people search using query
+expansions: How friends help to ﬁnd people. In ECCV, 2008.
+[17] K. Mikolajczyk and C. Schmid. Scale and afﬁne invariant interest
+point detectors. IJCV, 60(1):63–86, 2004.
+[18] D. Moore, I. Essa, and M. Hayes. Exploiting human actions and
+object context for recognition tasks. In ICCV, 1999.
+[19] J. C. Niebles, H. Wang, and L. Fei-Fei. Unsupervised learning of
+human action categories using spatial-temporal words. In BMVC,
+2006.
+[20] A. Rabinovich, A. Vedaldi, C. Galleguillos, E. Wiewiora, and S. Be-
+longie. Objects in context. In ICCV, 2007.
+[21] B. Russell, A. Torralba, C. Liu, R. Fergus, and W. Freeman. Object
+recognition by scene alignment. In NIPS, 2007.
+[22] M. Ryoo and J. Aggarwal. Hierarchical recognition of human activ-
+ities interacting with objects. In CVPR, 2007.
+[23] B. Sch¨olkopf and A. Smola. Learning with Kernels: Support Vec-
+tor Machines, Regularization, Optimization and Beyond. MIT Press,
+Cambridge, MA, 2002.
+[24] C. Schuldt, I. Laptev, and B. Caputo. Recognizing human actions: A
+local SVM approach. In ICPR, 2004.
+[25] J. Sivic and A. Zisserman. Video Google: A text retrieval approach
+to object matching in videos. In ICCV, volume 2, 2003.
+[26] A. Torralba.
+Contextual priming for object detection.
+IJCV,
+53(2):169–191, July 2003.
+[27] J. Wu, A. Osuntogun, T. Choudhury, M. Philipose, and J. Rehg. A
+scalable approach to activity recognition based on object use.
+In
+ICCV, 2007.
+[28] J. Zhang, M. Marszalek, S. Lazebnik, and C. Schmid. Local fea-
+tures and kernels for classiﬁcation of texture and object categories:
+A comprehensive study. IJCV, 73(2):213–238, 2007.

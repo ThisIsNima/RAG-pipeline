@@ -1,0 +1,556 @@
+
+
+----- Page 1 (native) -----
+AutoDock Vina: improving the speed and accuracy of docking
+with a new scoring function, efficient optimization and
+multithreading
+Oleg Trott and Arthur J. Olson*
+The Scripps Research Institute, Molecular Biology, La Jolla, CA
+Abstract
+AutoDock Vina, a new program for molecular docking and virtual screening, is presented.
+AutoDock Vina achieves an approximately two orders of magnitude speed-up compared to the
+molecular docking software previously developed in our lab (AutoDock 4), while also
+significantly improving the accuracy of the binding mode predictions, judging by our tests on the
+training set used in AutoDock 4 development. Further speed-up is achieved from parallelism, by
+using multithreading on multi-core machines. AutoDock Vina automatically calculates the grid
+maps and clusters the results in a way transparent to the user.
+Introduction
+Molecular docking is a computational procedure that attempts to predict noncovalent
+binding of macromolecules or, more frequently, of a macromolecule (receptor) and a small
+molecule (ligand) efficiently, starting with their unbound structures, structures obtained
+from MD simulations, or homology modeling, etc. The goal is to predict the bound
+conformations and the binding affinity.
+The prediction of binding of small molecules to proteins is of particular practical importance
+because it is used to screen virtual libraries of drug-like molecules in order to obtain leads
+for further drug development. Docking can also be used to try to predict the bound
+conformation of known binders, when the experimental holo structures are unavailable.1
+One is interested in maximizing the accuracy of these predictions while minimizing the
+computer time they take, since the computational resources spent on docking are
+considerable. For example, hundreds of thousands of computers are used for running
+docking in FightAIDS@Home and similar projects.2
+Theory
+In the spectrum of computational approaches to modeling receptor-ligand binding,
+a.
+molecular dynamics with explicit solvent,
+b.
+molecular dynamics and molecular mechanics with implicit solvent, and
+c.
+molecular docking
+*olson@scripps.edu.
+NIH Public Access
+Author Manuscript
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+Published in final edited form as:
+J Comput Chem. 2010 January 30; 31(2): 455–461. doi:10.1002/jcc.21334.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 2 (native) -----
+can be seen as making an increasing trade-off of the representational detail for
+computational speed.3
+Among the assumptions made by these approaches is the commitment to a particular
+protonation state of and charge distribution in the molecules that do not change between, for
+example, their bound and unbound states. Additionally, docking generally assumes much or
+all of the receptor rigid, the covalent lengths and angles constant, while considering a chosen
+set of covalent bonds freely rotatable (referred to as active rotatable bonds here).
+Importantly, while molecular dynamics directly deals with energies (referred to as force
+fields in chemistry), docking is ultimately interested in reproducing chemical potentials,
+which determine the bound conformation preference and the free energy of binding. It is a
+qualitatively different concept governed not only by the minima in the energy profile, but
+also by the shape of the profile and the temperature.4, 5
+Docking programs generally use a scoring function, that can be seen as an attempt to
+approximate the standard chemical potentials of the system. When the superficially physics-
+based terms like the 6–12 van der Waals interactions and Coulomb energies are used in the
+scoring function, they need to be significantly empirically weighted, in part, to account for
+this difference between energies and free energies.4, 5
+The aforementioned considerations should make it rather unsurprising when such
+superficially physics-based scoring functions do not necessarily perform better than the
+alternatives.
+We see our approach to the scoring function as more of ”machine learning” than directly
+physics-based in its nature. It is ultimately justified by its performance on test problems
+rather than by theoretical considerations following some, possibly too strong, approximating
+assumptions.
+Scoring function
+The general functional form of the conformation-dependent part of the scoring function
+AutoDock Vina (referred to as Vina here) is designed to work with is
+(1)
+where the summation is over all of the pairs of atoms that can move relative to each other,
+normally excluding 1–4 interactions, i.e. atoms separated by 3 consecutive covalent bonds.
+Here, each atom i is assigned a type ti, and a symmetric set of interaction functions ftitj of the
+interatomic distance rij should be defined.
+This value can be seen as a sum of intermolecular and intramolecular contributions:
+(2)
+The optimization algorithm, described in the following section, attempts to find the global
+minimum of c and other low-scoring conformations, which it then ranks.
+The predicted free energy of binding is calculated from the intermolecular part of the
+lowest-scoring conformation, designated as 1:
+Trott and Olson
+Page 2
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 3 (native) -----
+(3)
+where the function g can be an arbitrary strictly increasing smooth possibly nonlinear
+function.
+In the output, other low-scoring conformations are also formally given s values, but, to
+preserve the ranking, using cintra of the best binding mode:
+(4)
+For modularity reasons, much of the program does not rely on any particular functional form
+of ftitj interactions or g. Essentially, these functions are passed as a parameter for the rest of
+the code. Additionally, the program was designed so that alternative atom typing schemes
+could potentially be used, such as the AutoDock 4 atom typing6 or SYBIL-based types.7
+The particular implementation of the scoring function that will be presented here was mostly
+inspired by X-Score,8 and, like X-Score, was tuned using the PDBbind.9, 10 However, some
+terms are different from X-Score, and, in tuning the scoring function, we went beyond linear
+regression. Additionally, it should be noted that Vina ranks the conformations according to
+Eq. 2, or, equivalently, Eq. 4, whereas X-Score only counts intermolecular contributions.8
+As far as we are aware, X-Score has not been implemented in a docking program, and
+ignoring internal constraints may potentially lead the optimization algorithm to find severely
+internally clashed structures.
+The derivation of our scoring function combines certain advantages of knowledge-based
+potentials and empirical scoring functions: it extracts empirical information from both the
+conformational preferences of the receptor-ligand complexes and the experimental affinity
+measurements. The scoring function derivation will be described in a separate publication.
+This section merely defines it.
+The atom typing scheme follows that of X-Score. The hydrogen atoms are not considered
+explicitly, other than for atom typing, and are omitted from Eq. 1.
+The interaction functions ftitj are defined relative to the surface distance dij = rij − Rti − Rtj,
+as in Jain:11
+(5)
+where Rt is the van der Waals radius of atom type t.
+In our scoring function, htitj is a weighted sum of steric interactions (the first three terms in
+table 1), identical for all atom pairs, hydrophobic interaction between hydrophobic atoms,
+and, where applicable, hydrogen bonding.
+The weights are shown in table 1. The steric terms are:
+(6)
+Trott and Olson
+Page 3
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 4 (native) -----
+(7)
+(8)
+The hydrophobic term equals 1, when d < 0.5Å; 0, when d > 1.5Å, and is linearly
+interpolated between these values. The hydrogen bonding term equals 1, when d < −0.7Å; 0,
+when d > 0, and is similarly linearly interpolated in between. In this implementation, all
+interaction functions ftitj are cut off at rij = 8Å.
+Figure 1 shows the weighted steric terms alone, or combined with the hydrophobic or H-
+bonding interactions.
+The conformation-independent function g was chosen to be
+(9)
+where Nrot is the number of active rotatable bonds between heavy atoms in the ligand, and w
+is the associated weight.
+Optimization algorithm
+In the development of Vina, a variety of stochastic global optimization approaches were
+explored, including genetic algorithms,12 particle swarm optimization,13, 14 simulated
+annealing15 and others, combined with various local optimization procedures and
+special ”tricks” to speed up the optimization. Eventually, we settled on the Iterated Local
+Search global optimizer16, 17 similar to that by Abagyan et al.18
+In this algorithm, a succession of steps consisting of a mutation and a local optimization are
+taken, with each step being accepted according to the Metropolis criterion. In our
+implementation, we use Broyden-Fletcher-Goldfarb-Shanno (BFGS)19 method for the local
+optimization, which is an efficient quasi-Newton method.
+BFGS, like other quasi-Newton optimization methods, uses not only the value of the scoring
+function, but also its gradient, i.e. the derivatives of the scoring function with respect to its
+arguments. The arguments, in our case, are the position and orientation of the ligand, as well
+as the values of the torsions for the active rotatable bonds in the ligand and flexible residues,
+if any.
+These derivatives would have a simple mechanical interpretation, if the scoring function
+were an energy. The derivatives with respect to the position, orientation and torsions would
+be the negative total force acting on the ligand, the negative total torque and the negative
+torque projections, respectively, where the projections refer to the torque applied to the
+branch ”moved” by the torsion, projected on its rotation axis.
+While it may take longer to evaluate the gradient in addition to the value of the scoring
+function itself, using the gradient can speed up the optimization significantly.
+Trott and Olson
+Page 4
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 5 (native) -----
+The number of steps in a run is determined adaptively, according to the apparent complexity
+of the problem, and several runs starting from random conformations are performed.
+These runs can be performed concurrently, using multithreading, in Vina. This allows taking
+advantage of the shared-memory hardware parallelism, such as the now ubiquitous multi-
+core CPUs. The optimization algorithm maintains a set of diverse significant minima found
+that are then combined from the separate runs and used during the structure refinement and
+clustering stage.
+Usability
+Vina was designed to be compatible with the file format used for AutoDock 46 structure
+files: PDBQT, which can be seen as an extension of the PDB file format. This makes it easy
+to use Vina with the existing auxilliary software developed for AutoDock, such as
+AutoDock Tools, for preparing the files, choosing the search space and viewing the results.
+Additionally, manually choosing the atom types for grid maps, calculating grid map files
+with AutoGrid, choosing the ”search parameters” and clustering the results after docking is
+no longer necessary, as Vina calculates its own grid maps quickly and automatically, and
+does not store them on the disk. It also clusters and ranks the results without exposing the
+user to intermediate details.
+A frequently encountered source of issues for AutoDock 4 users has to do with the fixed
+data structure sizes in the program: the maximum number of atoms, the maximum number
+of rotatable bonds, the maximum grid map size, etc. These limits are fixed at compile time,
+and setting them higher might waste memory and time. To change these limits to meet their
+needs, the users are required to alter them in the source code and recompile AutoDock 4 - a
+task too daunting and error-prone for many users. In contrast, Vina does not have any such
+limitations, for practical purposes. The program adapts itself to the input.
+Implementation
+Scientific software, especially of the ”numerical” type, generally pursues the opposing goals
+of being
+a.
+a product of exploratory programming,
+b.
+robust,
+c.
+fast,
+d.
+developed within a reasonable time-frame.
+To illustrate the need for exploratory programming: when work started on Vina, it was not
+clear what optimization algorithms or what scoring functions would be most suitable.
+Significant changes had to be made half-way through the development to, for example,
+change the atom-typing scheme from AutoDock 4 to X-Score, and to build in a framework
+for selecting the atom typing scheme. Exploring different optimization approaches required
+breaking preconceived abstraction barriers, such as when partial evaluations of the sum in
+Eq. 1 were investigated.
+To achieve these four opposing goals, modern C++ programming techniques were
+employed. The way C++ is typically used, it spans a spectrum of languages: from C, to an
+object-oriented and Java-like language, to a language focused on generic programming,
+exception-safety and automatic resource management via the special support for the RAII
+(Resource Acquisition Is Initialization) pattern in C++.20
+Trott and Olson
+Page 5
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 6 (native) -----
+One attractive feature of generic programming in C++ that is worth noting is that ”higher-
+level” programming does not normally have to come at a cost in performance relative to
+what would be achieved with a much ”lower-level” and labor-intensive C solution.20, 21
+The well-known downside to these techniques, within the framework of the language, is that
+they take dedication and years of experience applying them to master.
+In Vina development, heavy emphasis was placed on utilizing generic programming,
+exception-safety, RAII, and, to a lesser extent, object-oriented programming, using STL21
+and Boost22 libraries, where appropriate. Importantly, Boost::Thread library was used to
+abstract over the differences in multithreading among the supported architectures, allowing
+the development of platform-independent code.
+In all, little more than a year was spent developing the docking program, with some extra
+time devoted to the scoring function derivation method that will be described in a separate
+publication.
+Results and Discussion
+The scoring function used in Vina was derived using the PDBbind data set, and the
+performance of Vina has been compared to that of AutoDock 4.0.1 (referred to as AutoDock
+here) on a set of 190 protein-ligand complexes that had been used as a training set for the
+AutoDock scoring function.6
+In this set, the receptors are treated as rigid, and the ligands are treated as flexible molecules
+with the number of active rotatable bonds ranging from 0 to 32.
+Both Vina and AutoDock require a specification of the ”search space” in the coordinate
+system of the receptor, within which various positions of the ligand are to be considered.
+To select the search spaces for the test, for each complex, we started with the experimental
+bound ligand structure and created the minimal rectangular parallelepiped, aligned with the
+coordinate system, that includes it. Then, its sizes were increased by 10Å in each of the 3
+dimensions. Additionally, for each of the 3 dimensions, one of the 2 directions was chosen
+randomly, in which another 5Å were added. Finally, if the size of the search space in any
+dimension was less than 22.5Å, is was increased symmetrically to this value. Thus, the size
+of the search space in each dimension was no less than 15Å larger than the size of the
+ligand, and no less than 22.5Å total.
+The final step of increasing the size of the search space in all dimensions to 22.5Å is for
+consistency with the earlier tests of AutoDock on this set, where 22.5Å sizes were chosen,
+and because the developers of AutoDock recommend making sure that the search space is
+large enough for the ligand to rotate in.23
+The preceding step of adding 5Å in a random direction in each of the 3 dimensions is done
+to make sure the search space is not centered on the experimental structure, which, in case of
+a bias in a docking program, may artificially help it find the correct ligand conformation.
+For the same reason, the conformation of the ligand, including its position, orientation and
+torsions, is randomized to be unrelated to the experimental structure, yet avoiding creating
+self-clashes.
+These randomized ligand structures, the receptor structures and search spaces were then
+given to AutoDock and Vina.
+Trott and Olson
+Page 6
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 7 (native) -----
+For AutoDock, the same parameters were used as the ones normally used during its testing:
+23 50 genetic algorithm runs were performed with 25 million evaluations in each, with all
+other parameters consitent with the defaults provided by the AutoDock GUI, AutoDock
+Tools. The results were clustered using an AutoDock Tools script and the largest cluster24
+taken to be the predicted bound ligand structure.
+For Vina, the default optimization parameters were accepted, and single-threaded execution
+was requested (parameter ”cpu = 1”). After this Vina run, for each complex, Vina was rerun
+with the same random seed and 8-way multithreading (parameter ”cpu = 8”). This latter
+Vina run produced identical results, but executed faster.
+To compare the accuracy of the predictions of the experimental structure, we use a measure
+of distance between the experimental and predicted structures that takes into account
+symmetry, partial symmetry (e.g. symmetry within a rotatable branch) and near-symmetry in
+a simple heuristic way. We refer to it as simply RMSD throughout the paper, and its
+defintion is given in the Appendix.
+Figure 2 shows the RMSD values for Vina plotted against those for AutoDock, with the
+color of the points encoding the number of active rotatable bonds. The same data are shown
+differently in Figure 3.
+The RMSD cutoff of 2Å is often used as a criterion of the correct bound structure prediction.
+25 Using the same cutoff value, the fractions of accurate predictions for AutoDock and Vina
+are summarized in Figure 5.
+It should be pointed out that, while the training set for Vina is the PDBbind refined set, and
+the training set for AutoDock is this much smaller 190-complex set, 74 of these 190
+structures are also in PDBbind. To assay to what extent Vina’s scoring function is
+overfitting its training set, separate statistics were collected just for the remaining 116
+complexes not in PDBbind. These showed 53% and 80% success rates for AutoDock and
+Vina, respectively, suggesting that no significant overfitting occurred, likely thanks to the
+large size of PDBbind and the sufficiently small number of adjustible parameters used in
+Vina.
+Figure 6 summarizes the average time taken by AutoDock, Vina and multithreaded Vina,
+per complex. The single-threaded runs show that Vina ran the benchmark 62 times faster
+than AutoDock. The multithreaded Vina run shows that Vina ran 7.25 times faster when
+using all 8 cores available on the test machines.
+Figure 4 shows how the time of the multithreaded Vina run varied with the number of heavy
+atoms in the ligand and the number of active rotatable bonds. While the average time was
+1.16 minutes per complex for the set, Vina can be considerably slower for the more complex
+ligands, both because the evaluation of the scoring function is clostlier, and because more of
+these evaluations are performed.
+Figure 7 shows the predicted and experimental free energies of binding for the data set,
+using the predicted bound conformations. Vina achieves a comparatively low standard error
+of 2.85 kcal/mol, likely due to the ligands with many active rotatable bonds, for which
+AutoDock has difficulty finding the correct bound conformation, as can be seen in Figure 3.
+The standard error for the 116 complexes not in PDBbind was 2.75 kcal/mol.
+Trott and Olson
+Page 7
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 8 (native) -----
+Availability
+The software is available from http://vina.scripps.edu. User manuals, video tutorials and
+links to discussion forums can also be found on the web site.
+Conclusion
+AutoDock Vina, a new program for molecular docking and virtual screening, has been
+presented. Vina uses a sophisticated gradient optimization method in its local optimization
+procedure. The calculation of the gradient effectively gives the optimization algorithm
+a ”sense of direction” from a single evaluation. By using multithreading, Vina can further
+speed up the execution by taking advantage of multiple CPUs or CPU cores.
+The evaluation of the speed and accuracy of Vina during flexible redocking of the 190
+receptor-ligand complexes making up the AutoDock 4 training set showed approximately
+two orders of magnitude improvement in speed and a simultaneous significantly better
+accuracy of the binding mode prediction. In addition, we showed that Vina can achieve
+near-ideal speed-up by utilizing multiple CPU cores.
+Future work
+It may be worth investigating whether making the hydrogen bonding interaction smoother
+can make the optimizer even more efficient, and if adding directionality can further improve
+the scoring function.
+We are also interested in developing target-sepecific scoring functions for receptors with
+extensive experimental information about holo structures and binding affinities.
+As massively many-core CPUs become available, we would be interested in seeing how the
+multithreaded performance scales with the much higher number of cores, and what, if any,
+adaptations to the software need to be made.
+Acknowledgments
+This work was supported by the NIH grant 2R01GM069832. The authors are indebted to William Lindstrom for
+vital early encouragement, and would would like to thank Sargis Dallakyan, Alex Gillet and Stefano Forli for
+computer-administrative assistance, and The Scripps Research Institute Research Computing for providing
+supercomputer time. Helpful and stimulating discussions with Andrey Nikitin (Microsoft, Qualcomm), Dmitry
+Goryunov (Columbia University), William Lindstrom, David S. Goodsell, Michel Sanner, Stefano Forli, Ruth
+Huey, Garrett M. Morris and Michael E. Pique are gratefully acknowledged.
+Appendix
+RMSD definition
+For two structures, a and b, of an identical molecule, we define RMSD as follows:
+(10)
+where
+(11)
+Trott and Olson
+Page 8
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 9 (native) -----
+and the summation is over all N heavy atoms in structure a, the mininum is over all atoms in
+structure b with the same element type as atom i in structure a.
+References
+1. Sousa SF, Fernandes PA, Ramos MJ. Protein-ligand docking: Current status and future challenges.
+Proteins-Structure Function and Bioinformatics 2006 Oct 1;vol. 65:15–26.
+2. Chang MW, Lindstrom W, Olson AJ, Belew RK. Analysis of HIV wild-type and mutant structures
+via in silico docking against diverse ligand libraries. Journal of Chemical Information and Modeling
+2007 May–Jun;vol. 47:1258–1262. [PubMed: 17447753]
+3. Gilson MK, Zhou H-X. Calculation of protein-ligand binding affinities. Annual Review of
+Biophysics and Biomolecular Structure 2007;vol. 36:21–42.
+4. Gilson M, Given J, Bush B, McCammon J. The statistical-thermodynamic basis for computation of
+binding affinities: A critical review. Biophysical Journal 1997 Mar;vol. 72:1047–1069. [PubMed:
+9138555]
+5. Chang, C-eA; Chen, W.; Gilson, MK. Ligand configurational entropy and protein binding.
+Proceedings of the National Academy of Sciences of the United States of America 2007 Jan 30;vol.
+104:1534–1539. [PubMed: 17242351]
+6. Morris G, Goodsell D, Halliday R, Huey R, Hart W, Belew R, Olson A. Automated docking using a
+Lamarckian genetic algorithm and an empirical binding free energy function. Journal of
+Computational Chemistry 1998 Nov 15;vol. 19:1639–1662.
+7. Vanopdenbosch N, Cramer R, Giarrusso F. SYBYL, The integrated molecular modeling system.
+Journal of Molecular Graphics 1985;vol. 3(no. 3):110–111.
+8. Wang R, Lai L, Wang S. Further development and validation of empirical scoring functions for
+structure-based binding affinity prediction. Journal of Computer-Aided Molecular Design 2002
+Jan;vol. 16:11–26. [PubMed: 12197663]
+9. Wang R, Fang X, Lu Y, Wang S. The PDBbind database: Collection of binding affinities for
+protein-ligand complexes with known three-dimensional structures. Journal of Medicinal Chemistry
+2004 Jun 3;vol. 47:2977–2980. [PubMed: 15163179]
+10. Wang R, Fang X, Lu Y, Yang C, Wang S. The PDBbind database: Methodologies and updates.
+Journal of Medicinal Chemistry 2005 Jun 16;vol. 48:4111–4119. [PubMed: 15943484]
+11. Jain A. Scoring noncovalent protein-ligand interactions: A continuous differentiable function tuned
+to compute binding affinities. Journal of Computer-Aided Molecular Design 1996 Oct;vol.
+10:427–440. [PubMed: 8951652]
+12. Holland, JH. Adaptation in Natural and Artificial Systems. Ann Arbor: The University of Michigan
+Press; 1975.
+13. Eberhart, R.; Kennedy, J. A new optimizer using particle swarm theory. Proceedings of the Sixth
+International Symposium on Micro Machine and Human Science; 1995 Oct 4. p. 39-43.
+14. Kennedy, J.; Eberhart, R. Particle swarm optimization. Proceedings of the IEEE International
+Conference on Neural Networks; 1995 Nov. p. 1942-1948.
+15. Kirkpatrick S, Gelatt C, Vecchi M. Optimization by simulated annealing. Science 1983 May;vol.
+220:671–680. [PubMed: 17813860]
+16. Baxter J. Local optima avoidance in depot location. Journal of the Operational Research Society
+1981;vol. 32(no. 9):815–819.
+17. Blum, ARC.; Blesa, M.; Sampels, M., editors. Hybrid Metaheuristics: An Emerging Approach to
+Optimization. Springer-Verlag; 2008.
+18. Abagyan R, Totrov M, Kuznetsov D. ICM - A new method for protein modeling and design -
+applications to docking and structure prediction from the distorted native conformation. Journal of
+Computational Chemistry 1994 May;vol. 15:488–506.
+19. Nocedal, J.; Wright, SJ. Numerical optimization. Berlin: Springer Series in Operations Research,
+Springer Verlag; 1999.
+20. Stroustrup, B. The Design and Evolution of C++. Addison-Wesley; 1994.
+21. Austern, MH. Generic Programming and the STL. Addison-Wesley; 1999.
+Trott and Olson
+Page 9
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 10 (native) -----
+22. Boost Organization. Boost C++ Libraries: http://www.boost.org/. 2008.
+23. Morris G, Huey R, Lindstrom W, Sanner M, Belew R, Goodsell D, Olson A. AutoDock4 and
+AutoDockTools4: Automated Docking with Selective Receptor Flexibility. Journal of
+Computational Chemistry. 2009 (In press).
+24. Chang MW, Belew RK, Carroll KS, Olson AJ, Goodsell DS. Empirical entropic contributions in
+computational docking: Evaluation in APS reductase complexes. Journal of Computational
+Chemistry 2008 Aug;vol. 29:1753–1761. [PubMed: 18351616]
+25. Bursulaya B, Totrov M, Abagyan R, Brooks C. Comparative study of several algorithms for
+flexible ligand docking. Journal of Computer-Aided Molecular Design 2003 Nov;vol. 17:755–763.
+[PubMed: 15072435]
+Trott and Olson
+Page 10
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 11 (native) -----
+Figure 1.
+Weighted scoring function term combinations. Steric interactions; steric and hydrophobic
+interactions; and steric and hydrogen bonding interactions, using weights from table 1
+Trott and Olson
+Page 11
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 12 (native) -----
+Figure 2.
+RMSD of the predicted bound ligand conformation from the experimental one, showing the
+values for Vina and Autodock. The color encodes the number of active rotatable bonds
+Trott and Olson
+Page 12
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 13 (native) -----
+Figure 3.
+RMSD of the predicted bound ligand conformation from the experimental one. (Red +)
+Autodock; (Green ×) Vina. Abscissa shows the number of active rotatable bonds
+Trott and Olson
+Page 13
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 14 (native) -----
+Figure 4.
+Time, in minutes, taken by the multi-threaded Vina run, as a function of the number of
+heavy atoms in the ligand. The color encodes the number of active rotatable bonds
+Trott and Olson
+Page 14
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 15 (native) -----
+Figure 5.
+The fraction of the 190 test complexes for which RMSD < 2Å was achieved by AutoDock
+and Vina
+Trott and Olson
+Page 15
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 16 (native) -----
+Figure 6.
+Average time, in minutes per complex, taken by AutoDock, single-threaded Vina and Vina
+with 8-way multithreading. Machines with two quad-core 2.66GHz Xeon processors were
+used in the experiment. The time for AutoDock does not include the necessary initial
+AutoGrid run
+Trott and Olson
+Page 16
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 17 (native) -----
+Figure 7.
+Experimental and predicted free energies of binding (kcal/mol) for (a) AutoDock, (b) Vina.
+The color encodes the number of active rotatable bonds
+Trott and Olson
+Page 17
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+
+----- Page 18 (native) -----
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+NIH-PA Author Manuscript
+Trott and Olson
+Page 18
+Table 1
+Scoring function weights and terms
+Weight
+Term
+−0.0356
+gauss1
+−0.00516
+gauss2
+  0.840
+repulsion
+−0.0351
+hydrophobic
+−0.587
+hydrogen bonding
+0.0585
+Nrot
+J Comput Chem. Author manuscript; available in PMC 2011 February 18.

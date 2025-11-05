@@ -1,153 +1,148 @@
-# RAG-pipeline
-A RAG pipeline that uses a collection of scientific publications as the knowledge base
-# RAG-on-Text: FastEmbed + pgvector Starter
+# RAG Pipeline (FastEmbed + pgvector)
 
-End-to-end recipe to:
+This repository implements a Retrieval-Augmented Generation (RAG) pipeline over a local text corpus of scientific publications.
 
-1) chunk & embed raw text files from a local knowledge base  
-2) store vectors in PostgreSQL/pgvector with an IVFFlat index  
-3) run a very naive Q&A retriever that prints sources with inline citations
+The storage layer is PostgreSQL with the pgvector extension, and text embeddings are generated locally using FastEmbed (ONNX).
 
-This repo expects two text-corpus folders:
+## ✅ What this pipeline does
 
-```
-full_paper_OCRed/   # OCRed full papers, one .txt per document
-abstracts/          # abstracts, one .txt per document
-```
-
-> You can add more folders later; the embedding script accepts multiple input directories.
+1. **Ingest text** (from your corpus folders — usually OCR full papers and abstracts)
+2. **Chunk + embed** locally → store embeddings in a Parquet file
+3. **Load vectors into Postgres** (with IVFFlat index)
+4. **Query** using pgvector
+5. **Answer generation** (extractive or abstractive)
 
 ---
 
-## Repository layout
+## Repository structure
 
 ```
 .
-├── full_paper_OCRed/              # <- your KB (text files)
-├── abstracts/                     # <- your KB (text files)
+├── full_paper_OCRed/                # Raw OCRed complete papers, each file is .txt
+├── abstracts/                       # Abstracts, each file is .txt
 ├── scripts/
-│   ├── 01_embed_texts_to_parquet.py      # create chunks + embeddings (FastEmbed / ONNX)
-│   ├── 02_load_parquet_to_pgvector.py    # bulk-load embeddings to Postgres
-│   ├── 03_query_pgvector_rag.py          # naive retrieval + extractive answer with citations
-│   └── 03_query_with_eval.py             # retrieval + optional P/R evaluation
+│   ├── 01_embed_texts_to_parquet.py       # chunk + embed → writes bge_small.parquet
+│   ├── 02_load_parquet_to_pgvector.py     # bulk load parquet → PostgreSQL
+│   ├── 03_query_pgvector_rag.py           # simple extractive retrieval-based QA
+│   ├── 03_query_with_eval.py              # retrieval + evaluation metrics
+│   └── query_mmr_abstractive.py           # (NEW) MMR + encoder-decoder generation
 ├── requirements.txt
-└── README.md     # (this file)
+└── README.md
 ```
+
+> Folders `full_paper_OCRed` and `abstracts` are your knowledge base.
 
 ---
 
-## Prerequisites
+## Requirements
 
 - Python 3.9+
-- PostgreSQL 15+ with pgvector extension installed
-- macOS:  
-  ```
-  brew install postgresql@16
-  brew services start postgresql@16
-  ```
-- virtualenv recommended:
-  ```
-  python3 -m venv .venv
-  source .venv/bin/activate
-  python -m pip install --upgrade pip
-  ```
+- PostgreSQL 15+
+- pgvector extension
 
----
+macOS example:
 
-## install python packages
-
+```bash
+brew install postgresql@16
+brew services start postgresql@16
 ```
+
+Create your venv:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ---
 
-## 1) build embeddings parquet from your KB
+## Step 1 — Embed corpus to Parquet
 
-this will walk folders, chunk text, embed with fastembed, and write a parquet:
-
-```
-python scripts/01_embed_texts_to_parquet.py   --input-dirs full_paper_OCRed abstracts   --out bge_small.parquet
+```bash
+python scripts/01_embed_texts_to_parquet.py     --input-dirs full_paper_OCRed abstracts     --out bge_small.parquet
 ```
 
 ---
 
-## 2) create tables & bulk-load embeddings into pgvector
+## Step 2 — Load into PostgreSQL (vector store)
 
-make db:
-
-```
+```bash
 createdb ragdb
+python scripts/02_load_parquet_to_pgvector.py     --parquet bge_small.parquet --dbname ragdb     --host localhost --port 5432 --user "$USER"
 ```
 
-load:
+This builds:
 
-```
-python scripts/02_load_parquet_to_pgvector.py   --parquet bge_small.parquet   --dbname ragdb --host localhost --port 5432 --user "$USER"
-```
-
-this script:
-
-- CREATE EXTENSION vector
-- makes 2 tables: `passages` + `passage_blob`
-- bulk inserts all embeddings
-- creates IVFFlat index with cosine ops
+- `passages` (vector column)
+- `passage_blob` (original text)
+- IVFFlat index
 
 ---
 
-## 3) ask questions (naive extractive answer)
+## Step 3 — Query
 
-```
-python scripts/03_query_pgvector_rag.py   --query "How do neurons and axons transmit signals?"   --top-k 6   --dbname ragdb --host localhost --port 5432 --user "$USER"
-```
+### Extractive naive answer
 
-will print:
-
-- top-K passages
-- naive stitched answer
-- numbered citations mapping back to file + chunk
-
----
-
-## optional: P/R evaluation hooks
-
-```
-python scripts/03_query_with_eval.py   --query "What is IVFFlat and how does retrieval work?"   --top-k 8   --dbname ragdb --host localhost --port 5432 --user "$USER"
+```bash
+python scripts/03_query_pgvector_rag.py     --query "What is IVFFlat in pgvector?" --top-k 6     --dbname ragdb --host localhost --port 5432 --user "$USER"
 ```
 
-this version has optional arguments for gold sets (ids or substrings) and reference answer. it can compute retrieval precision/recall signals.
+### Abstractive (encoder-decoder) answer
+
+```bash
+python scripts/query_mmr_abstractive.py     --query "How do neurons and axons transmit signals?"     --top-k 8 --dbname ragdb
+```
 
 ---
 
-## data model
+## Notes
 
-- `passages` (vector store)
-- `passage_blob` (original text + metadata)
-
-the embedding column is pgvector.
-
-index: IVFFlat + cosine ops.
+- chunk overlap ~10–20% recommended
+- `BAAI/bge-small-en-v1.5` is default embedding model
+- IVFFlat `lists` ≈ N/1000 is a good heuristic
+- If handling large Parquet (>100MB), do **not** commit to git — ignore or use Git LFS
 
 ---
 
-## tuning notes
+## Future Enhancements
 
-- chunk overlap can help a lot: 10-25% is common
-- for IVFFlat lists: start at N/1000
-- cosine similarity expects normalized vectors
-
----
-
-## extending
-
-- swap another FastEmbed model
-- add cross-encoder reranker
-- replace naive sentence picker with LLM generator
+- cross-encoder reranker
+- hybrid lexical + vector retrieval
+- multi-database vector support
 
 ---
 
-## license
+## License
 
-MIT (or specify)
+MIT
 
 ---
+
+## Usage Examples
+
+### Embed Knowledge Base
+
+Generate embeddings and store them in a parquet file:
+
+```bash
+python scripts/01_embed_texts_to_parquet.py --input-dirs full_paper_OCRed abstracts --out bge_small.parquet
+```
+
+### Load Parquet into PostgreSQL vector store
+
+```bash
+python scripts/02_load_parquet_to_pgvector.py --parquet bge_small.parquet --dbname ragdb --host localhost --port 5432 --user "$USER"
+```
+
+### Ask a question (extractive)
+
+```bash
+python scripts/03_query_pgvector_rag.py --query "How do neurons fire?" --top-k 6 --dbname ragdb
+```
+
+### Ask a question (MMR + abstractive)
+
+```bash
+python scripts/query_mmr_abstractive.py --query "Explain neuronal action potentials" --top-k 8 --dbname ragdb
+```
